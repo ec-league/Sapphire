@@ -1,7 +1,7 @@
 package com.sapphire.domain;
 
 /**
- * Created by Administrator <br/>
+ * Author: Ethan <br/>
  * Date: 2015/10/26.<br/>
  * Email: byp5303628@hotmail.com
  */

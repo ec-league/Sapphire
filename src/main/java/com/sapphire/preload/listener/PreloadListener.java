@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.sapphire.preload.JpaEntityManager;
 
 /**
- * Created by Administrator <br/>
+ * Author: Ethan <br/>
  * Date: 2015/11/7.<br/>
  * Email: byp5303628@hotmail.com
  */

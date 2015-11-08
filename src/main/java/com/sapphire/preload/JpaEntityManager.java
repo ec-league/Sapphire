@@ -5,7 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
- * Created by Administrator <br/>
+ * Author: Ethan <br/>
  * Date: 2015/11/7.<br/>
  * Email: byp5303628@hotmail.com
  */

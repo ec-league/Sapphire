@@ -1,7 +1,7 @@
 package com.sapphire.constant;
 
 /**
- * Created by Administrator <br/>
+ * Author: Ethan <br/>
  * Date: 2015/11/4.<br/>
  * Email: byp5303628@hotmail.com
  */

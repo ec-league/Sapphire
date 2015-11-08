@@ -5,7 +5,7 @@ import javax.persistence.*;
 import com.sapphire.domain.User;
 
 /**
- * Created by Administrator <br/>
+ * Author: Ethan <br/>
  * Date: 2015/11/4.<br/>
  * Email: byp5303628@hotmail.com
  */
