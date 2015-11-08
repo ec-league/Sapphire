@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sapphire.domain.User;
+import com.sapphire.dto.JsonDto;
+import com.sapphire.dto.user.UserJsonDto;
 import com.sapphire.service.UserService;
-import com.sapphire.util.JsonDto;
 
 /**
  * Created by Administrator <br/>
@@ -40,7 +41,8 @@ public class UserControllerImpl {
    @RequestMapping("/{id}/get.ep")
    public @ResponseBody JsonDto getUser(@PathVariable("id") long id) {
       if (id == 1) {
-         return new JsonDto().formSuccessDto();
+         User user = userService.getUserById(id);
+         return new UserJsonDto(user).formSuccessDto();
       }
       return new JsonDto().formFailureDto();
    }

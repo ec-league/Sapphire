@@ -11,4 +11,6 @@ public interface UserService {
    long saveOrMerge(User user);
 
    User getUserByUserName(String username);
+
+   User getUserById(long id);
 }

@@ -1,4 +1,4 @@
-package com.sapphire.util;
+package com.sapphire.dto;
 
 
 import com.sapphire.constant.JsonDtoFlag;

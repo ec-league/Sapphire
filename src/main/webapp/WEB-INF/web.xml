@@ -3,6 +3,15 @@
 <web-app>
     <display-name>sapphire</display-name>
 
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>classpath:/log4j.properties</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>com.sapphire.preload.listener.PreloadListener</listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>springMVC</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
