@@ -1,8 +1,12 @@
 package com.sapphire.preload;
 
+import com.sapphire.domain.Entity;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
+import java.util.Objects;
 
 /**
  * Author: Ethan <br/>
@@ -20,7 +24,19 @@ public class JpaEntityManager {
       entityManager = factory.createEntityManager();
    }
 
-   public static EntityManager getEntityManager() {
-      return entityManager;
+   public synchronized static void saveOrMerge(Entity entity) {
+      entityManager.getTransaction().begin();
+      entityManager.persist(entity);
+      entityManager.getTransaction().commit();
+   }
+
+   public static Query createQuery(String query, Object[] objects) {
+      Query result = entityManager.createQuery(query);
+      int i = 0;
+      for (Object object : objects) {
+         i++;
+         result.setParameter(i, object);
+      }
+      return result;
    }
 }

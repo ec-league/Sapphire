@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.sapphire.domain.impl.UserImpl;
+import com.sapphire.dto.user.UserDto;
 import com.sapphire.preload.JpaEntityManager;
 import org.springframework.stereotype.Service;
 
@@ -17,30 +19,31 @@ import com.sapphire.service.UserService;
  */
 @Service("userService")
 public class UserServiceImpl implements UserService {
-   private static final String PERSISTENCE_NAME = "as-persistence-unit";
 
-   public long saveOrMerge(User user) {
+
+   public long saveOrMerge(UserDto user) {
+      User u = convertDtoToDomain(user);
+      JpaEntityManager.saveOrMerge(u);
       return 0;
    }
 
-   public User getUserByUserName(String username) {
-      Query q =
-            JpaEntityManager.getEntityManager().createQuery(
-                  "select u from UserImpl u where u.uidpk = :username");
-      q.setParameter("username", username);
-      List<User> users = q.getResultList();
-      return users.get(0);
+   private User convertDtoToDomain(UserDto user) {
+      User u = new UserImpl();
+      u.setUidPk(user.getUserId());
+      u.setUsername(user.getUsername());
+      u.setEmail(user.getEmail());
+      u.setPassword(user.getPassword());
+      return u;
    }
 
    public User getUserByUserNameOrEmail(String val) {
-      Query q =
+      Query query =
             JpaEntityManager
-                  .getEntityManager()
                   .createQuery(
-                        "select u from UserImpl as u where u.username = :username or u.email = :email");
-      q.setParameter("username", val);
-      q.setParameter("email", val);
-      List<User> users = q.getResultList();
+                        "select u from UserImpl as u where u.username = ?1 or u.email = ?2",
+                        new Object[] { val, val });
+
+      List<User> users = query.getResultList();
 
       if (users.size() == 0) {
          throw new EntityNotFoundException("Cannot find entity of val: " + val);
@@ -49,16 +52,15 @@ public class UserServiceImpl implements UserService {
    }
 
    public User getUserById(long id) {
-      EntityManagerFactory factory =
-            Persistence.createEntityManagerFactory(PERSISTENCE_NAME);
-
-      EntityManager em = factory.createEntityManager();
-      Query q = em.createQuery("select u from UserImpl as u where u.uidPk = 1");
-
+      Query q =
+            JpaEntityManager.createQuery(
+                  "select u from UserImpl as u where u.uidPk = ?1",
+                  new Object[] { id });
       List<User> users = q.getResultList();
-
-      em.close();
-      factory.close();
+      if (users.size() == 0) {
+         throw new EntityNotFoundException("User \"" + id
+               + "\" does not exist!");
+      }
       return users.get(0);
    }
 }

@@ -1,6 +1,7 @@
 package com.sapphire.service;
 
 import com.sapphire.domain.User;
+import com.sapphire.dto.user.UserDto;
 
 /**
  * Author: Ethan <br/>
@@ -8,7 +9,7 @@ import com.sapphire.domain.User;
  * Email: byp5303628@hotmail.com
  */
 public interface UserService {
-   long saveOrMerge(User user);
+   long saveOrMerge(UserDto user);
 
    User getUserByUserNameOrEmail(String val);
 

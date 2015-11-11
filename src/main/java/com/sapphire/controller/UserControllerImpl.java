@@ -2,6 +2,10 @@ package com.sapphire.controller;
 
 import javax.inject.Inject;
 
+import com.sapphire.dto.user.UserDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,29 +25,31 @@ import com.sapphire.service.UserService;
 @Controller
 @RequestMapping("/user")
 public class UserControllerImpl {
+   private static Logger logger = LoggerFactory.getLogger(UserControllerImpl.class);
+   @Autowired
    private UserService userService;
 
-   @Inject
-   public UserControllerImpl(UserService userService) {
-      this.userService = userService;
-   }
-
    @RequestMapping("/create.ep")
-   public @ResponseBody JsonDto createUser(@RequestBody User user) {
+   public @ResponseBody JsonDto createUser(@RequestBody UserDto user) {
       try {
          userService.saveOrMerge(user);
          return new JsonDto().formSuccessDto();
       } catch (Exception ex) {
+         logger.error(ex.getMessage());
+         ex.printStackTrace();
          return new JsonDto().formFailureDto();
       }
    }
 
    @RequestMapping("/{id}/get.ep")
    public @ResponseBody JsonDto getUser(@PathVariable("id") long id) {
-      if (id == 1) {
+      try {
          User user = userService.getUserById(id);
          return new UserJsonDto(user).formSuccessDto();
+      } catch (Exception ex) {
+         logger.error(ex.getMessage());
+         ex.printStackTrace();
+         return new JsonDto().formFailureDto();
       }
-      return new JsonDto().formFailureDto();
    }
 }

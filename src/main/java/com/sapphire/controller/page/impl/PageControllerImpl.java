@@ -9,11 +9,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Email: byp5303628@hotmail.com
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping("")
 public class PageControllerImpl {
 
-   @RequestMapping("index")
+   @RequestMapping("")
    public String index() {
       return "index";
+   }
+
+   @RequestMapping("/login.html")
+   public String login() {
+      return "login";
+   }
+
+   @RequestMapping("/sign-up.html")
+   public String signUp() {
+      return "sign-up";
    }
 }

@@ -9,17 +9,17 @@ import com.sapphire.dto.JsonDto;
  * Email: byp5303628@hotmail.com
  */
 public class UserJsonDto extends JsonDto {
-   private User user;
+   private User data;
 
-   public UserJsonDto(User user) {
-      this.user = user;
+   public UserJsonDto(User data) {
+      this.data = data;
    }
 
-   public User getUser() {
-      return user;
+   public User getData() {
+      return data;
    }
 
-   public void setUser(User user) {
-      this.user = user;
+   public void setData(User data) {
+      this.data = data;
    }
 }
