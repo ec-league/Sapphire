@@ -3,9 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <link rel="stylesheet" type="text/css" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/common/bootstrap-theme.min.css">
+    <style>
+    #navigation-container {
+    background-color: #222;
+    border-radius: 0px;
+    margin-bottom: 20px;
+    }
+    </style>
 </head>
-<body>
-    Hello, World!
 
+<body ng-app="">
+   <!-- Hello, World!
+    <div ng-app="">
+        <p>在输入框中尝试输入：</p>
+        <p>姓名：<input type="text" ng-model="name"></p>
+        <p ng-bind="name"></p>
+    </div>
+    <botton class="btn btn-primary" type="button">...</botton>-->
+   <div class="container">
+       <header id="navigation-container" class="navbar"><span style="color:honeydew;">Loggin</span></header>
+       <nav class="navbar-collapse"></nav>
+       <a class="navbar-brand" href="/" title="Log In"></a>
+   </div>
+   <div class="row">
+   <div class="col-md-4"></div>
+   <div class="col-md-4">
+   <form class="form-bordered">
+       <img src="img/4831ac8f9a5317125401e052ee5574b3.jpg" class="icon-bar">
+       <div class="form-group">
+           <label for="UserName">User Name</label>
+           <input type="text" class="form-control" id="UserName" placeholder="Coraline">
+       </div>
+
+       <div>
+       <div class="form-group">
+           <label for="exampleInputPassword1">Password</label>
+           <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+       </div>
+       <button type="submit" class="btn btn-default">Submit</button>
+
+   </form>
+   </div>
+   <div class="col-md-4"></div>
+   </div>
 </body>
+<script src="js/framework/jquery-1.11.3.js"></script>
+<script src="js/framework/angular.js"></script>
+<script src="js/framework/bootstrap.min.js"></script>
 </html>
