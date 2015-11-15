@@ -1,7 +1,5 @@
 package com.sapphire.controller;
 
-import javax.inject.Inject;
-
 import com.sapphire.dto.user.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +23,8 @@ import com.sapphire.service.UserService;
 @Controller
 @RequestMapping("/user")
 public class UserControllerImpl {
-   private static Logger logger = LoggerFactory.getLogger(UserControllerImpl.class);
+   private static Logger logger = LoggerFactory
+         .getLogger(UserControllerImpl.class);
    @Autowired
    private UserService userService;
 

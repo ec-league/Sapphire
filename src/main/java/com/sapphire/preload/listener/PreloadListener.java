@@ -20,8 +20,8 @@ public class PreloadListener implements ServletContextListener {
 
    public void contextInitialized(ServletContextEvent servletContextEvent) {
 
-      LOGGER.info("Preload Jpa Properties.");
-      JpaEntityManager.loadProperties();
+//      LOGGER.info("Preload Jpa Properties.");
+//      JpaEntityManager.loadProperties();
    }
 
    public void contextDestroyed(ServletContextEvent servletContextEvent) {

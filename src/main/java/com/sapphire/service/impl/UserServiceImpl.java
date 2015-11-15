@@ -1,16 +1,16 @@
 package com.sapphire.service.impl;
 
-import java.util.List;
-
-import javax.persistence.*;
-
 import com.sapphire.domain.impl.UserImpl;
 import com.sapphire.dto.user.UserDto;
-import com.sapphire.preload.JpaEntityManager;
+import com.sapphire.repository.UserRepository;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 import com.sapphire.domain.User;
 import com.sapphire.service.UserService;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * Author: Ethan <br/>
@@ -20,11 +20,12 @@ import com.sapphire.service.UserService;
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
+   @Resource
+   private UserRepository userRepository;
 
    public long saveOrMerge(UserDto user) {
       User u = convertDtoToDomain(user);
-      JpaEntityManager.saveOrMerge(u);
-      return 0;
+      return userRepository.save(u).getUidPk();
    }
 
    private User convertDtoToDomain(UserDto user) {
@@ -37,30 +38,10 @@ public class UserServiceImpl implements UserService {
    }
 
    public User getUserByUserNameOrEmail(String val) {
-      Query query =
-            JpaEntityManager
-                  .createQuery(
-                        "select u from UserImpl as u where u.username = ?1 or u.email = ?2",
-                        new Object[] { val, val });
-
-      List<User> users = query.getResultList();
-
-      if (users.size() == 0) {
-         throw new EntityNotFoundException("Cannot find entity of val: " + val);
-      }
-      return users.get(0);
+      return userRepository.findByUsernameOrEmail(val);
    }
 
    public User getUserById(long id) {
-      Query q =
-            JpaEntityManager.createQuery(
-                  "select u from UserImpl as u where u.uidPk = ?1",
-                  new Object[] { id });
-      List<User> users = q.getResultList();
-      if (users.size() == 0) {
-         throw new EntityNotFoundException("User \"" + id
-               + "\" does not exist!");
-      }
-      return users.get(0);
+      return userRepository.findOne(id);
    }
 }
