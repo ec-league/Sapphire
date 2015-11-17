@@ -22,45 +22,24 @@
     <!-- 定义实体管理器工厂
          Jpa配置   LocalContainerEntityManagerFactoryBean这个选项Spring扮演了容器的角色。完全掌管JPA -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <!--&lt;!&ndash; 指定数据源 &ndash;&gt;-->
-        <!--<property name="dataSource" ref="dataSource"/>-->
-        <!--&lt;!&ndash; 指定Jpa持久化实现厂商类,这里以Hibernate为例 &ndash;&gt;-->
-        <!--<property name="jpaVendorAdapter" ref="openJpaVendorAdapter"/>-->
-        <!--&lt;!&ndash; 指定Entity实体类包路径 &ndash;&gt;-->
-        <!--<property name="packagesToScan" >-->
-            <!--<array>-->
-                <!--<value>com.sapphire.domain</value>-->
-            <!--</array>-->
-        <!--</property>-->
-        <!--&lt;!&ndash; 指定JPA属性；如Hibernate中指定是否显示SQL的是否显示、方言等 &ndash;&gt;-->
-        <!--<property name="jpaProperties">-->
-            <!--<props>-->
-                <!--<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>-->
-                <!--<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>-->
-                <!--<prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>-->
-                <!--<prop key="hibernate.show_sql">true</prop>-->
-                <!--<prop key="hibernate.format_sql">true</prop>-->
-                <!--<prop key="hibernate.hbm2ddl.auto">validate</prop>-->
-            <!--</props>-->
-        <!--</property>-->
         <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" ref="com.sapphire.rep" />
         <property name="persistenceUnitName" value="sapphire-persistence-unit"/>
-        <property name="persistenceProvider" ref="persistenceProvider"/>
+        <property name="packagesToScan" value="com.sapphire.repository" />
         <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
-        <property name="jpaDialect" ref="jpaDialect"/>
         <property name="jpaProperties">
             <props>
                 <prop key="openjpa.show_sql">true</prop>
+                <prop key="openjpa.RuntimeUnenhancedClasses">supported</prop>
             </props>
         </property>
     </bean>
 
     <!-- 重要配置：启用扫描并自动创建代理的功能  -->
-    <jpa:repositories base-package="com.sapphire.repository"  transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory"/>
+    <jpa:repositories base-package="com.sapphire.repository" transaction-manager-ref="transactionManager"
+                      entity-manager-factory-ref="entityManagerFactory"/>
 
     <!-- Hibernate对Jpa的实现 -->
-    <bean id="openJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.OpenJpaVendorAdapter"/>
+    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.OpenJpaVendorAdapter"/>
 
     <!-- Jpa 事务管理器  -->
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -68,15 +47,15 @@
     </bean>
 
     <!-- 开启注解事务 -->
-    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 
     <!-- 数据源配置,使用应用内的DBCP数据库连接池 -->
-    <context:property-placeholder location="file:${APP_CONFIG_PATH}/security.xml" />
+    <context:property-placeholder location="file:${APP_CONFIG_PATH}/security.properties"/>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="driverClassName" value="${db.driverClassName}" />
-        <property name="url" value="${db.url}" />
-        <property name="username" value="${db.username}" />
-        <property name="password" value="${db.password}" />
+        <property name="driverClassName" value="${db.driverClassName}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
     </bean>
 </beans>

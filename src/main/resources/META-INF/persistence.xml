@@ -3,24 +3,5 @@
              version="2.0"
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
     <persistence-unit name="sapphire-persistence-unit">
-        <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
-
-        <mapping-file>META-INF/user-orm.xml</mapping-file>
-
-        <class>com.sapphire.domain.impl.UserImpl</class>
-
-
-        <!--<properties>-->
-            <!--<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>-->
-            <!--<property name="javax.persistence.jdbc.url"-->
-                      <!--value="jdbc:mysql://localhost:3306/sapphire?characterEncoding=utf8"/>-->
-            <!--<property name="openjpa.jdbc.DBDictionary" value="mysql"/>-->
-            <!--<property name="javax.persistence.jdbc.user" value="root"/>-->
-            <!--<property name="javax.persistence.jdbc.password" value="root"/>-->
-
-            <!--&lt;!&ndash;显示SQL执行语句&ndash;&gt;-->
-            <!--&lt;!&ndash;<property name="openjpa.Log" value="SQL=TRACE"/>&ndash;&gt;-->
-            <!--<property name="openjpa.RuntimeUnenhancedClasses" value="supported"/>-->
-        <!--</properties>-->
     </persistence-unit>
 </persistence>

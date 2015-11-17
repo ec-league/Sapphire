@@ -1,16 +1,14 @@
 package com.sapphire.service.impl;
 
-import com.sapphire.domain.impl.UserImpl;
+import com.sapphire.domain.User;
 import com.sapphire.dto.user.UserDto;
 import com.sapphire.repository.UserRepository;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sapphire.domain.User;
 import com.sapphire.service.UserService;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
+import javax.persistence.EntityNotFoundException;
 
 /**
  * Author: Ethan <br/>
@@ -19,17 +17,16 @@ import javax.annotation.Resource;
  */
 @Service("userService")
 public class UserServiceImpl implements UserService {
-
-   @Resource
+   @Autowired
    private UserRepository userRepository;
 
    public long saveOrMerge(UserDto user) {
-      User u = convertDtoToDomain(user);
-      return userRepository.save(u).getUidPk();
+      userRepository.save(convertDtoToDomain(user));
+      return userRepository.save(convertDtoToDomain(user)).getUidPk();
    }
 
    private User convertDtoToDomain(UserDto user) {
-      User u = new UserImpl();
+      User u = new User();
       u.setUidPk(user.getUserId());
       u.setUsername(user.getUsername());
       u.setEmail(user.getEmail());
@@ -38,10 +35,19 @@ public class UserServiceImpl implements UserService {
    }
 
    public User getUserByUserNameOrEmail(String val) {
-      return userRepository.findByUsernameOrEmail(val);
+      User u = userRepository.findUserByUsernameOrEmail(val, val);
+      if (u == null) {
+         throw new EntityNotFoundException(
+               "Cannot find entity with username or email :\"" + val + "\"");
+      }
+      return u;
    }
 
    public User getUserById(long id) {
-      return userRepository.findOne(id);
+      User u = userRepository.findOne(id);
+      if (u == null) {
+         throw new EntityNotFoundException("Id is : \"" + id + "\"");
+      }
+      return u;
    }
 }
