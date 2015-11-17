@@ -14,4 +14,6 @@ public interface UserService {
    User getUserByUserNameOrEmail(String val);
 
    User getUserById(long id);
+
+   boolean authenticateUser(String username, String password);
 }

@@ -23,8 +23,7 @@
          Jpa配置   LocalContainerEntityManagerFactoryBean这个选项Spring扮演了容器的角色。完全掌管JPA -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="persistenceUnitName" value="sapphire-persistence-unit"/>
-        <property name="packagesToScan" value="com.sapphire.repository" />
+        <property name="packagesToScan" value="com.sapphire.domain"/>
         <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
         <property name="jpaProperties">
             <props>

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Email: byp5303628@hotmail.com
  */
 @Controller
-@RequestMapping("")
 public class PageControllerImpl {
 
    @RequestMapping("")
@@ -25,5 +24,10 @@ public class PageControllerImpl {
    @RequestMapping("/sign-up.html")
    public String signUp() {
       return "sign-up";
+   }
+
+   @RequestMapping("/test.html")
+   public String test() {
+      return "test";
    }
 }

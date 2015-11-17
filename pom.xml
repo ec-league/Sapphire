@@ -11,6 +11,7 @@
 
     <properties>
         <spring.version>4.1.7.RELEASE</spring.version>
+        <spring.security.version>4.0.2.RELEASE</spring.security.version>
     </properties>
 
     <dependencies>
@@ -27,9 +28,9 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring.security.version}</version>
         </dependency>
         <!-- Spring support end -->
 
