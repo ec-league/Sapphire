@@ -1,7 +1,14 @@
 package com.sapphire.domain;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.persistence.Entity;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Author: Ethan <br/>
@@ -10,7 +17,7 @@ import javax.persistence.Entity;
  */
 @Entity
 @Table(name = User.TABLE_NAME)
-public class User {
+public class User implements UserDetails {
    public static final String TABLE_NAME = "USER";
 
    @Id
@@ -55,8 +62,33 @@ public class User {
       return username;
    }
 
+   public boolean isAccountNonExpired() {
+      return true;
+   }
+
+   public boolean isAccountNonLocked() {
+      return true;
+   }
+
+   public boolean isCredentialsNonExpired() {
+      return true;
+   }
+
+   public boolean isEnabled() {
+      return true;
+   }
+
    public void setUsername(String username) {
       this.username = username;
+   }
+
+   public Collection<? extends GrantedAuthority> getAuthorities() {
+      List<SimpleGrantedAuthority> auths =
+            new ArrayList<SimpleGrantedAuthority>();
+      SimpleGrantedAuthority sim =
+            new SimpleGrantedAuthority("ROLE_USER");
+      auths.add(sim);
+      return auths;
    }
 
    public String getPassword() {

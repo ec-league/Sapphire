@@ -11,5 +11,5 @@
     <import resource="classpath:spring/spring-jpa.xml"/>
 
     <!--load spring security properties-->
-    <!--<import resource="classpath:spring/spring-security.xml"/>-->
+    <import resource="classpath:spring/spring-security.xml"/>
 </beans>

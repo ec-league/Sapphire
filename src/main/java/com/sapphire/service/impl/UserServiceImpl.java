@@ -36,6 +36,32 @@ public class UserServiceImpl implements UserService {
       return userRepository.save(repo).getUidPk();
    }
 
+   public long createUser(UserDto user) {
+      User repo = convertDtoToDomain(user);
+      if (userRepository.findUserByUsernameOrEmail(user.getUsername(),
+            user.getEmail()) != null) {
+         throw new EntityExistsException(String.format(
+               "Username : \"%s\", Email : \"%s\" already exists.",
+               user.getUsername(), user.getEmail()));
+      }
+      repo.setRole(roleService.getUserRole());
+      return userRepository.save(repo).getUidPk();
+   }
+
+   public long updateUserInfo(UserDto user) {
+      User repo =
+            userRepository.findUserByUsernameOrEmail(user.getUsername(),
+                  user.getEmail());
+      if (repo == null) {
+         throw new EntityNotFoundException(String.format(
+               "Username : \"%s\", Email : \"%s\" does not exists.",
+               user.getUsername(), user.getEmail()));
+      }
+      repo.setPassword(user.getPassword());
+      repo.setEmail(user.getEmail());
+      return userRepository.save(repo).getUidPk();
+   }
+
    private User convertDtoToDomain(UserDto user) {
       User u = new User();
       u.setUidPk(user.getUserId());

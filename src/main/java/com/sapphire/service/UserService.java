@@ -11,6 +11,10 @@ import com.sapphire.dto.user.UserDto;
 public interface UserService {
    long saveOrMerge(UserDto user);
 
+   long createUser(UserDto user);
+
+   long updateUserInfo(UserDto user);
+
    User getUserByUserNameOrEmail(String val);
 
    User getUserById(long id);

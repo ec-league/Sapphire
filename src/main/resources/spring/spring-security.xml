@@ -1,13 +1,42 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-             xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-    http://www.springframework.org/schema/security
-    http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security.xsd">
+    <!-- 登录界面不使用权限过滤 -->
+    <http security="none" pattern="/login*"></http>
+    <http>
+        <http-basic/>
+        <intercept-url pattern="/**" access="ROLE_USER"/>
 
-    <http auto-config="true">
-        <intercept-url pattern="/test" access="ROLE_USER" />
+        <!-- 登录界面 -->
+        <form-login login-page="/login" default-target-url="/index"
+                    always-use-default-target="true"/>
+        <logout/>
+        <csrf/>
     </http>
 
-</beans:beans>
+    <!-- 自定义user-service -->
+    <beans:bean id="userDetailService" class="com.sapphire.security.MyUserDetailService"></beans:bean>
 
+    <!-- 自定义权限管理，使用自己的user-service -->
+    <authentication-manager>
+        <authentication-provider user-service-ref="userDetailService"></authentication-provider>
+    </authentication-manager>
+
+    <!-- CSRF protection. Here we only include the CsrfFilter instead of all
+        of Spring Security. See http://docs.spring.io/spring-security/site/docs/3.2.x/reference/htmlsingle/#csrf
+        for more information on Spring Security's CSRF protection -->
+    <beans:bean id="csrfFilter" class="org.springframework.security.web.csrf.CsrfFilter">
+        <beans:constructor-arg>
+            <beans:bean
+                    class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository"/>
+        </beans:constructor-arg>
+    </beans:bean>
+    <!-- Provides automatic CSRF token inclusion when using Spring MVC Form
+        tags or Thymeleaf. -->
+    <beans:bean id="requestDataValueProcessor"
+                class="org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor"/>
+</beans:beans> 

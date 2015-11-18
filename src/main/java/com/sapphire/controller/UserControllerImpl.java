@@ -32,7 +32,7 @@ public class UserControllerImpl {
    @RequestMapping("/create.ep")
    public @ResponseBody JsonDto createUser(@RequestBody UserDto user) {
       try {
-         userService.saveOrMerge(user);
+         userService.createUser(user);
          return new JsonDto().formSuccessDto();
       } catch (Exception ex) {
          logger.error(ex.getMessage());
