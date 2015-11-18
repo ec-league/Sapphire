@@ -30,6 +30,19 @@ public class User {
    @Column(name = "EMAIL")
    private String email;
 
+   @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST,
+         CascadeType.MERGE, CascadeType.REFRESH })
+   @JoinColumn(name = "ROLE_UID")
+   private Role role;
+
+   public Role getRole() {
+      return role;
+   }
+
+   public void setRole(Role role) {
+      this.role = role;
+   }
+
    public long getUidPk() {
       return uidPk;
    }

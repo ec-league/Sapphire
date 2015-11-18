@@ -3,11 +3,13 @@ package com.sapphire.service.impl;
 import com.sapphire.domain.User;
 import com.sapphire.dto.user.UserDto;
 import com.sapphire.repository.UserRepository;
+import com.sapphire.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sapphire.service.UserService;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
 /**
@@ -19,10 +21,19 @@ import javax.persistence.EntityNotFoundException;
 public class UserServiceImpl implements UserService {
    @Autowired
    private UserRepository userRepository;
+   @Autowired
+   private RoleService roleService;
 
    public long saveOrMerge(UserDto user) {
-      userRepository.save(convertDtoToDomain(user));
-      return userRepository.save(convertDtoToDomain(user)).getUidPk();
+      User repo = convertDtoToDomain(user);
+      if (userRepository.findUserByUsernameOrEmail(user.getUsername(),
+            user.getEmail()) != null) {
+         throw new EntityExistsException(String.format(
+               "Username : \"%sEmail : \"%s\" already exists.",
+               user.getUsername(), user.getEmail()));
+      }
+      repo.setRole(roleService.getUserRole());
+      return userRepository.save(repo).getUidPk();
    }
 
    private User convertDtoToDomain(UserDto user) {
@@ -55,12 +66,9 @@ public class UserServiceImpl implements UserService {
       User u = userRepository.findUserByUsernameOrEmail(username, username);
       if (u == null) {
          throw new EntityNotFoundException(
-               "Cannot find entity with username or email :\"" + username + "\"");
+               "Cannot find entity with username or email :\"" + username
+                     + "\"");
       }
       return u.getPassword().equals(password);
-   }
-
-   public boolean authenticateUser(User user) {
-      return false;
    }
 }

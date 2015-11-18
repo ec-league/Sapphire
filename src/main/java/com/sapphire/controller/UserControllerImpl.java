@@ -53,9 +53,9 @@ public class UserControllerImpl {
       }
    }
 
-   @RequestMapping("/{val}/getByVal.ep")
+   @RequestMapping("/getByVal.ep")
    public @ResponseBody JsonDto getUserByUsernameOrPassword(
-         @PathVariable("val") String val) {
+         @RequestParam("val") String val) {
       try {
          User u = userService.getUserByUserNameOrEmail(val);
          return new UserJsonDto(u).formSuccessDto();
