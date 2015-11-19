@@ -86,7 +86,7 @@ public class User implements UserDetails {
       List<SimpleGrantedAuthority> auths =
             new ArrayList<SimpleGrantedAuthority>();
       SimpleGrantedAuthority sim =
-            new SimpleGrantedAuthority("ROLE_USER");
+            new SimpleGrantedAuthority(this.getRole().getRoleName());
       auths.add(sim);
       return auths;
    }

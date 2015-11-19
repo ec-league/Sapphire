@@ -15,16 +15,13 @@ import javax.persistence.EntityNotFoundException;
  * Email: byp5303628@hotmail.com
  */
 public class MyUserDetailService implements UserDetailsService {
-//   @Autowired
-//   private UserService userService;
+   @Autowired
+   private UserService userService;
 
    public UserDetails loadUserByUsername(String username)
          throws UsernameNotFoundException {
       try {
-         User user = new User();
-         System.out.println(user);
-         user.setUsername("admin");
-         user.setPassword("admin");
+         User user = userService.getUserByUserNameOrEmail(username);
 
          return user;
       } catch (EntityNotFoundException e) {

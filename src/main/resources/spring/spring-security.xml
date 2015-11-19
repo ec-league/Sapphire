@@ -12,10 +12,12 @@
         <intercept-url pattern="/**" access="ROLE_USER"/>
 
         <!-- 登录界面 -->
-        <form-login login-page="/login" default-target-url="/index"
+        <form-login login-page="/login" authentication-failure-url="/403"
+                    default-target-url="/index"
                     always-use-default-target="true"/>
         <logout/>
-        <csrf/>
+        <logout logout-success-url="/login" />
+        <!--<csrf/>-->
     </http>
 
     <!-- 自定义user-service -->

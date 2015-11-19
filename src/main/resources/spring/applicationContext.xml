@@ -10,6 +10,9 @@
     <!--load db properties-->
     <import resource="classpath:spring/spring-jpa.xml"/>
 
+    <!-- load service properties -->
+    <import resource="classpath:spring/spring-service.xml" />
+
     <!--load spring security properties-->
     <import resource="classpath:spring/spring-security.xml"/>
 </beans>
