@@ -14,6 +14,10 @@
     </context-param>
 
     <listener>
+        <listener-class>com.sapphire.listener.PreloadListener</listener-class>
+    </listener>
+
+    <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
@@ -25,7 +29,6 @@
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
 
 
     <servlet>

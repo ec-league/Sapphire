@@ -1,10 +1,8 @@
 package com.sapphire.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Author: EthanPark <br/>
@@ -14,13 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class LoginControllerImpl {
    @RequestMapping("index")
-   public String index(HttpServletRequest request) {
+   public String index() {
       return "index";
    }
 
    @RequestMapping("login")
-   public String login(Model model) {
-      model.addAttribute("title", "login");
+   public String login() {
       return "login";
    }
 }

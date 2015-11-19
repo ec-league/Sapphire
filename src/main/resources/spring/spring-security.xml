@@ -6,7 +6,9 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security.xsd">
     <!-- 登录界面不使用权限过滤 -->
+
     <http security="none" pattern="/login*"></http>
+
     <http>
         <http-basic/>
         <intercept-url pattern="/**" access="ROLE_USER"/>
@@ -16,7 +18,7 @@
                     default-target-url="/index"
                     always-use-default-target="true"/>
         <logout/>
-        <logout logout-success-url="/login" />
+        <logout logout-success-url="/login"/>
         <!--<csrf/>-->
     </http>
 
