@@ -4,6 +4,7 @@ import com.sapphire.domain.User;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Author: Ethan <br/>
@@ -43,6 +44,14 @@ public class Blog {
    @Basic
    @Column(name = "BLOG_STATUS")
    private int status;
+
+   public int getStatus() {
+      return status;
+   }
+
+   public void setStatus(int status) {
+      this.status = status;
+   }
 
    public long getUidPk() {
       return uidPk;

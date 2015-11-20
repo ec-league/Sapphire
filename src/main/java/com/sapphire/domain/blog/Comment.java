@@ -18,7 +18,7 @@ public class Comment {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "UIDPK")
-   private long UIDPK;
+   private long uidPk;
 
    @ManyToOne
    @JoinColumn(name = "USER_UID")
@@ -36,12 +36,24 @@ public class Comment {
    @Column(name = "LAST_MODIFY_TIME")
    private Timestamp lastModifyTime;
 
-   public long getUIDPK() {
-      return UIDPK;
+   @Basic
+   @Column(name = "CONTENT")
+   private String content;
+
+   public long getUidPk() {
+      return uidPk;
    }
 
-   public void setUIDPK(long UIDPK) {
-      this.UIDPK = UIDPK;
+   public void setUidPk(long uidPk) {
+      this.uidPk = uidPk;
+   }
+
+   public String getContent() {
+      return content;
+   }
+
+   public void setContent(String content) {
+      this.content = content;
    }
 
    public User getUser() {
