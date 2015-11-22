@@ -10,7 +10,9 @@
     <http security="none" pattern="/login*"></http>
     <http security="none" pattern="/blog/**"></http>
     <http security="none" pattern="/comment/**"></http>
-    <http security="none" pattern="/view/**"></http>
+    <http security="none" pattern="/css/**"></http>
+    <http security="none" pattern="/js/**"></http>
+    <http security="none" pattern="/img/**"></http>
 
     <http>
         <http-basic/>
@@ -21,7 +23,7 @@
                     default-target-url="/index.html"
                     always-use-default-target="true"/>
         <logout/>
-        <logout logout-success-url="/login.html"/>
+        <logout logout-success-url="/login"/>
         <!--<csrf/>-->
     </http>
 
