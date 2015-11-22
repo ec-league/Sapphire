@@ -26,8 +26,8 @@ public class CommentServiceImpl implements CommentService {
       return commentRepository.save(comment).getUidPk();
    }
 
-   public void deleteComment(Comment comment) {
-      commentRepository.delete(comment);
+   public void deleteComment(long id) {
+      commentRepository.delete(id);
    }
 
    public List<Comment> getCommentsByUserId(long userId) {

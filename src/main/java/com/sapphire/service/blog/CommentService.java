@@ -14,7 +14,7 @@ public interface CommentService {
 
    long saveComment(Comment comment);
 
-   void deleteComment(Comment comment);
+   void deleteComment(long id);
 
    List<Comment> getCommentsByUserId(long userId);
 }
