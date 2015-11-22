@@ -1,5 +1,90 @@
-<html>
-<body>
-<h2>Hello World!</h2>
+<!DOCTYPE html>
+<html class="bootstrap-admin-vertical-centered">
+<head>
+    <title>Login page | Bootstrap 3.x Admin Theme</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" media="screen" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" media="screen" href="css/common/bootstrap-theme.min.css">
+    <link rel="stylesheet" media="screen" href="css/common/mycommon.css">
+    <!-- Bootstrap Admin Theme -->
+    <link rel="stylesheet" media="screen" href="css/common/bootstrap-admin-theme.css">
+
+    <!-- Custom styles -->
+    <style type="text/css">
+        #bk{
+            background-image: url(img/bk1.jpg);
+            margin-top: 0;;
+        }
+
+    </style>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+
+    <![endif]-->
+</head>
+<body class="bootstrap-admin-without-padding" style="height: 80%;">
+<div class="bg-info">
+    <h2 style="margin-top: 0;margin-bottom: 0;">
+        <img src="img/weblogo_s.png">
+    </h2>
+</div>
+<div class="container" id="bk">
+    <div class="row" >
+        <div class="col-md-12">
+            <form class="bootstrap-admin-login-form" style="margin-top: 2%;margin-right: 5%;" action="j_spring_security_check">
+                <h1>Login</h1>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="j_username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="j_password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" name="remember_me">
+                        Remember me
+                    </label>
+                </div>
+                <button class="btn btn-lg btn-primary" type="submit">Sign In</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-success">Sign Up</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="footer" style="text-align: center;">
+
+    "黑默丁格公园网 版权所有 2015 保留所有权利"<br>
+    "Copyright 2015 HeimerdingerPark.com All rights reserved."
+</div>
+
+
 </body>
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="js/framework/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        // Setting focus
+        $('input[name="email"]').focus();
+
+        // Setting width of the alert box
+        var alert = $('.alert');
+        var formWidth = $('.bootstrap-admin-login-form').innerWidth();
+        var alertPadding = parseInt($('.alert').css('padding'));
+
+        if (isNaN(alertPadding)) {
+            alertPadding = parseInt($(alert).css('padding-left'));
+        }
+
+        $('.alert').width(formWidth - 2 * alertPadding);
+    });
+</script>
+
+
+<script src="js/framework/jquery-1.11.3.js"></script>
+<script src="js/framework/angular.js"></script>
+<script src="js/framework/bootstrap.min.js"></script>
 </html>

@@ -10,17 +10,18 @@
     <http security="none" pattern="/login*"></http>
     <http security="none" pattern="/blog/**"></http>
     <http security="none" pattern="/comment/**"></http>
+    <http security="none" pattern="/view/**"></http>
 
     <http>
         <http-basic/>
         <intercept-url pattern="/**" access="ROLE_USER"/>
 
         <!-- 登录界面 -->
-        <form-login login-page="/login" authentication-failure-url="/403"
-                    default-target-url="/index"
+        <form-login login-page="/login.html" authentication-failure-url="/403.html"
+                    default-target-url="/index.html"
                     always-use-default-target="true"/>
         <logout/>
-        <logout logout-success-url="/login"/>
+        <logout logout-success-url="/login.html"/>
         <!--<csrf/>-->
     </http>
 
