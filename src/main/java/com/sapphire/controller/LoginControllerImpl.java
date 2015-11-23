@@ -20,4 +20,9 @@ public class LoginControllerImpl {
    public String login() {
       return "login";
    }
+
+   @RequestMapping("sign-up.html")
+   public String signUp() {
+      return "sign-up";
+   }
 }

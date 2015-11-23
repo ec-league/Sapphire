@@ -71,7 +71,11 @@ public class BlogControllerImpl {
       try {
          Blog blog = blogService.getBlogByUidPk(id);
          BlogDetail blogDetail = new BlogDetail(blog);
-         blogDetail.setComments(blogService.getCommentsByBlogId(id));
+         List<CommentDto> dtos = new ArrayList<CommentDto>();
+         for (Comment comment : blogService.getCommentsByBlogId(id)) {
+            dtos.add(new CommentDto(comment));
+         }
+         blogDetail.setComments(dtos);
          return new DataJsonDto<BlogDetail>(blogDetail).formSuccessDto();
       } catch (Exception e) {
          logger.error(e.getMessage());
@@ -189,7 +193,15 @@ public class BlogControllerImpl {
       private long blogId;
       private String title;
       private String content;
-      private List<Comment> comments;
+      private List<CommentDto> comments;
+
+      public List<CommentDto> getComments() {
+         return comments;
+      }
+
+      public void setComments(List<CommentDto> comments) {
+         this.comments = comments;
+      }
 
       public BlogDetail(Blog blog) {
          setBlogId(blog.getUidPk());
@@ -221,12 +233,51 @@ public class BlogControllerImpl {
          this.content = content;
       }
 
-      public List<Comment> getComments() {
-         return comments;
+   }
+
+   private static class CommentDto implements Dto {
+      private long commentId;
+      private String commentContent;
+      private String createTime;
+      private String lastModifyTime;
+
+      public CommentDto(Comment comment) {
+         this.commentId = comment.getUidPk();
+         this.commentContent = comment.getContent();
+         this.createTime = TimeUtil.formatTime(comment.getCreateTime());
+         this.lastModifyTime = TimeUtil.formatTime(comment.getLastModifyTime());
       }
 
-      public void setComments(List<Comment> comments) {
-         this.comments = comments;
+      public long getCommentId() {
+         return commentId;
+      }
+
+      public void setCommentId(long commentId) {
+         this.commentId = commentId;
+      }
+
+      public String getCommentContent() {
+         return commentContent;
+      }
+
+      public void setCommentContent(String commentContent) {
+         this.commentContent = commentContent;
+      }
+
+      public String getCreateTime() {
+         return createTime;
+      }
+
+      public void setCreateTime(String createTime) {
+         this.createTime = createTime;
+      }
+
+      public String getLastModifyTime() {
+         return lastModifyTime;
+      }
+
+      public void setLastModifyTime(String lastModifyTime) {
+         this.lastModifyTime = lastModifyTime;
       }
    }
 
