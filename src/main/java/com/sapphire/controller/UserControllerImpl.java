@@ -37,7 +37,7 @@ public class UserControllerImpl {
       } catch (Exception ex) {
          logger.error(ex.getMessage());
          ex.printStackTrace();
-         return new JsonDto().formFailureDto();
+         return new JsonDto().formFailureDto(ex);
       }
    }
 
@@ -49,7 +49,7 @@ public class UserControllerImpl {
       } catch (Exception ex) {
          logger.error(ex.getMessage());
          ex.printStackTrace();
-         return new JsonDto().formFailureDto();
+         return new JsonDto().formFailureDto(ex);
       }
    }
 
@@ -62,7 +62,7 @@ public class UserControllerImpl {
       } catch (Exception e) {
          logger.error(e.getMessage());
          e.printStackTrace();
-         return new JsonDto().formFailureDto();
+         return new JsonDto().formFailureDto(e);
       }
    }
 }

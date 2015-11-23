@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class BlogControllerImpl {
       } catch (Exception e) {
          logger.error(e.getMessage());
          e.printStackTrace();
-         return new JsonDto().formFailureDto();
+         return new JsonDto().formFailureDto(e);
       }
    }
 
@@ -77,10 +78,13 @@ public class BlogControllerImpl {
          }
          blogDetail.setComments(dtos);
          return new DataJsonDto<BlogDetail>(blogDetail).formSuccessDto();
+      } catch (EntityNotFoundException e) {
+         logger.error(e.getMessage());
+         return new JsonDto().formFailureDto(e);
       } catch (Exception e) {
          logger.error(e.getMessage());
          e.printStackTrace();
-         return new JsonDto().formFailureDto();
+         return new JsonDto().formFailureDto(e);
       }
    }
 
@@ -94,7 +98,7 @@ public class BlogControllerImpl {
       } catch (Exception e) {
          logger.error(e.getMessage());
          e.printStackTrace();
-         return new JsonDto().formFailureDto();
+         return new JsonDto().formFailureDto(e);
       }
    }
 
@@ -109,7 +113,7 @@ public class BlogControllerImpl {
       } catch (Exception e) {
          logger.error(e.getMessage());
          e.printStackTrace();
-         return new JsonDto().formFailureDto();
+         return new JsonDto().formFailureDto(e);
       }
    }
 

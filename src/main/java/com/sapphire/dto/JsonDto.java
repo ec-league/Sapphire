@@ -44,4 +44,10 @@ public class JsonDto implements Dto {
       this.returnMessage = JsonDtoFlag.FAILURE_MESSAGE;
       return this;
    }
+
+   public JsonDto formFailureDto(Exception e) {
+      this.returnCode = JsonDtoFlag.FAILURE_CODE;
+      this.returnMessage = e.getMessage();
+      return this;
+   }
 }

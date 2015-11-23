@@ -55,7 +55,7 @@ public class CommentControllerImpl {
       } catch (Exception e) {
          logger.error(e.getMessage());
          e.printStackTrace();
-         return new JsonDto().formFailureDto();
+         return new JsonDto().formFailureDto(e);
       }
    }
 
@@ -69,7 +69,7 @@ public class CommentControllerImpl {
       } catch (Exception e) {
          logger.error(e.getMessage());
          e.printStackTrace();
-         return new JsonDto().formFailureDto();
+         return new JsonDto().formFailureDto(e);
       }
    }
 
@@ -82,7 +82,7 @@ public class CommentControllerImpl {
       } catch (Exception e) {
          logger.error(e.getMessage());
          e.printStackTrace();
-         return new JsonDto().formFailureDto();
+         return new JsonDto().formFailureDto(e);
       }
    }
 
