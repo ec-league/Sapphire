@@ -37,4 +37,35 @@ public class Project {
    @Column(name = "REPO_URL")
    private String repoUrl;
 
+   public long getUidPk() {
+      return uidPk;
+   }
+
+   public void setUidPk(long uidPk) {
+      this.uidPk = uidPk;
+   }
+
+   public String getTitle() {
+      return title;
+   }
+
+   public void setTitle(String title) {
+      this.title = title;
+   }
+
+   public String getDescription() {
+      return description;
+   }
+
+   public void setDescription(String description) {
+      this.description = description;
+   }
+
+   public String getRepoUrl() {
+      return repoUrl;
+   }
+
+   public void setRepoUrl(String repoUrl) {
+      this.repoUrl = repoUrl;
+   }
 }

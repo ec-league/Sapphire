@@ -1,7 +1,6 @@
 package com.sapphire.domain.manage;
 
 import com.sapphire.domain.User;
-import com.sapphire.domain.blog.Comment;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -14,8 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.security.Timestamp;
-import java.util.List;
+import java.sql.Timestamp;
 
 /**
  * Author: EthanPark <br/>
@@ -40,8 +38,6 @@ public class Ticket {
    @JoinColumn(name = "ASSIGN_USER_UID")
    private User assignUser;
 
-   private List<User> watchUsers;
-
    @Basic
    @Column(name = "DESCRIPTION")
    private String description;
@@ -58,10 +54,95 @@ public class Ticket {
    @Column(name = "LAST_MODIFY_TIME")
    private Timestamp lastModifyTime;
 
+   @Temporal(TemporalType.TIMESTAMP)
+   @Column(name = "START_TIME")
+   private Timestamp startTime;
+
+   @Temporal(TemporalType.TIMESTAMP)
+   @Column(name = "END_TIME")
+   private Timestamp endTime;
+
    @Basic
    @Column(name = "STATUS")
    private int status;
 
-   private List<Comment> comments;
+   public long getUidPk() {
+      return uidPk;
+   }
 
+   public void setUidPk(long uidPk) {
+      this.uidPk = uidPk;
+   }
+
+   public User getCreateUser() {
+      return createUser;
+   }
+
+   public void setCreateUser(User createUser) {
+      this.createUser = createUser;
+   }
+
+   public User getAssignUser() {
+      return assignUser;
+   }
+
+   public void setAssignUser(User assignUser) {
+      this.assignUser = assignUser;
+   }
+
+   public String getDescription() {
+      return description;
+   }
+
+   public void setDescription(String description) {
+      this.description = description;
+   }
+
+   public Project getProject() {
+      return project;
+   }
+
+   public void setProject(Project project) {
+      this.project = project;
+   }
+
+   public Timestamp getCreateTime() {
+      return createTime;
+   }
+
+   public void setCreateTime(Timestamp createTime) {
+      this.createTime = createTime;
+   }
+
+   public Timestamp getLastModifyTime() {
+      return lastModifyTime;
+   }
+
+   public void setLastModifyTime(Timestamp lastModifyTime) {
+      this.lastModifyTime = lastModifyTime;
+   }
+
+   public Timestamp getStartTime() {
+      return startTime;
+   }
+
+   public void setStartTime(Timestamp startTime) {
+      this.startTime = startTime;
+   }
+
+   public Timestamp getEndTime() {
+      return endTime;
+   }
+
+   public void setEndTime(Timestamp endTime) {
+      this.endTime = endTime;
+   }
+
+   public int getStatus() {
+      return status;
+   }
+
+   public void setStatus(int status) {
+      this.status = status;
+   }
 }
