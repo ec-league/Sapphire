@@ -15,16 +15,15 @@
     <!-- Custom styles -->
     <style type="text/css">
         #bk{
-            background-image: url(../img/bk1.jpg);
-            margin-top: 0;;
+            background-image: url(../img/left.jpg);
+            filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+            -moz-background-size:100% 100%;
+            background-size:100%;
+            margin-top: 0;
         }
 
     </style>
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-
-    <![endif]-->
 </head>
 <body class="bootstrap-admin-without-padding" style="height: 80%;">
 <div class="bg-info">
@@ -35,7 +34,7 @@
 <div class="container" id="bk">
     <div class="row" >
         <div class="col-md-12">
-            <form id="login_form" class="bootstrap-admin-login-form" style="margin-top: 2%;margin-right: 5%;" action="j_spring_security_check" method="post">
+            <form id="login_form" class="bootstrap-admin-login-form" style="margin-top: 2%;margin-right: 5%;">
                 <h1>Login</h1>
                 <div class="form-group">
                     <input class="form-control" type="text" name="j_username" placeholder="Username">
@@ -70,26 +69,11 @@
         document.getElementById("login_form").submit();
     }
 </script>
-<script type="text/javascript">
-    $(function() {
-        // Setting focus
-        $('input[name="email"]').focus();
 
-        // Setting width of the alert box
-        var alert = $('.alert');
-        var formWidth = $('.bootstrap-admin-login-form').innerWidth();
-        var alertPadding = parseInt($('.alert').css('padding'));
-
-        if (isNaN(alertPadding)) {
-            alertPadding = parseInt($(alert).css('padding-left'));
-        }
-
-        $('.alert').width(formWidth - 2 * alertPadding);
-    });
-</script>
 
 
 <script src="../js/framework/jquery-1.11.3.js"></script>
 <script src="../js/framework/angular.js"></script>
+
 <script src="../js/framework/bootstrap.min.js"></script>
 </html>
