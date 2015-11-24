@@ -30,31 +30,7 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">DashBoard <span class="sr-only">(current)</span></a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">产品<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">问题<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">项目<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">项目 label 两人共同的项目显示列表 点击列表进入详情<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">Action</a></li>
                         <li><a href="#">Another action</a></li>
@@ -67,16 +43,11 @@
                 </li>
             </ul>
             <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
                 <button type="button" class="btn btn-primary" data-target="#myModal" data-toggle="modal">添加问题</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Link</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">用户 点击进入用户信息页面<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">Action</a></li>
                         <li><a href="#">Another action</a></li>
@@ -188,15 +159,7 @@
                                     <form class="form-horizontal" style="margin-right: 10px;">
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label">
-                                                产品</label>
-                                            <div class="col-sm-3 input-group">
-                                                <input type="text" class="form-control" id="txtID" ng-model="产品" maxlength="4" onkeyup="value=value.replace(/[^\d]/g,'');"
-                                                       data-toggle="tooltip" title="不能为空">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">
-                                                问题类型</label>
+                                                问题类型 下拉框 bug 需求</label>
                                             <div class="col-sm-3 input-group">
                                                 <input type="text" class="form-control" id="txtName" ng-model="问题类型" data-toggle="tooltip" title="不能为空">
                                             </div>
@@ -211,7 +174,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label">
-                                                Bug分类</label>
+                                                Bug分类 下拉框 紧急 必改 可缓改 可不改</label>
                                             <div class="col-sm-3 input-group">
                                                 <input type="text" class="form-control" id="txtDetail" ng-model="Bug分类" data-toggle="tooltip" title="不能为空"
                                                        onkeyup="value=value.replace(/[^\T\F]/g,'');">
@@ -227,7 +190,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label">
-                                                描述</label>
+                                                描述 大框</label>
                                             <div class="col-sm-3 input-group">
                                                 <input type="text" class="form-control" id="TextEName" ng-model="描述" data-toggle="tooltip" title="不能为空"
                                                         >
