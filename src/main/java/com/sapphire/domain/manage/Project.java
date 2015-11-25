@@ -9,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.sql.Timestamp;
 
 /**
  * Author: EthanPark <br/>
@@ -36,6 +39,30 @@ public class Project {
    @Basic
    @Column(name = "REPO_URL")
    private String repoUrl;
+
+   @Temporal(TemporalType.TIMESTAMP)
+   @Column(name = "CREATE_TIME")
+   private Timestamp createTime;
+
+   @Temporal(TemporalType.TIMESTAMP)
+   @Column(name = "LAST_MODIFY_TIME")
+   private Timestamp lastModifyTime;
+
+   public Timestamp getCreateTime() {
+      return createTime;
+   }
+
+   public void setCreateTime(Timestamp createTime) {
+      this.createTime = createTime;
+   }
+
+   public Timestamp getLastModifyTime() {
+      return lastModifyTime;
+   }
+
+   public void setLastModifyTime(Timestamp lastModifyTime) {
+      this.lastModifyTime = lastModifyTime;
+   }
 
    public long getUidPk() {
       return uidPk;

@@ -13,4 +13,6 @@ public interface ProjectService {
    long saveProject(Project project);
 
    List<Project> getAllProjects();
+
+   Project getProjectById(long uidPk);
 }

@@ -39,6 +39,10 @@ public class Ticket {
    private User assignUser;
 
    @Basic
+   @Column(name = "TITLE")
+   private String title;
+
+   @Basic
    @Column(name = "DESCRIPTION")
    private String description;
 
@@ -65,6 +69,30 @@ public class Ticket {
    @Basic
    @Column(name = "STATUS")
    private int status;
+
+   @Basic
+   @Column(name = "TICKET_TYPE")
+   private int ticketType;
+
+   @Basic
+   @Column(name = "PRIORITY")
+   private int priority;
+
+   public int getTicketType() {
+      return ticketType;
+   }
+
+   public void setTicketType(int ticketType) {
+      this.ticketType = ticketType;
+   }
+
+   public int getPriority() {
+      return priority;
+   }
+
+   public void setPriority(int priority) {
+      this.priority = priority;
+   }
 
    public long getUidPk() {
       return uidPk;
@@ -144,5 +172,13 @@ public class Ticket {
 
    public void setStatus(int status) {
       this.status = status;
+   }
+
+   public String getTitle() {
+      return title;
+   }
+
+   public void setTitle(String title) {
+      this.title = title;
    }
 }

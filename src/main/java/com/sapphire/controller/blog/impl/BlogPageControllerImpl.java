@@ -1,4 +1,4 @@
-package com.sapphire.controller.blog;
+package com.sapphire.controller.blog.impl;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

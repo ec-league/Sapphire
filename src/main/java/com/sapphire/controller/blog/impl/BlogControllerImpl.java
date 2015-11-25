@@ -1,4 +1,4 @@
-package com.sapphire.controller.blog;
+package com.sapphire.controller.blog.impl;
 
 import com.sapphire.common.TimeUtil;
 import com.sapphire.constant.BlogStatusConstant;

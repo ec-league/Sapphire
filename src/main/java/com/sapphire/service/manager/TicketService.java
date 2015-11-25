@@ -15,4 +15,6 @@ public interface TicketService {
    List<Ticket> getTicketsByProjectId(long projectId);
 
    long saveTicket(Ticket ticket);
+
+   Ticket getTicketById(long uidPk);
 }

@@ -1,6 +1,7 @@
 package com.sapphire.common;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -21,5 +22,19 @@ public class TimeUtil {
 
    public static Timestamp now() {
       return new Timestamp(currentTimeMillis());
+   }
+
+   public static Timestamp fromString(String time) {
+      SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+      if (time.matches("/d/d/d/d-/d/d-/d/d /d/d:/d/d:/d/d")) {
+         try {
+            return new Timestamp(sdf.parse(time).getTime());
+         } catch (ParseException e) {
+            throw new RuntimeException(String.format(
+                  "Time format is not right : %s", time));
+         }
+      }
+      throw new RuntimeException(String.format("Time format is not right : %s",
+            time));
    }
 }
