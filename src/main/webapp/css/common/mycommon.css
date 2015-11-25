@@ -8,6 +8,17 @@
     width: 100%;
     text-align: center;
     color: #666;
+    margin-bottom: 0;
     background-color: #ededed;
-    height: 100%;
+    /*height: 100%;*/
+
+    bottom: 0;
+    position: fixed;
+}
+.topnav{
+    padding-bottom: 0;
+    padding-top: 5%;
+}
+.ulbar{
+    margin-top: 0.2%;
 }
