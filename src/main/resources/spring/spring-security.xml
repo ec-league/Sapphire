@@ -14,6 +14,7 @@
     <http security="none" pattern="/js/**"></http>
     <http security="none" pattern="/img/**"></http>
     <http security="none" pattern="/rest/**"></http>
+    <http security="none" pattern="/manage/**"></http>
 
     <http>
         <http-basic/>

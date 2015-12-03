@@ -7,31 +7,34 @@
     <link rel="stylesheet" media="screen" href="../css/common/bootstrap-theme.min.css">
     <link rel="stylesheet" media="screen" href="../css/common/mycommon.css">
     <style type="text/css">
-        .topnav{
+        .topnav {
             padding-bottom: 0;
             padding-top: 5%;
         }
-        .ulbar{
+
+        .ulbar {
             margin-top: 0.2%;
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-default " >
+<nav class="navbar navbar-default ">
     <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand topnav" href="about.html">
-                    <img alt="Brand" src="../img/logo.jpg">
-                </a>
-            </div>
+        <div class="navbar-header">
+            <a class="navbar-brand topnav" href="about.html">
+                <img alt="Brand" src="../img/logo.jpg">
+            </a>
+        </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav nav-pills ulbar">
-                <li class="active " role="presentation"><a href="#">DashBoard <span class="sr-only">(current)</span></a></li>
+                <li class="active " role="presentation"><a href="#">DashBoard <span class="sr-only">(current)</span></a>
+                </li>
                 <li role="presentation"><a href="project.html">项目</a></li>
                 <li role="presentation"><a href="#" data-target="#myModal" data-toggle="modal">添加问题</a></li>
                 <form class="navbar-form navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">用户<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">用户<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="userinfo.html">用户信息</a></li>
                             <li><a href="#">注销</a></li>
@@ -58,147 +61,177 @@
                 <div class="date-header">今日</div>
                 <span class="user-icon">
                     <a href="http://cp4.mgmt.ctripcorp.com/secure/ViewProfile.jspa?name=xiangyutang">
-                        <img alt="txy汤翔宇" title="txy汤翔宇" src="http://cp4.mgmt.ctripcorp.com/secure/useravatar?avatarId=10122&amp;s=48" width="48" height="48"></a>
+                        <img alt="txy汤翔宇" title="txy汤翔宇"
+                             src="http://cp4.mgmt.ctripcorp.com/secure/useravatar?avatarId=10122&amp;s=48" width="48"
+                             height="48"></a>
                 </span>
-                <div class="activity-item-summary">
-                    <a href="http://cp4.mgmt.ctripcorp.com/secure/ViewProfile.jspa?name=xiangyutang" class="activity-item-user activity-item-author" target="_parent">txy汤翔宇</a>
-                    重新打开了
-                    <a href="http://cp4.mgmt.ctripcorp.com/browse/HTL01HTL-37176" target="_parent">HTL01HTL-37176 - APP6.12(酒店)-到店时间选择23:59时候应该把19:00隐藏掉</a>
-                <div class="activity-item-description"></div></div><div class="activity-item-info"><img class="icon" height="16" width="16" alt="Bug" src="http://cp4.mgmt.ctripcorp.com/images/icons/issuetypes/bug.png" title="Bug"><a href="http://cp4.mgmt.ctripcorp.com/browse/HTL01HTL-37176" class="timestamp" target="_parent">2分钟前</a>
-                <input type="hidden" class="activity-item-link" value="http://cp4.mgmt.ctripcorp.com/browse/HTL01HTL-37176"><div class="activity-item-actions">
 
+                <div class="activity-item-summary">
+                    <a href="http://cp4.mgmt.ctripcorp.com/secure/ViewProfile.jspa?name=xiangyutang"
+                       class="activity-item-user activity-item-author" target="_parent">txy汤翔宇</a>
+                    重新打开了
+                    <a href="http://cp4.mgmt.ctripcorp.com/browse/HTL01HTL-37176" target="_parent">HTL01HTL-37176 -
+                        APP6.12(酒店)-到店时间选择23:59时候应该把19:00隐藏掉</a>
+
+                    <div class="activity-item-description"></div>
                 </div>
-                <div class="activity-item-action-status-container hidden"></div>
-            </div>
+                <div class="activity-item-info"><img class="icon" height="16" width="16" alt="Bug"
+                                                     src="http://cp4.mgmt.ctripcorp.com/images/icons/issuetypes/bug.png"
+                                                     title="Bug"><a
+                        href="http://cp4.mgmt.ctripcorp.com/browse/HTL01HTL-37176" class="timestamp" target="_parent">2分钟前</a>
+                    <input type="hidden" class="activity-item-link"
+                           value="http://cp4.mgmt.ctripcorp.com/browse/HTL01HTL-37176">
+
+                    <div class="activity-item-actions">
+
+                    </div>
+                    <div class="activity-item-action-status-container hidden"></div>
+                </div>
                 <div class="clearer"></div>
             </div>
         </div>
     </div>
     <div class="col-md-7">
-        <div  ng-controller="commonCtrl">
+        <div ng-controller="commonCtrl">
             <div class="bMainCt panel panel-default">
                 <div class="panel-heading">分配给我的问题</div>
-                    <div class="panel-body">
-                        <p>...</p>
-                    </div>
+                <div class="panel-body">
+                    <p>...</p>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-hover" id="clist">
                         <thead>
-                            <tr>
-                                <th>类型</th>
-                                <th>优先级</th>
-                                <th>主题</th>
-                                <th>到期日</th>
-                                <th>描述</th>
-                                <th>状态</th>
-                            </tr>
+                        <tr>
+                            <th>类型</th>
+                            <th>优先级</th>
+                            <th>主题</th>
+                            <th>到期日</th>
+                            <th>描述</th>
+                            <th>状态</th>
+                        </tr>
                         </thead>
                         <tbody id="VendorList">
-                            <tr ng-repeat="o in Vendorlist">
-                                    <td>{{o.Type}}</td>
-                                    <td>{{o.Priority}}</td>
-                                    <td>{{o.Subject}}</td>
-                                    <td>{{o.Deadline}}</td>
-                                    <td>{{o.Description}}</td>
-                                    <td>{{o.Status}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div style="clear: none;">
-                        </div>
-                </div>
-            </div>
-    </div>
-    </div>
-</div>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="btnCloseClick()">
-                        <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">创建问题</h4>
-                </div>
-                <div class="modal-body">
-                    <div id="divModalContent">
-                        <form class="form-horizontal" style="margin-right: 10px;">
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">问题类型</label>
-                                <div class="col-sm-4">
-                                    <select class="form-control" id="problemclass" ng-model="Bug分类" data-toggle="tooltip" title="不能为空">
-                                        <option>新需求</option>
-                                            <option>Bug</option>
-                                            <option>改进</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">主题</label>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="txtAuto" ng-model="主题" data-toggle="tooltip" title="不能为空"
-                                                       onkeyup="value=value.replace(/[^\T\F]/g,'');">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">
-                                                项目</label>
-                                            <div class="col-sm-4">
-                                               <select class="form-control" id="project" ng-model="所属项目" data-toggle="tooltip" title="不能为空">
-                                                   <option selected="selected">所属项目</option>
-                                               </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">
-                                                Bug分类</label>
-                                            <div class="col-sm-4">
-                                                <select class="form-control" id="bugclass" ng-model="Bug分类" data-toggle="tooltip" title="不能为空">
-                                                    <option>灾难性的</option>
-                                                    <option>严重的</option>
-                                                    <option>一般的</option>
-                                                    <option>轻微的</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">
-                                                负责人</label>
-                                            <div class="col-sm-4">
-                                                <select class="form-control" id="transactor" ng-model="负责人" data-toggle="tooltip" title="不能为空">
-                                                    <option>Ethan</option>
-                                                    <option>Coraline</option>
-                                                    <option>All</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">
-                                                描述</label>
-                                            <div class="col-sm-6">
-                                                <textarea class="form-control" rows="3" id="TextEName" ng-model="描述" data-toggle="tooltip" title="可为空"></textarea>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div id="divModalContentDel">
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" id="btnSave" autocomplete="off" data-loading-text='loading...' ng-click="btnSaveClick()">保存</button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close" ng-click="btnCloseClick()">取消</button>
-                                <!--<button type="button" class="btn btn-default cancel" id="btnCancel" autocomplete="off" data-loading-text='loading...'>取消</button>-->
-                            </div>
-                        </div>
+                        <tr ng-repeat="o in Vendorlist">
+                            <td>{{o.Type}}</td>
+                            <td>{{o.Priority}}</td>
+                            <td>{{o.Subject}}</td>
+                            <td>{{o.Deadline}}</td>
+                            <td>{{o.Description}}</td>
+                            <td>{{o.Status}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div style="clear: none;">
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="btnCloseClick()">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">创建问题</h4>
+            </div>
+            <div class="modal-body">
+                <div id="divModalContent">
+                    <form class="form-horizontal" style="margin-right: 10px;">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">问题类型</label>
+
+                            <div class="col-sm-4">
+                                <select class="form-control" id="problemclass" ng-model="Bug分类" data-toggle="tooltip"
+                                        title="不能为空">
+                                    <option>新需求</option>
+                                    <option>Bug</option>
+                                    <option>改进</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">主题</label>
+
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="txtAuto" ng-model="主题" data-toggle="tooltip"
+                                       title="不能为空"
+                                       onkeyup="value=value.replace(/[^\T\F]/g,'');">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                项目</label>
+
+                            <div class="col-sm-4">
+                                <select class="form-control" id="project" ng-model="所属项目" data-toggle="tooltip"
+                                        title="不能为空">
+                                    <option selected="selected">所属项目</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                Bug分类</label>
+
+                            <div class="col-sm-4">
+                                <select class="form-control" id="bugclass" ng-model="Bug分类" data-toggle="tooltip"
+                                        title="不能为空">
+                                    <option>灾难性的</option>
+                                    <option>严重的</option>
+                                    <option>一般的</option>
+                                    <option>轻微的</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                负责人</label>
+
+                            <div class="col-sm-4">
+                                <select class="form-control" id="transactor" ng-model="负责人" data-toggle="tooltip"
+                                        title="不能为空">
+                                    <option>Ethan</option>
+                                    <option>Coraline</option>
+                                    <option>All</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                描述</label>
+
+                            <div class="col-sm-6">
+                                <textarea class="form-control" rows="3" id="TextEName" ng-model="描述"
+                                          data-toggle="tooltip" title="可为空"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="divModalContentDel">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnSave" autocomplete="off"
+                        data-loading-text='loading...' ng-click="btnSaveClick()">保存
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close"
+                        ng-click="btnCloseClick()">取消
+                </button>
+                <!--<button type="button" class="btn btn-default cancel" id="btnCancel" autocomplete="off" data-loading-text='loading...'>取消</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 <div style="height: 100%">
 
-<div class="footer">
+    <div class="footer">
 
-    "黑默丁格公园网 版权所有 2015 保留所有权利"<br>
-    "Copyright 2015 HeimerdingerPark.com All rights reserved."
-</div>
+        "黑默丁格公园网 版权所有 2015 保留所有权利"<br>
+        "Copyright 2015 HeimerdingerPark.com All rights reserved."
+    </div>
 </div>
 </body>
 
@@ -211,5 +244,8 @@
     angular.module("app", []);
     angular.module("commonCtrl", []);
     angular.module("app.common", []);
+</script>
+<script type="text/javascript">
+
 </script>
 </html>

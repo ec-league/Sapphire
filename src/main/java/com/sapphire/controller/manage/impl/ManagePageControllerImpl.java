@@ -3,6 +3,7 @@ package com.sapphire.controller.manage.impl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 /**
  * Author: EthanPark <br/>
  * Date: 2015/11/25<br/>
@@ -18,7 +19,7 @@ public class ManagePageControllerImpl {
 
    @RequestMapping("/dashboard.html")
    public String dashboardPage() {
-      return null;
+      return "dashboard";
    }
 
    @RequestMapping("/project-list.html")
