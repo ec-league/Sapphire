@@ -2,6 +2,7 @@ package com.sapphire.controller.manage.impl;
 
 import com.sapphire.common.TimeUtil;
 import com.sapphire.constant.TicketConstant;
+import com.sapphire.constant.TicketStatus;
 import com.sapphire.domain.manage.Project;
 import com.sapphire.domain.manage.Ticket;
 import com.sapphire.dto.Dto;
@@ -339,6 +340,7 @@ public class ManageJsonControllerImpl {
       private String title;
       private String description;
       private String deadline;
+      private String status;
 
       public TicketItemDto(Ticket ticket) {
          setDescription(ticket.getDescription());
@@ -347,6 +349,15 @@ public class ManageJsonControllerImpl {
          setTitle(ticket.getTitle());
          setTicketType(generateTicketType(ticket.getTicketType()));
          setTicketId(ticket.getUidPk());
+         setStatus(TicketStatus.getTicketStatus(ticket.getStatus()));
+      }
+
+      public String getStatus() {
+         return status;
+      }
+
+      public void setStatus(String status) {
+         this.status = status;
       }
 
       private String generatePriority(int priority) {

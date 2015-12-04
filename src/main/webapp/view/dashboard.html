@@ -246,6 +246,52 @@
     angular.module("app.common", []);
 </script>
 <script type="text/javascript">
+    var Render = {
+        tbody : document.getElementById("VendorList"),
+        listData : [],
 
+        update : function() {
+            var instance = this;
+            $.ajax({
+                url: "/rest/manage/ticket/1/getByUser.ep",
+                type: "POST",
+                success: function(data) {
+                    instance.listData = data.data;
+                    instance.render();
+                },
+            });
+        },
+
+        render : function() {
+            for (var i = 0;i<this.listData.length;i++) {
+                var tr = document.createElement("tr");
+                var ticketType = document.createElement("td");
+                ticketType.innerHTML = this.listData[i].ticketType;
+                tr.appendChild(ticketType);
+
+                var priority = document.createElement("td");
+                priority.innerHTML = this.listData[i].priority;
+                tr.appendChild(priority);
+
+                var title = document.createElement("td");
+                title.innerHTML = this.listData[i].title;
+                tr.appendChild(title);
+
+                var deadline = document.createElement("td");
+                deadline.innerHTML = this.listData[i].deadline;
+                tr.appendChild(deadline);
+
+                var description = document.createElement("td");
+                description.innerHTML = this.listData[i].description;
+                tr.appendChild(description);
+
+                var status = document.createElement("td");
+                status.innerHTML = this.listData[i].status;
+                tr.appendChild(status);
+                this.tbody.appendChild(tr);
+            }
+        }
+    }
+    Render.update();
 </script>
 </html>
