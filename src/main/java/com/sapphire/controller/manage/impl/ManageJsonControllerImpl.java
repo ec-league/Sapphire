@@ -4,6 +4,7 @@ import com.sapphire.common.TimeUtil;
 import com.sapphire.constant.TicketPriority;
 import com.sapphire.constant.TicketStatus;
 import com.sapphire.constant.TicketType;
+import com.sapphire.domain.User;
 import com.sapphire.domain.manage.Project;
 import com.sapphire.domain.manage.Ticket;
 import com.sapphire.dto.Dto;
@@ -69,6 +70,22 @@ public class ManageJsonControllerImpl {
             dtos.add(new ProjectSnapshotDto(project));
          }
          return new ListJsonDto<ProjectSnapshotDto>(dtos).formSuccessDto();
+      } catch (Exception e) {
+         logger.error(e.getMessage());
+         e.printStackTrace();
+         return new JsonDto().formFailureDto(e);
+      }
+   }
+
+   @RequestMapping("/user/snapshots/list.ep")
+   public @ResponseBody JsonDto getAllUserSnapshots() {
+      try {
+         List<User> users = userService.getUsers();
+         List<UserSnapshotDto> dtos = new ArrayList<UserSnapshotDto>();
+         for (User u : users) {
+            dtos.add(new UserSnapshotDto(u));
+         }
+         return new ListJsonDto<UserSnapshotDto>(dtos).formSuccessDto();
       } catch (Exception e) {
          logger.error(e.getMessage());
          e.printStackTrace();
@@ -197,6 +214,32 @@ public class ManageJsonControllerImpl {
 
       public void setTitle(String title) {
          Title = title;
+      }
+   }
+
+   private static class UserSnapshotDto implements Dto {
+      private long userId;
+      private String username;
+
+      public UserSnapshotDto(User u) {
+         setUsername(u.getUsername());
+         setUserId(u.getUidPk());
+      }
+
+      public long getUserId() {
+         return userId;
+      }
+
+      public void setUserId(long userId) {
+         this.userId = userId;
+      }
+
+      public String getUsername() {
+         return username;
+      }
+
+      public void setUsername(String username) {
+         this.username = username;
       }
    }
 

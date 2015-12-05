@@ -11,6 +11,8 @@ import com.sapphire.service.UserService;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Author: Ethan <br/>
@@ -96,5 +98,13 @@ public class UserServiceImpl implements UserService {
                      + "\"");
       }
       return u.getPassword().equals(password);
+   }
+
+   public List<User> getUsers() {
+      List<User> users = userRepository.getAllUsers();
+      if (users == null || users.size() == 0) {
+         return Collections.emptyList();
+      }
+      return users;
    }
 }

@@ -3,6 +3,8 @@ package com.sapphire.service;
 import com.sapphire.domain.User;
 import com.sapphire.dto.user.UserDto;
 
+import java.util.List;
+
 /**
  * Author: Ethan <br/>
  * Date: 2015/11/4.<br/>
@@ -20,4 +22,6 @@ public interface UserService {
    User getUserById(long id);
 
    boolean authenticateUser(String username, String password);
+
+   List<User> getUsers();
 }

@@ -143,11 +143,10 @@
                             <label class="col-sm-4 control-label">问题类型</label>
 
                             <div class="col-sm-4">
-                                <select class="form-control" id="problemclass" ng-model="Bug分类" data-toggle="tooltip"
+                                <select class="form-control" id="problemClass" ng-model="Bug分类" data-toggle="tooltip"
                                         title="不能为空">
-                                    <option>新需求</option>
-                                    <option>Bug</option>
-                                    <option>改进</option>
+                                    <option value="request">新需求</option>
+                                    <option value="bug">Bug</option>
                                 </select>
                             </div>
                         </div>
@@ -156,8 +155,8 @@
 
                             <div class="col-sm-4">
                                 <input type="text" class="form-control" id="txtAuto" ng-model="主题" data-toggle="tooltip"
-                                       title="不能为空"
-                                       onkeyup="value=value.replace(/[^\T\F]/g,'');">
+                                       title="不能为空">
+                                <!--onkeyup="value=value.replace(/[^\T\F]/g,'');">-->
                             </div>
                         </div>
                         <div class="form-group">
@@ -176,12 +175,12 @@
                                 Bug分类</label>
 
                             <div class="col-sm-4">
-                                <select class="form-control" id="bugclass" ng-model="Bug分类" data-toggle="tooltip"
+                                <select class="form-control" id="bugClass" ng-model="Bug分类" data-toggle="tooltip"
                                         title="不能为空">
-                                    <option>灾难性的</option>
-                                    <option>严重的</option>
-                                    <option>一般的</option>
-                                    <option>轻微的</option>
+                                    <option value="p0">灾难性的</option>
+                                    <option value="p1">严重的</option>
+                                    <option value="p2">一般的</option>
+                                    <option value="p3">轻微的</option>
                                 </select>
                             </div>
                         </div>
@@ -192,9 +191,7 @@
                             <div class="col-sm-4">
                                 <select class="form-control" id="transactor" ng-model="负责人" data-toggle="tooltip"
                                         title="不能为空">
-                                    <option>Ethan</option>
-                                    <option>Coraline</option>
-                                    <option>All</option>
+                                    <option>请选择负责人</option>
                                 </select>
                             </div>
                         </div>
@@ -247,23 +244,23 @@
 </script>
 <script type="text/javascript">
     var Render = {
-        tbody : document.getElementById("VendorList"),
-        listData : [],
+        tbody: document.getElementById("VendorList"),
+        listData: [],
 
-        update : function() {
+        update: function () {
             var instance = this;
             $.ajax({
                 url: "/rest/manage/ticket/1/getByUser.ep",
                 type: "POST",
-                success: function(data) {
+                success: function (data) {
                     instance.listData = data.data;
                     instance.render();
                 },
             });
         },
 
-        render : function() {
-            for (var i = 0;i<this.listData.length;i++) {
+        render: function () {
+            for (var i = 0; i < this.listData.length; i++) {
                 var tr = document.createElement("tr");
                 var ticketType = document.createElement("td");
                 ticketType.innerHTML = this.listData[i].ticketType;
@@ -291,7 +288,82 @@
                 this.tbody.appendChild(tr);
             }
         }
-    }
+    };
     Render.update();
+
+    var CreateTicket = {
+        ticketTypeTag: document.getElementById("problemClass"),
+        titleTag: document.getElementById("txtAuto"),
+        projectTag: document.getElementById("project"),
+        priorityTag: document.getElementById("bugClass"),
+        userTag: document.getElementById("transactor"),
+        descriptionTag: document.getElementById("TextEName"),
+        submitTag: document.getElementById("btnSave"),
+
+        loadProject: function () {
+            var instance = this;
+
+            $.ajax({
+                url: "/rest/manage/project/snapshots/list.ep",
+                success: function (data) {
+                    var list = data.data;
+                    for (var i = 0; i < list.length; i++) {
+                        var option = document.createElement("option");
+                        option.value = list[i].projectId;
+                        option.innerHTML = list[i].title;
+                        instance.projectTag.options[i + 1] = option;
+                    }
+                }
+            });
+        },
+        loadUser: function () {
+            var instance = this;
+            $.ajax({
+                url: "/rest/manage/user/snapshots/list.ep",
+                success: function (data) {
+                    var list = data.data;
+                    for (var i = 0; i < list.length; i++) {
+                        var option = document.createElement("option");
+                        option.value = list[i].userId;
+                        option.innerHTML = list[i].username;
+                        instance.userTag.options[i + 1] = option;
+                    }
+                }
+            });
+        },
+        submit: function () {
+            var instance = CreateTicket;
+            var dict = {"ticketType": instance.ticketTypeTag.value};
+            dict["projectId"] = parseInt(instance.projectTag.value);
+            dict["title"] = instance.titleTag.value;
+            dict["description"] = instance.descriptionTag.value;
+            dict["reporterUserId"] = 1;
+            dict["assignUserId"] = parseInt(instance.userTag.value);
+            dict["priority"] = instance.priorityTag.value;
+            dict["deadline"] = "2015-12-20 00:00:00";
+            $.ajax({
+                url: "/rest/manage/ticket/save.ep",
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-type": "application/json"
+                },
+                data: JSON.stringify(dict),
+                success: function (data) {
+                    if (data.returnCode == "200" && data.returnMessage == "SUCCESS") {
+                        alert("Create Ticket Success!");
+                    } else {
+                        alert("Create Ticket Failed! \n" + data.returnMessage);
+                    }
+                }
+            });
+        },
+        load: function () {
+            this.loadProject();
+            this.loadUser();
+            this.submitTag.onclick = this.submit;
+        }
+    };
+    CreateTicket.load();
 </script>
 </html>
