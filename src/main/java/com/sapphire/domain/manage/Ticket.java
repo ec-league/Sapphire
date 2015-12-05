@@ -1,5 +1,7 @@
 package com.sapphire.domain.manage;
 
+import com.sapphire.constant.TicketPriority;
+import com.sapphire.constant.TicketType;
 import com.sapphire.domain.User;
 
 import javax.persistence.Basic;
@@ -72,26 +74,26 @@ public class Ticket {
 
    @Basic
    @Column(name = "TICKET_TYPE")
-   private int ticketType;
+   private TicketType ticketType;
 
    @Basic
    @Column(name = "PRIORITY")
-   private int priority;
+   private TicketPriority ticketPriority;
 
-   public int getTicketType() {
+   public TicketType getTicketType() {
       return ticketType;
    }
 
-   public void setTicketType(int ticketType) {
+   public void setTicketType(TicketType ticketType) {
       this.ticketType = ticketType;
    }
 
-   public int getPriority() {
-      return priority;
+   public TicketPriority getTicketPriority() {
+      return ticketPriority;
    }
 
-   public void setPriority(int priority) {
-      this.priority = priority;
+   public void setTicketPriority(TicketPriority ticketPriority) {
+      this.ticketPriority = ticketPriority;
    }
 
    public long getUidPk() {

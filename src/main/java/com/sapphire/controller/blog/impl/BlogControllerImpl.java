@@ -1,7 +1,7 @@
 package com.sapphire.controller.blog.impl;
 
 import com.sapphire.common.TimeUtil;
-import com.sapphire.constant.BlogStatusConstant;
+import com.sapphire.constant.BlogStatus;
 import com.sapphire.domain.blog.Blog;
 import com.sapphire.domain.blog.Comment;
 import com.sapphire.dto.DataJsonDto;
@@ -107,7 +107,7 @@ public class BlogControllerImpl {
          @PathVariable("blogId") long blogId, @RequestBody BlogDto blogDto) {
       try {
          Blog blog = getBlog(blogId, blogDto);
-         blog.setStatus(BlogStatusConstant.PUBLISHED);
+         blog.setBlogStatus(BlogStatus.PUBLISHED);
          blogService.saveBlog(blog);
          return new JsonDto().formSuccessDto();
       } catch (Exception e) {
@@ -145,11 +145,7 @@ public class BlogControllerImpl {
          setTitle(blog.getBlogTitle());
          setCreateTime(TimeUtil.formatTime(blog.getCreateTime()));
          setLastModifyTime(TimeUtil.formatTime(blog.getLastModifyTime()));
-         if (blog.getStatus() == BlogStatusConstant.PUBLISHED) {
-            setStatus("PUBLISHED");
-         } else {
-            setStatus("UN_PUBLISHED");
-         }
+         setStatus(blog.getBlogStatus().toString());
       }
 
       public long getBlogId() {

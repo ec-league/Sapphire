@@ -1,8 +1,9 @@
 package com.sapphire.controller.manage.impl;
 
 import com.sapphire.common.TimeUtil;
-import com.sapphire.constant.TicketConstant;
+import com.sapphire.constant.TicketPriority;
 import com.sapphire.constant.TicketStatus;
+import com.sapphire.constant.TicketType;
 import com.sapphire.domain.manage.Project;
 import com.sapphire.domain.manage.Ticket;
 import com.sapphire.dto.Dto;
@@ -218,15 +219,8 @@ public class ManageJsonControllerImpl {
       ticket.setDescription(ticketDto.getDescription());
       ticket.setProject(projectService.getProjectById(ticketDto.getProjectId()));
       ticket.setTitle(ticketDto.getTitle());
-      if (ticketDto.getTicketType().equalsIgnoreCase("request")) {
-         ticket.setTicketType(TicketConstant.REQUEST_TYPE);
-      } else if (ticketDto.getTicketType().equalsIgnoreCase("bug")) {
-         ticket.setTicketType(TicketConstant.BUG_TYPE);
-      } else {
-         throw new IllegalArgumentException(String.format(
-               "Ticket Type illegal : \"%s\".", ticketDto.getTicketType()));
-      }
-      ticket.setPriority(ticketDto.getActualPriority());
+      ticket.setTicketType(TicketType.toTicketType(ticketDto.getTicketType()));
+      ticket.setTicketPriority(ticketDto.getActualPriority());
       if (ticketDto.getDeadline() == null || ticketDto.getDeadline().equals("")) {
          return ticket;
       }
@@ -257,19 +251,8 @@ public class ManageJsonControllerImpl {
          return reporterUserId;
       }
 
-      public int getActualPriority() {
-         if (getPriority().equalsIgnoreCase("p0")) {
-            return TicketConstant.BUG_PRIORITY_P0;
-         } else if (getPriority().equalsIgnoreCase("p1")) {
-            return TicketConstant.BUG_PRIORITY_P1;
-         } else if (getPriority().equalsIgnoreCase("p2")) {
-            return TicketConstant.BUG_PRIORITY_P2;
-         } else if (getPriority().equalsIgnoreCase("p3")) {
-            return TicketConstant.BUG_PRIORITY_P3;
-         } else {
-            throw new IllegalArgumentException(String.format(
-                  "Unknown priority : \"%s\".", getPriority()));
-         }
+      public TicketPriority getActualPriority() {
+         return TicketPriority.toTicketPriority(getPriority());
       }
 
       public void setReporterUserId(long reporterUserId) {
@@ -345,9 +328,9 @@ public class ManageJsonControllerImpl {
       public TicketItemDto(Ticket ticket) {
          setDescription(ticket.getDescription());
          setDeadline(TimeUtil.formatTime(ticket.getEndTime()));
-         setPriority(generatePriority(ticket.getPriority()));
+         setPriority(ticket.getTicketPriority().toString());
          setTitle(ticket.getTitle());
-         setTicketType(generateTicketType(ticket.getTicketType()));
+         setTicketType(ticket.getTicketType().toString());
          setTicketId(ticket.getUidPk());
          setStatus(TicketStatus.getTicketStatus(ticket.getStatus()));
       }
@@ -358,21 +341,6 @@ public class ManageJsonControllerImpl {
 
       public void setStatus(String status) {
          this.status = status;
-      }
-
-      private String generatePriority(int priority) {
-         return String.format("P%d", priority);
-      }
-
-      private String generateTicketType(int type) {
-         if (type == TicketConstant.BUG_TYPE) {
-            return "BUG";
-         } else if (type == TicketConstant.REQUEST_TYPE) {
-            return "REQUEST";
-         } else {
-            throw new IllegalArgumentException(String.format(
-                  "Unknown Ticket type : \"%d\".", type));
-         }
       }
 
       public long getTicketId() {

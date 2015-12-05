@@ -26,7 +26,8 @@ public class TimeUtil {
 
    public static Timestamp fromString(String time) {
       SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-      if (time.matches("/d/d/d/d-/d/d-/d/d /d/d:/d/d:/d/d")) {
+      if (time
+            .matches("[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{2}:[0-9]{2}:[0-9]{2}")) {
          try {
             return new Timestamp(sdf.parse(time).getTime());
          } catch (ParseException e) {

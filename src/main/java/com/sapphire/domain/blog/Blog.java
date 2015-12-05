@@ -1,5 +1,6 @@
 package com.sapphire.domain.blog;
 
+import com.sapphire.constant.BlogStatus;
 import com.sapphire.domain.User;
 
 import javax.persistence.*;
@@ -44,14 +45,14 @@ public class Blog {
 
    @Basic
    @Column(name = "BLOG_STATUS")
-   private int status;
+   private BlogStatus blogStatus;
 
-   public int getStatus() {
-      return status;
+   public BlogStatus getBlogStatus() {
+      return blogStatus;
    }
 
-   public void setStatus(int status) {
-      this.status = status;
+   public void setBlogStatus(BlogStatus blogStatus) {
+      this.blogStatus = blogStatus;
    }
 
    public long getUidPk() {

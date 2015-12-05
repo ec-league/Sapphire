@@ -11,7 +11,7 @@ import java.util.List;
  * Date: 2015/11/19.<br/>
  * Email: byp5303628@hotmail.com
  */
-public interface BlogRepository extends CrudRepository<Blog, Long>{
-   @Query("select b from Blog as b where b.user.uidPk = ?1 and b.status = 1")
+public interface BlogRepository extends CrudRepository<Blog, Long> {
+   @Query(value = "select b.* from BLOG b where b.user_uid = ?1 and b.blog_status = 1", nativeQuery = true)
    List<Blog> getAllBlogsByUserId(long userId);
 }
