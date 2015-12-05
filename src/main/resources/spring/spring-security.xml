@@ -13,8 +13,8 @@
     <http security="none" pattern="/css/**"></http>
     <http security="none" pattern="/js/**"></http>
     <http security="none" pattern="/img/**"></http>
-    <http security="none" pattern="/rest/**"></http>
-    <http security="none" pattern="/manage/**"></http>
+    <!--<http security="none" pattern="/rest/**"></http>-->
+    <!--<http security="none" pattern="/manage/**"></http>-->
 
     <http>
         <http-basic/>
@@ -22,7 +22,7 @@
 
         <!-- 登录界面 -->
         <form-login login-page="/login.html" authentication-failure-url="/403.html"
-                    default-target-url="/index.html"
+                    default-target-url="/manage/dashboard.html"
                     always-use-default-target="true"/>
         <logout/>
         <logout logout-success-url="/login"/>

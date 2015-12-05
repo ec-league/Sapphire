@@ -33,7 +33,7 @@
                 <li role="presentation"><a href="#" data-target="#myModal" data-toggle="modal">添加问题</a></li>
                 <form class="navbar-form navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                        <a id="username" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">用户<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="userinfo.html">用户信息</a></li>
@@ -111,14 +111,14 @@
                         </tr>
                         </thead>
                         <tbody id="VendorList">
-                        <tr ng-repeat="o in Vendorlist">
-                            <td>{{o.Type}}</td>
-                            <td>{{o.Priority}}</td>
-                            <td>{{o.Subject}}</td>
-                            <td>{{o.Deadline}}</td>
-                            <td>{{o.Description}}</td>
-                            <td>{{o.Status}}</td>
-                        </tr>
+                        <!--<tr ng-repeat="o in Vendorlist">-->
+                            <!--<td>{{o.Type}}</td>-->
+                            <!--<td>{{o.Priority}}</td>-->
+                            <!--<td>{{o.Subject}}</td>-->
+                            <!--<td>{{o.Deadline}}</td>-->
+                            <!--<td>{{o.Description}}</td>-->
+                            <!--<td>{{o.Status}}</td>-->
+                        <!--</tr>-->
                         </tbody>
                     </table>
                     <div style="clear: none;">
@@ -145,6 +145,7 @@
                             <div class="col-sm-4">
                                 <select class="form-control" id="problemClass" ng-model="Bug分类" data-toggle="tooltip"
                                         title="不能为空">
+                                    <option>请选择问题类型</option>
                                     <option value="request">新需求</option>
                                     <option value="bug">Bug</option>
                                 </select>
@@ -166,7 +167,7 @@
                             <div class="col-sm-4">
                                 <select class="form-control" id="project" ng-model="所属项目" data-toggle="tooltip"
                                         title="不能为空">
-                                    <option selected="selected">所属项目</option>
+                                    <option selected="selected">请选择所属项目</option>
                                 </select>
                             </div>
                         </div>
@@ -177,6 +178,7 @@
                             <div class="col-sm-4">
                                 <select class="form-control" id="bugClass" ng-model="Bug分类" data-toggle="tooltip"
                                         title="不能为空">
+                                    <option>请选择Bug严重程度</option>
                                     <option value="p0">灾难性的</option>
                                     <option value="p1">严重的</option>
                                     <option value="p2">一般的</option>
@@ -223,7 +225,6 @@
 </div>
 </div>
 <div style="height: 100%">
-
     <div class="footer">
 
         "黑默丁格公园网 版权所有 2015 保留所有权利"<br>
@@ -245,21 +246,42 @@
 <script type="text/javascript">
     var Render = {
         tbody: document.getElementById("VendorList"),
+        userTag : document.getElementById("username"),
         listData: [],
 
-        update: function () {
+        load : function() {
+            this.updateUser();
+            this.updateProblems();
+        },
+
+        updateUser:function() {
             var instance = this;
             $.ajax({
-                url: "/rest/manage/ticket/1/getByUser.ep",
+                url: "/rest/user/getCurrentUser.ep",
                 type: "POST",
                 success: function (data) {
-                    instance.listData = data.data;
-                    instance.render();
+                    instance.renderUser(data.data);
                 },
             });
         },
 
-        render: function () {
+        renderUser : function(data) {
+           this.userTag.innerHTML = data.username;
+        },
+
+        updateProblems: function () {
+            var instance = this;
+            $.ajax({
+                url: "/rest/manage/ticket/getByUser.ep",
+                type: "POST",
+                success: function (data) {
+                    instance.listData = data.data;
+                    instance.renderProblems();
+                },
+            });
+        },
+
+        renderProblems: function () {
             for (var i = 0; i < this.listData.length; i++) {
                 var tr = document.createElement("tr");
                 var ticketType = document.createElement("td");
@@ -289,7 +311,7 @@
             }
         }
     };
-    Render.update();
+    Render.load();
 
     var CreateTicket = {
         ticketTypeTag: document.getElementById("problemClass"),
@@ -337,7 +359,7 @@
             dict["projectId"] = parseInt(instance.projectTag.value);
             dict["title"] = instance.titleTag.value;
             dict["description"] = instance.descriptionTag.value;
-            dict["reporterUserId"] = 1;
+//            dict["reporterUserId"] = 1;
             dict["assignUserId"] = parseInt(instance.userTag.value);
             dict["priority"] = instance.priorityTag.value;
             dict["deadline"] = "2015-12-20 00:00:00";

@@ -16,12 +16,14 @@ import com.sapphire.service.manager.TicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,12 +95,13 @@ public class ManageJsonControllerImpl {
       }
    }
 
-   @RequestMapping("/ticket/{userId}/getByUser.ep")
-   public @ResponseBody JsonDto getTicketsByUserId(
-         @PathVariable("userId") long userId) {
+   @RequestMapping("/ticket/getByUser.ep")
+   public @ResponseBody JsonDto getTicketsByUserId() {
       try {
+         User u = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
          List<TicketItemDto> dtos = new ArrayList<TicketItemDto>();
-         for (Ticket ticket : ticketService.getTicketsByUserId(userId)) {
+         for (Ticket ticket : ticketService.getTicketsByUserId(u.getUidPk())) {
             dtos.add(new TicketItemDto(ticket));
          }
          return new ListJsonDto<TicketItemDto>(dtos).formSuccessDto();
@@ -128,6 +131,9 @@ public class ManageJsonControllerImpl {
    @RequestMapping("/ticket/save.ep")
    public @ResponseBody JsonDto saveTicket(@RequestBody TicketDto ticketDto) {
       try {
+         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+         ticketDto.setReporterUserId(user.getUidPk());
+
          Ticket ticket = convertTicketDto(ticketDto);
          ticketService.saveTicket(ticket);
          return new JsonDto().formSuccessDto();

@@ -5,6 +5,8 @@ import com.sapphire.dto.user.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,13 +18,15 @@ import com.sapphire.dto.JsonDto;
 import com.sapphire.dto.user.UserJsonDto;
 import com.sapphire.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Author: Ethan <br/>
  * Date: 2015/11/4.<br/>
  * Email: byp5303628@hotmail.com
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/rest/user")
 public class UserControllerImpl {
    private static Logger logger = LoggerFactory
          .getLogger(UserControllerImpl.class);
@@ -60,6 +64,18 @@ public class UserControllerImpl {
          User u = userService.getUserByUserNameOrEmail(val);
          return new UserJsonDto(u).formSuccessDto();
       } catch (Exception e) {
+         logger.error(e.getMessage());
+         e.printStackTrace();
+         return new JsonDto().formFailureDto(e);
+      }
+   }
+
+   @RequestMapping("/getCurrentUser.ep")
+   public @ResponseBody JsonDto getCurrentUser() {
+      try {
+         User u = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+         return new UserJsonDto(u).formSuccessDto();
+      }catch (Exception e) {
          logger.error(e.getMessage());
          e.printStackTrace();
          return new JsonDto().formFailureDto(e);
