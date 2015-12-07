@@ -1,11 +1,12 @@
-package com.sapphire.controller;
+package com.sapphire.controller.user.impl;
 
 import com.sapphire.domain.User;
+import com.sapphire.dto.DataJsonDto;
+import com.sapphire.dto.Dto;
 import com.sapphire.dto.user.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +19,6 @@ import com.sapphire.dto.JsonDto;
 import com.sapphire.dto.user.UserJsonDto;
 import com.sapphire.service.UserService;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Author: Ethan <br/>
  * Date: 2015/11/4.<br/>
@@ -27,9 +26,9 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping("/rest/user")
-public class UserControllerImpl {
+public class UserJsonControllerImpl {
    private static Logger logger = LoggerFactory
-         .getLogger(UserControllerImpl.class);
+         .getLogger(UserJsonControllerImpl.class);
    @Autowired
    private UserService userService;
 
@@ -73,12 +72,61 @@ public class UserControllerImpl {
    @RequestMapping("/getCurrentUser.ep")
    public @ResponseBody JsonDto getCurrentUser() {
       try {
-         User u = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-         return new UserJsonDto(u).formSuccessDto();
-      }catch (Exception e) {
+         User u =
+               (User) SecurityContextHolder.getContext().getAuthentication()
+                     .getPrincipal();
+
+         return new DataJsonDto<UserInfoDto>(new UserInfoDto(u)).formSuccessDto();
+      } catch (Exception e) {
          logger.error(e.getMessage());
          e.printStackTrace();
          return new JsonDto().formFailureDto(e);
+      }
+   }
+
+   private static class UserInfoDto implements Dto {
+      private long userId;
+      private String username;
+      private String email;
+      private String role;
+
+      public UserInfoDto(User u) {
+         setUserId(u.getUidPk());
+         setUsername(u.getUsername());
+         setEmail(u.getEmail());
+         setRole(u.getRole().getRoleName());
+      }
+
+      public long getUserId() {
+         return userId;
+      }
+
+      public void setUserId(long userId) {
+         this.userId = userId;
+      }
+
+      public String getUsername() {
+         return username;
+      }
+
+      public void setUsername(String username) {
+         this.username = username;
+      }
+
+      public String getEmail() {
+         return email;
+      }
+
+      public void setEmail(String email) {
+         this.email = email;
+      }
+
+      public String getRole() {
+         return role;
+      }
+
+      public void setRole(String role) {
+         this.role = role;
       }
    }
 }
