@@ -1,5 +1,6 @@
 package com.sapphire.common;
 
+import org.apache.commons.mail.EmailException;
 import org.testng.annotations.Test;
 
 /**
@@ -9,7 +10,9 @@ import org.testng.annotations.Test;
  */
 public class EmailUtilTest {
    @Test
-   public void test() {
-      EmailUtil.send();
+   public void test() throws EmailException {
+      EmailUtil.sendEmail(new EmailUtil.EmailBuilder()
+            .setEmail("136689664@qq.com").setContent("Ethan is God")
+            .setTitle("Ethan"));
    }
 }
