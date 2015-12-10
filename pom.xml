@@ -80,6 +80,14 @@
         </dependency>
         <!-- Data base support end -->
 
+        <!-- Email support -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <!-- Email support -->
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
