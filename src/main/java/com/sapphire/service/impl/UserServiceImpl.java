@@ -4,10 +4,9 @@ import com.sapphire.domain.User;
 import com.sapphire.dto.user.UserDto;
 import com.sapphire.repository.UserRepository;
 import com.sapphire.service.RoleService;
+import com.sapphire.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.sapphire.service.UserService;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;

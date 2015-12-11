@@ -1,7 +1,5 @@
 package com.sapphire.domain.manage;
 
-import com.sapphire.common.PropertyManager;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;

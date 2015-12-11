@@ -1,7 +1,5 @@
 package com.sapphire.constant;
 
-import com.sapphire.domain.manage.Ticket;
-
 /**
  * Author: EthanPark <br/>
  * Date: 2015/12/5<br/>

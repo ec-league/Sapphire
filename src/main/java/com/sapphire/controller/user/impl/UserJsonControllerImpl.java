@@ -3,7 +3,10 @@ package com.sapphire.controller.user.impl;
 import com.sapphire.domain.User;
 import com.sapphire.dto.DataJsonDto;
 import com.sapphire.dto.Dto;
+import com.sapphire.dto.JsonDto;
 import com.sapphire.dto.user.UserDto;
+import com.sapphire.dto.user.UserJsonDto;
+import com.sapphire.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.sapphire.dto.JsonDto;
-import com.sapphire.dto.user.UserJsonDto;
-import com.sapphire.service.UserService;
 
 /**
  * Author: Ethan <br/>
@@ -76,7 +75,8 @@ public class UserJsonControllerImpl {
                (User) SecurityContextHolder.getContext().getAuthentication()
                      .getPrincipal();
 
-         return new DataJsonDto<UserInfoDto>(new UserInfoDto(u)).formSuccessDto();
+         return new DataJsonDto<UserInfoDto>(new UserInfoDto(u))
+               .formSuccessDto();
       } catch (Exception e) {
          logger.error(e.getMessage());
          e.printStackTrace();

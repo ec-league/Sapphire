@@ -11,7 +11,7 @@ import java.util.List;
  * Date: 2015/11/25<br/>
  * Email: byp5303628@hotmail.com
  */
-public interface ProjectRepository extends CrudRepository<Project, Long>{
+public interface ProjectRepository extends CrudRepository<Project, Long> {
    @Query("select p from Project as p order by p.uidPk")
    List<Project> getAllProjects();
 }
