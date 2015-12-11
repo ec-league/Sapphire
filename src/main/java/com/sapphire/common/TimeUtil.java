@@ -1,11 +1,13 @@
 package com.sapphire.common;
 
+import static java.lang.System.currentTimeMillis;
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static java.lang.System.currentTimeMillis;
+import com.sapphire.common.exception.DateParseException;
 
 /**
  * Author: EthanPark <br/>
@@ -14,6 +16,9 @@ import static java.lang.System.currentTimeMillis;
  */
 public class TimeUtil {
    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+   private TimeUtil() {
+   }
 
    public static String formatTime(Date date) {
       SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -31,11 +36,9 @@ public class TimeUtil {
          try {
             return new Timestamp(sdf.parse(time).getTime());
          } catch (ParseException e) {
-            throw new RuntimeException(String.format(
-                  "Time format is not right : %s", time));
+            throw new DateParseException();
          }
       }
-      throw new RuntimeException(String.format("Time format is not right : %s",
-            time));
+      throw new DateParseException();
    }
 }

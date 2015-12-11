@@ -10,6 +10,9 @@ import org.apache.commons.mail.HtmlEmail;
  * Email: byp5303628@hotmail.com
  */
 public class EmailUtil {
+   private EmailUtil() {
+   }
+
    public static void sendEmail(EmailBuilder builder) throws EmailException {
       HtmlEmail email = new HtmlEmail();
       email.setHostName("smtp.sina.com");

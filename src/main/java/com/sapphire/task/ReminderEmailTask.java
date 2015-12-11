@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import com.sapphire.domain.User;
-import com.sapphire.service.UserService;
+import com.sapphire.service.user.UserService;
 
 /**
  * Author: EthanPark <br/>

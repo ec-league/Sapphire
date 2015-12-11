@@ -1,4 +1,4 @@
-package com.sapphire.service;
+package com.sapphire.service.user;
 
 import com.sapphire.domain.User;
 import com.sapphire.dto.user.UserDto;

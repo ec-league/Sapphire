@@ -20,18 +20,21 @@ public class ProjectServiceImpl implements ProjectService {
    @Autowired
    private ProjectRepository projectRepository;
 
+   @Override
    public long saveProject(Project project) {
       return projectRepository.save(project).getUidPk();
    }
 
+   @Override
    public List<Project> getAllProjects() {
       List<Project> projects = projectRepository.getAllProjects();
-      if (projects == null || projects.size() == 0) {
+      if (projects == null || projects.isEmpty()) {
          return Collections.emptyList();
       }
       return projects;
    }
 
+   @Override
    public Project getProjectById(long uidPk) {
       Project project = projectRepository.findOne(uidPk);
       if (project == null) {

@@ -15,13 +15,13 @@ public enum TicketPriority {
    }
 
    public static TicketPriority toTicketPriority(String pr) {
-      if (pr.equalsIgnoreCase("p0")) {
+      if ("p0".equalsIgnoreCase(pr)) {
          return TicketPriority.P0;
-      } else if (pr.equalsIgnoreCase("p1")) {
+      } else if ("p1".equalsIgnoreCase(pr)) {
          return TicketPriority.P1;
-      } else if (pr.equalsIgnoreCase("p2")) {
+      } else if ("p2".equalsIgnoreCase(pr)) {
          return TicketPriority.P2;
-      } else if (pr.equalsIgnoreCase("p3")) {
+      } else if ("p3".equalsIgnoreCase(pr)) {
          return TicketPriority.P3;
       } else {
          throw new IllegalArgumentException(String.format(

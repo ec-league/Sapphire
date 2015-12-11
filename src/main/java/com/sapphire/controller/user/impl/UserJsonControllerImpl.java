@@ -6,7 +6,7 @@ import com.sapphire.dto.Dto;
 import com.sapphire.dto.JsonDto;
 import com.sapphire.dto.user.UserDto;
 import com.sapphire.dto.user.UserJsonDto;
-import com.sapphire.service.UserService;
+import com.sapphire.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,50 +26,47 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/rest/user")
 public class UserJsonControllerImpl {
-   private static Logger logger = LoggerFactory
+   private static final Logger LOGGER = LoggerFactory
          .getLogger(UserJsonControllerImpl.class);
    @Autowired
    private UserService userService;
 
    @RequestMapping("/create.ep")
-   public @ResponseBody JsonDto createUser(@RequestBody UserDto user) {
+   @ResponseBody public JsonDto createUser(@RequestBody UserDto user) {
       try {
          userService.createUser(user);
          return new JsonDto().formSuccessDto();
       } catch (Exception ex) {
-         logger.error(ex.getMessage());
-         ex.printStackTrace();
+         LOGGER.error(ex.getMessage(), ex);
          return new JsonDto().formFailureDto(ex);
       }
    }
 
    @RequestMapping("/{id}/get.ep")
-   public @ResponseBody JsonDto getUser(@PathVariable("id") long id) {
+   @ResponseBody public JsonDto getUser(@PathVariable("id") long id) {
       try {
          User user = userService.getUserById(id);
          return new UserJsonDto(user).formSuccessDto();
       } catch (Exception ex) {
-         logger.error(ex.getMessage());
-         ex.printStackTrace();
+         LOGGER.error(ex.getMessage(), ex);
          return new JsonDto().formFailureDto(ex);
       }
    }
 
    @RequestMapping("/getByVal.ep")
-   public @ResponseBody JsonDto getUserByUsernameOrPassword(
+   @ResponseBody public JsonDto getUserByUsernameOrPassword(
          @RequestParam("val") String val) {
       try {
          User u = userService.getUserByUserNameOrEmail(val);
          return new UserJsonDto(u).formSuccessDto();
       } catch (Exception e) {
-         logger.error(e.getMessage());
-         e.printStackTrace();
+         LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
       }
    }
 
    @RequestMapping("/getCurrentUser.ep")
-   public @ResponseBody JsonDto getCurrentUser() {
+   @ResponseBody public JsonDto getCurrentUser() {
       try {
          User u =
                (User) SecurityContextHolder.getContext().getAuthentication()
@@ -78,8 +75,7 @@ public class UserJsonControllerImpl {
          return new DataJsonDto<UserInfoDto>(new UserInfoDto(u))
                .formSuccessDto();
       } catch (Exception e) {
-         logger.error(e.getMessage());
-         e.printStackTrace();
+         LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
       }
    }

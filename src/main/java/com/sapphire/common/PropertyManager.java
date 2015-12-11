@@ -1,9 +1,5 @@
 package com.sapphire.common;
 
-import com.sapphire.common.exception.PropertyNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,6 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.sapphire.common.exception.PropertyManagerInitException;
+import com.sapphire.common.exception.PropertyNotFoundException;
 
 /**
  * Author: Ethan <br/>
@@ -24,14 +26,23 @@ import java.util.Properties;
  * TODO: Use filter to avoid property overwriting.
  */
 public class PropertyManager {
-   private static Logger logger = LoggerFactory
+   private static final Logger LOGGER = LoggerFactory
          .getLogger(PropertyManager.class);
    private static Map<String, String> map = new HashMap<String, String>();
+
+   private PropertyManager() {
+   }
 
    public static void load(Class c) {
       synchronized (map) {
          initFromResource(c);
          initFromAppConfig();
+      }
+   }
+
+   public static void destroy() {
+      synchronized (map) {
+         map = new HashMap<String, String>();
       }
    }
 
@@ -45,6 +56,10 @@ public class PropertyManager {
 
    private static void initFromResource(Class c) {
       String path = c.getResource("/").getPath();
+      updateMap(initFromProperty(path));
+   }
+
+   private static Map<String, String> initFromProperty(String path) {
       List<File> files = getPropertyFiles(path);
       Map<String, String> tempMap = new HashMap<String, String>();
       for (File f : files) {
@@ -52,35 +67,19 @@ public class PropertyManager {
          try {
             properties.load(new FileInputStream(f));
          } catch (IOException e) {
-
-            e.printStackTrace();
-            throw new RuntimeException();
+            LOGGER.error(e.getMessage(), e);
+            throw new PropertyManagerInitException(e);
          }
          for (String key : properties.stringPropertyNames()) {
             tempMap.put(key, properties.getProperty(key));
          }
       }
-      updateMap(tempMap);
+      return tempMap;
    }
 
    private static void initFromAppConfig() {
       String path = System.getProperty("APP_CONFIG_PATH");
-      List<File> files = getPropertyFiles(path);
-      Map<String, String> tempMap = new HashMap<String, String>();
-      for (File f : files) {
-         Properties properties = new Properties();
-         try {
-            properties.load(new FileInputStream(f));
-         } catch (IOException e) {
-
-            e.printStackTrace();
-            throw new RuntimeException();
-         }
-         for (String key : properties.stringPropertyNames()) {
-            tempMap.put(key, properties.getProperty(key));
-         }
-      }
-      updateMap(tempMap);
+      updateMap(initFromProperty(path));
    }
 
    public static String getProperty(String key) {
@@ -104,13 +103,13 @@ public class PropertyManager {
    }
 
    private static void updateMap(Map<String, String> tempMap) {
-      for (String key : tempMap.keySet()) {
-         if (map.containsKey(key)) {
-            logger.warn(String.format(
+      for (Map.Entry<String, String> entry : tempMap.entrySet()) {
+         if (map.containsKey(entry.getKey())) {
+            LOGGER.warn(String.format(
                   "Key \"%s\" is overwrote, origin is \"%s\", now is \"%s\"",
-                  key, map.get(key), tempMap.get(key)));
+                  entry.getKey(), map.get(entry.getKey()), entry.getValue()));
          }
-         map.put(key, tempMap.get(key));
+         map.put(entry.getKey(), entry.getValue());
       }
    }
 }

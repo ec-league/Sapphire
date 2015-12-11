@@ -8,7 +8,7 @@ import com.sapphire.dto.DataJsonDto;
 import com.sapphire.dto.Dto;
 import com.sapphire.dto.JsonDto;
 import com.sapphire.dto.ListJsonDto;
-import com.sapphire.service.UserService;
+import com.sapphire.service.user.UserService;
 import com.sapphire.service.blog.BlogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/blog")
 public class BlogControllerImpl {
-   private static Logger logger = LoggerFactory
+   private static final Logger LOGGER = LoggerFactory
          .getLogger(BlogControllerImpl.class);
    @Autowired
    private BlogService blogService;
@@ -45,7 +45,7 @@ public class BlogControllerImpl {
     * @return
     */
    @RequestMapping("/{id}/list.ep")
-   public @ResponseBody JsonDto getBlogList(@PathVariable("id") long id) {
+   @ResponseBody public JsonDto getBlogList(@PathVariable("id") long id) {
       try {
          List<Blog> blogs = blogService.getBlogListByUserId(id);
          List<BlogItem> blogItems = new ArrayList<BlogItem>();
@@ -54,8 +54,7 @@ public class BlogControllerImpl {
          }
          return new ListJsonDto<BlogItem>(blogItems).formSuccessDto();
       } catch (Exception e) {
-         logger.error(e.getMessage());
-         e.printStackTrace();
+         LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
       }
    }
@@ -68,7 +67,7 @@ public class BlogControllerImpl {
     * @return
     */
    @RequestMapping("/{id}/get.ep")
-   public @ResponseBody JsonDto getBlog(@PathVariable("id") long id) {
+   @ResponseBody public JsonDto getBlog(@PathVariable("id") long id) {
       try {
          Blog blog = blogService.getBlogByUidPk(id);
          BlogDetail blogDetail = new BlogDetail(blog);
@@ -79,31 +78,29 @@ public class BlogControllerImpl {
          blogDetail.setComments(dtos);
          return new DataJsonDto<BlogDetail>(blogDetail).formSuccessDto();
       } catch (EntityNotFoundException e) {
-         logger.error(e.getMessage());
+         LOGGER.error(e.getMessage());
          return new JsonDto().formFailureDto(e);
       } catch (Exception e) {
-         logger.error(e.getMessage());
-         e.printStackTrace();
+         LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
       }
    }
 
    @RequestMapping("/{blogId}/save.ep")
-   public @ResponseBody JsonDto saveBlog(@PathVariable("blogId") long blogId,
+   @ResponseBody public JsonDto saveBlog(@PathVariable("blogId") long blogId,
          @RequestBody BlogDto blogDto) {
       try {
          Blog blog = getBlog(blogId, blogDto);
          blogService.saveBlog(blog);
          return new JsonDto().formSuccessDto();
       } catch (Exception e) {
-         logger.error(e.getMessage());
-         e.printStackTrace();
+         LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
       }
    }
 
    @RequestMapping("/{blogId}/publish.ep")
-   public @ResponseBody JsonDto publishBlog(
+   @ResponseBody public JsonDto publishBlog(
          @PathVariable("blogId") long blogId, @RequestBody BlogDto blogDto) {
       try {
          Blog blog = getBlog(blogId, blogDto);
@@ -111,8 +108,7 @@ public class BlogControllerImpl {
          blogService.saveBlog(blog);
          return new JsonDto().formSuccessDto();
       } catch (Exception e) {
-         logger.error(e.getMessage());
-         e.printStackTrace();
+         LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
       }
    }
@@ -195,18 +191,18 @@ public class BlogControllerImpl {
       private String content;
       private List<CommentDto> comments;
 
+      public BlogDetail(Blog blog) {
+         setBlogId(blog.getUidPk());
+         setTitle(blog.getBlogTitle());
+         setContent(blog.getBlogContent());
+      }
+
       public List<CommentDto> getComments() {
          return comments;
       }
 
       public void setComments(List<CommentDto> comments) {
          this.comments = comments;
-      }
-
-      public BlogDetail(Blog blog) {
-         setBlogId(blog.getUidPk());
-         setTitle(blog.getBlogTitle());
-         setContent(blog.getBlogContent());
       }
 
       public long getBlogId() {

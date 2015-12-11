@@ -9,11 +9,11 @@ public enum TicketStatus {
    BUG(0), FIXING(1), NEED_VERIFY_ON_TEST(2), NEED_VERIFY_ON_PRODUCT(3), FIXED(
          4);
 
+   private int status;
+
    TicketStatus(int status) {
       this.status = status;
    }
-
-   private int status;
 
    public static String getTicketStatus(int status) {
       TicketStatus ticketStatus;

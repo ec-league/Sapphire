@@ -1,9 +1,9 @@
-package com.sapphire.service.impl;
+package com.sapphire.service.user.impl;
 
 import com.sapphire.constant.RoleNameConstant;
 import com.sapphire.domain.Role;
 import com.sapphire.repository.RoleRepository;
-import com.sapphire.service.RoleService;
+import com.sapphire.service.user.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +18,17 @@ public class RoleServiceImpl implements RoleService {
    @Autowired
    private RoleRepository roleRepository;
 
+   @Override
    public Role getUserRole() {
       return roleRepository.getRoleByName(RoleNameConstant.USER_ROLE_NAME);
    }
 
+   @Override
    public Role getAdminRole() {
       return roleRepository.getRoleByName(RoleNameConstant.ADMIN_ROLE_NAME);
    }
 
+   @Override
    public Role getGuestRole() {
       return roleRepository.getRoleByName(RoleNameConstant.GUEST_ROLE_NAME);
    }

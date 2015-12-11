@@ -1,8 +1,8 @@
 package com.sapphire.domain;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -15,9 +15,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * Author: Ethan <br/>
@@ -67,22 +68,27 @@ public class User implements UserDetails {
       this.uidPk = uidPk;
    }
 
+   @Override
    public String getUsername() {
       return username;
    }
 
+   @Override
    public boolean isAccountNonExpired() {
       return true;
    }
 
+   @Override
    public boolean isAccountNonLocked() {
       return true;
    }
 
+   @Override
    public boolean isCredentialsNonExpired() {
       return true;
    }
 
+   @Override
    public boolean isEnabled() {
       return true;
    }
@@ -91,6 +97,7 @@ public class User implements UserDetails {
       this.username = username;
    }
 
+   @Override
    public Collection<? extends GrantedAuthority> getAuthorities() {
       List<SimpleGrantedAuthority> auths =
             new ArrayList<SimpleGrantedAuthority>();
@@ -100,6 +107,7 @@ public class User implements UserDetails {
       return auths;
    }
 
+   @Override
    public String getPassword() {
       return password;
    }

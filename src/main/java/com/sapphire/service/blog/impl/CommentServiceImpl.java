@@ -18,18 +18,22 @@ public class CommentServiceImpl implements CommentService {
    @Autowired
    private CommentRepository commentRepository;
 
+   @Override
    public long addComment(Comment comment) {
       return commentRepository.save(comment).getUidPk();
    }
 
+   @Override
    public long saveComment(Comment comment) {
       return commentRepository.save(comment).getUidPk();
    }
 
+   @Override
    public void deleteComment(long id) {
       commentRepository.delete(id);
    }
 
+   @Override
    public List<Comment> getCommentsByUserId(long userId) {
       return commentRepository.getAllCommentsByUserId(userId);
    }

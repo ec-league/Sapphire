@@ -11,4 +11,7 @@ public class JsonDtoFlag {
 
    public static final int FAILURE_CODE = 500;
    public static final String FAILURE_MESSAGE = "FAILURE";
+
+   private JsonDtoFlag() {
+   }
 }

@@ -1,18 +1,8 @@
 package com.sapphire.controller.manage.impl;
 
-import com.sapphire.common.TimeUtil;
-import com.sapphire.constant.TicketPriority;
-import com.sapphire.constant.TicketStatus;
-import com.sapphire.constant.TicketType;
-import com.sapphire.domain.User;
-import com.sapphire.domain.manage.Project;
-import com.sapphire.domain.manage.Ticket;
-import com.sapphire.dto.Dto;
-import com.sapphire.dto.JsonDto;
-import com.sapphire.dto.ListJsonDto;
-import com.sapphire.service.UserService;
-import com.sapphire.service.manager.ProjectService;
-import com.sapphire.service.manager.TicketService;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +13,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.sapphire.common.TimeUtil;
+import com.sapphire.constant.TicketPriority;
+import com.sapphire.constant.TicketStatus;
+import com.sapphire.constant.TicketType;
+import com.sapphire.domain.User;
+import com.sapphire.domain.manage.Project;
+import com.sapphire.domain.manage.Ticket;
+import com.sapphire.dto.Dto;
+import com.sapphire.dto.JsonDto;
+import com.sapphire.dto.ListJsonDto;
+import com.sapphire.service.manager.ProjectService;
+import com.sapphire.service.manager.TicketService;
+import com.sapphire.service.user.UserService;
 
 /**
  * Author: EthanPark <br/>
@@ -34,7 +35,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/rest/manage")
 public class ManageJsonControllerImpl {
-   private static Logger logger = LoggerFactory
+   private static final Logger LOGGER = LoggerFactory
          .getLogger(ManageJsonControllerImpl.class);
 
    @Autowired
@@ -45,25 +46,27 @@ public class ManageJsonControllerImpl {
    private UserService userService;
 
    @RequestMapping("/project/save.ep")
-   public @ResponseBody JsonDto saveProject(@RequestBody ProjectDto projectDto) {
+   @ResponseBody
+   public JsonDto saveProject(@RequestBody ProjectDto projectDto) {
       try {
          Project project = convertProjectDto(projectDto);
          projectService.saveProject(project);
          return new JsonDto().formSuccessDto();
       } catch (Exception e) {
-         logger.error(e.getMessage());
-         e.printStackTrace();
+         LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
       }
    }
 
    @RequestMapping("/project/list.ep")
-   public @ResponseBody JsonDto getAllProjects() {
+   @ResponseBody
+   public JsonDto getAllProjects() {
       return new JsonDto().formSuccessDto();
    }
 
    @RequestMapping("/project/snapshots/list.ep")
-   public @ResponseBody JsonDto getAllProjectSnapshots() {
+   @ResponseBody
+   public JsonDto getAllProjectSnapshots() {
       try {
          List<Project> projects = projectService.getAllProjects();
          List<ProjectSnapshotDto> dtos = new ArrayList<ProjectSnapshotDto>();
@@ -72,14 +75,14 @@ public class ManageJsonControllerImpl {
          }
          return new ListJsonDto<ProjectSnapshotDto>(dtos).formSuccessDto();
       } catch (Exception e) {
-         logger.error(e.getMessage());
-         e.printStackTrace();
+         LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
       }
    }
 
    @RequestMapping("/user/snapshots/list.ep")
-   public @ResponseBody JsonDto getAllUserSnapshots() {
+   @ResponseBody
+   public JsonDto getAllUserSnapshots() {
       try {
          List<User> users = userService.getUsers();
          List<UserSnapshotDto> dtos = new ArrayList<UserSnapshotDto>();
@@ -88,14 +91,14 @@ public class ManageJsonControllerImpl {
          }
          return new ListJsonDto<UserSnapshotDto>(dtos).formSuccessDto();
       } catch (Exception e) {
-         logger.error(e.getMessage());
-         e.printStackTrace();
+         LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
       }
    }
 
    @RequestMapping("/ticket/getByUser.ep")
-   public @ResponseBody JsonDto getTicketsByUserId() {
+   @ResponseBody
+   public JsonDto getTicketsByUserId() {
       try {
          User u =
                (User) SecurityContextHolder.getContext().getAuthentication()
@@ -107,14 +110,14 @@ public class ManageJsonControllerImpl {
          }
          return new ListJsonDto<TicketItemDto>(dtos).formSuccessDto();
       } catch (Exception e) {
-         logger.error(e.getMessage());
-         e.printStackTrace();
+         LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
       }
    }
 
    @RequestMapping("/ticket/{projectId}/getByProject.ep")
-   public @ResponseBody JsonDto getTicketsByProjectId(
+   @ResponseBody
+   public JsonDto getTicketsByProjectId(
          @PathVariable("projectId") long projectId) {
       try {
          List<TicketItemDto> dtos = new ArrayList<TicketItemDto>();
@@ -123,14 +126,14 @@ public class ManageJsonControllerImpl {
          }
          return new ListJsonDto<TicketItemDto>(dtos).formSuccessDto();
       } catch (Exception e) {
-         logger.error(e.getMessage());
-         e.printStackTrace();
+         LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
       }
    }
 
    @RequestMapping("/ticket/save.ep")
-   public @ResponseBody JsonDto saveTicket(@RequestBody TicketDto ticketDto) {
+   @ResponseBody
+   public JsonDto saveTicket(@RequestBody TicketDto ticketDto) {
       try {
          User user =
                (User) SecurityContextHolder.getContext().getAuthentication()
@@ -141,8 +144,7 @@ public class ManageJsonControllerImpl {
          ticketService.saveTicket(ticket);
          return new JsonDto().formSuccessDto();
       } catch (Exception e) {
-         logger.error(e.getMessage());
-         e.printStackTrace();
+         LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
       }
    }
@@ -202,7 +204,7 @@ public class ManageJsonControllerImpl {
 
    private static class ProjectSnapshotDto implements Dto {
       private long projectId;
-      private String Title;
+      private String title;
 
       public ProjectSnapshotDto(Project project) {
          setTitle(project.getTitle());
@@ -218,11 +220,11 @@ public class ManageJsonControllerImpl {
       }
 
       public String getTitle() {
-         return Title;
+         return title;
       }
 
       public void setTitle(String title) {
-         Title = title;
+         this.title = title;
       }
    }
 
@@ -273,7 +275,7 @@ public class ManageJsonControllerImpl {
       ticket.setTitle(ticketDto.getTitle());
       ticket.setTicketType(TicketType.toTicketType(ticketDto.getTicketType()));
       ticket.setTicketPriority(ticketDto.getActualPriority());
-      if (ticketDto.getDeadline() == null || ticketDto.getDeadline().equals("")) {
+      if (ticketDto.getDeadline() == null || "".equals(ticketDto.getDeadline())) {
          return ticket;
       }
       ticket.setEndTime(TimeUtil.fromString(ticketDto.getDeadline()));

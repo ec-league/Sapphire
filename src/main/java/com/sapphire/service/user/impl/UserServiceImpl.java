@@ -1,10 +1,10 @@
-package com.sapphire.service.impl;
+package com.sapphire.service.user.impl;
 
 import com.sapphire.domain.User;
 import com.sapphire.dto.user.UserDto;
 import com.sapphire.repository.UserRepository;
-import com.sapphire.service.RoleService;
-import com.sapphire.service.UserService;
+import com.sapphire.service.user.RoleService;
+import com.sapphire.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService {
    @Autowired
    private RoleService roleService;
 
+   @Override
    public long saveOrMerge(UserDto user) {
       User repo = convertDtoToDomain(user);
       if (userRepository.findUserByUsernameOrEmail(user.getUsername(),
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService {
       return userRepository.save(repo).getUidPk();
    }
 
+   @Override
    public long createUser(UserDto user) {
       User repo = convertDtoToDomain(user);
       if (userRepository.findUserByUsernameOrEmail(user.getUsername(),
@@ -49,6 +51,7 @@ public class UserServiceImpl implements UserService {
       return userRepository.save(repo).getUidPk();
    }
 
+   @Override
    public long updateUserInfo(UserDto user) {
       User repo =
             userRepository.findUserByUsernameOrEmail(user.getUsername(),
@@ -63,7 +66,7 @@ public class UserServiceImpl implements UserService {
       return userRepository.save(repo).getUidPk();
    }
 
-   private User convertDtoToDomain(UserDto user) {
+   private static User convertDtoToDomain(UserDto user) {
       User u = new User();
       u.setUidPk(user.getUserId());
       u.setUsername(user.getUsername());
@@ -72,6 +75,7 @@ public class UserServiceImpl implements UserService {
       return u;
    }
 
+   @Override
    public User getUserByUserNameOrEmail(String val) {
       User u = userRepository.findUserByUsernameOrEmail(val, val);
       if (u == null) {
@@ -81,6 +85,7 @@ public class UserServiceImpl implements UserService {
       return u;
    }
 
+   @Override
    public User getUserById(long id) {
       User u = userRepository.findOne(id);
       if (u == null) {
@@ -89,6 +94,7 @@ public class UserServiceImpl implements UserService {
       return u;
    }
 
+   @Override
    public boolean authenticateUser(String username, String password) {
       User u = userRepository.findUserByUsernameOrEmail(username, username);
       if (u == null) {
@@ -99,9 +105,10 @@ public class UserServiceImpl implements UserService {
       return u.getPassword().equals(password);
    }
 
+   @Override
    public List<User> getUsers() {
       List<User> users = userRepository.getAllUsers();
-      if (users == null || users.size() == 0) {
+      if (users == null || users.isEmpty()) {
          return Collections.emptyList();
       }
       return users;

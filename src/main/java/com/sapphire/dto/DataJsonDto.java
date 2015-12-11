@@ -5,7 +5,7 @@ package com.sapphire.dto;
  * Date: 2015/11/20<br/>
  * Email: byp5303628@hotmail.com
  */
-public class DataJsonDto<T> extends JsonDto {
+public class DataJsonDto<T extends Dto> extends JsonDto {
    private T data;
 
    public DataJsonDto(T data) {

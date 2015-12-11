@@ -1,4 +1,4 @@
-package com.sapphire.service;
+package com.sapphire.service.user;
 
 import com.sapphire.domain.Role;
 

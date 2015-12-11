@@ -1,13 +1,5 @@
 package com.sapphire.controller.blog.impl;
 
-import com.sapphire.common.TimeUtil;
-import com.sapphire.domain.blog.Comment;
-import com.sapphire.dto.DataJsonDto;
-import com.sapphire.dto.Dto;
-import com.sapphire.dto.JsonDto;
-import com.sapphire.service.UserService;
-import com.sapphire.service.blog.BlogService;
-import com.sapphire.service.blog.CommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +9,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import com.sapphire.common.TimeUtil;
+import com.sapphire.domain.blog.Comment;
+import com.sapphire.dto.Dto;
+import com.sapphire.dto.JsonDto;
+import com.sapphire.service.blog.BlogService;
+import com.sapphire.service.blog.CommentService;
+import com.sapphire.service.user.UserService;
 
 /**
  * Author: EthanPark <br/>
@@ -28,7 +26,7 @@ import java.util.List;
 @RequestMapping("/comment")
 public class CommentControllerImpl {
 
-   private static Logger logger = LoggerFactory
+   private static final Logger LOGGER = LoggerFactory
          .getLogger(CommentControllerImpl.class);
 
    @Autowired
@@ -38,50 +36,49 @@ public class CommentControllerImpl {
    @Autowired
    private UserService userService;
 
-   @RequestMapping("/{userId}/list.ep")
-   public @ResponseBody JsonDto getUserComments(
-         @PathVariable("userId") long userId) {
-      List<Comment> commentList = commentService.getCommentsByUserId(userId);
-      return new DataJsonDto<List<Comment>>(commentList).formSuccessDto();
+   @RequestMapping("/list.ep")
+   @ResponseBody
+   public JsonDto getUserComments() {
+      return null;
    }
 
    @RequestMapping("/add.ep")
-   public @ResponseBody JsonDto addComment(@RequestBody CommentDto commentDto) {
+   @ResponseBody
+   public JsonDto addComment(@RequestBody CommentDto commentDto) {
       try {
-         logger.info("Add comment for blog!");
+         LOGGER.info("Add comment for blog!");
          Comment comment = convertDtoToDomain(commentDto);
          commentService.addComment(comment);
          return new JsonDto().formSuccessDto();
       } catch (Exception e) {
-         logger.error(e.getMessage());
-         e.printStackTrace();
+         LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
       }
    }
 
    @RequestMapping("/save.ep")
-   public @ResponseBody JsonDto saveComment(@RequestBody CommentDto commentDto) {
+   @ResponseBody
+   public JsonDto saveComment(@RequestBody CommentDto commentDto) {
       try {
-         logger.info("Edit comment for blog!");
+         LOGGER.info("Edit comment for blog!");
          Comment comment = convertDtoToDomain(commentDto);
          commentService.saveComment(comment);
          return new JsonDto().formSuccessDto();
       } catch (Exception e) {
-         logger.error(e.getMessage());
-         e.printStackTrace();
+         LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
       }
    }
 
    @RequestMapping("/{id}/delete.ep")
-   public @ResponseBody JsonDto deleteComment(@PathVariable("id") long id) {
+   @ResponseBody
+   public JsonDto deleteComment(@PathVariable("id") long id) {
       try {
-         logger.info("Delete comment for blog!");
+         LOGGER.info("Delete comment for blog!");
          commentService.deleteComment(id);
          return new JsonDto().formSuccessDto();
       } catch (Exception e) {
-         logger.error(e.getMessage());
-         e.printStackTrace();
+         LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
       }
    }

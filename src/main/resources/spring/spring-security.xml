@@ -24,8 +24,7 @@
         <form-login login-page="/login.html" authentication-failure-url="/403.html"
                     default-target-url="/manage/dashboard.html"
                     always-use-default-target="true"/>
-        <logout/>
-        <logout logout-success-url="/login"/>
+        <logout logout-success-url="/login.html"/>
         <!--<csrf/>-->
     </http>
 
