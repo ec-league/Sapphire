@@ -23,15 +23,5 @@ public class ReminderEmailTask extends QuartzJobBean {
    protected void executeInternal(JobExecutionContext context)
          throws JobExecutionException {
       LOGGER.info("Execute reminder email task");
-      UserService userService;
-      try {
-         userService =
-               (UserService) context.getScheduler().getContext()
-                     .get("userService");
-      } catch (SchedulerException e) {
-         throw new JobExecutionException(e);
-      }
-      User user = userService.getUserById(1);
-      LOGGER.info("User info : " + user.getUsername());
    }
 }

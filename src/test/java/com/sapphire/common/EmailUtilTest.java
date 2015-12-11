@@ -15,4 +15,6 @@ public class EmailUtilTest {
             .setEmail("136689664@qq.com").setContent("Ethan is God")
             .setTitle("Ethan"));
    }
+
+
 }
