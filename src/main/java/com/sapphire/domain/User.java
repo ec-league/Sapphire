@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -50,6 +51,7 @@ public class User implements UserDetails {
    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST,
          CascadeType.MERGE, CascadeType.REFRESH })
    @JoinColumn(name = "ROLE_UID")
+   @Transient
    private Role role;
 
    public Role getRole() {
@@ -68,27 +70,22 @@ public class User implements UserDetails {
       this.uidPk = uidPk;
    }
 
-   @Override
    public String getUsername() {
       return username;
    }
 
-   @Override
    public boolean isAccountNonExpired() {
       return true;
    }
 
-   @Override
    public boolean isAccountNonLocked() {
       return true;
    }
 
-   @Override
    public boolean isCredentialsNonExpired() {
       return true;
    }
 
-   @Override
    public boolean isEnabled() {
       return true;
    }
@@ -97,17 +94,15 @@ public class User implements UserDetails {
       this.username = username;
    }
 
-   @Override
    public Collection<? extends GrantedAuthority> getAuthorities() {
-      List<SimpleGrantedAuthority> auths =
+      List<SimpleGrantedAuthority> authorities =
             new ArrayList<SimpleGrantedAuthority>();
       SimpleGrantedAuthority sim =
             new SimpleGrantedAuthority(this.getRole().getRoleName());
-      auths.add(sim);
-      return auths;
+      authorities.add(sim);
+      return authorities;
    }
 
-   @Override
    public String getPassword() {
       return password;
    }

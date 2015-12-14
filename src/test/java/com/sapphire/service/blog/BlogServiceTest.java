@@ -38,11 +38,18 @@ public class BlogServiceTest extends AbstractTestNGSpringContextTests {
       Blog testBlog = blogService.getBlogByUidPk(blogId);
 
       Assert.assertEquals(testBlog.getBlogContent(), blog.getBlogContent());
-      Assert.assertEquals(testBlog.getBlogTitle(), blog.getBlogContent());
+      Assert.assertEquals(testBlog.getBlogTitle(), blog.getBlogTitle());
 
       List<Blog> blogList = blogService.getBlogListByUserId(blog.getUser().getUidPk());
       Assert.assertFalse(blogList.isEmpty());
-      Assert.assertTrue(blogList.contains(testBlog));
+      boolean hasBlog = false;
+      for (Blog b : blogList) {
+         if (b.getUidPk() == testBlog.getUidPk()) {
+            hasBlog = true;
+            break;
+         }
+      }
+      Assert.assertTrue(hasBlog);
 
       Assert.assertTrue(blogService.getCommentsByBlogId(blogId).isEmpty());
    }

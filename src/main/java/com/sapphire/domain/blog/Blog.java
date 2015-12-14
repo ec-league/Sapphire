@@ -1,7 +1,6 @@
 package com.sapphire.domain.blog;
 
-import com.sapphire.constant.BlogStatus;
-import com.sapphire.domain.User;
+import java.sql.Timestamp;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -16,7 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.sql.Timestamp;
+
+import com.sapphire.constant.BlogStatus;
+import com.sapphire.domain.User;
 
 /**
  * Author: Ethan <br/>
@@ -55,14 +56,14 @@ public class Blog {
 
    @Basic
    @Column(name = "BLOG_STATUS")
-   private BlogStatus blogStatus;
+   private int blogStatus;
 
    public BlogStatus getBlogStatus() {
-      return blogStatus;
+      return BlogStatus.parse(blogStatus);
    }
 
    public void setBlogStatus(BlogStatus blogStatus) {
-      this.blogStatus = blogStatus;
+      this.blogStatus = blogStatus.getCode();
    }
 
    public long getUidPk() {

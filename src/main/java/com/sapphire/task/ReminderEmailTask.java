@@ -2,13 +2,9 @@ package com.sapphire.task;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
-
-import com.sapphire.domain.User;
-import com.sapphire.service.user.UserService;
 
 /**
  * Author: EthanPark <br/>
