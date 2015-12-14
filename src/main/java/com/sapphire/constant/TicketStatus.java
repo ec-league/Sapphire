@@ -39,4 +39,8 @@ public enum TicketStatus {
       }
       return ticketStatus.toString();
    }
+
+   public int getStatus() {
+      return status;
+   }
 }

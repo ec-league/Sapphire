@@ -1,10 +1,11 @@
 package com.sapphire.common;
 
-import com.sapphire.common.exception.DateParseException;
+import java.sql.Timestamp;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.sql.Timestamp;
+import com.sapphire.common.exception.DateParseException;
 
 
 /**
@@ -22,5 +23,11 @@ public class TimeUtilTest {
       String test = "1990-4-13 1:5:5";
 
       TimeUtil.fromString(test);
+   }
+
+   @Test
+   public void testNormal() {
+      String test = "1991-5-17 20:22:59";
+      Timestamp timestamp = TimeUtil.fromString(test);
    }
 }

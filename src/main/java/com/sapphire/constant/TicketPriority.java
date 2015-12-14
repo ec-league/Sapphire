@@ -28,4 +28,23 @@ public enum TicketPriority {
                "Unknown priority : \"%s\".", pr));
       }
    }
+
+   public static TicketPriority toTicketPriority(int code) {
+      if (code == 0) {
+         return P0;
+      } else if (code == 1) {
+         return P1;
+      } else if (code == 2) {
+         return P2;
+      } else if (code == 3) {
+         return P3;
+      } else {
+         throw new IllegalArgumentException(String.format(
+               "Unknown priority code : \"%d\".", code));
+      }
+   }
+
+   public int getCode() {
+      return code;
+   }
 }

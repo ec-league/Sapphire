@@ -3,11 +3,7 @@ package com.sapphire.common;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,13 +86,17 @@ public class PropertyManager {
 
    private static List<File> getPropertyFiles(String path) {
       File dir = new File(path);
-      List<File> files = new ArrayList<File>();
+      List<File> fileList = new ArrayList<File>();
+      File[] files = dir.listFiles();
+      if (files == null) {
+         return Collections.emptyList();
+      }
       for (File file : dir.listFiles()) {
          if (file.getName().matches("sapphire_.+.properties")) {
-            files.add(file);
+            fileList.add(file);
          }
       }
-      return files;
+      return fileList;
    }
 
    private static void updateMap(Map<String, String> tempMap) {

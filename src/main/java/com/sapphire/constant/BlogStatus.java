@@ -18,7 +18,7 @@ public enum BlogStatus {
       return code;
    }
 
-   public static BlogStatus parse(int code) {
+   public static BlogStatus toBlogStatus(int code) {
       if (code == 0) {
          return BlogStatus.UN_PUBLISHED;
       } else if (code == 1) {

@@ -1,0 +1,35 @@
+package com.sapphire.constant;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+/**
+ * Author: EthanPark <br/>
+ * Date: 2015/12/14<br/>
+ * Email: byp5303628@hotmail.com
+ */
+public class TicketPriorityTest {
+   @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Unknown priority : \".*\".")
+   public void testBasicString() {
+      Assert.assertEquals(TicketPriority.P3.getCode(), 3);
+      Assert.assertEquals(TicketPriority.P0.getCode(), 0);
+      Assert.assertEquals(TicketPriority.toTicketPriority("p0"),
+            TicketPriority.P0);
+      Assert.assertEquals(TicketPriority.toTicketPriority("p1"),
+            TicketPriority.P1);
+      Assert.assertEquals(TicketPriority.toTicketPriority("p2"),
+            TicketPriority.P2);
+      Assert.assertEquals(TicketPriority.toTicketPriority("p3"),
+            TicketPriority.P3);
+      TicketPriority.toTicketPriority("Unknown");
+   }
+
+   @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Unknown priority code : \".*\".")
+   public void testBasicCode() {
+      Assert.assertEquals(TicketPriority.toTicketPriority(0), TicketPriority.P0);
+      Assert.assertEquals(TicketPriority.toTicketPriority(1), TicketPriority.P1);
+      Assert.assertEquals(TicketPriority.toTicketPriority(2), TicketPriority.P2);
+      Assert.assertEquals(TicketPriority.toTicketPriority(3), TicketPriority.P3);
+      TicketPriority.toTicketPriority(5);
+   }
+}
