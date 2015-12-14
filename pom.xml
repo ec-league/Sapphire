@@ -165,6 +165,7 @@
                     <formats>
                         <format>xml</format>
                     </formats>
+                    <check/>
                 </configuration>
             </plugin>
         </plugins>

@@ -14,7 +14,7 @@ public enum TicketType {
       this.code = code;
    }
 
-   public int toCode() {
+   public int getCode() {
       return code;
    }
 
@@ -26,6 +26,17 @@ public enum TicketType {
       } else {
          throw new IllegalArgumentException(String.format(
                "Ticket Type illegal : \"%s\".", tt));
+      }
+   }
+
+   public static TicketType toTicketType(int code) {
+      if (code == 0) {
+         return BUG;
+      } else if (code == 1) {
+         return REQUEST;
+      } else {
+         throw new IllegalArgumentException(String.format(
+               "Ticket Code illegal : \"%d\".", code));
       }
    }
 }

@@ -30,9 +30,6 @@ public class PropertyManager {
          .getLogger(PropertyManager.class);
    private static Map<String, String> map = new HashMap<String, String>();
 
-   private PropertyManager() {
-   }
-
    public static void load(Class c) {
       synchronized (map) {
          initFromResource(c);

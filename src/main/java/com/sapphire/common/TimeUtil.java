@@ -17,9 +17,6 @@ import com.sapphire.common.exception.DateParseException;
 public class TimeUtil {
    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-   private TimeUtil() {
-   }
-
    public static String formatTime(Date date) {
       SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
       return sdf.format(date);

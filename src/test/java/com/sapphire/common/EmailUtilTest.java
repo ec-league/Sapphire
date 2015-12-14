@@ -1,7 +1,13 @@
 package com.sapphire.common;
 
 import org.apache.commons.mail.EmailException;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.yaml.snakeyaml.constructor.Construct;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 /**
  * Author: EthanPark <br/>
@@ -15,6 +21,4 @@ public class EmailUtilTest {
             .setEmail("136689664@qq.com").setContent("Ethan is God")
             .setTitle("Ethan"));
    }
-
-
 }

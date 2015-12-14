@@ -74,18 +74,18 @@ public class Ticket {
 
    @Basic
    @Column(name = "TICKET_TYPE")
-   private TicketType ticketType;
+   private int ticketType;
 
    @Basic
    @Column(name = "PRIORITY")
    private TicketPriority ticketPriority;
 
    public TicketType getTicketType() {
-      return ticketType;
+      return TicketType.toTicketType(ticketType);
    }
 
    public void setTicketType(TicketType ticketType) {
-      this.ticketType = ticketType;
+      this.ticketType = ticketType.getCode();
    }
 
    public TicketPriority getTicketPriority() {
