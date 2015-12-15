@@ -25,20 +25,6 @@ public class UserServiceImpl implements UserService {
    @Autowired
    private RoleService roleService;
 
-   @Override
-   public long saveOrMerge(UserDto user) {
-      User repo = convertDtoToDomain(user);
-      if (userRepository.findUserByUsernameOrEmail(user.getUsername(),
-            user.getEmail()) != null) {
-         throw new EntityExistsException(String.format(
-               "Username : \"%sEmail : \"%s\" already exists.",
-               user.getUsername(), user.getEmail()));
-      }
-      repo.setRole(roleService.getUserRole());
-      return userRepository.save(repo).getUidPk();
-   }
-
-   @Override
    public long createUser(UserDto user) {
       User repo = convertDtoToDomain(user);
       if (userRepository.findUserByUsernameOrEmail(user.getUsername(),
@@ -51,7 +37,6 @@ public class UserServiceImpl implements UserService {
       return userRepository.save(repo).getUidPk();
    }
 
-   @Override
    public long updateUserInfo(UserDto user) {
       User repo =
             userRepository.findUserByUsernameOrEmail(user.getUsername(),
@@ -75,7 +60,6 @@ public class UserServiceImpl implements UserService {
       return u;
    }
 
-   @Override
    public User getUserByUserNameOrEmail(String val) {
       User u = userRepository.findUserByUsernameOrEmail(val, val);
       if (u == null) {
@@ -85,7 +69,6 @@ public class UserServiceImpl implements UserService {
       return u;
    }
 
-   @Override
    public User getUserById(long id) {
       User u = userRepository.findOne(id);
       if (u == null) {
@@ -94,7 +77,6 @@ public class UserServiceImpl implements UserService {
       return u;
    }
 
-   @Override
    public boolean authenticateUser(String username, String password) {
       User u = userRepository.findUserByUsernameOrEmail(username, username);
       if (u == null) {
@@ -105,7 +87,6 @@ public class UserServiceImpl implements UserService {
       return u.getPassword().equals(password);
    }
 
-   @Override
    public List<User> getUsers() {
       List<User> users = userRepository.getAllUsers();
       if (users == null || users.isEmpty()) {

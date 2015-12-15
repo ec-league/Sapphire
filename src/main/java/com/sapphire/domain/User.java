@@ -51,7 +51,6 @@ public class User implements UserDetails {
    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST,
          CascadeType.MERGE, CascadeType.REFRESH })
    @JoinColumn(name = "ROLE_UID")
-   @Transient
    private Role role;
 
    public Role getRole() {

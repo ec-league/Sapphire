@@ -48,7 +48,7 @@ public class CommentControllerImpl {
       try {
          LOGGER.info("Add comment for blog!");
          Comment comment = convertDtoToDomain(commentDto);
-         commentService.addComment(comment);
+         commentService.saveComment(comment);
          return new JsonDto().formSuccessDto();
       } catch (Exception e) {
          LOGGER.error(e.getMessage(), e);

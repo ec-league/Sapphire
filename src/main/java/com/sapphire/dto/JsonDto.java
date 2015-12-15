@@ -28,20 +28,9 @@ public class JsonDto implements Dto {
       this.returnMessage = returnMessage;
    }
 
-   public JsonDto withReturnMessage(String returnMessage) {
-      this.returnMessage = returnMessage;
-      return this;
-   }
-
    public JsonDto formSuccessDto() {
       this.returnCode = JsonDtoFlag.SUCCESS_CODE;
       this.returnMessage = JsonDtoFlag.SUCCESS_MESSAGE;
-      return this;
-   }
-
-   public JsonDto formFailureDto() {
-      this.returnCode = JsonDtoFlag.FAILURE_CODE;
-      this.returnMessage = JsonDtoFlag.FAILURE_MESSAGE;
       return this;
    }
 

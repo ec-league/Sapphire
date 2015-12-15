@@ -24,7 +24,6 @@ public class BlogServiceImpl implements BlogService {
    @Autowired
    private CommentRepository commentRepository;
 
-   @Override
    public List<Blog> getBlogListByUserId(long userId) {
       List<Blog> blogs = blogRepository.getAllBlogsByUserId(userId);
       if (blogs == null || blogs.isEmpty()) {
@@ -33,7 +32,6 @@ public class BlogServiceImpl implements BlogService {
       return blogs;
    }
 
-   @Override
    public Blog getBlogByUidPk(long uidPk) {
       Blog blog = blogRepository.findOne(uidPk);
       if (blog == null) {
@@ -43,12 +41,10 @@ public class BlogServiceImpl implements BlogService {
       return blogRepository.findOne(uidPk);
    }
 
-   @Override
    public long saveBlog(Blog blog) {
       return blogRepository.save(blog).getUidPk();
    }
 
-   @Override
    public List<Comment> getCommentsByBlogId(long blogId) {
       List<Comment> comments = commentRepository.getAllCommentsByBlogId(blogId);
       if (comments == null || comments.isEmpty()) {

@@ -10,8 +10,6 @@ import java.util.List;
  * Email: byp5303628@hotmail.com
  */
 public interface CommentService {
-   long addComment(Comment comment);
-
    long saveComment(Comment comment);
 
    void deleteComment(long id);

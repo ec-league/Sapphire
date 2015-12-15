@@ -11,8 +11,6 @@ import java.util.List;
  * Email: byp5303628@hotmail.com
  */
 public interface UserService {
-   long saveOrMerge(UserDto user);
-
    long createUser(UserDto user);
 
    long updateUserInfo(UserDto user);

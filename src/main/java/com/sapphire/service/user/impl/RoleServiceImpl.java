@@ -14,21 +14,17 @@ import org.springframework.stereotype.Service;
  */
 @Service("roleService")
 public class RoleServiceImpl implements RoleService {
-
    @Autowired
    private RoleRepository roleRepository;
 
-   @Override
    public Role getUserRole() {
       return roleRepository.getRoleByName(RoleNameConstant.USER_ROLE_NAME);
    }
 
-   @Override
    public Role getAdminRole() {
       return roleRepository.getRoleByName(RoleNameConstant.ADMIN_ROLE_NAME);
    }
 
-   @Override
    public Role getGuestRole() {
       return roleRepository.getRoleByName(RoleNameConstant.GUEST_ROLE_NAME);
    }
