@@ -20,16 +20,22 @@ public class TicketServiceImpl implements TicketService {
    @Autowired
    private TicketRepository ticketRepository;
 
-   @Override
-   public List<Ticket> getTicketsByUserId(long userId) {
-      List<Ticket> tickets = ticketRepository.getTicketsByUserId(userId);
+   public List<Ticket> getTicketsByReportUserId(long userId) {
+      List<Ticket> tickets = ticketRepository.getTicketsByReportUserId(userId);
       if (tickets == null || tickets.isEmpty()) {
          return Collections.emptyList();
       }
       return tickets;
    }
 
-   @Override
+   public List<Ticket> getTicketsByAssignUserId(long userId) {
+      List<Ticket> tickets = ticketRepository.getTicketsByAssignUserId(userId);
+      if (tickets == null || tickets.isEmpty()) {
+         return Collections.emptyList();
+      }
+      return tickets;
+   }
+
    public List<Ticket> getTicketsByProjectId(long projectId) {
       List<Ticket> tickets = ticketRepository.getTicketsByProjectId(projectId);
       if (tickets == null || tickets.isEmpty()) {
@@ -38,12 +44,10 @@ public class TicketServiceImpl implements TicketService {
       return tickets;
    }
 
-   @Override
    public long saveTicket(Ticket ticket) {
       return ticketRepository.save(ticket).getUidPk();
    }
 
-   @Override
    public Ticket getTicketById(long uidPk) {
       Ticket ticket = ticketRepository.findOne(uidPk);
       if (ticket == null) {

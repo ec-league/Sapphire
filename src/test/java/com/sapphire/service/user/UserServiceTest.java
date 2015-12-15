@@ -4,12 +4,13 @@ import com.sapphire.domain.User;
 import com.sapphire.dto.user.UserDto;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 
 /**
  * Author: EthanPark <br/>
@@ -17,13 +18,11 @@ import org.testng.annotations.Test;
  * Email: byp5303628@hotmail.com
  */
 @ContextConfiguration(locations = { "classpath:spring/applicationContext.xml" })
-@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class UserServiceTest extends AbstractTestNGSpringContextTests {
    @Autowired
    private UserService userService;
 
    @Test
-   @Rollback
    public void test() {
       UserDto dto = new UserDto();
       String username = RandomStringUtils.randomAlphabetic(10);
@@ -55,5 +54,48 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 
       Assert.assertEquals(newPassword, testUser.getPassword());
       Assert.assertFalse(userService.getUsers().isEmpty());
+   }
+
+   @Test(expectedExceptions = EntityExistsException.class)
+   public void testAbnormal() {
+      UserDto dto = new UserDto();
+      String username = RandomStringUtils.randomAlphabetic(10);
+      String password = RandomStringUtils.randomAlphabetic(10);
+      String email =
+            String.format("%s@%s", RandomStringUtils.randomAlphanumeric(5),
+                  RandomStringUtils.randomAlphanumeric(5));
+      dto.setUsername(username);
+      dto.setPassword(password);
+      dto.setEmail(email);
+      userService.createUser(dto);
+      dto.setUsername(RandomStringUtils.randomAlphabetic(11));
+      userService.createUser(dto);
+   }
+
+   @Test(expectedExceptions = EntityNotFoundException.class)
+   public void testAbnormal2() {
+      UserDto dto = new UserDto();
+      String username = RandomStringUtils.randomAlphabetic(10);
+      String password = RandomStringUtils.randomAlphabetic(10);
+      String email =
+            String.format("%s@%s", RandomStringUtils.randomAlphanumeric(5),
+                  RandomStringUtils.randomAlphanumeric(5));
+      dto.setUsername(username);
+      dto.setPassword(password);
+      dto.setEmail(email);
+      userService.updateUserInfo(dto);
+   }
+
+   @Test(expectedExceptions = EntityNotFoundException.class)
+   public void testAbnormal3() {
+      userService.getUserByUserNameOrEmail(RandomStringUtils
+            .randomAlphanumeric(15));
+   }
+
+   @Test
+   public void testAbnormal4() {
+      Assert.assertFalse(userService.authenticateUser(
+            RandomStringUtils.randomAlphabetic(11),
+            RandomStringUtils.randomAlphabetic(12)));
    }
 }

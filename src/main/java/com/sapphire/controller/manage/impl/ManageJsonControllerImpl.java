@@ -105,7 +105,7 @@ public class ManageJsonControllerImpl {
                      .getPrincipal();
 
          List<TicketItemDto> dtos = new ArrayList<TicketItemDto>();
-         for (Ticket ticket : ticketService.getTicketsByUserId(u.getUidPk())) {
+         for (Ticket ticket : ticketService.getTicketsByReportUserId(u.getUidPk())) {
             dtos.add(new TicketItemDto(ticket));
          }
          return new ListJsonDto<TicketItemDto>(dtos).formSuccessDto();

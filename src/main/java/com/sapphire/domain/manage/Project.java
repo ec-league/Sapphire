@@ -1,5 +1,7 @@
 package com.sapphire.domain.manage;
 
+import com.sapphire.common.TimeUtil;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,7 +34,7 @@ public class Project {
 
    @Basic
    @Column(name = "DESCRIPTION")
-   private String description;
+   private String description = "";
 
    @Basic
    @Column(name = "REPO_URL")
@@ -40,11 +42,11 @@ public class Project {
 
    @Temporal(TemporalType.TIMESTAMP)
    @Column(name = "CREATE_TIME")
-   private Timestamp createTime;
+   private Timestamp createTime = TimeUtil.now();
 
    @Temporal(TemporalType.TIMESTAMP)
    @Column(name = "LAST_MODIFY_TIME")
-   private Timestamp lastModifyTime;
+   private Timestamp lastModifyTime = TimeUtil.now();
 
    public Timestamp getCreateTime() {
       return createTime;

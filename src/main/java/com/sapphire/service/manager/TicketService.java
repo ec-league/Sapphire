@@ -10,7 +10,9 @@ import java.util.List;
  * Email: byp5303628@hotmail.com
  */
 public interface TicketService {
-   List<Ticket> getTicketsByUserId(long userId);
+   List<Ticket> getTicketsByReportUserId(long userId);
+
+   List<Ticket> getTicketsByAssignUserId(long userId);
 
    List<Ticket> getTicketsByProjectId(long projectId);
 

@@ -78,13 +78,15 @@ public class UserServiceImpl implements UserService {
    }
 
    public boolean authenticateUser(String username, String password) {
-      User u = userRepository.findUserByUsernameOrEmail(username, username);
-      if (u == null) {
-         throw new EntityNotFoundException(
-               "Cannot find entity with username or email :\"" + username
-                     + "\"");
+      try {
+         User u = userRepository.findUserByUsernameOrEmail(username, username);
+         if (u == null) {
+            return false;
+         }
+         return u.getPassword().equals(password);
+      } catch (EntityNotFoundException e) {
+         return false;
       }
-      return u.getPassword().equals(password);
    }
 
    public List<User> getUsers() {

@@ -17,5 +17,8 @@ public interface TicketRepository extends CrudRepository<Ticket, Long> {
    List<Ticket> getTicketsByProjectId(@Param("projectId") long projectId);
 
    @Query("select t from Ticket as t where t.assignUser.uidPk = :userId")
-   List<Ticket> getTicketsByUserId(@Param("userId") long userId);
+   List<Ticket> getTicketsByAssignUserId(@Param("userId") long userId);
+
+   @Query("select t from Ticket as t where t.createUser.uidPk = :userId")
+   List<Ticket> getTicketsByReportUserId(@Param("userId") long userId);
 }
