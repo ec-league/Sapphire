@@ -73,6 +73,8 @@ public class TicketServiceTest extends AbstractTestNGSpringContextTests {
             createUser.getUidPk()).isEmpty());
       Assert.assertTrue(ticketService.getTicketsByAssignUserId(
             assignUser.getUidPk()).isEmpty());
+      Assert.assertTrue(ticketService.getTicketsByProjectId(project.getUidPk())
+            .isEmpty());
 
       Ticket ticket = new Ticket();
       ticket.setCreateTime(TimeUtil.now());
@@ -93,11 +95,14 @@ public class TicketServiceTest extends AbstractTestNGSpringContextTests {
             createUser.getUidPk()).isEmpty());
       Assert.assertFalse(ticketService.getTicketsByAssignUserId(
             assignUser.getUidPk()).isEmpty());
+      Assert.assertFalse(ticketService.getTicketsByProjectId(project.getUidPk())
+            .isEmpty());
 
       Ticket testTicket = ticketService.getTicketById(ticketId);
 
       Assert.assertEquals(ticket.getDescription(), testTicket.getDescription());
       Assert.assertEquals(ticket.getTitle(), testTicket.getTitle());
+
    }
 
    @Test(expectedExceptions = EntityNotFoundException.class)
