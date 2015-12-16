@@ -1,13 +1,7 @@
 package com.sapphire.common;
 
 import org.apache.commons.mail.EmailException;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-import org.yaml.snakeyaml.constructor.Construct;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
+import org.junit.Test;
 
 /**
  * Author: EthanPark <br/>

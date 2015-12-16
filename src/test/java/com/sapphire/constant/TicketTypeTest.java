@@ -1,7 +1,7 @@
 package com.sapphire.constant;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Author: EthanPark <br/>
@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
  * Email: byp5303628@hotmail.com
  */
 public class TicketTypeTest {
-   @Test(expectedExceptions = IllegalArgumentException.class)
+   @Test(expected = IllegalArgumentException.class)
    public void testBasicString() {
       Assert.assertEquals(TicketType.BUG.getCode(), 0);
       Assert.assertEquals(TicketType.REQUEST.getCode(), 1);
@@ -21,7 +21,7 @@ public class TicketTypeTest {
       TicketType.toTicketType("Unknown");
    }
 
-   @Test(expectedExceptions = IllegalArgumentException.class)
+   @Test(expected = IllegalArgumentException.class)
    public void testBasicCode() {
       Assert.assertEquals(TicketType.toTicketType(0), TicketType.BUG);
       Assert.assertEquals(TicketType.toTicketType(1), TicketType.REQUEST);

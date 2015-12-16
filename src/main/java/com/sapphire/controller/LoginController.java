@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Date: ${Date}<br/>
  * Email: byp5303628@hotmail.com
  */
-@Controller
-public class LoginControllerImpl {
+@Controller("loginController")
+public class LoginController {
    @RequestMapping("index.html")
    public String index() {
       return "index";

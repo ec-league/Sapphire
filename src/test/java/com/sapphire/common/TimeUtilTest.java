@@ -1,11 +1,10 @@
 package com.sapphire.common;
 
-import java.sql.Timestamp;
-
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import com.sapphire.common.exception.DateParseException;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.sql.Timestamp;
 
 
 /**
@@ -14,11 +13,12 @@ import com.sapphire.common.exception.DateParseException;
  * Email: byp5303628@hotmail.com
  */
 public class TimeUtilTest {
-   @Test(expectedExceptions = DateParseException.class, expectedExceptionsMessageRegExp = "Date Format is Not Correct!")
+   @Test(expected = DateParseException.class)
    public void test() {
       String now = TimeUtil.formatTime(TimeUtil.now());
 
-      Assert.assertTrue(now.matches("[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{2}:[0-9]{2}:[0-9]{2}"));
+      Assert.assertTrue(now
+            .matches("[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{2}:[0-9]{2}:[0-9]{2}"));
 
       String test = "1990-4-13 1:5:5";
 

@@ -1,13 +1,10 @@
 package com.sapphire.service.user;
 
+import org.junit.Assert;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 
+import com.sapphire.BaseTest;
 import com.sapphire.constant.RoleNameConstant;
 
 /**
@@ -15,10 +12,7 @@ import com.sapphire.constant.RoleNameConstant;
  * Date: 2015/12/15<br/>
  * Email: byp5303628@hotmail.com
  */
-@ContextConfiguration(locations = { "classpath:spring/applicationContext.xml" })
-@TestExecutionListeners({ TransactionalTestExecutionListener.class })
-public class RoleServiceTest extends AbstractTestNGSpringContextTests {
-
+public class RoleServiceTest extends BaseTest {
    @Autowired
    private RoleService roleService;
 

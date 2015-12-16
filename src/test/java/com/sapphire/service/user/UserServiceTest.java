@@ -1,13 +1,12 @@
 package com.sapphire.service.user;
 
+import com.sapphire.BaseTest;
 import com.sapphire.domain.User;
 import com.sapphire.dto.user.UserDto;
 import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Assert;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -17,8 +16,7 @@ import javax.persistence.EntityNotFoundException;
  * Date: 2015/12/15<br/>
  * Email: byp5303628@hotmail.com
  */
-@ContextConfiguration(locations = { "classpath:spring/applicationContext.xml" })
-public class UserServiceTest extends AbstractTestNGSpringContextTests {
+public class UserServiceTest extends BaseTest {
    @Autowired
    private UserService userService;
 
@@ -56,7 +54,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
       Assert.assertFalse(userService.getUsers().isEmpty());
    }
 
-   @Test(expectedExceptions = EntityExistsException.class)
+   @Test(expected = EntityExistsException.class)
    public void testAbnormal() {
       UserDto dto = new UserDto();
       String username = RandomStringUtils.randomAlphabetic(10);
@@ -72,7 +70,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
       userService.createUser(dto);
    }
 
-   @Test(expectedExceptions = EntityNotFoundException.class)
+   @Test(expected = EntityNotFoundException.class)
    public void testAbnormal2() {
       UserDto dto = new UserDto();
       String username = RandomStringUtils.randomAlphabetic(10);
@@ -86,7 +84,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
       userService.updateUserInfo(dto);
    }
 
-   @Test(expectedExceptions = EntityNotFoundException.class)
+   @Test(expected = EntityNotFoundException.class)
    public void testAbnormal3() {
       userService.getUserByUserNameOrEmail(RandomStringUtils
             .randomAlphanumeric(15));

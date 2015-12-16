@@ -1,5 +1,6 @@
 package com.sapphire.service.blog;
 
+import com.sapphire.BaseTest;
 import com.sapphire.common.TimeUtil;
 import com.sapphire.constant.BlogStatus;
 import com.sapphire.domain.User;
@@ -7,13 +8,10 @@ import com.sapphire.domain.blog.Blog;
 import com.sapphire.domain.blog.Comment;
 import com.sapphire.dto.user.UserDto;
 import com.sapphire.service.user.UserService;
-import com.sapphire.util.RandomUtil;
 import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Assert;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -23,8 +21,7 @@ import java.util.List;
  * Date: 2015/12/11<br/>
  * Email: byp5303628@hotmail.com
  */
-@ContextConfiguration(locations = { "classpath:spring/applicationContext.xml" })
-public class BlogServiceTest extends AbstractTestNGSpringContextTests {
+public class BlogServiceTest extends BaseTest {
    @Autowired
    private BlogService blogService;
    @Autowired
@@ -37,7 +34,8 @@ public class BlogServiceTest extends AbstractTestNGSpringContextTests {
       UserDto dto = new UserDto();
       dto.setUsername(RandomStringUtils.randomAlphabetic(8));
       dto.setPassword(RandomStringUtils.randomAlphabetic(12));
-      dto.setEmail(String.format("%s@%s", RandomStringUtils.randomAlphabetic(5),
+      dto.setEmail(String.format("%s@%s",
+            RandomStringUtils.randomAlphabetic(5),
             RandomStringUtils.randomAlphabetic(5)));
       long userId = userService.createUser(dto);
       User user = userService.getUserById(userId);
@@ -90,7 +88,7 @@ public class BlogServiceTest extends AbstractTestNGSpringContextTests {
       Assert.assertTrue(commentService.getCommentsByUserId(userId).isEmpty());
    }
 
-   @Test(expectedExceptions = EntityNotFoundException.class)
+   @Test(expected = EntityNotFoundException.class)
    public void testEmpty() {
       long userId = 0;
       Assert.assertTrue(blogService.getBlogListByUserId(userId).isEmpty());

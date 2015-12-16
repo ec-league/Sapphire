@@ -1,7 +1,8 @@
 package com.sapphire.constant;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Author: EthanPark <br/>
@@ -9,7 +10,7 @@ import org.testng.annotations.Test;
  * Email: byp5303628@hotmail.com
  */
 public class TicketStatusTest {
-   @Test(expectedExceptions = IllegalArgumentException.class)
+   @Test(expected = IllegalArgumentException.class)
    public void testBasic() {
       Assert.assertEquals(TicketStatus.NEED_VERIFY_ON_PRODUCT.getStatus(), 3);
       Assert.assertEquals(TicketStatus.FIXED.getStatus(), 4);

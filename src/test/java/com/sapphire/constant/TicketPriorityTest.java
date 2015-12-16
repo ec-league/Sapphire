@@ -1,7 +1,8 @@
 package com.sapphire.constant;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Author: EthanPark <br/>
@@ -9,7 +10,7 @@ import org.testng.annotations.Test;
  * Email: byp5303628@hotmail.com
  */
 public class TicketPriorityTest {
-   @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Unknown priority : \".*\".")
+   @Test(expected = IllegalArgumentException.class)
    public void testBasicString() {
       Assert.assertEquals(TicketPriority.P3.getCode(), 3);
       Assert.assertEquals(TicketPriority.P0.getCode(), 0);
@@ -24,7 +25,7 @@ public class TicketPriorityTest {
       TicketPriority.toTicketPriority("Unknown");
    }
 
-   @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Unknown priority code : \".*\".")
+   @Test(expected = IllegalArgumentException.class)
    public void testBasicCode() {
       Assert.assertEquals(TicketPriority.toTicketPriority(0), TicketPriority.P0);
       Assert.assertEquals(TicketPriority.toTicketPriority(1), TicketPriority.P1);

@@ -1,8 +1,9 @@
 package com.sapphire.common;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import com.sapphire.common.exception.PropertyNotFoundException;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 /**
  * Author: EthanPark <br/>
@@ -10,13 +11,13 @@ import org.testng.annotations.Test;
  * Email: byp5303628@hotmail.com
  */
 public class PropertyManagerTest {
-    @BeforeClass
-    public void init() {
-        PropertyManager.load(this.getClass());
-    }
+   @Before
+   public void init() {
+      PropertyManager.load(PropertyManagerTest.class);
+   }
 
-    @Test(expectedExceptions = PropertyNotFoundException.class)
-    public void test() {
-        PropertyManager.getProperty("ABC");
-    }
+   @Test(expected = PropertyNotFoundException.class)
+   public void test() {
+      PropertyManager.getProperty("ABC");
+   }
 }

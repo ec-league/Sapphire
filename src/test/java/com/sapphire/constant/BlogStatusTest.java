@@ -1,7 +1,8 @@
 package com.sapphire.constant;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Author: EthanPark <br/>
@@ -9,7 +10,7 @@ import org.testng.annotations.Test;
  * Email: byp5303628@hotmail.com
  */
 public class BlogStatusTest {
-   @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Wrong code of BlogStatus!")
+   @Test(expected = IllegalArgumentException.class)
    public void testBasic() {
       Assert.assertEquals(BlogStatus.PUBLISHED.getCode(), 1);
 

@@ -1,13 +1,6 @@
 package com.sapphire.service.manage;
 
-import org.apache.commons.lang.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
+import com.sapphire.BaseTest;
 import com.sapphire.common.TimeUtil;
 import com.sapphire.constant.TicketPriority;
 import com.sapphire.constant.TicketType;
@@ -18,6 +11,11 @@ import com.sapphire.dto.user.UserDto;
 import com.sapphire.service.manager.ProjectService;
 import com.sapphire.service.manager.TicketService;
 import com.sapphire.service.user.UserService;
+import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -26,8 +24,7 @@ import javax.persistence.EntityNotFoundException;
  * Date: 2015/12/15<br/>
  * Email: byp5303628@hotmail.com
  */
-@ContextConfiguration(locations = { "classpath:spring/applicationContext.xml" })
-public class TicketServiceTest extends AbstractTestNGSpringContextTests {
+public class TicketServiceTest extends BaseTest {
    @Autowired
    private TicketService ticketService;
 
@@ -41,7 +38,7 @@ public class TicketServiceTest extends AbstractTestNGSpringContextTests {
    private User assignUser;
    private Project project;
 
-   @BeforeClass
+   @Before
    public void init() {
       UserDto dto = new UserDto();
       String username = RandomStringUtils.randomAlphabetic(10);
@@ -95,8 +92,8 @@ public class TicketServiceTest extends AbstractTestNGSpringContextTests {
             createUser.getUidPk()).isEmpty());
       Assert.assertFalse(ticketService.getTicketsByAssignUserId(
             assignUser.getUidPk()).isEmpty());
-      Assert.assertFalse(ticketService.getTicketsByProjectId(project.getUidPk())
-            .isEmpty());
+      Assert.assertFalse(ticketService
+            .getTicketsByProjectId(project.getUidPk()).isEmpty());
 
       Ticket testTicket = ticketService.getTicketById(ticketId);
 
@@ -105,7 +102,7 @@ public class TicketServiceTest extends AbstractTestNGSpringContextTests {
 
    }
 
-   @Test(expectedExceptions = EntityNotFoundException.class)
+   @Test(expected = EntityNotFoundException.class)
    public void testAbnormal() {
       ticketService.getTicketById(0);
    }

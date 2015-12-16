@@ -17,7 +17,7 @@ import java.util.List;
  * Date: 2015/11/20<br/>
  * Email: byp5303628@hotmail.com
  */
-@Service("blogServiceImpl")
+@Service("blogService")
 public class BlogServiceImpl implements BlogService {
    @Autowired
    private BlogRepository blogRepository;

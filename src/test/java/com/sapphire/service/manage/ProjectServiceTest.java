@@ -1,14 +1,13 @@
 package com.sapphire.service.manage;
 
+import com.sapphire.BaseTest;
 import com.sapphire.common.TimeUtil;
 import com.sapphire.domain.manage.Project;
 import com.sapphire.service.manager.ProjectService;
 import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Assert;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -17,8 +16,7 @@ import javax.persistence.EntityNotFoundException;
  * Date: 2015/12/15<br/>
  * Email: byp5303628@hotmail.com
  */
-@ContextConfiguration(locations = { "classpath:spring/applicationContext.xml" })
-public class ProjectServiceTest extends AbstractTestNGSpringContextTests {
+public class ProjectServiceTest extends BaseTest {
    @Autowired
    private ProjectService projectService;
 
@@ -42,7 +40,7 @@ public class ProjectServiceTest extends AbstractTestNGSpringContextTests {
             project.getDescription());
    }
 
-   @Test(expectedExceptions = EntityNotFoundException.class, expectedExceptionsMessageRegExp = "Project : \"[0-9]+\" not found.")
+   @Test(expected = EntityNotFoundException.class)
    public void testEmpty() {
       projectService.getProjectById(0);
    }
