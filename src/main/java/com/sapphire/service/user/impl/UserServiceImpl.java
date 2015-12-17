@@ -78,15 +78,11 @@ public class UserServiceImpl implements UserService {
    }
 
    public boolean authenticateUser(String username, String password) {
-      try {
-         User u = userRepository.findUserByUsernameOrEmail(username, username);
-         if (u == null) {
-            return false;
-         }
-         return u.getPassword().equals(password);
-      } catch (EntityNotFoundException e) {
+      User u = userRepository.findUserByUsernameOrEmail(username, username);
+      if (u == null) {
          return false;
       }
+      return u.getPassword().equals(password);
    }
 
    public List<User> getUsers() {

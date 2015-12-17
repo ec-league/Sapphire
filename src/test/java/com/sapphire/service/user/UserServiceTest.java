@@ -32,6 +32,8 @@ public class UserServiceTest extends BaseTest {
       dto.setPassword(password);
       dto.setEmail(email);
       long userId = userService.createUser(dto);
+      User user = userService.getUserByUserNameOrEmail(email);
+      Assert.assertEquals(user.getUidPk(), userId);
 
       dto.setUserId(userId);
 
@@ -90,10 +92,12 @@ public class UserServiceTest extends BaseTest {
             .randomAlphanumeric(15));
    }
 
-   @Test
+   @Test(expected = EntityNotFoundException.class)
    public void testAbnormal4() {
       Assert.assertFalse(userService.authenticateUser(
             RandomStringUtils.randomAlphabetic(11),
             RandomStringUtils.randomAlphabetic(12)));
+
+      userService.getUserById(0);
    }
 }
