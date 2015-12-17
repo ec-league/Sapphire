@@ -1,13 +1,12 @@
 package com.sapphire.security;
 
-import javax.persistence.EntityNotFoundException;
-
+import com.sapphire.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.sapphire.service.user.UserService;
+import javax.persistence.EntityNotFoundException;
 
 /**
  * Author: EthanPark <br/>
@@ -18,7 +17,6 @@ public class MyUserDetailService implements UserDetailsService {
    @Autowired
    private UserService userService;
 
-   @Override
    public UserDetails loadUserByUsername(String username) {
       try {
          return userService.getUserByUserNameOrEmail(username);

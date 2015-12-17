@@ -7,6 +7,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -52,7 +53,8 @@ public class UserServiceTest extends BaseTest {
       Assert.assertTrue(userService.authenticateUser(email, newPassword));
       User testUser = userService.getUserById(userId);
 
-      Assert.assertEquals(newPassword, testUser.getPassword());
+      Assert.assertEquals(DigestUtils.md5DigestAsHex(newPassword.getBytes()),
+            testUser.getPassword());
       Assert.assertFalse(userService.getUsers().isEmpty());
    }
 

@@ -21,7 +21,7 @@
         <intercept-url pattern="/**" access="ROLE_USER"/>
 
         <!-- 登录界面 -->
-        <form-login login-page="/login.html" authentication-failure-url="/403.html"
+        <form-login login-page="/login.html" authentication-failure-url="/login.html?error=true"
                     default-target-url="/manage/dashboard.html"
                     always-use-default-target="true"/>
         <logout logout-success-url="/login.html"/>
@@ -33,8 +33,14 @@
 
     <!-- 自定义权限管理，使用自己的user-service -->
     <authentication-manager>
-        <authentication-provider user-service-ref="userDetailService"></authentication-provider>
+        <authentication-provider user-service-ref="userDetailService">
+            <password-encoder ref="passwordEncoder" />
+        </authentication-provider>
     </authentication-manager>
+
+    <beans:bean class="com.sapphire.security.MyPasswordEncoder" id="passwordEncoder">
+        <beans:constructor-arg value="md5"></beans:constructor-arg>
+    </beans:bean>
 
     <!-- CSRF protection. Here we only include the CsrfFilter instead of all
         of Spring Security. See http://docs.spring.io/spring-security/site/docs/3.2.x/reference/htmlsingle/#csrf

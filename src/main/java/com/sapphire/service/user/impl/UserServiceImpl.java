@@ -7,6 +7,7 @@ import com.sapphire.service.user.RoleService;
 import com.sapphire.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -46,7 +47,8 @@ public class UserServiceImpl implements UserService {
                "Username : \"%s\", Email : \"%s\" does not exists.",
                user.getUsername(), user.getEmail()));
       }
-      repo.setPassword(user.getPassword());
+      repo.setPassword(DigestUtils
+            .md5DigestAsHex(user.getPassword().getBytes()));
       repo.setEmail(user.getEmail());
       return userRepository.save(repo).getUidPk();
    }
@@ -56,7 +58,7 @@ public class UserServiceImpl implements UserService {
       u.setUidPk(user.getUserId());
       u.setUsername(user.getUsername());
       u.setEmail(user.getEmail());
-      u.setPassword(user.getPassword());
+      u.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
       return u;
    }
 
@@ -82,7 +84,8 @@ public class UserServiceImpl implements UserService {
       if (u == null) {
          return false;
       }
-      return u.getPassword().equals(password);
+      return u.getPassword().equals(
+            DigestUtils.md5DigestAsHex(password.getBytes()));
    }
 
    public List<User> getUsers() {
