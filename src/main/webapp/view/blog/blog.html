@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+    <link rel="stylesheet" media="screen" href="../../css/common/bootstrap.min.css">
+    <link rel="stylesheet" media="screen" href="../../css/common/bootstrap-theme.min.css">
+    <link rel="stylesheet" media="screen" href="../../css/common/mycommon.css">
+    <style>
+        .absolute {
+            position: absolute;
+        }
+
+        #blog-title-frame {
+            height: 15%;
+            width: 80%;
+            left: 10%;
+            top: 5%;
+            background: lightblue;
+            font-size: 120%;
+        }
+
+        #blog-content-frame {
+            height: 60%;
+            width: 80%;
+            left: 10%;
+            top: 25%;
+            background: lightslategray;
+        }
+        #tag {
+            top: 20%;
+            height :20%;
+            font-size: 80%;
+        }
+        #last-modify-time {
+            bottom:0;
+            height: 20%;
+            font-size: 70%;
+            left:60%;
+        }
+    </style>
+
+</head>
+<body>
+<div class="absolute" id="blog-title-frame">
+    <div class="absolute" id="title"></div>
+    <div class="absolute" id="tag">标签</div>
+    <div class="absolute" id="last-modify-time"></div>
+    <div class="absolute" id="comments"></div>
+    <div class="absolute" id="title-function"></div>
+</div>
+<div class="absolute" id="blog-content-frame">
+    <div class="absolute" id="content"></div>
+</div>
+</body>
+<script src="../../js/framework/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+    var Blog = {
+        render: function (data) {
+            $("#title").html(data.title);
+            $("#content").html(data.content);
+            $("#last-modify-time").html(data.lastModifyTime);
+            document.getElementsByTagName("title")[0].innerHTML = data.title;
+        },
+        load: function () {
+            var id = this.getQueryString("blogId");
+            var instance = this;
+            $.ajax({
+                url: "/blog/" + id + "/get.ep",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-type": "application/json"
+                },
+                success: function (data) {
+                    if (data.returnCode == "200" && data.returnMessage == "SUCCESS") {
+                        instance.render(data.data);
+                    } else {
+                        alert("Show Blog Failed! \n" + data.returnMessage);
+                    }
+                }
+            });
+        },
+        getQueryString: function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null)return unescape(r[2]);
+            return null;
+        }
+    }
+    Blog.load();
+</script>
+</html>

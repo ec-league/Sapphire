@@ -25,7 +25,6 @@ import com.sapphire.service.user.UserService;
 @Controller
 @RequestMapping("/comment")
 public class CommentControllerImpl {
-
    private static final Logger LOGGER = LoggerFactory
          .getLogger(CommentControllerImpl.class);
 
@@ -40,20 +39,6 @@ public class CommentControllerImpl {
    @ResponseBody
    public JsonDto getUserComments() {
       return null;
-   }
-
-   @RequestMapping("/add.ep")
-   @ResponseBody
-   public JsonDto addComment(@RequestBody CommentDto commentDto) {
-      try {
-         LOGGER.info("Add comment for blog!");
-         Comment comment = convertDtoToDomain(commentDto);
-         commentService.saveComment(comment);
-         return new JsonDto().formSuccessDto();
-      } catch (Exception e) {
-         LOGGER.error(e.getMessage(), e);
-         return new JsonDto().formFailureDto(e);
-      }
    }
 
    @RequestMapping("/save.ep")

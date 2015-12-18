@@ -14,12 +14,17 @@ public class BlogPageControllerImpl {
 
    @RequestMapping("/page.html")
    public String blogPage() {
-      return null;
+      return "blog/blog";
    }
 
-   @RequestMapping("/my-blog.html")
+   @RequestMapping("/my-blogs.html")
    public String myBlogPage() {
-      return null;
+      return "blog/blog-list";
+   }
+
+   @RequestMapping("/blog-edit.html")
+   public String blogEdit(){
+      return "blog/blog-edit";
    }
 
    @RequestMapping("/my-comment.html")

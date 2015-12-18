@@ -45,7 +45,8 @@ public class BlogControllerImpl {
     * @return
     */
    @RequestMapping("/{id}/list.ep")
-   @ResponseBody public JsonDto getBlogList(@PathVariable("id") long id) {
+   @ResponseBody
+   public JsonDto getBlogList(@PathVariable("id") long id) {
       try {
          List<Blog> blogs = blogService.getBlogListByUserId(id);
          List<BlogItem> blogItems = new ArrayList<BlogItem>();
@@ -67,7 +68,8 @@ public class BlogControllerImpl {
     * @return
     */
    @RequestMapping("/{id}/get.ep")
-   @ResponseBody public JsonDto getBlog(@PathVariable("id") long id) {
+   @ResponseBody
+   public JsonDto getBlog(@PathVariable("id") long id) {
       try {
          Blog blog = blogService.getBlogByUidPk(id);
          BlogDetail blogDetail = new BlogDetail(blog);
@@ -87,7 +89,8 @@ public class BlogControllerImpl {
    }
 
    @RequestMapping("/{blogId}/save.ep")
-   @ResponseBody public JsonDto saveBlog(@PathVariable("blogId") long blogId,
+   @ResponseBody
+   public JsonDto saveBlog(@PathVariable("blogId") long blogId,
          @RequestBody BlogDto blogDto) {
       try {
          Blog blog = getBlog(blogId, blogDto);
@@ -100,8 +103,9 @@ public class BlogControllerImpl {
    }
 
    @RequestMapping("/{blogId}/publish.ep")
-   @ResponseBody public JsonDto publishBlog(
-         @PathVariable("blogId") long blogId, @RequestBody BlogDto blogDto) {
+   @ResponseBody
+   public JsonDto publishBlog(@PathVariable("blogId") long blogId,
+         @RequestBody BlogDto blogDto) {
       try {
          Blog blog = getBlog(blogId, blogDto);
          blog.setBlogStatus(BlogStatus.PUBLISHED);
@@ -189,12 +193,22 @@ public class BlogControllerImpl {
       private long blogId;
       private String title;
       private String content;
+      private String lastModifyTime;
       private List<CommentDto> comments;
 
       public BlogDetail(Blog blog) {
          setBlogId(blog.getUidPk());
          setTitle(blog.getBlogTitle());
+         setLastModifyTime(TimeUtil.formatTime(blog.getLastModifyTime()));
          setContent(blog.getBlogContent());
+      }
+
+      public String getLastModifyTime() {
+         return lastModifyTime;
+      }
+
+      public void setLastModifyTime(String lastModifyTime) {
+         this.lastModifyTime = lastModifyTime;
       }
 
       public List<CommentDto> getComments() {
@@ -238,10 +252,10 @@ public class BlogControllerImpl {
       private String lastModifyTime;
 
       public CommentDto(Comment comment) {
-         this.commentId = comment.getUidPk();
-         this.commentContent = comment.getContent();
-         this.createTime = TimeUtil.formatTime(comment.getCreateTime());
-         this.lastModifyTime = TimeUtil.formatTime(comment.getLastModifyTime());
+         setCommentId(comment.getUidPk());
+         setCommentContent(comment.getContent());
+         setCreateTime(TimeUtil.formatTime(comment.getCreateTime()));
+         setLastModifyTime(TimeUtil.formatTime(comment.getLastModifyTime()));
       }
 
       public long getCommentId() {
