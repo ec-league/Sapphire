@@ -11,43 +11,164 @@
             position: absolute;
         }
 
-        #blog-title-frame {
-            height: 15%;
-            width: 80%;
+        #person-info {
+            height: 40%;
+            width: 10%;
             left: 10%;
             top: 5%;
             background: lightblue;
         }
 
-        #blog-content-frame {
-            height: 60%;
-            width: 80%;
+        #user {
+            height: 20%;
+            left: 10%;
+            top: 5%;
+        }
+
+        #visit-count {
+            height: 20%;
             left: 10%;
             top: 25%;
+        }
+
+        #blogs {
+            height: 20%;
+            left: 10%;
+            top: 50%;
+        }
+
+        .blog-item {
+            height: 100px;
+            width: 100%;
+            background: lightgoldenrodyellow;
+        }
+
+        .title {
+            height: 15%;
+            top: 3%;
+        }
+
+        .snapshot {
+            top: 20%;
+            height: 60%;
+        }
+
+        .last-modify-time {
+            top: 80%;
+            left: 60%;
+            right: 20%;
+        }
+
+        .blog-visit-count {
+            top: 80%;
+            left: 80%;
+            right: 0;
+        }
+
+        #blog-list-frame {
+            right: 10%;
+            left: 22%;
+            top: 5%;
             background: lightslategray;
+            bottom: 0%;
         }
     </style>
-    <script type="text/javascript">
-        var Blog = {
-            init: function () {
-            },
-            render: function () {
-            },
-            load: function () {
-            },
-            update: function () {
-            }
-        }
-    </script>
+
 </head>
 <body>
-<div class="absolute" id="blog-title-frame">
-    <div class="absolute" id="title"></div>
-    <div class="absolute" id="tag">标签</div>
-    <div class="absolute" id="last-modify-time"></div>
-    <div class="absolute" id="comments"></div>
-    <div class="absolute" id="title-function"></div>
+<div class="absolute" id="person-info">
+    <div class="absolute" id="user"></div>
+    <div class="absolute" id="visit-count">标签</div>
+    <div class="absolute" id="blogs"></div>
 </div>
-<div class="absolute" id="blog-content-frame">ok content</div>
+<div class="absolute" id="blog-list-frame">
+    <!--<div class="absolute blog-item">-->
+    <!--<div class="title"></div>-->
+    <!--<div class="snapshot"></div>-->
+    <!--<div class="blog-visit-count"></div>-->
+    <!--<div class="last-modify-time"></div>-->
+    <!--</div>-->
+</div>
 </body>
+<script src="../../js/framework/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+    var BlogList = {
+        userId: 0,
+        init: function () {
+        },
+        renderUser: function (data) {
+            this.userId = data.userId;
+            $("#user").html(data.username);
+            $("#visit-count").html("访问：" + data.totalHit);
+            $("#blogs").html("博客：" + data.blogs);
+        },
+        renderList: function (data) {
+            var blogListFrame = document.getElementById("blog-list-frame");
+
+            for (var i = 0; i < data.length; i++) {
+                var blogItem = $("<div></div>");
+                blogItem.addClass("absolute blog-item");
+                blogItem.css({
+                    top: 100 * i + "px"
+                });
+                var title = $("<div></div>");
+                title.addClass("absolute title");
+                title.html(data[i].title);
+                title.appendTo(blogItem);
+                var snapshot = $("<div></div>");
+                snapshot.addClass("absolute snapshot");
+                snapshot.html(data[i].contentSnapshot);
+                snapshot.appendTo(blogItem);
+                var blogVisitCount = $("<div></div>");
+                blogVisitCount.addClass("absolute blog-visit-count");
+                blogVisitCount.html(data[i].hit);
+                blogVisitCount.appendTo(blogItem);
+                var lastModifyTime = $("<div></div>");
+                lastModifyTime.addClass("absolute last-modify-time");
+                lastModifyTime.html(data[i].lastModifyTime);
+                blogVisitCount.appendTo(blogItem);
+                blogItem.appendTo(blogListFrame);
+            }
+        },
+        load: function () {
+            this.loadUser();
+            this.loadList();
+        },
+        loadUser: function () {
+            var instance = this;
+            $.ajax({
+                url: "/blog/user-info.ep",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-type": "application/json"
+                },
+                success: function (data) {
+                    if (data.returnCode == "200" && data.returnMessage == "SUCCESS") {
+                        instance.renderUser(data.data);
+                    } else {
+                        alert("Show Blog Failed! \n" + data.returnMessage);
+                    }
+                }
+            });
+        },
+        loadList: function () {
+            var instance = this;
+            $.ajax({
+                url: "/blog/list.ep",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-type": "application/json"
+                },
+                success: function (data) {
+                    if (data.returnCode == "200" && data.returnMessage == "SUCCESS") {
+                        instance.renderList(data.data);
+                    } else {
+                        alert("Show Blog Failed! \n" + data.returnMessage);
+                    }
+                }
+            });
+        }
+    }
+    BlogList.load();
+</script>
 </html>

@@ -8,7 +8,6 @@
     <!-- 登录界面不使用权限过滤 -->
 
     <http security="none" pattern="/login*"></http>
-    <http security="none" pattern="/blog/**"></http>
     <http security="none" pattern="/comment/**"></http>
     <http security="none" pattern="/css/**"></http>
     <http security="none" pattern="/js/**"></http>

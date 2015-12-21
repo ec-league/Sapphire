@@ -45,11 +45,19 @@ public class BlogServiceImpl implements BlogService {
       return blogRepository.save(blog).getUidPk();
    }
 
+   public void loadBlog(long blogId) {
+      blogRepository.increaseHit(blogId);
+   }
+
    public List<Comment> getCommentsByBlogId(long blogId) {
       List<Comment> comments = commentRepository.getAllCommentsByBlogId(blogId);
       if (comments == null || comments.isEmpty()) {
          return Collections.emptyList();
       }
       return commentRepository.getAllCommentsByBlogId(blogId);
+   }
+
+   public int getUserHitById(long userId) {
+      return blogRepository.getUserHitById(userId);
    }
 }

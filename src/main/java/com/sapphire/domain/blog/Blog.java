@@ -1,11 +1,10 @@
 package com.sapphire.domain.blog;
 
-import java.sql.Timestamp;
-
-import javax.persistence.*;
-
 import com.sapphire.constant.BlogStatus;
 import com.sapphire.domain.User;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
  * Author: Ethan <br/>
@@ -45,6 +44,18 @@ public class Blog {
    @Basic
    @Column(name = "BLOG_STATUS")
    private int blogStatus;
+
+   @Basic
+   @Column(name = "HIT")
+   private long blogHit;
+
+   public long getBlogHit() {
+      return blogHit;
+   }
+
+   public void setBlogHit(long blogHit) {
+      this.blogHit = blogHit;
+   }
 
    public BlogStatus getBlogStatus() {
       return BlogStatus.toBlogStatus(blogStatus);

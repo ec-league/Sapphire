@@ -2,6 +2,7 @@ package com.sapphire.controller.blog.impl;
 
 import com.sapphire.common.TimeUtil;
 import com.sapphire.constant.BlogStatus;
+import com.sapphire.domain.User;
 import com.sapphire.domain.blog.Blog;
 import com.sapphire.domain.blog.Comment;
 import com.sapphire.dto.DataJsonDto;
@@ -13,6 +14,7 @@ import com.sapphire.service.blog.BlogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,14 +43,16 @@ public class BlogControllerImpl {
    /**
     * Get specified user's blog list, which contains title.
     * 
-    * @param id
     * @return
     */
-   @RequestMapping("/{id}/list.ep")
+   @RequestMapping("/list.ep")
    @ResponseBody
-   public JsonDto getBlogList(@PathVariable("id") long id) {
+   public JsonDto getBlogList() {
       try {
-         List<Blog> blogs = blogService.getBlogListByUserId(id);
+         User u =
+               (User) SecurityContextHolder.getContext().getAuthentication()
+                     .getPrincipal();
+         List<Blog> blogs = blogService.getBlogListByUserId(u.getUidPk());
          List<BlogItem> blogItems = new ArrayList<BlogItem>();
          for (Blog blog : blogs) {
             blogItems.add(new BlogItem(blog));
@@ -82,6 +86,26 @@ public class BlogControllerImpl {
       } catch (EntityNotFoundException e) {
          LOGGER.error(e.getMessage());
          return new JsonDto().formFailureDto(e);
+      } catch (Exception e) {
+         LOGGER.error(e.getMessage(), e);
+         return new JsonDto().formFailureDto(e);
+      }
+   }
+
+   @RequestMapping("/user-info.ep")
+   @ResponseBody
+   public JsonDto getUserInfo() {
+      try {
+         User u =
+               (User) SecurityContextHolder.getContext().getAuthentication()
+                     .getPrincipal();
+
+         BlogUserDto dto = new BlogUserDto();
+         dto.setUsername(u.getUsername());
+         dto.setUserId(dto.getUserId());
+         dto.setTotalHit(blogService.getUserHitById(u.getUidPk()));
+         dto.setBlogs(blogService.getBlogListByUserId(u.getUidPk()).size());
+         return new DataJsonDto<BlogUserDto>(dto).formSuccessDto();
       } catch (Exception e) {
          LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
@@ -133,12 +157,53 @@ public class BlogControllerImpl {
       return blog;
    }
 
+   private static class BlogUserDto implements Dto {
+      private long userId;
+      private String username;
+      private int blogs;
+      private int totalHit;
+
+      public int getBlogs() {
+         return blogs;
+      }
+
+      public void setBlogs(int blogs) {
+         this.blogs = blogs;
+      }
+
+      public long getUserId() {
+         return userId;
+      }
+
+      public void setUserId(long userId) {
+         this.userId = userId;
+      }
+
+      public String getUsername() {
+         return username;
+      }
+
+      public void setUsername(String username) {
+         this.username = username;
+      }
+
+      public int getTotalHit() {
+         return totalHit;
+      }
+
+      public void setTotalHit(int totalHit) {
+         this.totalHit = totalHit;
+      }
+   }
+
    private static class BlogItem implements Dto {
       private long blogId;
       private String title;
       private String createTime;
       private String lastModifyTime;
       private String status;
+      private String contentSnapshot;
+      private long hit;
 
       public BlogItem(Blog blog) {
          setBlogId(blog.getUidPk());
@@ -146,6 +211,24 @@ public class BlogControllerImpl {
          setCreateTime(TimeUtil.formatTime(blog.getCreateTime()));
          setLastModifyTime(TimeUtil.formatTime(blog.getLastModifyTime()));
          setStatus(blog.getBlogStatus().toString());
+         setHit(blog.getBlogHit());
+         setContentSnapshot(blog.getBlogContent());
+      }
+
+      public String getContentSnapshot() {
+         return contentSnapshot;
+      }
+
+      public void setContentSnapshot(String contentSnapshot) {
+         this.contentSnapshot = contentSnapshot;
+      }
+
+      public long getHit() {
+         return hit;
+      }
+
+      public void setHit(long hit) {
+         this.hit = hit;
       }
 
       public long getBlogId() {
@@ -194,6 +277,7 @@ public class BlogControllerImpl {
       private String title;
       private String content;
       private String lastModifyTime;
+      private long hit;
       private List<CommentDto> comments;
 
       public BlogDetail(Blog blog) {
@@ -201,6 +285,15 @@ public class BlogControllerImpl {
          setTitle(blog.getBlogTitle());
          setLastModifyTime(TimeUtil.formatTime(blog.getLastModifyTime()));
          setContent(blog.getBlogContent());
+         setHit(blog.getBlogHit());
+      }
+
+      public long getHit() {
+         return hit;
+      }
+
+      public void setHit(long hit) {
+         this.hit = hit;
       }
 
       public String getLastModifyTime() {

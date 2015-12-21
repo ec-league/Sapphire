@@ -96,4 +96,37 @@ public class BlogServiceTest extends BaseTest {
       long blogId = 0;
       blogService.getBlogByUidPk(blogId);
    }
+
+   @Test
+   public void testIncrease() {
+      UserDto dto = new UserDto();
+      dto.setUsername(RandomStringUtils.randomAlphabetic(8));
+      dto.setPassword(RandomStringUtils.randomAlphabetic(12));
+      dto.setEmail(String.format("%s@%s",
+            RandomStringUtils.randomAlphabetic(5),
+            RandomStringUtils.randomAlphabetic(5)));
+      long userId = userService.createUser(dto);
+      User user = userService.getUserById(userId);
+      Blog blog = new Blog();
+      blog.setCreateTime(TimeUtil.now());
+      blog.setLastModifyTime(TimeUtil.now());
+      blog.setBlogTitle("test");
+      blog.setBlogStatus(BlogStatus.PUBLISHED);
+      blog.setUser(user);
+      blog.setBlogContent("test blog content");
+      long blogId = blogService.saveBlog(blog);
+
+      int nowHit = blogService.getUserHitById(userId);
+      Assert.assertEquals(nowHit, 0);
+      blogService.loadBlog(blogId);
+      blog = blogService.getBlogByUidPk(blogId);
+      nowHit = blogService.getUserHitById(userId);
+      Assert.assertEquals(nowHit, 1);
+      Assert.assertEquals(blog.getBlogHit(), 1);
+   }
+
+   @Test
+   public void testIncreaseEmpty() {
+      blogService.loadBlog(0);
+   }
 }

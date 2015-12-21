@@ -17,5 +17,9 @@ public interface BlogService {
 
    long saveBlog(Blog blog);
 
+   void loadBlog(long blogId);
+
    List<Comment> getCommentsByBlogId(long blogId);
+
+   int getUserHitById(long userId);
 }
