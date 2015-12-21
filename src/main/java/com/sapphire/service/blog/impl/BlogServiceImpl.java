@@ -7,6 +7,7 @@ import com.sapphire.repository.blog.CommentRepository;
 import com.sapphire.service.blog.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Collections;
@@ -45,6 +46,7 @@ public class BlogServiceImpl implements BlogService {
       return blogRepository.save(blog).getUidPk();
    }
 
+   @Transactional
    public void loadBlog(long blogId) {
       blogRepository.increaseHit(blogId);
    }
