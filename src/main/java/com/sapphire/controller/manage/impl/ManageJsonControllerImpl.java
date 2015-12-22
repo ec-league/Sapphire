@@ -17,7 +17,7 @@ import com.sapphire.common.TimeUtil;
 import com.sapphire.constant.TicketPriority;
 import com.sapphire.constant.TicketStatus;
 import com.sapphire.constant.TicketType;
-import com.sapphire.domain.User;
+import com.sapphire.domain.user.User;
 import com.sapphire.domain.manage.Project;
 import com.sapphire.domain.manage.Ticket;
 import com.sapphire.dto.Dto;

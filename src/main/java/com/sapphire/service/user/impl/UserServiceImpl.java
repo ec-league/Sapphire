@@ -1,8 +1,8 @@
 package com.sapphire.service.user.impl;
 
-import com.sapphire.domain.User;
+import com.sapphire.domain.user.User;
 import com.sapphire.dto.user.UserDto;
-import com.sapphire.repository.UserRepository;
+import com.sapphire.repository.user.UserRepository;
 import com.sapphire.service.user.RoleService;
 import com.sapphire.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

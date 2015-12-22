@@ -1,6 +1,6 @@
-package com.sapphire.repository;
+package com.sapphire.repository.user;
 
-import com.sapphire.domain.User;
+import com.sapphire.domain.user.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

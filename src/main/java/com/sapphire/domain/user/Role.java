@@ -1,4 +1,4 @@
-package com.sapphire.domain;
+package com.sapphire.domain.user;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;

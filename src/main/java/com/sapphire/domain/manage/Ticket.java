@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 import com.sapphire.constant.TicketPriority;
 import com.sapphire.constant.TicketType;
-import com.sapphire.domain.User;
+import com.sapphire.domain.user.User;
 
 /**
  * Author: EthanPark <br/>

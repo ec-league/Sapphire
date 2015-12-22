@@ -1,7 +1,7 @@
 package com.sapphire.domain.blog;
 
 import com.sapphire.constant.BlogStatus;
-import com.sapphire.domain.User;
+import com.sapphire.domain.user.User;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

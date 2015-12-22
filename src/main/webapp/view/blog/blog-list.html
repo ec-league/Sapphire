@@ -38,7 +38,7 @@
         }
 
         .blog-item {
-            height: 100px;
+            height: 98px;
             width: 100%;
             background: lightgoldenrodyellow;
         }
@@ -82,12 +82,6 @@
     <div class="absolute" id="blogs"></div>
 </div>
 <div class="absolute" id="blog-list-frame">
-    <!--<div class="absolute blog-item">-->
-    <!--<div class="title"></div>-->
-    <!--<div class="snapshot"></div>-->
-    <!--<div class="blog-visit-count"></div>-->
-    <!--<div class="last-modify-time"></div>-->
-    <!--</div>-->
 </div>
 </body>
 <script src="../../js/framework/jquery-1.11.3.js"></script>
@@ -106,7 +100,8 @@
             var blogListFrame = document.getElementById("blog-list-frame");
 
             for (var i = 0; i < data.length; i++) {
-                var blogItem = $("<div></div>");
+                var blogItem = $("<a></a>");
+                blogItem.attr("href", "/blog/page.html?blogId=" + data[i].blogId);
                 blogItem.addClass("absolute blog-item");
                 blogItem.css({
                     top: 100 * i + "px"
@@ -126,7 +121,7 @@
                 var lastModifyTime = $("<div></div>");
                 lastModifyTime.addClass("absolute last-modify-time");
                 lastModifyTime.html(data[i].lastModifyTime);
-                blogVisitCount.appendTo(blogItem);
+                lastModifyTime.appendTo(blogItem);
                 blogItem.appendTo(blogListFrame);
             }
         },

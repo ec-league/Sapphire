@@ -2,7 +2,7 @@ package com.sapphire.controller.blog.impl;
 
 import com.sapphire.common.TimeUtil;
 import com.sapphire.constant.BlogStatus;
-import com.sapphire.domain.User;
+import com.sapphire.domain.user.User;
 import com.sapphire.domain.blog.Blog;
 import com.sapphire.domain.blog.Comment;
 import com.sapphire.dto.DataJsonDto;

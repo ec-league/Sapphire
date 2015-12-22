@@ -1,6 +1,6 @@
 package com.sapphire.service.user;
 
-import com.sapphire.domain.Role;
+import com.sapphire.domain.user.Role;
 
 /**
  * Author: EthanPark <br/>

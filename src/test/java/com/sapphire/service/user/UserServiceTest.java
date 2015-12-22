@@ -1,7 +1,7 @@
 package com.sapphire.service.user;
 
 import com.sapphire.BaseTest;
-import com.sapphire.domain.User;
+import com.sapphire.domain.user.User;
 import com.sapphire.dto.user.UserDto;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;

@@ -1,6 +1,6 @@
 package com.sapphire.controller.user.impl;
 
-import com.sapphire.domain.User;
+import com.sapphire.domain.user.User;
 import com.sapphire.dto.DataJsonDto;
 import com.sapphire.dto.Dto;
 import com.sapphire.dto.JsonDto;

@@ -1,6 +1,6 @@
 package com.sapphire.domain.blog;
 
-import com.sapphire.domain.User;
+import com.sapphire.domain.user.User;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
