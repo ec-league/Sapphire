@@ -27,42 +27,149 @@
             top: 25%;
             background: lightslategray;
         }
+
         #tag {
             top: 20%;
-            height :20%;
+            height: 20%;
             font-size: 80%;
         }
-        #last-modify-time {
-            bottom:0;
-            height: 20%;
-            font-size: 70%;
-            left:60%;
+
+        #bk{
+            /*background-image: url(../../img/blog/bg-style.jpg);*/
+            /*filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";*/
+            /*-moz-background-size:100% 100%;*/
+            /*background-size:100%;*/
+            /*margin-top: 0;*/
+            background: lightslategray;
+            width: 100%;
+            height: 100%;;
+            position: absolute;
         }
     </style>
-
 </head>
-<body>
-<div class="absolute" id="blog-title-frame">
-    <div class="absolute" id="title"></div>
-    <div class="absolute" id="tag">标签</div>
-    <div class="absolute" id="last-modify-time"></div>
-    <div class="absolute" id="comments"></div>
-    <div class="absolute" id="title-function"></div>
+<nav class="navbar navbar-default ">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand topnav" href="about.html">
+                <img alt="Brand" src="../img/logo.jpg">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav nav-pills ulbar">
+                <li class="active " role="presentation"><a href="#">DashBoard <span class="sr-only">(current)</span></a>
+                </li>
+                <li role="presentation"><a href="project.html">项目</a></li>
+                <li role="presentation"><a href="/blog/my-blogs.html">博客</a></li>
+                <li role="presentation"><a href="#" data-target="#myModal" data-toggle="modal">添加问题</a></li>
+                <form class="navbar-form navbar-right">
+                    <li class="dropdown">
+                        <a id="username" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true"
+                           aria-expanded="false">用户<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/user/user-info.html">用户信息</a></li>
+                            <li><a href="/j_spring_security_logout">注销</a></li>
+                        </ul>
+                    </li>
+                </form>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--<div id="bk"></div>-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 col-lg-offset-1" style="background: lightyellow">
+            <div class="row">
+                <h4 class="text-info">个人资料</h4>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 text-info">用户:</div>
+                <div class="col-lg-6 text-info" id="user"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 text-info">访问数:</div>
+                <div class="col-lg-6 text-info" id="visit-count"></div>
+            </div>
+        </div>
+        <div class="col-md-7 col-lg-offset-1" style="background: lightblue">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group" id="div_demo">
+                        <h1>
+                            <div id="title"></div>
+                        </h1>
+                        <div id="tag">标签</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-lg-offset-6">
+                    <div class="small" id="last-modify-time"></div>
+                </div>
+                <div class="col-md-2">
+                    <div class="small" id="visits"></div>
+                </div>
+                <div class="col-md-2">
+                    <a href="/blog/blog-edit.html">编辑</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="height: 1px; background: black;"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12" id="content"></div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="absolute" id="blog-list-frame">
-    <div class="absolute" id="content"></div>
+<div style="height: 100%">
+    <div class="footer">
+        "黑默丁格公园网 版权所有 2015 保留所有权利"<br>
+        "Copyright 2015 HeimerdingerPark.com All rights reserved."
+    </div>
 </div>
 </body>
 <script src="../../js/framework/jquery-1.11.3.js"></script>
+<script src="../../js/framework/bootstrap.min.js"></script>
+<script src="../../js/framework/jquery.tmpl.min.js"></script>
 <script type="text/javascript">
     var Blog = {
-        render: function (data) {
+        userId: 0,
+        renderBlog: function (data) {
             $("#title").html(data.title);
             $("#content").html(data.content);
             $("#last-modify-time").html(data.lastModifyTime);
+            $("#visits").html(data.hit + "人阅读");
             document.getElementsByTagName("title")[0].innerHTML = data.title;
         },
-        load: function () {
+
+        renderUser: function (data) {
+            this.userId = data.userId;
+            $("#user").html(data.username);
+            $("#visit-count").html(data.totalHit);
+            $("#blogs").html(data.blogs);
+        },
+
+        loadUser: function () {
+            var instance = this;
+            $.ajax({
+                url: "/blog/user-info.ep",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-type": "application/json"
+                },
+                success: function (data) {
+                    if (data.returnCode == "200" && data.returnMessage == "SUCCESS") {
+                        instance.renderUser(data.data);
+                    } else {
+                        alert("Show Blog Failed! \n" + data.returnMessage);
+                    }
+                }
+            });
+        },
+
+        loadBlog: function () {
             var id = this.getQueryString("blogId");
             var instance = this;
             $.ajax({
@@ -73,12 +180,16 @@
                 },
                 success: function (data) {
                     if (data.returnCode == "200" && data.returnMessage == "SUCCESS") {
-                        instance.render(data.data);
+                        instance.renderBlog(data.data);
                     } else {
                         alert("Show Blog Failed! \n" + data.returnMessage);
                     }
                 }
             });
+        },
+        load : function() {
+            this.loadBlog();
+            this.loadUser();
         },
         getQueryString: function (name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -89,4 +200,13 @@
     }
     Blog.load();
 </script>
+<!--<script id="demo" type="text/x-jquery-tmpl">-->
+<!--<div class="container">-->
+<!--<div class="row">-->
+<!--${title}-->
+<!--${content}-->
+<!--${lastModifyTime}-->
+<!--</div>-->
+<!--</div>-->
+<!--</script>-->
 </html>
