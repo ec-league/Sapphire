@@ -1,16 +1,10 @@
 package com.sapphire.controller.blog.impl;
 
-import com.sapphire.common.TimeUtil;
-import com.sapphire.constant.BlogStatus;
-import com.sapphire.domain.user.User;
-import com.sapphire.domain.blog.Blog;
-import com.sapphire.domain.blog.Comment;
-import com.sapphire.dto.DataJsonDto;
-import com.sapphire.dto.Dto;
-import com.sapphire.dto.JsonDto;
-import com.sapphire.dto.ListJsonDto;
-import com.sapphire.service.user.UserService;
-import com.sapphire.service.blog.BlogService;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityNotFoundException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +15,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
+import com.sapphire.common.MarkDownUtil;
+import com.sapphire.common.TimeUtil;
+import com.sapphire.constant.BlogStatus;
+import com.sapphire.domain.blog.Blog;
+import com.sapphire.domain.blog.Comment;
+import com.sapphire.domain.user.User;
+import com.sapphire.dto.DataJsonDto;
+import com.sapphire.dto.Dto;
+import com.sapphire.dto.JsonDto;
+import com.sapphire.dto.ListJsonDto;
+import com.sapphire.service.blog.BlogService;
+import com.sapphire.service.user.UserService;
 
 /**
  * Author: EthanPark <br/>
@@ -284,7 +287,7 @@ public class BlogControllerImpl {
          setBlogId(blog.getUidPk());
          setTitle(blog.getBlogTitle());
          setLastModifyTime(TimeUtil.formatTime(blog.getLastModifyTime()));
-         setContent(blog.getBlogContent());
+         setContent(MarkDownUtil.toHtml(blog.getBlogContent()));
          setHit(blog.getBlogHit());
       }
 
