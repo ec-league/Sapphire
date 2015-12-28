@@ -7,84 +7,85 @@
     <link rel="stylesheet" media="screen" href="../../css/common/bootstrap-theme.min.css">
     <link rel="stylesheet" media="screen" href="../../css/common/mycommon.css">
     <style>
-        .absolute {
+        #bk {
+            background-image: url(../../img/blog/bg-style.jpg);
+            background-size: 100%;
+            margin-top: 0;
             position: absolute;
         }
-
-        #person-info {
-            height: 40%;
-            width: 10%;
-            left: 10%;
-            top: 5%;
-            background: lightblue;
-        }
-
-        #user {
-            height: 20%;
-            left: 10%;
-            top: 5%;
-        }
-
-        #visit-count {
-            height: 20%;
-            left: 10%;
-            top: 25%;
-        }
-
-        #blogs {
-            height: 20%;
-            left: 10%;
-            top: 50%;
-        }
-
-        .blog-item {
-            height: 98px;
-            width: 100%;
-            background: lightgoldenrodyellow;
-        }
-
-        .title {
-            height: 15%;
-            top: 3%;
-        }
-
-        .snapshot {
-            top: 20%;
-            height: 60%;
-        }
-
-        .last-modify-time {
-            top: 80%;
-            left: 60%;
-            right: 20%;
-        }
-
-        .blog-visit-count {
-            top: 80%;
-            left: 80%;
-            right: 0;
-        }
-
-        #blog-list-frame {
-            right: 10%;
-            left: 22%;
-            top: 5%;
-            background: lightslategray;
-            bottom: 0%;
-        }
     </style>
-
 </head>
-<body>
-<div class="absolute" id="person-info">
-    <div class="absolute" id="user"></div>
-    <div class="absolute" id="visit-count">标签</div>
-    <div class="absolute" id="blogs"></div>
+<body id="bk">
+<nav class="navbar navbar-default ">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand topnav" href="about.html">
+                <img alt="Brand" src="../img/logo.jpg">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav nav-pills ulbar">
+                <li class="active " role="presentation"><a href="#">DashBoard <span class="sr-only">(current)</span></a>
+                </li>
+                <li role="presentation"><a href="project.html">项目</a></li>
+                <li role="presentation"><a href="/blog/my-blogs.html">博客</a></li>
+                <li role="presentation"><a href="#" data-target="#myModal" data-toggle="modal">添加问题</a></li>
+                <form class="navbar-form navbar-right">
+                    <li class="dropdown">
+                        <a id="username" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true"
+                           aria-expanded="false">用户<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/user/user-info.html">用户信息</a></li>
+                            <li><a href="/j_spring_security_logout">注销</a></li>
+                        </ul>
+                    </li>
+                </form>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid" style="padding-bottom: 111px;">
+    <div class="row">
+        <div class="col-md-2 col-lg-offset-1">
+            <div style="background: lightyellow;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="text-info"><strong>个人资料</strong></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 text-info">用户:</div>
+                    <div class="col-lg-6 text-info" id="user"></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 text-info">访问数:</div>
+                    <div class="col-lg-6 text-info" id="visit-count"></div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 text-info">博客数:</div>
+                    <div class="col-lg-6 text-info" id="blogs"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div style="background: lightyellow; padding-left: 20px; padding-right: 20px;">
+                <div class="row">
+                    <div class="col-lg-12" id="blog-list-frame">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="absolute" id="blog-list-frame">
-</div>
+<nav class="navbar navbar-default navbar-fixed-bottom footer">
+    "黑默丁格公园网 版权所有 2015 保留所有权利"<br>
+    "Copyright 2015 HeimerdingerPark.com All rights reserved."
+</nav>
 </body>
 <script src="../../js/framework/jquery-1.11.3.js"></script>
+<script src="../../js/framework/bootstrap.min.js"></script>
+<script src="../../js/framework/jquery.tmpl.min.js"></script>
 <script type="text/javascript">
     var BlogList = {
         userId: 0,
@@ -102,24 +103,16 @@
             for (var i = 0; i < data.length; i++) {
                 var blogItem = $("<a></a>");
                 blogItem.attr("href", "/blog/page.html?blogId=" + data[i].blogId);
-                blogItem.addClass("absolute blog-item");
-                blogItem.css({
-                    top: 100 * i + "px"
-                });
                 var title = $("<div></div>");
-                title.addClass("absolute title");
                 title.html(data[i].title);
                 title.appendTo(blogItem);
                 var snapshot = $("<div></div>");
-                snapshot.addClass("absolute snapshot");
                 snapshot.html(data[i].contentSnapshot);
                 snapshot.appendTo(blogItem);
                 var blogVisitCount = $("<div></div>");
-                blogVisitCount.addClass("absolute blog-visit-count");
                 blogVisitCount.html(data[i].hit);
                 blogVisitCount.appendTo(blogItem);
                 var lastModifyTime = $("<div></div>");
-                lastModifyTime.addClass("absolute last-modify-time");
                 lastModifyTime.html(data[i].lastModifyTime);
                 lastModifyTime.appendTo(blogItem);
                 blogItem.appendTo(blogListFrame);

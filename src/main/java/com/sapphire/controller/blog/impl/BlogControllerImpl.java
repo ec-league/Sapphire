@@ -200,6 +200,7 @@ public class BlogControllerImpl {
    }
 
    private static class BlogItem implements Dto {
+      private static final int BLOG_SNAPSHOT_LENGTH = 290;
       private long blogId;
       private String title;
       private String createTime;
@@ -215,7 +216,12 @@ public class BlogControllerImpl {
          setLastModifyTime(TimeUtil.formatTime(blog.getLastModifyTime()));
          setStatus(blog.getBlogStatus().toString());
          setHit(blog.getBlogHit());
-         setContentSnapshot(blog.getBlogContent());
+         String s =
+               blog.getBlogContent().length() < BLOG_SNAPSHOT_LENGTH ? blog
+                     .getBlogContent() : blog.getBlogContent().substring(0,
+                     BLOG_SNAPSHOT_LENGTH)
+                     + "...";
+         setContentSnapshot(s);
       }
 
       public String getContentSnapshot() {
