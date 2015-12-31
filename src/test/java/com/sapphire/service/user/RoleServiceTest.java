@@ -1,11 +1,12 @@
 package com.sapphire.service.user;
 
+import com.sapphire.user.service.RoleService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;
-import com.sapphire.constant.RoleNameConstant;
+import com.sapphire.user.constant.RoleNameConstant;
 
 /**
  * Author: EthanPark <br/>

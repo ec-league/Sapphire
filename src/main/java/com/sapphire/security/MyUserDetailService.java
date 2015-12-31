@@ -1,6 +1,6 @@
 package com.sapphire.security;
 
-import com.sapphire.service.user.UserService;
+import com.sapphire.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

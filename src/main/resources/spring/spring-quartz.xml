@@ -13,7 +13,7 @@
     <task:annotation-driven/>
 
     <bean id="reminderEmailJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-        <property name="jobClass" value="com.sapphire.task.ReminderEmailTask"></property>
+        <property name="jobClass" value="com.sapphire.manage.task.ReminderEmailTask"></property>
         <property name="durability" value="true"/>
     </bean>
 

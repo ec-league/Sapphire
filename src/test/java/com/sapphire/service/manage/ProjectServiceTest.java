@@ -2,8 +2,8 @@ package com.sapphire.service.manage;
 
 import com.sapphire.BaseTest;
 import com.sapphire.common.TimeUtil;
-import com.sapphire.domain.manage.Project;
-import com.sapphire.service.manager.ProjectService;
+import com.sapphire.manage.domain.Project;
+import com.sapphire.manage.service.ProjectService;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
