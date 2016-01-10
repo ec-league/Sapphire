@@ -7,27 +7,6 @@
     <link rel="stylesheet" media="screen" href="../../css/common/bootstrap-theme.min.css">
     <link rel="stylesheet" media="screen" href="../../css/common/mycommon.css">
     <style>
-        .absolute {
-            position: absolute;
-        }
-
-        #blog-title-frame {
-            height: 15%;
-            width: 80%;
-            left: 10%;
-            top: 5%;
-            background: lightblue;
-            font-size: 120%;
-        }
-
-        #blog-list-frame {
-            height: 60%;
-            width: 80%;
-            left: 10%;
-            top: 25%;
-            background: lightslategray;
-        }
-
         #tag {
             top: 20%;
             height: 20%;
@@ -52,10 +31,19 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav nav-pills ulbar">
-                <li class="active " role="presentation"><a href="#">DashBoard <span class="sr-only">(current)</span></a>
+                <li role="presentation"><a href="#">DashBoard <span class="sr-only">(current)</span></a>
                 </li>
                 <li role="presentation"><a href="project.html">项目</a></li>
-                <li role="presentation"><a href="/blog/my-blogs.html">博客</a></li>
+                <li class="active" class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        博客
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" data-target="#newBlog" data-toggle="modal">新增博客</a></li>
+                        <li><a href="/blog/my-blogs.html">博客列表</a></li>
+                    </ul>
+                </li>
                 <li role="presentation"><a href="#" data-target="#myModal" data-toggle="modal">添加问题</a></li>
                 <form class="navbar-form navbar-right">
                     <li class="dropdown">
@@ -111,7 +99,7 @@
                         <div class="small" id="visits"></div>
                     </div>
                     <div class="col-md-2">
-                        <a href="/blog/blog-edit.html">编辑</a>
+                        <a id="edit" href="/blog/blog-edit.html">编辑</a>
                     </div>
                 </div>
                 <div class="row">
@@ -124,6 +112,134 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="btnCloseClick()">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">创建问题</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form class="form-horizontal" style="margin-right: 10px;">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">问题类型</label>
+
+                            <div class="col-sm-4">
+                                <select class="form-control" id="problemClass" ng-model="Bug分类" data-toggle="tooltip"
+                                        title="不能为空">
+                                    <option>请选择问题类型</option>
+                                    <option value="request">新需求</option>
+                                    <option value="bug">Bug</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">主题</label>
+
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="problemTitle" ng-model="主题"
+                                       data-toggle="tooltip"
+                                       title="不能为空">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                项目</label>
+
+                            <div class="col-sm-4">
+                                <select class="form-control" id="project" ng-model="所属项目" data-toggle="tooltip"
+                                        title="不能为空">
+                                    <option selected="selected">请选择所属项目</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                Bug分类</label>
+
+                            <div class="col-sm-4">
+                                <select class="form-control" id="bugClass" ng-model="Bug分类" data-toggle="tooltip"
+                                        title="不能为空">
+                                    <option>请选择Bug严重程度</option>
+                                    <option value="p0">灾难性的</option>
+                                    <option value="p1">严重的</option>
+                                    <option value="p2">一般的</option>
+                                    <option value="p3">轻微的</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                负责人</label>
+
+                            <div class="col-sm-4">
+                                <select class="form-control" id="transactor" ng-model="负责人" data-toggle="tooltip"
+                                        title="不能为空">
+                                    <option>请选择负责人</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                描述</label>
+
+                            <div class="col-sm-6">
+                                <textarea class="form-control" rows="3" id="TextEName" ng-model="描述"
+                                          data-toggle="tooltip" title="可为空"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="divModalContentDel">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="createTicketSave" autocomplete="off"
+                        data-loading-text='loading...' ng-click="btnSaveClick()">保存
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close"
+                        ng-click="btnCloseClick()">取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="newBlog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="btnCloseClick()">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">新增博客</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form class="form-horizontal" style="margin-right: 10px;">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">主题</label>
+
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="newBlogTitle" ng-model="主题"
+                                       data-toggle="tooltip"
+                                       title="不能为空">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="newBlogSave" autocomplete="off"
+                        data-loading-text='loading...' ng-click="btnSaveClick()">提交
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close"
+                        ng-click="btnCloseClick()">取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <nav class="navbar navbar-default navbar-fixed-bottom footer">
     "黑默丁格公园网 版权所有 2015 保留所有权利"<br>
     "Copyright 2015 HeimerdingerPark.com All rights reserved."
@@ -132,6 +248,7 @@
 <script src="../../js/framework/jquery-1.11.3.js"></script>
 <script src="../../js/framework/bootstrap.min.js"></script>
 <script src="../../js/framework/jquery.tmpl.min.js"></script>
+<script src="../../js/nav.js"></script>
 <script type="text/javascript">
     var Blog = {
         userId: 0,
@@ -170,6 +287,7 @@
 
         loadBlog: function () {
             var id = this.getQueryString("blogId");
+            $("#edit").attr("href", "/blog/blog-edit.html?blogId=" + id);
             var instance = this;
             $.ajax({
                 url: "/blog/" + id + "/get.ep",
@@ -195,17 +313,8 @@
             var r = window.location.search.substr(1).match(reg);
             if (r != null)return unescape(r[2]);
             return null;
-        }
-    }
+        },
+    };
     Blog.load();
 </script>
-<!--<script id="demo" type="text/x-jquery-tmpl">-->
-<!--<div class="container">-->
-<!--<div class="row">-->
-<!--${title}-->
-<!--${contentOrigin}-->
-<!--${lastModifyTime}-->
-<!--</div>-->
-<!--</div>-->
-<!--</script>-->
 </html>

@@ -30,11 +30,21 @@
                 <li class="active " role="presentation"><a href="#">DashBoard <span class="sr-only">(current)</span></a>
                 </li>
                 <li role="presentation"><a href="project.html">项目</a></li>
-                <li role="presentation"><a href="/blog/my-blogs.html">博客</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        博客
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" data-target="#newBlog" data-toggle="modal">新增博客</a></li>
+                        <li><a href="/blog/my-blogs.html">博客列表</a></li>
+                    </ul>
+                </li>
                 <li role="presentation"><a href="#" data-target="#myModal" data-toggle="modal">添加问题</a></li>
                 <form class="navbar-form navbar-right">
                     <li class="dropdown">
-                        <a id="username" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                        <a id="username" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true"
                            aria-expanded="false">用户<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="/user/user-info.html">用户信息</a></li>
@@ -53,7 +63,7 @@
             <div class="panel-body">
             </div>
 
-            </table>-->
+            </table>
             <div class="activity-item">
                 <div class="date-header">今日</div>
                 <span class="user-icon">
@@ -108,14 +118,6 @@
                         </tr>
                         </thead>
                         <tbody id="VendorList">
-                        <!--<tr ng-repeat="o in Vendorlist">-->
-                            <!--<td>{{o.Type}}</td>-->
-                            <!--<td>{{o.Priority}}</td>-->
-                            <!--<td>{{o.Subject}}</td>-->
-                            <!--<td>{{o.Deadline}}</td>-->
-                            <!--<td>{{o.Description}}</td>-->
-                            <!--<td>{{o.Status}}</td>-->
-                        <!--</tr>-->
                         </tbody>
                     </table>
                     <div style="clear: none;">
@@ -131,10 +133,10 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="btnCloseClick()">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">创建问题</h4>
+                <h4 class="modal-title">创建问题</h4>
             </div>
             <div class="modal-body">
-                <div id="divModalContent">
+                <div>
                     <form class="form-horizontal" style="margin-right: 10px;">
                         <div class="form-group">
                             <label class="col-sm-4 control-label">问题类型</label>
@@ -152,9 +154,9 @@
                             <label class="col-sm-4 control-label">主题</label>
 
                             <div class="col-sm-4">
-                                <input type="text" class="form-control" id="txtAuto" ng-model="主题" data-toggle="tooltip"
+                                <input type="text" class="form-control" id="problemTitle" ng-model="主题"
+                                       data-toggle="tooltip"
                                        title="不能为空">
-                                <!--onkeyup="value=value.replace(/[^\T\F]/g,'');">-->
                             </div>
                         </div>
                         <div class="form-group">
@@ -209,21 +211,52 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btnSave" autocomplete="off"
+                <button type="button" class="btn btn-primary" id="createTicketSave" autocomplete="off"
                         data-loading-text='loading...' ng-click="btnSaveClick()">保存
                 </button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close"
                         ng-click="btnCloseClick()">取消
                 </button>
-                <!--<button type="button" class="btn btn-default cancel" id="btnCancel" autocomplete="off" data-loading-text='loading...'>取消</button>-->
             </div>
         </div>
     </div>
 </div>
+<div class="modal fade" id="newBlog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="btnCloseClick()">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">新增博客</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form class="form-horizontal" style="margin-right: 10px;">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">主题</label>
+
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="newBlogTitle" ng-model="主题"
+                                       data-toggle="tooltip"
+                                       title="不能为空">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="newBlogSave" autocomplete="off"
+                        data-loading-text='loading...' ng-click="btnSaveClick()">提交
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close"
+                        ng-click="btnCloseClick()">取消
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 <div style="height: 100%">
     <div class="footer">
-
         "黑默丁格公园网 版权所有 2015 保留所有权利"<br>
         "Copyright 2015 HeimerdingerPark.com All rights reserved."
     </div>
@@ -235,6 +268,7 @@
 <script src="../js/framework/app.js"></script>
 <script src="../js/private/app.dashboard.js"></script>
 <script src="../js/framework/bootstrap.min.js"></script>
+<script src="../js/nav.js"></script>
 <script type="text/javascript">
     angular.module("app", []);
     angular.module("commonCtrl", []);
@@ -243,27 +277,27 @@
 <script type="text/javascript">
     var Render = {
         tbody: document.getElementById("VendorList"),
-        userTag : document.getElementById("username"),
+        userTag: document.getElementById("username"),
         listData: [],
 
-        load : function() {
+        load: function () {
             this.updateUser();
             this.updateProblems();
         },
 
-        updateUser:function() {
+        updateUser: function () {
             var instance = this;
             $.ajax({
                 url: "/rest/user/getCurrentUser.ep",
                 type: "POST",
                 success: function (data) {
                     instance.renderUser(data.data);
-                },
+                }
             });
         },
 
-        renderUser : function(data) {
-           this.userTag.innerHTML = data.username;
+        renderUser: function (data) {
+            this.userTag.innerHTML = data.username;
         },
 
         updateProblems: function () {
@@ -274,7 +308,7 @@
                 success: function (data) {
                     instance.listData = data.data;
                     instance.renderProblems();
-                },
+                }
             });
         },
 
@@ -309,80 +343,5 @@
         }
     };
     Render.load();
-
-    var CreateTicket = {
-        ticketTypeTag: document.getElementById("problemClass"),
-        titleTag: document.getElementById("txtAuto"),
-        projectTag: document.getElementById("project"),
-        priorityTag: document.getElementById("bugClass"),
-        userTag: document.getElementById("transactor"),
-        descriptionTag: document.getElementById("TextEName"),
-        submitTag: document.getElementById("btnSave"),
-
-        loadProject: function () {
-            var instance = this;
-
-            $.ajax({
-                url: "/rest/manage/project/snapshots/list.ep",
-                success: function (data) {
-                    var list = data.data;
-                    for (var i = 0; i < list.length; i++) {
-                        var option = document.createElement("option");
-                        option.value = list[i].projectId;
-                        option.innerHTML = list[i].title;
-                        instance.projectTag.options[i + 1] = option;
-                    }
-                }
-            });
-        },
-        loadUser: function () {
-            var instance = this;
-            $.ajax({
-                url: "/rest/manage/user/snapshots/list.ep",
-                success: function (data) {
-                    var list = data.data;
-                    for (var i = 0; i < list.length; i++) {
-                        var option = document.createElement("option");
-                        option.value = list[i].userId;
-                        option.innerHTML = list[i].username;
-                        instance.userTag.options[i + 1] = option;
-                    }
-                }
-            });
-        },
-        submit: function () {
-            var instance = CreateTicket;
-            var dict = {"ticketType": instance.ticketTypeTag.value};
-            dict["projectId"] = parseInt(instance.projectTag.value);
-            dict["title"] = instance.titleTag.value;
-            dict["description"] = instance.descriptionTag.value;
-//            dict["reporterUserId"] = 1;
-            dict["assignUserId"] = parseInt(instance.userTag.value);
-            dict["priority"] = instance.priorityTag.value;
-            dict["deadline"] = "2015-12-20 00:00:00";
-            $.ajax({
-                url: "/rest/manage/ticket/save.ep",
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-type": "application/json"
-                },
-                data: JSON.stringify(dict),
-                success: function (data) {
-                    if (data.returnCode == "200" && data.returnMessage == "SUCCESS") {
-                        alert("Create Ticket Success!");
-                    } else {
-                        alert("Create Ticket Failed! \n" + data.returnMessage);
-                    }
-                }
-            });
-        },
-        load: function () {
-            this.loadProject();
-            this.loadUser();
-            this.submitTag.onclick = this.submit;
-        }
-    };
-    CreateTicket.load();
 </script>
 </html>

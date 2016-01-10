@@ -1,16 +1,18 @@
 package com.sapphire.blog.service.impl;
 
+import java.util.Collections;
+import java.util.List;
+
+import javax.persistence.EntityNotFoundException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.sapphire.blog.domain.Blog;
 import com.sapphire.blog.domain.Comment;
 import com.sapphire.blog.repository.BlogRepository;
 import com.sapphire.blog.repository.CommentRepository;
 import com.sapphire.blog.service.BlogService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityNotFoundException;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Author: EthanPark <br/>
@@ -24,6 +26,14 @@ public class BlogServiceImpl implements BlogService {
    @Autowired
    private CommentRepository commentRepository;
 
+   /**
+    * Get user's blog list ignore the blog status, whether the blog is published
+    * or not.
+    * 
+    * @param userId
+    *           , User's Id
+    * @return
+    */
    public List<Blog> getBlogListByUserId(long userId) {
       List<Blog> blogs = blogRepository.getAllBlogsByUserId(userId);
       if (blogs == null || blogs.isEmpty()) {
@@ -47,6 +57,10 @@ public class BlogServiceImpl implements BlogService {
 
    public void loadBlog(long blogId) {
       Blog blog = blogRepository.findOne(blogId);
+      if (blog == null) {
+         throw new EntityNotFoundException(String.format(
+               "Blog id %d does not exist!", blogId));
+      }
       blog.setBlogHit(blog.getBlogHit() + 1);
       blogRepository.save(blog);
    }

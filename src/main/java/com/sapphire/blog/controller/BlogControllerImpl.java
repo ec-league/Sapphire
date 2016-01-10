@@ -47,7 +47,7 @@ public class BlogControllerImpl {
     */
    @RequestMapping("/list.ep")
    @ResponseBody
-   public JsonDto getBlogList() {
+   public JsonDto getUserBlogList() {
       try {
          User u =
                (User) SecurityContextHolder.getContext().getAuthentication()

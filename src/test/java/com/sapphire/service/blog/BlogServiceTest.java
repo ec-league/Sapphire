@@ -1,22 +1,24 @@
 package com.sapphire.service.blog;
 
-import com.sapphire.BaseTest;
-import com.sapphire.blog.service.BlogService;
-import com.sapphire.blog.service.CommentService;
-import com.sapphire.common.TimeUtil;
-import com.sapphire.blog.constant.BlogStatus;
-import com.sapphire.user.domain.User;
-import com.sapphire.blog.domain.Blog;
-import com.sapphire.blog.domain.Comment;
-import com.sapphire.user.dto.UserDto;
-import com.sapphire.user.service.UserService;
+import java.util.List;
+
+import javax.persistence.EntityNotFoundException;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.List;
+import com.sapphire.BaseTest;
+import com.sapphire.blog.constant.BlogStatus;
+import com.sapphire.blog.domain.Blog;
+import com.sapphire.blog.domain.Comment;
+import com.sapphire.blog.service.BlogService;
+import com.sapphire.blog.service.CommentService;
+import com.sapphire.common.TimeUtil;
+import com.sapphire.user.domain.User;
+import com.sapphire.user.dto.UserDto;
+import com.sapphire.user.service.UserService;
 
 /**
  * Author: EthanPark <br/>
@@ -127,7 +129,7 @@ public class BlogServiceTest extends BaseTest {
       Assert.assertEquals(blog.getBlogHit(), 1);
    }
 
-   @Test
+   @Test(expected = EntityNotFoundException.class)
    public void testIncreaseEmpty() {
       blogService.loadBlog(0);
    }
