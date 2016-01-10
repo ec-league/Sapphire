@@ -137,7 +137,7 @@
         userId: 0,
         renderBlog: function (data) {
             $("#title").html(data.title);
-            $("#content").html(data.content);
+            $("#content").html(data.contentMarkdown);
             $("#last-modify-time").html(data.lastModifyTime);
             $("#visits").html(data.hit + "人阅读");
             document.getElementsByTagName("title")[0].innerHTML = data.title;
@@ -203,7 +203,7 @@
 <!--<div class="container">-->
 <!--<div class="row">-->
 <!--${title}-->
-<!--${content}-->
+<!--${contentOrigin}-->
 <!--${lastModifyTime}-->
 <!--</div>-->
 <!--</div>-->

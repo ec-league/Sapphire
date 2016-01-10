@@ -1,5 +1,20 @@
 package com.sapphire.blog.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityNotFoundException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.sapphire.blog.constant.BlogStatus;
 import com.sapphire.blog.domain.Blog;
 import com.sapphire.blog.domain.Comment;
@@ -11,20 +26,6 @@ import com.sapphire.common.dto.Dto;
 import com.sapphire.common.dto.JsonDto;
 import com.sapphire.common.dto.ListJsonDto;
 import com.sapphire.user.domain.User;
-import com.sapphire.user.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Author: EthanPark <br/>
@@ -38,8 +39,6 @@ public class BlogControllerImpl {
          .getLogger(BlogControllerImpl.class);
    @Autowired
    private BlogService blogService;
-   @Autowired
-   private UserService userService;
 
    /**
     * Get specified user's blog list, which contains title.
@@ -66,7 +65,8 @@ public class BlogControllerImpl {
    }
 
    /**
-    * Get specified blog by uidPk, which contains title, content and comments.
+    * Get specified blog by uidPk, which contains title, contentOrigin and
+    * comments.
     * 
     * @param id
     *           , specified blog uidPk.
@@ -119,8 +119,13 @@ public class BlogControllerImpl {
          @RequestBody BlogDto blogDto) {
       try {
          Blog blog = getBlog(blogId, blogDto);
+         User u =
+               (User) SecurityContextHolder.getContext().getAuthentication()
+                     .getPrincipal();
+         blog.setUser(u);
          blogService.saveBlog(blog);
-         return new JsonDto().formSuccessDto();
+         JsonDto dto = new DataJsonDto<BlogDetail>(new BlogDetail(blog));
+         return dto.formSuccessDto();
       } catch (Exception e) {
          LOGGER.error(e.getMessage(), e);
          return new JsonDto().formFailureDto(e);
@@ -134,6 +139,11 @@ public class BlogControllerImpl {
       try {
          Blog blog = getBlog(blogId, blogDto);
          blog.setBlogStatus(BlogStatus.PUBLISHED);
+         User u =
+               (User) SecurityContextHolder.getContext().getAuthentication()
+                     .getPrincipal();
+
+         blog.setUser(u);
          blogService.saveBlog(blog);
          return new JsonDto().formSuccessDto();
       } catch (Exception e) {
@@ -147,7 +157,6 @@ public class BlogControllerImpl {
       if (blogId == 0) {
          blog = new Blog();
          blog.setCreateTime(TimeUtil.now());
-         blog.setUser(userService.getUserById(blogDto.getUserId()));
       } else {
          blog = blogService.getBlogByUidPk(blogId);
          blog.setBlogContent(blogDto.getContent());
@@ -282,7 +291,8 @@ public class BlogControllerImpl {
    private static class BlogDetail implements Dto {
       private long blogId;
       private String title;
-      private String content;
+      private String contentOrigin;
+      private String contentMarkdown;
       private String lastModifyTime;
       private long hit;
       private List<CommentDto> comments;
@@ -291,8 +301,17 @@ public class BlogControllerImpl {
          setBlogId(blog.getUidPk());
          setTitle(blog.getBlogTitle());
          setLastModifyTime(TimeUtil.formatTime(blog.getLastModifyTime()));
-         setContent(MarkDownUtil.toHtml(blog.getBlogContent()));
+         setContentMarkdown(MarkDownUtil.toHtml(blog.getBlogContent()));
+         setContentOrigin(blog.getBlogContent());
          setHit(blog.getBlogHit());
+      }
+
+      public String getContentMarkdown() {
+         return contentMarkdown;
+      }
+
+      public void setContentMarkdown(String contentMarkdown) {
+         this.contentMarkdown = contentMarkdown;
       }
 
       public long getHit() {
@@ -335,12 +354,12 @@ public class BlogControllerImpl {
          this.title = title;
       }
 
-      public String getContent() {
-         return content;
+      public String getContentOrigin() {
+         return contentOrigin;
       }
 
-      public void setContent(String content) {
-         this.content = content;
+      public void setContentOrigin(String contentOrigin) {
+         this.contentOrigin = contentOrigin;
       }
 
    }
@@ -392,17 +411,8 @@ public class BlogControllerImpl {
    }
 
    private static class BlogDto implements Dto {
-      private long userId;
       private String title;
       private String content;
-
-      public long getUserId() {
-         return userId;
-      }
-
-      public void setUserId(long userId) {
-         this.userId = userId;
-      }
 
       public String getTitle() {
          return title;

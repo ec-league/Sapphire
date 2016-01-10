@@ -8,7 +8,7 @@
     <link rel="stylesheet" media="screen" href="../../css/common/mycommon.css">
 </head>
 <style>
-    *{
+    * {
         margin: 0;
         padding: 0;
     }
@@ -16,9 +16,11 @@
     html, body {
         height: 100%;
     }
+
     .full-height {
         height: 100%;
     }
+
     .navbar {
         margin-bottom: 0;
     }
@@ -53,30 +55,129 @@
 </div>
 <div class="row">
     <div class="col-md-10">
-        <div class="btn-lg btn-primary">标题</div>
+        <div id="title" class="btn-lg btn-primary">标题</div>
+        <input type="text" class="form-control" style="position: absolute;top: 0;height: 100%;display: none;"
+               placeholder="请输入标题">
     </div>
     <div class="col-md-1">
-        <div class="btn-success btn-lg text-center">发布</div>
+        <div id="save" class="btn-success btn-lg text-center">保存</div>
+    </div>
+    <div class="col-md-1">
+        <div id="publish" class="btn-warning btn-lg text-center">发布</div>
     </div>
 </div>
 <div class="row">
     <div class="col-md-12" style="height: 2px;"></div>
 </div>
 <div class="row full-height" style="background: lightblue;">
-    <textarea class="col-md-6 full-height"></textarea>
-    <div class="col-md-6 full-height" style="background: lightgoldenrodyellow">
-    slkdjflsjdflk
+    <div class="col-md-offset-1 col-md-5 full-height">
+        <textarea id="content-origin" class="full-height" style="width: 100%;"></textarea>
+    </div>
+
+
+    <div class="col-md-5 full-height"
+         style="background: lightgoldenrodyellow;">
+        <div id="content-markdown" class="full-height" style="width: 100%; overflow-y: scroll"></div>
     </div>
 </div>
 
-<nav class="navbar navbar-default navbar-fixed-bottom footer">
-    "黑默丁格公园网 版权所有 2015 保留所有权利"<br>
-    "Copyright 2015 HeimerdingerPark.com All rights reserved."
-</nav>
 </body>
 <script src="../../js/framework/jquery-1.11.3.js"></script>
 <script src="../../js/framework/bootstrap.min.js"></script>
 <script>
+    var BlogEdit = {
+        blogId: 0,
+        load: function () {
+            this.loadBlog();
 
+            var instance = this;
+            $("#save").click(function () {
+                instance.saveBlog();
+            });
+            $("#publish").click(function () {
+                instance.publishBlog();
+            });
+        },
+        render: function () {
+        },
+        renderBlog: function (data) {
+            $("#title").html(data.title);
+            $("#content-origin").html(data.contentOrigin);
+            $("#content-markdown").html(data.contentMarkdown);
+        },
+        loadBlog: function () {
+            var id = this.getQueryString("blogId");
+            this.blogId = id;
+            var instance = this;
+
+            $.ajax({
+                url: "/blog/" + id + "/get.ep",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-type": "application/json"
+                },
+                success: function (data) {
+                    if (data.returnCode == "200" && data.returnMessage == "SUCCESS") {
+                        instance.renderBlog(data.data);
+                    } else {
+                        alert("Show Blog Failed! \n" + data.returnMessage);
+                    }
+                }
+            });
+        },
+        saveBlog: function () {
+            var instance = this;
+            var dict = {};
+            var id = this.blogId;
+            dict["title"] = $("#title").text();
+            dict["content"] = $("#content-origin").val();
+            $.ajax({
+                url: "/blog/" + id + "/save.ep",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-type": "application/json"
+                },
+                method: "post",
+                data: JSON.stringify(dict),
+                success: function (data) {
+                    if (data.returnCode == "200" && data.returnMessage == "SUCCESS") {
+                        instance.renderBlog(data.data);
+                    } else {
+                        alert("Show Blog Failed! \n" + data.returnMessage);
+                    }
+                }
+            });
+        },
+        publishBlog: function () {
+            var instance = this;
+            var dict = {};
+            var id = this.blogId;
+            dict["title"] = $("#title").text();
+            dict["content"] = $("#content-origin").val();
+            $.ajax({
+                url: "/blog/" + id + "/publish.ep",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-type": "application/json"
+                },
+                method: "post",
+                data: JSON.stringify(dict),
+                success: function (data) {
+                    if (data.returnCode == "200" && data.returnMessage == "SUCCESS") {
+                        alert("Publish Blog Success!");
+                    } else {
+                        alert("Show Blog Failed! \n" + data.returnMessage);
+                    }
+                }
+            });
+        },
+        getQueryString: function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null)return unescape(r[2]);
+            return null;
+        }
+    };
+    BlogEdit.load();
 </script>
 </html>
