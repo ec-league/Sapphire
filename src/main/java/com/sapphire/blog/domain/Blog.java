@@ -1,6 +1,7 @@
 package com.sapphire.blog.domain;
 
 import com.sapphire.blog.constant.BlogStatus;
+import com.sapphire.common.TimeUtil;
 import com.sapphire.user.domain.User;
 
 import javax.persistence.*;
@@ -15,6 +16,12 @@ import java.sql.Timestamp;
 @Table(name = Blog.TABLE_NAME)
 public class Blog {
    public static final String TABLE_NAME = "BLOG";
+
+   public Blog() {
+      setCreateTime(TimeUtil.now());
+      setLastModifyTime(TimeUtil.now());
+   }
+
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "UIDPK")
