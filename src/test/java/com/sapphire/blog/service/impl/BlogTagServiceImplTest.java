@@ -9,9 +9,7 @@ import com.sapphire.user.domain.User;
 import com.sapphire.user.dto.UserDto;
 import com.sapphire.user.service.UserService;
 import org.apache.commons.lang.RandomStringUtils;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,15 +33,6 @@ public class BlogTagServiceImplTest extends BaseTest {
    @Autowired
    private UserService userService;
 
-   @Before
-   public void before() throws Exception {
-
-   }
-
-   @After
-   public void after() throws Exception {
-   }
-
    /**
     * 
     * Method: getBlogsByTagName(String tagName)
@@ -57,6 +46,7 @@ public class BlogTagServiceImplTest extends BaseTest {
       UserDto dto = new UserDto();
       dto.setUsername(RandomStringUtils.randomAlphabetic(8));
       dto.setPassword(RandomStringUtils.randomAlphabetic(8));
+      dto.setEmail(RandomStringUtils.randomAlphanumeric(8));
       long id = userService.createUser(dto);
       User user = userService.getUserById(id);
       blog.setUser(user);
@@ -69,36 +59,22 @@ public class BlogTagServiceImplTest extends BaseTest {
       blogTagService.addBlogTag(tag);
 
       List<BlogTag> tags = blogTagService.getBlogTagsByBlogId(blogId);
+      Assert.assertEquals(blogTagService.getBlogsByTagName(tagName).size(), 1);
       Assert.assertEquals(tags.size(), 1);
       Assert.assertEquals(tags.get(0).getTagName(), tag.getTagName());
 
-      tag.setTagName(RandomStringUtils.randomAlphanumeric(5));
-      blogTagService.addBlogTag(tag);
+      BlogTag newTag = new BlogTag();
+
+      newTag.setTagName(RandomStringUtils.randomAlphanumeric(5));
+      newTag.setBlogId(blogId);
+      blogTagService.addBlogTag(newTag);
       tags = blogTagService.getBlogTagsByBlogId(blogId);
       Assert.assertEquals(tags.size(), 2);
 
-      tag.setTagName(tagName);
-      blogTagService.addBlogTag(tag);
-   }
-
-   /**
-    * 
-    * Method: getBlogTagsByBlogId(long blogId)
-    * 
-    */
-   @Test
-   public void testGetBlogTagsByBlogId() throws Exception {
-      //TODO: Test goes here... 
-   }
-
-   /**
-    * 
-    * Method: addBlogTag(BlogTag tag)
-    * 
-    */
-   @Test
-   public void testAddBlogTag() throws Exception {
-      //TODO: Test goes here... 
+      BlogTag newTag2 = new BlogTag();
+      newTag2.setTagName(tagName);
+      newTag2.setBlogId(blogId);
+      blogTagService.addBlogTag(newTag2);
    }
 
    /**
@@ -108,6 +84,26 @@ public class BlogTagServiceImplTest extends BaseTest {
     */
    @Test
    public void testDeleteBlogTag() throws Exception {
-      //TODO: Test goes here... 
+      Blog blog = new Blog();
+      blog.setBlogTitle(RandomStringUtils.randomAlphanumeric(10));
+      blog.setBlogContent(RandomStringUtils.randomAlphanumeric(150));
+      UserDto dto = new UserDto();
+      dto.setUsername(RandomStringUtils.randomAlphabetic(8));
+      dto.setPassword(RandomStringUtils.randomAlphabetic(8));
+      dto.setEmail(RandomStringUtils.randomAlphanumeric(8));
+      long id = userService.createUser(dto);
+      User user = userService.getUserById(id);
+      blog.setUser(user);
+      long blogId = blogService.saveBlog(blog);
+
+      BlogTag tag = new BlogTag();
+      String tagName = RandomStringUtils.randomAlphanumeric(4);
+      tag.setTagName(tagName);
+      tag.setBlogId(blogId);
+      long tagId = blogTagService.addBlogTag(tag);
+
+      Assert.assertEquals(blogTagService.getBlogTagsByBlogId(blogId).size(), 1);
+      blogTagService.deleteBlogTag(tagId);
+      Assert.assertEquals(blogTagService.getBlogTagsByBlogId(blogId).size(), 0);
    }
 }

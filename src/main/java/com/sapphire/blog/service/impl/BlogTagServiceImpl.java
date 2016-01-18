@@ -46,13 +46,13 @@ public class BlogTagServiceImpl implements BlogTagService {
    }
 
    @Override
-   public void addBlogTag(BlogTag tag) {
+   public long addBlogTag(BlogTag tag) {
       List<BlogTag> tags = blogTagRepository.getBlogTagsByBlogId(tag.getBlogId());
       boolean exist = tags.stream().filter(t -> t.getTagName().equals(tag.getTagName())).count() > 0;
       if (exist) {
          throw new EntityExistsException();
       }
-      blogTagRepository.save(tag);
+      return blogTagRepository.save(tag).getUidPk();
    }
 
    @Override
