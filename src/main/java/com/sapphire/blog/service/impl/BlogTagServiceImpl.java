@@ -39,7 +39,7 @@ public class BlogTagServiceImpl implements BlogTagService {
 
    public List<BlogTag> getBlogTagsByBlogId(long blogId) {
       List<BlogTag> tags = blogTagRepository.getBlogTagsByBlogId(blogId);
-      if (tags == null) {
+      if (tags == null || tags.isEmpty()) {
          throw new EntityNotFoundException();
       }
       return tags;

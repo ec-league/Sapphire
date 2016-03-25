@@ -19,5 +19,6 @@ public class ReminderEmailTask extends QuartzJobBean {
    protected void executeInternal(JobExecutionContext context)
          throws JobExecutionException {
       LOGGER.info("Execute reminder email task");
+
    }
 }

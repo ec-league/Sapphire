@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 /**
@@ -77,12 +78,17 @@ public class BlogTagServiceImplTest extends BaseTest {
       blogTagService.addBlogTag(newTag2);
    }
 
+   @Test(expected = EntityNotFoundException.class)
+   public void testGetBlogTagByIdEmpty(){
+      blogTagService.getBlogTagsByBlogId(0);
+   }
+
    /**
     * 
     * Method: deleteBlogTag(long blogTagId)
     * 
     */
-   @Test
+   @Test(expected = EntityNotFoundException.class)
    public void testDeleteBlogTag() throws Exception {
       Blog blog = new Blog();
       blog.setBlogTitle(RandomStringUtils.randomAlphanumeric(10));
@@ -104,6 +110,6 @@ public class BlogTagServiceImplTest extends BaseTest {
 
       Assert.assertEquals(blogTagService.getBlogTagsByBlogId(blogId).size(), 1);
       blogTagService.deleteBlogTag(tagId);
-      Assert.assertEquals(blogTagService.getBlogTagsByBlogId(blogId).size(), 0);
+      blogTagService.getBlogTagsByBlogId(blogId).size();
    }
 }
