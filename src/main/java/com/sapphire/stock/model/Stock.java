@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Ethan on 2016/3/30.
  */
 public class Stock {
-//   private List<StockItem> stockItems;
+   private List<StockItem> stockItems;
    private double averageGoldDays;
    private double increaseTotal;
    private String code;
@@ -19,15 +19,14 @@ public class Stock {
    }
 
    public Stock(List<StockItem> stockItems) {
-      calculateMacd(stockItems);
-
+      this.stockItems = stockItems;
    }
 
    public String getCode() {
       return code;
    }
 
-   private void calculateMacd(List<StockItem> stockItems) {
+   public void calculateMacd() {
       for (int i = 1; i < stockItems.size(); i++) {
          stockItems.get(i).setEma12(stockItems.get(i - 1).getEma12() * 11 / 13 + stockItems.get(i).getEma12() * 2 / 13);
          stockItems.get(i).setEma26(stockItems.get(i - 1).getEma26() * 11 / 13 + stockItems.get(i).getEma26() * 2 / 13);

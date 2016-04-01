@@ -24,7 +24,7 @@
         <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
         <property name="jpaProperties">
             <props>
-                <prop key="openjpa.Log">Runtime=Trace</prop>
+                <prop key="openjpa.Log">Runtime=INFO </prop>
                 <prop key="openjpa.RuntimeUnenhancedClasses">supported</prop>
             </props>
         </property>

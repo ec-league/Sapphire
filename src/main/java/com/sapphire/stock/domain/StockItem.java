@@ -1,7 +1,8 @@
 package com.sapphire.stock.domain;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.persistence.*;
 
@@ -12,6 +13,33 @@ import javax.persistence.*;
 @Table(name = StockItem.TABLE_NAME)
 public class StockItem {
    public static final String TABLE_NAME = "STOCK_ITEM";
+   private static final String FORMAT = "MM/dd/yyyy";
+
+   public StockItem() {
+
+   }
+
+   public StockItem(String line) {
+      String[] lines = line.split("\t");
+
+      try {
+         setDate(new Timestamp(new SimpleDateFormat(FORMAT).parse(lines[0])
+               .getTime()));
+      } catch (ParseException e) {
+         e.printStackTrace();
+      }
+      setStartPrice(Double.parseDouble(lines[1]));
+      setHighestPrice(Double.parseDouble(lines[2]));
+      setLowestPrice(Double.parseDouble(lines[3]));
+      setEndPrice(Double.parseDouble(lines[4]));
+      setTrading(Double.parseDouble(lines[5]));
+      setTradingValue(Double.parseDouble(lines[6]));
+
+      setEma12(getEndPrice());
+      setEma26(getEndPrice());
+      setIncreaseRate((endPrice / startPrice - 1) * 100);
+      setIndustry("");
+   }
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,81 +54,52 @@ public class StockItem {
    @Column(name = "NAME")
    private String name;
 
-   @Basic
-   @Column(name = "INCREASE_RATE")
+   @Column(name = "INCREASE_RATE", precision = 7, scale = 2)
    private double increaseRate;
 
    @Basic
    @Column(name = "INDUSTRY")
    private String industry;
 
-   @Basic
-   @Column(name = "START_PRICE")
-   private BigDecimal startPrice;
+   @Column(name = "START_PRICE", precision = 7, scale = 2)
+   private double startPrice;
 
-   @Basic
-   @Column(name = "END_PRICE")
-   private BigDecimal endPrice;
+   @Column(name = "END_PRICE", precision = 7, scale = 2)
+   private double endPrice;
 
-   @Basic
-   @Column(name = "HIGHEST_PRICE")
-   private BigDecimal highestPrice;
+   @Column(name = "HIGHEST_PRICE", precision = 7, scale = 2)
+   private double highestPrice;
 
-   @Basic
-   @Column(name = "LOWEST_PRICE")
-   private BigDecimal lowestPrice;
+   @Column(name = "LOWEST_PRICE", precision = 7, scale = 2)
+   private double lowestPrice;
 
-   @Basic
-   @Column(name = "CIRCULATION_MARKET_VALUE")
-   private BigDecimal circulationMarketValue;
+   @Column(name = "CIRCULATION_MARKET_VALUE", precision = 40, scale = 2)
+   private double circulationMarketValue;
 
    @Temporal(TemporalType.TIMESTAMP)
    @Column(name = "LOG_DATE")
    private Timestamp date;
 
-   @Basic
-   @Column(name = "MACD_DEA")
+   @Column(name = "TRADING", precision = 40, scale = 2)
+   private double trading;
+
+   @Column(name = "TRADING_VALUE", precision = 40, scale = 3)
+   private double tradingValue;
+
+   @Column(name = "MACD_DEA", precision = 11, scale = 6)
    private double macdDea;
 
-   @Basic
-   @Column(name = "MACD_DIFF")
+   @Column(name = "MACD_DIFF", precision = 11, scale = 6)
    private double macdDiff;
 
-   @Basic
-   @Column(name = "MACD")
+   @Column(name = "MACD", precision = 11, scale = 6)
    private double macd;
 
-   @Basic
-   @Column(name = "EMA_12")
+   @Column(name = "EMA_12", precision = 11, scale = 6)
    private double ema12;
 
-   @Basic
-   @Column(name = "EMA_26")
+   @Column(name = "EMA_26", precision = 11, scale = 6)
    private double ema26;
-
-   public double getEma12() {
-      return ema12;
-   }
-
-   public void setEma12(double ema12) {
-      this.ema12 = ema12;
-   }
-
-   public double getEma26() {
-      return ema26;
-   }
-
-   public void setEma26(double ema26) {
-      this.ema26 = ema26;
-   }
-
-   public Timestamp getDate() {
-      return date;
-   }
-
-   public void setDate(Timestamp date) {
-      this.date = date;
-   }
 
    public long getUidPk() {
       return uidPk;
@@ -142,36 +141,68 @@ public class StockItem {
       this.industry = industry;
    }
 
-   public BigDecimal getStartPrice() {
+   public double getStartPrice() {
       return startPrice;
    }
 
-   public void setStartPrice(BigDecimal startPrice) {
+   public void setStartPrice(double startPrice) {
       this.startPrice = startPrice;
    }
 
-   public BigDecimal getEndPrice() {
+   public double getEndPrice() {
       return endPrice;
    }
 
-   public void setEndPrice(BigDecimal endPrice) {
+   public void setEndPrice(double endPrice) {
       this.endPrice = endPrice;
    }
 
-   public BigDecimal getHighestPrice() {
+   public double getHighestPrice() {
       return highestPrice;
    }
 
-   public void setHighestPrice(BigDecimal highestPrice) {
+   public void setHighestPrice(double highestPrice) {
       this.highestPrice = highestPrice;
    }
 
-   public BigDecimal getLowestPrice() {
+   public double getLowestPrice() {
       return lowestPrice;
    }
 
-   public void setLowestPrice(BigDecimal lowestPrice) {
+   public void setLowestPrice(double lowestPrice) {
       this.lowestPrice = lowestPrice;
+   }
+
+   public double getCirculationMarketValue() {
+      return circulationMarketValue;
+   }
+
+   public void setCirculationMarketValue(double circulationMarketValue) {
+      this.circulationMarketValue = circulationMarketValue;
+   }
+
+   public Timestamp getDate() {
+      return date;
+   }
+
+   public void setDate(Timestamp date) {
+      this.date = date;
+   }
+
+   public double getTrading() {
+      return trading;
+   }
+
+   public void setTrading(double trading) {
+      this.trading = trading;
+   }
+
+   public double getTradingValue() {
+      return tradingValue;
+   }
+
+   public void setTradingValue(double tradingValue) {
+      this.tradingValue = tradingValue;
    }
 
    public double getMacdDea() {
@@ -198,19 +229,19 @@ public class StockItem {
       this.macd = macd;
    }
 
-   public BigDecimal getCirculationMarketValue() {
-      return circulationMarketValue;
+   public double getEma12() {
+      return ema12;
    }
 
-   public void setCirculationMarketValue(BigDecimal circulationMarketValue) {
-      this.circulationMarketValue = circulationMarketValue;
+   public void setEma12(double ema12) {
+      this.ema12 = ema12;
    }
 
-   public boolean isGold() {
-      return macd >= 0;
+   public double getEma26() {
+      return ema26;
    }
 
-   public boolean isDead() {
-      return macd < 0;
+   public void setEma26(double ema26) {
+      this.ema26 = ema26;
    }
 }
