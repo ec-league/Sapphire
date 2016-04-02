@@ -1,10 +1,12 @@
 package com.sapphire.stock.model;
 
-import com.sapphire.stock.domain.StockItem;
-
-import java.security.Timestamp;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sapphire.stock.domain.StockItem;
 
 /**
  * Created by Ethan on 2016/3/30.
@@ -20,6 +22,8 @@ public class Stock {
 
    public Stock(List<StockItem> stockItems) {
       this.stockItems = stockItems;
+      if (!stockItems.isEmpty())
+         code = stockItems.get(0).getCode();
    }
 
    public String getCode() {
@@ -28,12 +32,109 @@ public class Stock {
 
    public void calculateMacd() {
       for (int i = 1; i < stockItems.size(); i++) {
-         stockItems.get(i).setEma12(stockItems.get(i - 1).getEma12() * 11 / 13 + stockItems.get(i).getEma12() * 2 / 13);
-         stockItems.get(i).setEma26(stockItems.get(i - 1).getEma26() * 11 / 13 + stockItems.get(i).getEma26() * 2 / 13);
-         stockItems.get(i).setMacdDiff(stockItems.get(i).getEma12() - stockItems.get(i).getEma26());
-         stockItems.get(i).setMacdDea(stockItems.get(i-1).getMacdDea() * 0.8 + stockItems.get(i).getMacdDiff() * 0.2);
-         stockItems.get(i).setMacd(stockItems.get(i).getMacdDiff() - stockItems.get(i).getMacdDea());
+         stockItems.get(i).setEma12(
+               stockItems.get(i - 1).getEma12() * 11 / 13
+                     + stockItems.get(i).getEma12() * 2 / 13);
+         stockItems.get(i).setEma26(
+               stockItems.get(i - 1).getEma26() * 11 / 13
+                     + stockItems.get(i).getEma26() * 2 / 13);
+         stockItems.get(i).setMacdDiff(
+               stockItems.get(i).getEma12() - stockItems.get(i).getEma26());
+         stockItems.get(i).setMacdDea(
+               stockItems.get(i - 1).getMacdDea() * 0.8
+                     + stockItems.get(i).getMacdDiff() * 0.2);
+         stockItems.get(i)
+               .setMacd(
+                     stockItems.get(i).getMacdDiff()
+                           - stockItems.get(i).getMacdDea());
       }
+   }
+
+   public int macdPlusCount(String dateFrom, String dateTo)
+         throws ParseException {
+      List<StockStatic> statics = calcStatics(dateFrom, dateTo);
+      int count = 0;
+      for (StockStatic stockStatic : statics) {
+         if (stockStatic.increaseRate > 0) {
+            count++;
+         }
+      }
+
+      return count;
+   }
+
+   public void process() {
+      List<StockStatic> statics = group(stockItems);
+
+      double origin = 1.0;
+
+      for (StockStatic stockStatic : statics) {
+         origin *= 1 + stockStatic.increaseRate / 100;
+      }
+      setIncreaseTotal(origin);
+   }
+
+   public int macdTotalCount(String dateFrom, String dateTo)
+         throws ParseException {
+      return calcStatics(dateFrom, dateTo).size();
+   }
+
+   private List<StockStatic> calcStatics(String dateFrom, String dateTo)
+         throws ParseException {
+      List<StockItem> items = new ArrayList<>();
+
+      long from = new SimpleDateFormat("MM/dd/yyyy").parse(dateFrom).getTime();
+      long to = new SimpleDateFormat("MM/dd/yyyy").parse(dateTo).getTime();
+
+      for (StockItem item : stockItems) {
+         long time = item.getDate().getTime();
+         if (from <= time && time <= to) {
+            items.add(item);
+         }
+      }
+
+      return group(items);
+   }
+
+   private static List<StockStatic> group(List<StockItem> items) {
+      List<List<StockItem>> complexItems = new ArrayList<>();
+
+      List<StockItem> tempList = new ArrayList<>();
+      for (StockItem item : items) {
+         if (item.getMacd() > 0) {
+            tempList.add(item);
+         } else {
+            if (tempList.isEmpty()) {
+               continue;
+            }
+            complexItems.add(tempList);
+            tempList = new ArrayList<>();
+         }
+      }
+      List<StockStatic> statics = new ArrayList<>();
+      for (List<StockItem> list : complexItems) {
+         StockStatic stockStatic = new StockStatic();
+         StockItem start = list.get(0);
+         StockItem end = list.get(list.size() - 1);
+
+         stockStatic.setStartDate(start.getDate());
+         stockStatic.setEndDate(end.getDate());
+         stockStatic.setIsOverZero(start.getMacdDiff() > 0);
+         stockStatic.setConsistDays(list.size());
+         stockStatic
+               .setIncreaseRate((end.getEndPrice() / start.getEndPrice() - 1) * 100);
+         statics.add(stockStatic);
+      }
+
+      return statics;
+   }
+
+   public double getIncreaseTotal() {
+      return increaseTotal;
+   }
+
+   public void setIncreaseTotal(double increaseTotal) {
+      this.increaseTotal = increaseTotal;
    }
 
    private static class StockStatic {
