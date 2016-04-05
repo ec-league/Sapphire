@@ -3,10 +3,9 @@ package com.sapphire.stock.service.impl;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
+import com.sapphire.common.TimeUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ import com.sapphire.stock.service.StockService;
  * 
  * @author EthanPark
  * @since <pre>
- * ���� 2, 2016
+ * ���� 2, 2016
  * </pre>
  * @version 1.0
  */
@@ -61,18 +60,27 @@ public class StockServiceImplTest extends BaseTest {
       Assert.assertNull(stock);
    }
 
-//   @Test
+   @Test
    public void outputStatics() throws ParseException {
       List<String> codes = stockService.getAllCodes();
 
       int successCount = 0;
       int totalCount = 0;
 
-      String dateFrom = "01/01/2011";
-      String dateTo = "07/15/2014";
+      String dateFrom = "11/06/2015";
+      String dateTo = "04/02/2016";
+      Timestamp from =
+            new Timestamp(new SimpleDateFormat("MM/dd/yyyy").parse(dateFrom)
+                  .getTime());
+      Timestamp to =
+            new Timestamp(new SimpleDateFormat("MM/dd/yyyy").parse(dateTo)
+                  .getTime());
 
       for (String code : codes) {
-         Stock stock = stockService.getStockByCode(code);
+         Stock stock = stockService.getStockByCodeAndTime(code, from, to);
+         if (stock == null) {
+            continue;
+         }
          successCount += stock.macdPlusCount(dateFrom, dateTo);
          totalCount += stock.macdTotalCount(dateFrom, dateTo);
       }
@@ -83,7 +91,7 @@ public class StockServiceImplTest extends BaseTest {
             .printf("Frequency     : %s%n", successCount * 1.0 / totalCount);
    }
 
-//   @Test
+   @Test
    public void output1() throws ParseException {
       List<String> codes = stockService.getAllCodes();
 
@@ -108,10 +116,36 @@ public class StockServiceImplTest extends BaseTest {
          stocks.add(stock);
       }
 
-      stocks.sort((o1, o2) -> (int) (o2.getIncreaseTotal() * 100 - o1.getIncreaseTotal() * 100));
+      stocks.sort((o1, o2) -> (int) (o1.getIncreaseTotal() * 100 - o2.getIncreaseTotal() * 100));
 
       for (int i = 0; i < 50; i++) {
-         System.out.printf("Code : %s, Increase : %s%n", stocks.get(i).getCode(), stocks.get(i).getIncreaseTotal());
+         System.out.printf("Code : %s, Increase : %s, Diff: %s%n", stocks.get(i).getCode(), stocks.get(i).getIncreaseTotal(), stocks.get(i).getFirstDiff());
       }
+   }
+
+   /**
+    * 统计从2015年7月16日以后的金叉盈利百分比，根据百分比来缩短周期寻求最高盈利率
+    *
+    * @throws Exception
+    */
+   @Test
+   public void output2() {
+      String dateFrom = "07/20/2015";
+      Timestamp from = TimeUtil.fromStockString(dateFrom);
+
+      List<String> codes = stockService.getAllCodes();
+
+      Set<String> ignoreSet = new HashSet<>();
+      List<Stock> stocks = new ArrayList<>(3000);
+      for (String code : codes) {
+         Stock stock = stockService.getStockByCodeAndTime(code, from, TimeUtil.now());
+
+         if (stock == null) {
+            ignoreSet.add(code);
+            continue;
+         }
+         stocks.add(stock);
+      }
+
    }
 }

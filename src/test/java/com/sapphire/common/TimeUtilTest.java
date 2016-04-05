@@ -29,5 +29,16 @@ public class TimeUtilTest {
    public void testNormal() {
       String test = "1991-5-17 20:22:59";
       Timestamp timestamp = TimeUtil.fromString(test);
+
+      Assert.assertNotNull(timestamp);
+   }
+
+   @Test
+   public void testNormal1() {
+      String test = "08/10/2012";
+
+      Timestamp timestamp = TimeUtil.fromStockString(test);
+
+      Assert.assertNotNull(timestamp);
    }
 }

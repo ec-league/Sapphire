@@ -16,6 +16,7 @@ public class Stock {
    private double averageGoldDays;
    private double increaseTotal;
    private String code;
+   private double firstDiff;
 
    public Stock() {
    }
@@ -30,16 +31,17 @@ public class Stock {
       return code;
    }
 
-   public void calculateMacd() {
+   public void calculateMacd(int small, int big) {
       for (int i = 1; i < stockItems.size(); i++) {
          stockItems.get(i).setEma12(
-               stockItems.get(i - 1).getEma12() * 11 / 13
-                     + stockItems.get(i).getEma12() * 2 / 13);
+               stockItems.get(i - 1).getEma12() * (small - 2) / small
+                     + stockItems.get(i).getEma12() * 2 / small);
          stockItems.get(i).setEma26(
-               stockItems.get(i - 1).getEma26() * 11 / 13
-                     + stockItems.get(i).getEma26() * 2 / 13);
+               stockItems.get(i - 1).getEma26() * (big - 2) / big
+                     + stockItems.get(i).getEma26() * 2 / big);
          stockItems.get(i).setMacdDiff(
                stockItems.get(i).getEma12() - stockItems.get(i).getEma26());
+
          stockItems.get(i).setMacdDea(
                stockItems.get(i - 1).getMacdDea() * 0.8
                      + stockItems.get(i).getMacdDiff() * 0.2);
@@ -72,6 +74,9 @@ public class Stock {
          origin *= 1 + stockStatic.increaseRate / 100;
       }
       setIncreaseTotal(origin);
+      if (statics.isEmpty())
+         return;
+      setFirstDiff(statics.get(0).getFirstDiff());
    }
 
    public int macdTotalCount(String dateFrom, String dateTo)
@@ -111,6 +116,17 @@ public class Stock {
             tempList = new ArrayList<>();
          }
       }
+
+      if (!tempList.isEmpty()) {
+         complexItems.add(tempList);
+      }
+
+      if (!complexItems.isEmpty()) {
+         if (complexItems.get(0).get(0).getDate().equals(items.get(0).getDate())) {
+            complexItems = complexItems.subList(1, complexItems.size());
+         }
+      }
+
       List<StockStatic> statics = new ArrayList<>();
       for (List<StockItem> list : complexItems) {
          StockStatic stockStatic = new StockStatic();
@@ -121,6 +137,7 @@ public class Stock {
          stockStatic.setEndDate(end.getDate());
          stockStatic.setIsOverZero(start.getMacdDiff() > 0);
          stockStatic.setConsistDays(list.size());
+         stockStatic.setFirstDiff(start.getMacdDiff());
          stockStatic
                .setIncreaseRate((end.getEndPrice() / start.getEndPrice() - 1) * 100);
          statics.add(stockStatic);
@@ -137,12 +154,29 @@ public class Stock {
       this.increaseTotal = increaseTotal;
    }
 
+   public double getFirstDiff() {
+      return firstDiff;
+   }
+
+   public void setFirstDiff(double firstDiff) {
+      this.firstDiff = firstDiff;
+   }
+
    private static class StockStatic {
       private Timestamp startDate;
       private Timestamp endDate;
       private boolean isOverZero;
       private double increaseRate;
       private int consistDays;
+      private double firstDiff;
+
+      public double getFirstDiff() {
+         return firstDiff;
+      }
+
+      public void setFirstDiff(double firstDiff) {
+         this.firstDiff = firstDiff;
+      }
 
       public Timestamp getStartDate() {
          return startDate;

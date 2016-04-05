@@ -16,6 +16,7 @@ import com.sapphire.common.exception.DateParseException;
  */
 public class TimeUtil {
    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+   private static final String STOCK_DATE_FORMAT = "MM/dd/yyyy";
 
    public static String formatTime(Date date) {
       SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -30,6 +31,18 @@ public class TimeUtil {
       SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
       if (time
             .matches("[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{2}:[0-9]{2}:[0-9]{2}")) {
+         try {
+            return new Timestamp(sdf.parse(time).getTime());
+         } catch (ParseException e) {
+            throw new DateParseException();
+         }
+      }
+      throw new DateParseException();
+   }
+
+   public static Timestamp fromStockString(String time) {
+      SimpleDateFormat sdf = new SimpleDateFormat(STOCK_DATE_FORMAT);
+      if (time.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")){
          try {
             return new Timestamp(sdf.parse(time).getTime());
          } catch (ParseException e) {
