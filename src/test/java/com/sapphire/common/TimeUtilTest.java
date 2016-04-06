@@ -41,4 +41,11 @@ public class TimeUtilTest {
 
       Assert.assertNotNull(timestamp);
    }
+
+   @Test
+   public void testOneMonthAgo() {
+      Timestamp timestamp = TimeUtil.oneMonthAgo();
+
+      Assert.assertNotNull(timestamp);
+   }
 }

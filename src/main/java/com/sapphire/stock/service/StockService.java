@@ -1,6 +1,7 @@
 package com.sapphire.stock.service;
 
-import com.sapphire.stock.model.Stock;
+import com.sapphire.stock.domain.Stock;
+import com.sapphire.stock.domain.StockStatics;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -14,4 +15,6 @@ public interface StockService {
    Stock getStockByCode(String code);
 
    Stock getStockByCodeAndTime(String code, Timestamp dateFrom, Timestamp dateTo);
+
+   StockStatics getLastMonthStockStatics();
 }

@@ -1,4 +1,4 @@
-package com.sapphire.stock.model;
+package com.sapphire.stock.domain;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sapphire.stock.domain.StockItem;
 
 /**
  * Created by Ethan on 2016/3/30.
@@ -17,6 +16,8 @@ public class Stock {
    private double increaseTotal;
    private String code;
    private double firstDiff;
+   private double averageIncreaseRate;
+   private boolean shouldPass = false;
 
    public Stock() {
    }
@@ -34,11 +35,11 @@ public class Stock {
    public void calculateMacd(int small, int big) {
       for (int i = 1; i < stockItems.size(); i++) {
          stockItems.get(i).setEma12(
-               stockItems.get(i - 1).getEma12() * (small - 2) / small
-                     + stockItems.get(i).getEma12() * 2 / small);
+               stockItems.get(i - 1).getEma12() * (small - 1) / (small + 1)
+                     + stockItems.get(i).getEma12() * 2 / (small + 1));
          stockItems.get(i).setEma26(
-               stockItems.get(i - 1).getEma26() * (big - 2) / big
-                     + stockItems.get(i).getEma26() * 2 / big);
+               stockItems.get(i - 1).getEma26() * (big - 1) / (big + 1)
+                     + stockItems.get(i).getEma26() * 2 / (big + 1));
          stockItems.get(i).setMacdDiff(
                stockItems.get(i).getEma12() - stockItems.get(i).getEma26());
 
@@ -50,6 +51,27 @@ public class Stock {
                      stockItems.get(i).getMacdDiff()
                            - stockItems.get(i).getMacdDea());
       }
+   }
+
+   public void calcStatics() {
+      List<StockStatic> statics = group(stockItems);
+
+      if (statics.isEmpty()) {
+         shouldPass = true;
+         return;
+      }
+      int count = 0;
+      int plusCount = 0;
+      increaseTotal = 1;
+      for (StockStatic stat : statics) {
+         increaseTotal *= 1 + stat.getIncreaseRate() / 100;
+         count++;
+         if (stat.getIncreaseRate() > 0) {
+            plusCount++;
+         }
+      }
+
+      averageIncreaseRate = plusCount * 1.0 / count;
    }
 
    public int macdPlusCount(String dateFrom, String dateTo)
@@ -122,7 +144,8 @@ public class Stock {
       }
 
       if (!complexItems.isEmpty()) {
-         if (complexItems.get(0).get(0).getDate().equals(items.get(0).getDate())) {
+         if (complexItems.get(0).get(0).getDate()
+               .equals(items.get(0).getDate())) {
             complexItems = complexItems.subList(1, complexItems.size());
          }
       }
@@ -144,6 +167,14 @@ public class Stock {
       }
 
       return statics;
+   }
+
+   public double getAverageIncreaseRate() {
+      return averageIncreaseRate;
+   }
+
+   public boolean isShouldPass() {
+      return shouldPass;
    }
 
    public double getIncreaseTotal() {

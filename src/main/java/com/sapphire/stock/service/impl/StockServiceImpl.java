@@ -1,13 +1,16 @@
 package com.sapphire.stock.service.impl;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.sapphire.common.TimeUtil;
+import com.sapphire.stock.domain.StockStatics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sapphire.stock.domain.StockItem;
-import com.sapphire.stock.model.Stock;
+import com.sapphire.stock.domain.Stock;
 import com.sapphire.stock.repository.StockItemRepository;
 import com.sapphire.stock.service.StockService;
 
@@ -41,5 +44,28 @@ public class StockServiceImpl implements StockService {
          return new Stock(items);
       }
       return null;
+   }
+
+   /**
+    * Get latest one month's all stock info.
+    * @return
+    */
+   @Override
+   public StockStatics getLastMonthStockStatics() {
+      List<String> codes = stockItemRepository.getCodes();
+
+      List<Stock> stocks = new ArrayList<>(codes.size());
+
+      Timestamp from = TimeUtil.oneMonthAgo();
+      Timestamp to = TimeUtil.now();
+
+      for (String code: codes) {
+         Stock stock = getStockByCodeAndTime(code, from, to);
+         if (stock != null) {
+            stocks.add(stock);
+         }
+      }
+      StockStatics result = new StockStatics(stocks);
+      return result;
    }
 }

@@ -5,6 +5,7 @@ import static java.lang.System.currentTimeMillis;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.sapphire.common.exception.DateParseException;
@@ -17,6 +18,7 @@ import com.sapphire.common.exception.DateParseException;
 public class TimeUtil {
    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
    private static final String STOCK_DATE_FORMAT = "MM/dd/yyyy";
+   private static final long ONE_MONTH = 30 * 24 * 60 * 60 * 1000l;
 
    public static String formatTime(Date date) {
       SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -25,6 +27,10 @@ public class TimeUtil {
 
    public static Timestamp now() {
       return new Timestamp(currentTimeMillis());
+   }
+
+   public static Timestamp oneMonthAgo() {
+      return new Timestamp(currentTimeMillis() - ONE_MONTH);
    }
 
    public static Timestamp fromString(String time) {
