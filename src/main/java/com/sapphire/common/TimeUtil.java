@@ -5,7 +5,6 @@ import static java.lang.System.currentTimeMillis;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import com.sapphire.common.exception.DateParseException;
@@ -48,7 +47,7 @@ public class TimeUtil {
 
    public static Timestamp fromStockString(String time) {
       SimpleDateFormat sdf = new SimpleDateFormat(STOCK_DATE_FORMAT);
-      if (time.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")){
+      if (time.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
          try {
             return new Timestamp(sdf.parse(time).getTime());
          } catch (ParseException e) {

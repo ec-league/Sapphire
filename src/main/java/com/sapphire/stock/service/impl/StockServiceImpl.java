@@ -14,6 +14,9 @@ import com.sapphire.stock.domain.Stock;
 import com.sapphire.stock.repository.StockItemRepository;
 import com.sapphire.stock.service.StockService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 /**
  * Created by Ethan on 2016/3/30.
  */
@@ -21,6 +24,9 @@ import com.sapphire.stock.service.StockService;
 public class StockServiceImpl implements StockService {
    @Autowired
    private StockItemRepository stockItemRepository;
+
+   @PersistenceContext
+   private EntityManager entityManager;
 
    @Override
    public List<String> getAllCodes() {

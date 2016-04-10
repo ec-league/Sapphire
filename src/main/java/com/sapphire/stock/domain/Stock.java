@@ -18,14 +18,17 @@ public class Stock {
    private double firstDiff;
    private double averageIncreaseRate;
    private boolean shouldPass = false;
+   private double currentMacd;
 
    public Stock() {
    }
 
    public Stock(List<StockItem> stockItems) {
       this.stockItems = stockItems;
-      if (!stockItems.isEmpty())
+      if (!stockItems.isEmpty()) {
          code = stockItems.get(0).getCode();
+         currentMacd = stockItems.get(stockItems.size() - 1).getMacd();
+      }
    }
 
    public String getCode() {
@@ -191,6 +194,10 @@ public class Stock {
 
    public void setFirstDiff(double firstDiff) {
       this.firstDiff = firstDiff;
+   }
+
+   public double getCurrentMacd() {
+      return currentMacd;
    }
 
    private static class StockStatic {

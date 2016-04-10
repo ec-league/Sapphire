@@ -1,6 +1,7 @@
 package com.sapphire.stock.service;
 
 import com.sapphire.stock.domain.Stock;
+import com.sapphire.stock.domain.StockItem;
 import com.sapphire.stock.domain.StockStatics;
 
 import java.sql.Timestamp;
