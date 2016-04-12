@@ -24,4 +24,7 @@ public interface StockItemRepository extends JpaRepository<StockItem, Long> {
    @Query(value = "select s from StockItem as s where s.code = :code and s.date >= :dateFrom and s.date <= :dateTo")
    List<StockItem> getStockByCodeAndTime(@Param("code") String code,
          @Param("dateFrom") Timestamp from, @Param("dateTo") Timestamp to);
+
+   @Query(value = "SELECT DISTINCT CODE FROM STOCK_ITEM WHERE INDUSTRY = ?1", nativeQuery = true)
+   List<String> getCodeByIndustry(String industry);
 }

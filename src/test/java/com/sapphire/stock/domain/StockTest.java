@@ -45,7 +45,7 @@ public class StockTest extends BaseTest {
       Assert.assertNotNull(stockItems);
    }
 
-   @Test
+//   @Test
    public void construct1() throws Exception {
       Assert.assertNotNull(stockItemRepository);
       System.out.println(TimeUtil.now());
@@ -80,5 +80,39 @@ public class StockTest extends BaseTest {
 
          stockItemRepository.save(stockItems);
       }
+   }
+
+   /**
+    * Daily data insert.
+    * 
+    * @throws Exception
+    */
+//   @Test
+   public void construct2() throws Exception {
+      BufferedReader br =
+            new BufferedReader(new InputStreamReader(new FileInputStream(new File("C:\\Users\\Ethan\\Desktop\\Table.txt")),
+                  "GBK"));
+
+      br.readLine();
+      String temp = br.readLine();
+
+      List<StockItem> items = new ArrayList<>(3000);
+      while (temp != null) {
+         temp = br.readLine();
+         StockItem item = StockItem.makeStockItemFromDaily(temp);
+
+         if (item == null)
+            continue;
+         items.add(item);
+      }
+
+      stockItemRepository.save(items);
+   }
+
+   @Test
+   public void testCode() {
+      List<String> codes = stockItemRepository.getCodeByIndustry("专用设备");
+
+      Assert.assertNotNull(codes);
    }
 }

@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 
 import javax.persistence.*;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Created by Ethan on 2016/3/30.
  */
@@ -39,6 +41,36 @@ public class StockItem {
       setEma26(getEndPrice());
       setIncreaseRate((endPrice / startPrice - 1) * 100);
       setIndustry("");
+   }
+
+   public static StockItem makeStockItemFromAll(String line) {
+      return new StockItem(line);
+   }
+
+   public static StockItem makeStockItemFromDaily(String line) {
+      if (StringUtils.isEmpty(line)) {
+         return null;
+      }
+      String[] lines = line.replaceAll("\t\t", "\t").split("\t");
+      StockItem item = new StockItem();
+      item.setCode(lines[0].substring(2));
+      item.setName(lines[1]);
+      if (!lines[4].equals("--")) {
+         item.setEndPrice(Double.parseDouble(lines[4]));
+         item.setStartPrice(Double.parseDouble(lines[13]));
+         item.setHighestPrice(Double.parseDouble(lines[15]));
+         item.setLowestPrice(Double.parseDouble(lines[16]));
+         item.setIncreaseRate((item.getEndPrice() / item.getStartPrice() - 1) * 100);
+         item.setTradingValue(Double.parseDouble(lines[25]));
+         item.setEma12(item.getEndPrice());
+         item.setEma26(item.getEndPrice());
+         if (!lines[32].equals("--"))
+            item.setCirculationMarketValue(Double.parseDouble(lines[32]));
+      } else {
+         return null;
+      }
+      item.setIndustry(lines[11]);
+      return item;
    }
 
    @Id
