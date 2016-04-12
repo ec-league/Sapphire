@@ -14,21 +14,49 @@ public class Stock {
    private List<StockItem> stockItems;
    private double averageGoldDays;
    private double increaseTotal;
+
+   /**
+    * 股票代码
+    */
    private String code;
    private double firstDiff;
    private double averageIncreaseRate;
    private boolean shouldPass = false;
+   /**
+    * 最后一天的股票macd值
+    */
    private double currentMacd;
+
+   /**
+    * 最后一天的股票macd diff值
+    */
+   private double currentDiff;
+
+   /**
+    * 股票统计数据
+    */
+   private List<StockStatic> statics;
+
+   private boolean stop;
 
    public Stock() {
    }
 
    public Stock(List<StockItem> stockItems) {
       this.stockItems = stockItems;
-      if (!stockItems.isEmpty()) {
-         code = stockItems.get(0).getCode();
-         currentMacd = stockItems.get(stockItems.size() - 1).getMacd();
-      }
+      code = stockItems.get(0).getCode();
+      currentMacd = stockItems.get(stockItems.size() - 1).getMacd();
+      currentDiff = stockItems.get(stockItems.size() - 1).getMacdDiff();
+      stop =
+            Double.compare(stockItems.get(stockItems.size() - 1).getTrading(),
+                  0) == 0;
+      statics = group(stockItems);
+   }
+
+   private void init() {
+      StockItem item = this.stockItems.get(0);
+      item.setEma12(item.getEndPrice());
+      item.setEma26(item.getEndPrice());
    }
 
    public String getCode() {
@@ -36,6 +64,7 @@ public class Stock {
    }
 
    public void calculateMacd(int small, int big) {
+      init();
       for (int i = 1; i < stockItems.size(); i++) {
          stockItems.get(i).setEma12(
                stockItems.get(i - 1).getEma12() * (small - 1) / (small + 1)
@@ -172,6 +201,14 @@ public class Stock {
       return statics;
    }
 
+   public boolean isTodayPlus() {
+      int size = stockItems.size();
+      if (size >= 2) {
+         return stockItems.get(size - 2).getMacd() < 0 && currentMacd >= 0;
+      }
+      return false;
+   }
+
    public double getAverageIncreaseRate() {
       return averageIncreaseRate;
    }
@@ -198,6 +235,14 @@ public class Stock {
 
    public double getCurrentMacd() {
       return currentMacd;
+   }
+
+   public double getCurrentDiff() {
+      return currentDiff;
+   }
+
+   public boolean isStop() {
+      return stop;
    }
 
    private static class StockStatic {

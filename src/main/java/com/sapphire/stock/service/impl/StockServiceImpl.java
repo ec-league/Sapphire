@@ -4,18 +4,18 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sapphire.common.TimeUtil;
-import com.sapphire.stock.domain.StockStatics;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sapphire.stock.domain.StockItem;
+import com.sapphire.common.TimeUtil;
 import com.sapphire.stock.domain.Stock;
+import com.sapphire.stock.domain.StockItem;
+import com.sapphire.stock.domain.StockStatics;
 import com.sapphire.stock.repository.StockItemRepository;
 import com.sapphire.stock.service.StockService;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /**
  * Created by Ethan on 2016/3/30.
@@ -67,7 +67,7 @@ public class StockServiceImpl implements StockService {
 
       for (String code: codes) {
          Stock stock = getStockByCodeAndTime(code, from, to);
-         if (stock != null) {
+         if (stock != null && !stock.isStop()) {
             stocks.add(stock);
          }
       }

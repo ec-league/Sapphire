@@ -137,8 +137,7 @@ public class StockServiceImplTest extends BaseTest {
     */
    @Test
    public void output2() {
-      Timestamp from = TimeUtil.fromStockString("03/16/2016");
-      Timestamp to = TimeUtil.fromStockString("04/06/2016");
+      Timestamp from = TimeUtil.fromStockString("07/16/2015");
       List<String> codes = stockService.getAllCodes();
 
       System.out.println(TimeUtil.now());
@@ -146,7 +145,8 @@ public class StockServiceImplTest extends BaseTest {
       Set<String> ignoreSet = new HashSet<>();
       List<Stock> stocks = new ArrayList<>(3000);
       for (String code : codes) {
-         Stock stock = stockService.getStockByCodeAndTime(code, from, to);
+         Stock stock =
+               stockService.getStockByCodeAndTime(code, from, TimeUtil.now());
 
          if (stock == null) {
             ignoreSet.add(code);
@@ -156,6 +156,50 @@ public class StockServiceImplTest extends BaseTest {
       }
       System.out.println(stocks.size());
       System.out.println(TimeUtil.now());
+
+      List<StaticItem> staticItems = new ArrayList<>(stocks.size());
+
+      for (int i = 5; i <= 15; i++) {
+         for (int j = 15; j < 25; j++) {
+            int count = 0;
+            double averageIncreaseRate = 0;
+            double increaseTotal = 0;
+            for (Stock stock : stocks) {
+               stock.calculateMacd(8, 16);
+               stock.calcStatics();
+               if (stock.isShouldPass()) {
+                  continue;
+               }
+               averageIncreaseRate += stock.getAverageIncreaseRate();
+               increaseTotal += stock.getIncreaseTotal();
+               count++;
+            }
+
+            if (count == 0) {
+               continue;
+            }
+            StaticItem item = new StaticItem();
+            item.setIncreaseTotal(increaseTotal / count);
+            item.setAverageIncreaseRate(averageIncreaseRate / count);
+            item.setStart(i);
+            item.setEnd(j);
+
+            staticItems.add(item);
+         }
+      }
+
+      staticItems.sort((o1, o2) -> (int) (o2.getIncreaseTotal()
+            * o2.getAverageIncreaseRate() * 10000 - o1.getIncreaseTotal()
+            * o1.getAverageIncreaseRate() * 10000));
+
+      for (StaticItem item : staticItems) {
+         String info =
+               String.format(
+                     "Start : %d, End : %d, IncreaseTotal : %s, AverageRate : %s",
+                     item.getStart(), item.getEnd(), item.getIncreaseTotal(),
+                     item.getAverageIncreaseRate());
+         System.out.println(info);
+      }
    }
 
    @Test
@@ -167,4 +211,55 @@ public class StockServiceImplTest extends BaseTest {
       Assert.assertNotNull(stockStatics);
    }
 
+   @Test
+   public void testMacd() {
+      Timestamp from = TimeUtil.fromStockString("07/08/2014");
+      Timestamp to = TimeUtil.now();
+
+      Stock stock = stockService.getStockByCodeAndTime("300202", from, to);
+
+      stock.calculateMacd(12, 26);
+
+      Assert.assertNotNull(stock);
+   }
+
+
+   private static class StaticItem {
+      private int start;
+      private int end;
+      private double increaseTotal;
+      private double averageIncreaseRate;
+
+      public int getStart() {
+         return start;
+      }
+
+      public void setStart(int start) {
+         this.start = start;
+      }
+
+      public int getEnd() {
+         return end;
+      }
+
+      public void setEnd(int end) {
+         this.end = end;
+      }
+
+      public double getIncreaseTotal() {
+         return increaseTotal;
+      }
+
+      public void setIncreaseTotal(double increaseTotal) {
+         this.increaseTotal = increaseTotal;
+      }
+
+      public double getAverageIncreaseRate() {
+         return averageIncreaseRate;
+      }
+
+      public void setAverageIncreaseRate(double averageIncreaseRate) {
+         this.averageIncreaseRate = averageIncreaseRate;
+      }
+   }
 }

@@ -1,19 +1,19 @@
 package com.sapphire.stock.domain;
 
-import com.sapphire.stock.service.StockService;
-import org.junit.Test;
+import java.util.List;
 
-import com.sapphire.BaseTest;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
+import com.sapphire.BaseTest;
+import com.sapphire.stock.service.StockService;
 
 /**
  * StockStatics Tester.
  * 
  * @author EthanPark
  * @since <pre>
- * ËÄÔÂ 10, 2016
+ * ï¿½ï¿½ï¿½ï¿½ 10, 2016
  * </pre>
  * @version 1.0
  */
@@ -35,6 +35,17 @@ public class StockStaticsTest extends BaseTest {
 
       for (Stock stock : stocks) {
          System.out.println(stock.getCode() + ", " + stock.getCurrentMacd());
+      }
+   }
+
+   @Test
+   public void testGetMacdUpZero() {
+      StockStatics stockStatics = stockService.getLastMonthStockStatics();
+
+      List<Stock> stocks = stockStatics.getMacdUpZero();
+
+      for (Stock stock : stocks) {
+         System.out.println(stock.getCode() + ", " + stock.getCurrentDiff());
       }
    }
 }

@@ -16,7 +16,7 @@ public class StockStatics {
    }
 
    /**
-    * ��ȡMacdֵ����0�����ǽӽ�0��20֧��Ʊ
+    * 获取为死叉的股票，按Macd值大小排序
     * 
     * @return
     */
@@ -31,5 +31,21 @@ public class StockStatics {
             o1.getCurrentMacd()));
 
       return result.subList(0, 20);
+   }
+
+   /**
+    * 获取金叉的股票，按当前的diff值排序
+    * 
+    * @return
+    */
+   public List<Stock> getMacdUpZero() {
+      List<Stock> result =
+            stocks.stream().filter(stock -> stock.isTodayPlus())
+                  .collect(Collectors.toList());
+
+      Collections.sort(result, (o1, o2) -> Double.compare(o1.getCurrentDiff(),
+            o2.getCurrentDiff()));
+
+      return result.subList(0, result.size() > 20 ? 20 : result.size());
    }
 }
