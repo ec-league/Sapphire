@@ -111,7 +111,7 @@ public class StockTest extends BaseTest {
 
    @Test
    public void testCode() {
-      List<String> codes = stockItemRepository.getCodeByIndustry("专用设备");
+      List<String> codes = stockItemRepository.getCodeByIndustry("专用");
 
       Assert.assertNotNull(codes);
    }

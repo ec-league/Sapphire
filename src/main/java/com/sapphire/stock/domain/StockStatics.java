@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
  * Author: Ethan Date: 2016/4/6
  */
 public class StockStatics {
+   private static final int LIMIT_SIZE = 20;
    private List<Stock> stocks;
 
    public StockStatics(List<Stock> stocks) {
@@ -30,7 +31,8 @@ public class StockStatics {
       Collections.sort(result, (o1, o2) -> Double.compare(o2.getCurrentMacd(),
             o1.getCurrentMacd()));
 
-      return result.subList(0, 20);
+      return result.subList(0,
+            result.size() > LIMIT_SIZE ? LIMIT_SIZE : result.size());
    }
 
    /**
@@ -46,6 +48,7 @@ public class StockStatics {
       Collections.sort(result, (o1, o2) -> Double.compare(o1.getCurrentDiff(),
             o2.getCurrentDiff()));
 
-      return result.subList(0, result.size() > 20 ? 20 : result.size());
+      return result.subList(0,
+            result.size() > LIMIT_SIZE ? LIMIT_SIZE : result.size());
    }
 }

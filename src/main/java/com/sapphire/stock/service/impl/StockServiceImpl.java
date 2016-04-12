@@ -43,7 +43,8 @@ public class StockServiceImpl implements StockService {
    }
 
    @Override
-   public Stock getStockByCodeAndTime(String code, Timestamp dateFrom, Timestamp dateTo) {
+   public Stock getStockByCodeAndTime(String code, Timestamp dateFrom,
+         Timestamp dateTo) {
       List<StockItem> items =
             stockItemRepository.getStockByCodeAndTime(code, dateFrom, dateTo);
       if (!items.isEmpty()) {
@@ -54,6 +55,7 @@ public class StockServiceImpl implements StockService {
 
    /**
     * Get latest one month's all stock info.
+    * 
     * @return
     */
    @Override
@@ -65,7 +67,33 @@ public class StockServiceImpl implements StockService {
       Timestamp from = TimeUtil.oneMonthAgo();
       Timestamp to = TimeUtil.now();
 
-      for (String code: codes) {
+      for (String code : codes) {
+         Stock stock = getStockByCodeAndTime(code, from, to);
+         if (stock != null && !stock.isStop()) {
+            stocks.add(stock);
+         }
+      }
+      StockStatics result = new StockStatics(stocks);
+      return result;
+   }
+
+   /**
+    * Get latest one month's stock statics of specified industry.
+    * 
+    * @param industry
+    *           , specified industry
+    * @return
+    */
+   @Override
+   public StockStatics getLastMonthStockStaticsByIndustry(String industry) {
+      List<String> codes = stockItemRepository.getCodeByIndustry(industry);
+
+      List<Stock> stocks = new ArrayList<>(codes.size());
+
+      Timestamp from = TimeUtil.oneMonthAgo();
+      Timestamp to = TimeUtil.now();
+
+      for (String code : codes) {
          Stock stock = getStockByCodeAndTime(code, from, to);
          if (stock != null && !stock.isStop()) {
             stocks.add(stock);
