@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Email: byp5303628@hotmail.com
  */
 @ContextConfiguration(locations = { "classpath:spring/applicationContext.xml" })
-//@Transactional
+@Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 public abstract class BaseTest {
    @Test

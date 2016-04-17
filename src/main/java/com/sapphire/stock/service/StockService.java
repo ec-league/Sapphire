@@ -19,4 +19,6 @@ public interface StockService {
    StockStatics getLastMonthStockStatics();
 
    StockStatics getLastMonthStockStaticsByIndustry(String industry);
+
+   List<String> getIndustries();
 }

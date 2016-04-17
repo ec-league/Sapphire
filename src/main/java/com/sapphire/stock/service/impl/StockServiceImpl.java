@@ -102,4 +102,9 @@ public class StockServiceImpl implements StockService {
       StockStatics result = new StockStatics(stocks);
       return result;
    }
+
+   @Override
+   public List<String> getIndustries() {
+      return stockItemRepository.getIndustries();
+   }
 }

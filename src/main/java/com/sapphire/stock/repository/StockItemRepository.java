@@ -27,4 +27,7 @@ public interface StockItemRepository extends JpaRepository<StockItem, Long> {
 
    @Query(value = "SELECT DISTINCT CODE FROM STOCK_ITEM WHERE INDUSTRY = ?1", nativeQuery = true)
    List<String> getCodeByIndustry(String industry);
+
+   @Query(value = "SELECT DISTINCT INDUSTRY FROM STOCK_ITEM WHERE INDUSTRY != ''", nativeQuery = true)
+   List<String> getIndustries();
 }

@@ -6,11 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sapphire.common.dto.Dto;
+
 
 /**
  * Created by Ethan on 2016/3/30.
  */
-public class Stock {
+public class Stock implements Dto {
    private List<StockItem> stockItems;
    private double averageGoldDays;
    private double increaseTotal;
@@ -207,6 +209,10 @@ public class Stock {
          return stockItems.get(size - 2).getMacd() < 0 && currentMacd >= 0;
       }
       return false;
+   }
+
+   public List<StockItem> getStockItems() {
+      return stockItems;
    }
 
    public double getAverageIncreaseRate() {
