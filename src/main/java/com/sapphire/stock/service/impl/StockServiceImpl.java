@@ -107,4 +107,14 @@ public class StockServiceImpl implements StockService {
    public List<String> getIndustries() {
       return stockItemRepository.getIndustries();
    }
+
+   @Override
+   public void removeAll() {
+      stockItemRepository.deleteAll();
+   }
+
+   @Override
+   public void saveAll(List<StockItem> items) {
+      stockItemRepository.save(items);
+   }
 }

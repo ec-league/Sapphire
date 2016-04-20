@@ -51,4 +51,16 @@ public class StockStatics {
       return result.subList(0,
             result.size() > LIMIT_SIZE ? LIMIT_SIZE : result.size());
    }
+
+   /**
+    * 根据Macd指标进行排序，寻找最低的20个
+    * 
+    * @return
+    */
+   public List<Stock> getLowestMacd() {
+      Collections.sort(stocks, (o1, o2) -> Double.compare(o1.getCurrentDiff(),
+            o2.getCurrentMacd()));
+
+      return stocks.subList(0, LIMIT_SIZE);
+   }
 }

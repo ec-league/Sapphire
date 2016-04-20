@@ -115,4 +115,9 @@ public class StockTest extends BaseTest {
 
       Assert.assertNotNull(codes);
    }
+
+   @Test
+   public void testGetLatestStockItem() {
+
+   }
 }

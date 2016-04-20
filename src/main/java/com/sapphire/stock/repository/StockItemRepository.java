@@ -30,4 +30,7 @@ public interface StockItemRepository extends JpaRepository<StockItem, Long> {
 
    @Query(value = "SELECT DISTINCT INDUSTRY FROM STOCK_ITEM WHERE INDUSTRY != ''", nativeQuery = true)
    List<String> getIndustries();
+
+   @Query(value = "SELECT * FROM STOCK_ITEM WHERE CODE = ?1 ORDER BY UIDPK DESC LIMIT 1", nativeQuery = true)
+   StockItem getLatestStockItem(String code);
 }

@@ -1,23 +1,25 @@
 package com.sapphire.common;
 
-import com.sapphire.common.exception.PropertyManagerInitException;
-import com.sapphire.common.exception.PropertyNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.sapphire.common.exception.PropertyManagerInitException;
+import com.sapphire.common.exception.PropertyNotFoundException;
+
 /**
  * Author: Ethan <br/>
  * Date: 2015/11/19.<br/>
- * Email: byp5303628@hotmail.com This class will load two places property, one
- * is src/main/resources, the other is APP_CONFIG_PATH which is wrote in tomcat
- * start script. APP_CONFIG_PATH's property will overwrite the property in war
- * package. Which means, if there are property keys conflict, the
- * APP_CONFIG_PATH's property will work. <br />
+ * Email: byp5303628@hotmail.com <br/>
+ * This class will load two places property, one is src/main/resources, the
+ * other is APP_CONFIG_PATH which is wrote in tomcat start script.
+ * APP_CONFIG_PATH's property will overwrite the property in war package. Which
+ * means, if there are property keys conflict, the APP_CONFIG_PATH's property
+ * will work. <br />
  * TODO: Use filter to avoid property overwriting.
  */
 public class PropertyManager {

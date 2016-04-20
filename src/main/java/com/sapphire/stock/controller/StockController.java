@@ -69,8 +69,7 @@ public class StockController {
       StockStatics stockStatics = stockCache.getStockStatics();
 
       JsonDto dto =
-            new ListJsonDto<Stock>(stockStatics.getMacdBelowZero())
-                  .formSuccessDto();
+            new ListJsonDto<>(stockStatics.getMacdBelowZero()).formSuccessDto();
 
       return dto;
    }
@@ -81,8 +80,18 @@ public class StockController {
       StockStatics stockStatics = stockCache.getStockStatics();
 
       JsonDto dto =
-            new ListJsonDto<Stock>(stockStatics.getMacdUpZero())
-                  .formSuccessDto();
+            new ListJsonDto<>(stockStatics.getMacdUpZero()).formSuccessDto();
+
+      return dto;
+   }
+
+   @RequestMapping("/statics/lowest")
+   @ResponseBody
+   public JsonDto getStaticsLowest() {
+      StockStatics stockStatics = stockCache.getStockStatics();
+
+      JsonDto dto =
+            new ListJsonDto<>(stockStatics.getLowestMacd()).formSuccessDto();
 
       return dto;
    }

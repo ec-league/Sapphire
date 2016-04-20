@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.sapphire.stock.domain.Stock;
+import com.sapphire.stock.domain.StockItem;
 import com.sapphire.stock.domain.StockStatics;
 
 /**
@@ -21,4 +22,8 @@ public interface StockService {
    StockStatics getLastMonthStockStaticsByIndustry(String industry);
 
    List<String> getIndustries();
+
+   void removeAll();
+
+   void saveAll(List<StockItem> items);
 }
