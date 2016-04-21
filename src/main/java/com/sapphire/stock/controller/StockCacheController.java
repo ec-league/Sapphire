@@ -38,10 +38,6 @@ public class StockCacheController {
    @RequestMapping("/load")
    @ResponseBody
    public JsonDto load() {
-      logger.info("Start to load!");
-      stockService.removeAll();
-      logger.info("Remove all completed!");
-
       logger.info("Start to load data");
       File dir = new File(PropertyManager.getProperty("DATA.FOLDER"));
 

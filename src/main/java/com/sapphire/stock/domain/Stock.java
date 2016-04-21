@@ -16,6 +16,9 @@ public class Stock implements Dto {
    private List<StockItem> stockItems;
    private double averageGoldDays;
    private double increaseTotal;
+   private double highestPrice;
+   private double endPrice;
+   private String name;
 
    /**
     * 股票代码
@@ -45,14 +48,7 @@ public class Stock implements Dto {
    }
 
    public Stock(List<StockItem> stockItems) {
-      this.stockItems = stockItems;
-      code = stockItems.get(0).getCode();
-      currentMacd = stockItems.get(stockItems.size() - 1).getMacd();
-      currentDiff = stockItems.get(stockItems.size() - 1).getMacdDiff();
-      stop =
-            Double.compare(stockItems.get(stockItems.size() - 1).getTrading(),
-                  0) == 0;
-      statics = group(stockItems);
+      update(stockItems);
    }
 
    private void init() {
@@ -211,6 +207,39 @@ public class Stock implements Dto {
       return false;
    }
 
+   public void update(List<StockItem> items) {
+      stockItems = items;
+      code = stockItems.get(0).getCode();
+      name = stockItems.get(0).getName();
+      StockItem last = stockItems.get(stockItems.size() - 1);
+      endPrice = last.getEndPrice();
+      currentMacd = last.getMacd();
+      currentDiff = last.getMacdDiff();
+
+      stop =
+            Double.compare(stockItems.get(stockItems.size() - 1).getTrading(),
+                  0) == 0;
+      double temp = 0;
+      for (StockItem item : stockItems) {
+         if (item.getHighestPrice() > temp) {
+            temp = item.getHighestPrice();
+         }
+      }
+      highestPrice = temp;
+   }
+
+   public boolean isUpper() {
+      int size = stockItems.size();
+      if (size < 3)
+         return false;
+      StockItem beforeYesterday = stockItems.get(size - 3);
+      StockItem yesterday = stockItems.get(size - 2);
+      StockItem today = stockItems.get(size - 1);
+
+      return Double.compare(beforeYesterday.getMacd(), yesterday.getMacd()) < 0
+            && Double.compare(yesterday.getMacd(), today.getMacd()) < 0;
+   }
+
    public List<StockItem> getStockItems() {
       return stockItems;
    }
@@ -249,6 +278,18 @@ public class Stock implements Dto {
 
    public boolean isStop() {
       return stop;
+   }
+
+   public double getHighestPrice() {
+      return highestPrice;
+   }
+
+   public double getEndPrice() {
+      return endPrice;
+   }
+
+   public String getName() {
+      return name;
    }
 
    private static class StockStatic {

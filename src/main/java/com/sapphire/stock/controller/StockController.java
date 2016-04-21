@@ -1,5 +1,6 @@
 package com.sapphire.stock.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,13 +86,21 @@ public class StockController {
       return dto;
    }
 
-   @RequestMapping("/statics/lowest")
+   @RequestMapping("/statics/lowest.ep")
    @ResponseBody
    public JsonDto getStaticsLowest() {
       StockStatics stockStatics = stockCache.getStockStatics();
 
-      JsonDto dto =
-            new ListJsonDto<>(stockStatics.getLowestMacd()).formSuccessDto();
+      List<String> codes = stockStatics.getLowestMacd();
+
+      List<Stock> result = new ArrayList<>(codes.size());
+      for (String code : codes) {
+         Stock stock = stockService.getStockByCode(code);
+         stock.process();
+         result.add(stock);
+      }
+
+      JsonDto dto = new ListJsonDto<>(result).formSuccessDto();
 
       return dto;
    }

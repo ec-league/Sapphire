@@ -13,7 +13,9 @@ public class StockStatics {
    private List<Stock> stocks;
 
    public StockStatics(List<Stock> stocks) {
-      this.stocks = stocks;
+      this.stocks =
+            stocks.stream().filter(stock -> !stock.isStop())
+                  .collect(Collectors.toList());
    }
 
    /**
@@ -57,10 +59,22 @@ public class StockStatics {
     * 
     * @return
     */
-   public List<Stock> getLowestMacd() {
-      Collections.sort(stocks, (o1, o2) -> Double.compare(o1.getCurrentDiff(),
+   public List<String> getLowestMacd() {
+      List<Stock> result =
+            stocks.stream().filter(stock -> stock.getCurrentMacd() < 0)
+                  .filter(stock -> stock.isUpper())
+                  .collect(Collectors.toList());
+      Collections.sort(result, (o1, o2) -> Double.compare(o1.getCurrentMacd(),
             o2.getCurrentMacd()));
 
-      return stocks.subList(0, LIMIT_SIZE);
+      int limit = result.size() < 20 ? result.size() : LIMIT_SIZE;
+
+      List<String> resultCodes = new ArrayList<>(limit);
+
+      for (int i = 0; i < limit; i++) {
+         resultCodes.add(result.get(i).getCode());
+      }
+
+      return resultCodes;
    }
 }

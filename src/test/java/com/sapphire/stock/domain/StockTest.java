@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sapphire.stock.service.StockService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class StockTest extends BaseTest {
 
    @Autowired
    private StockItemRepository stockItemRepository;
+
+   @Autowired
+   private StockService stockService;
 
 
    @Test
@@ -118,6 +122,14 @@ public class StockTest extends BaseTest {
 
    @Test
    public void testGetLatestStockItem() {
+      StockItem item = stockItemRepository.getLatestStockItem("600000");
+      Assert.assertNotNull(item);
+   }
 
+   @Test
+   public void testIsUpper() {
+      Stock stock = stockService.getStockByCode("000001");
+
+      Assert.assertTrue(stock.isUpper());
    }
 }
