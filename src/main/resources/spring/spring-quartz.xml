@@ -6,7 +6,7 @@
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd"
        default-lazy-init="true">
 
-    <description>SpringTask配置</description>
+    <description>Spring 定时任务 配置</description>
 
     <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
 
@@ -18,14 +18,25 @@
     </bean>
 
     <bean id="reminderCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <property name="jobDetail" ref="reminderEmailJob"></property>
-        <property name="cronExpression" value="0 30 19 * * ?"></property>
+        <property name="jobDetail" ref="reminderEmailJob"/>
+        <property name="cronExpression" value="0 30 19 * * ?"/>
+    </bean>
+
+    <bean id="updateStockStatisticsJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.sapphire.stock.task.UpdateStatisticTask"/>
+        <property name="durability" value="true"/>
+    </bean>
+
+    <bean id="updateStockStatisticsCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="updateStockStatisticsJob"/>
+        <property name="cronExpression" value="0 0 1 * * ?"/>
     </bean>
 
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
                 <ref bean="reminderCronTrigger"/>
+                <ref bean="updateStockStatisticsCronTrigger"/>
             </list>
         </property>
         <property name="schedulerContextAsMap">
@@ -33,7 +44,11 @@
                 <!-- spring 管理的service需要放到这里，才能够注入成功 -->
                 <description>schedulerContextAsMap</description>
                 <entry key="userService" value-ref="userService"/>
+                <entry key="stockService" value-ref="stockService"/>
+                <entry key="stockStatisticsService" value-ref="stockStatisticsService"/>
             </map>
         </property>
     </bean>
+
+
 </beans>

@@ -1,7 +1,9 @@
 package com.sapphire.stock.repository;
 
-import com.sapphire.stock.domain.StockStatistics;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.sapphire.stock.domain.StockStatistics;
 
 /**
  * Author: EthanPark <br/>
@@ -11,4 +13,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface StockStatisticsRepository extends
       JpaRepository<StockStatistics, Long> {
 
+   @Query(value = "SELECT UIDPK from STOCK_STATISTICS WHERE CODE = ?1", nativeQuery = true)
+   Long findStatByCode(String code);
 }

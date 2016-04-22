@@ -128,7 +128,10 @@ public class Stock implements Dto {
          days += stockStatic.consistDays;
       }
       setIncreaseTotal(origin);
-      averageGoldDays = days / statics.size();
+      if (statics.size() == 0)
+         averageGoldDays = 0;
+      else
+         averageGoldDays = days / statics.size();
       if (statics.isEmpty())
          return;
       setFirstDiff(statics.get(0).getFirstDiff());

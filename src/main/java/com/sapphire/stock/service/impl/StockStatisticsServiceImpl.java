@@ -1,10 +1,13 @@
 package com.sapphire.stock.service.impl;
 
-import com.sapphire.stock.domain.StockStatistics;
-import com.sapphire.stock.service.StockStatisticsService;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.sapphire.stock.domain.StockStatistics;
+import com.sapphire.stock.repository.StockStatisticsRepository;
+import com.sapphire.stock.service.StockStatisticsService;
 
 /**
  * Author: EthanPark <br/>
@@ -13,8 +16,19 @@ import java.util.List;
  */
 @Service("stockStatisticsService")
 public class StockStatisticsServiceImpl implements StockStatisticsService {
+   @Autowired
+   private StockStatisticsRepository stockStatisticsRepository;
+
    @Override
    public void update(List<StockStatistics> stats) {
+      for (StockStatistics stat : stats) {
+         Long uidPk = stockStatisticsRepository.findStatByCode(stat.getCode());
+         if (uidPk == null) {
+            continue;
+         }
+         stat.setUidPk(uidPk);
+      }
 
+      stockStatisticsRepository.save(stats);
    }
 }

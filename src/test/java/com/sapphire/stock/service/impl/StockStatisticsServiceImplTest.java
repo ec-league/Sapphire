@@ -1,19 +1,26 @@
 package com.sapphire.stock.service.impl;
 
-import com.sapphire.BaseTest;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.sapphire.common.TimeUtil;
+import com.sapphire.stock.domain.Stock;
 import com.sapphire.stock.domain.StockStatistics;
-import com.sapphire.stock.repository.StockStatisticsRepository;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sapphire.BaseTest;
+import com.sapphire.stock.repository.StockStatisticsRepository;
+import com.sapphire.stock.service.StockService;
+import com.sapphire.stock.service.StockStatisticsService;
 
 /**
  * StockStatisticsServiceImpl Tester.
  * 
  * @author EthanPark
  * @since <pre>
- * ËÄÔÂ 22, 2016
+ * ï¿½ï¿½ï¿½ï¿½ 22, 2016
  * </pre>
  * @version 1.0
  */
@@ -21,6 +28,13 @@ public class StockStatisticsServiceImplTest extends BaseTest {
 
    @Autowired
    private StockStatisticsRepository stockStatisticsRepository;
+
+   @Autowired
+   private StockStatisticsService stockStatisticsService;
+
+   @Autowired
+   private StockService stockService;
+
    /**
     * 
     * Method: update(List<StockStatistics> stats)
@@ -28,17 +42,31 @@ public class StockStatisticsServiceImplTest extends BaseTest {
     */
    @Test
    public void testUpdate() throws Exception {
-      StockStatistics statistics = new StockStatistics();
-      statistics.setCode("600000");
-      statistics.setHighestPrice(12.21);
-      statistics.setAverageGoldDays(10);
-      statistics.setIncreaseTotal(12);
-      statistics.setLastModifyDate(TimeUtil.now());
+      List<String> codes = stockService.getAllCodes();
 
-      StockStatistics item = stockStatisticsRepository.save(statistics);
-      item = stockStatisticsRepository.save(statistics);
-      Assert.assertTrue(item.getUidPk() >= 0);
+      List<StockStatistics> stats = new ArrayList<>(codes.size());
+
+      for (String code : codes) {
+         Stock stock = stockService.getStockByCode(code);
+
+         stock.process();
+
+         StockStatistics stat = new StockStatistics();
+         stat.setIncreaseTotal(stock.getIncreaseTotal());
+         stat.setAverageGoldDays(stock.getAverageGoldDays());
+         stat.setCode(code);
+         stat.setHighestPrice(stock.getHighestPrice());
+         stat.setLastModifyDate(TimeUtil.now());
+         stats.add(stat);
+      }
+
+      stockStatisticsService.update(stats);
    }
 
+   @Test
+   public void testFind() {
+      Long uidPk = stockStatisticsRepository.findStatByCode("60000000");
 
+      Assert.assertNull(uidPk);
+   }
 }
