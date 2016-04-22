@@ -49,11 +49,12 @@
                             <td>股票代码</td>
                             <td>股票名字</td>
                             <td>当前MACD</td>
-                            <td>当前收盘（元）</td>
-                            <td>历史最高（元）</td>
+                            <td>当前收盘(元)</td>
+                            <td>历史最高(元)</td>
                             <td>当前历史比例（%）</td>
-                            <td>MACD成长率</td>
+                            <td>MACD成长率(%)</td>
                             <td>FIRST DIFF</td>
+                            <td>金叉时长(天)</td>
                         </tr>
                         </thead>
                         <tbody id="stock-table">
@@ -90,19 +91,22 @@
                 macdTd.html(data[i].currentMacd.toFixed(3));
 
                 var priceTd = $("<td></td>");
-                priceTd.html(data[i].endPrice);
+                priceTd.html(data[i].endPrice.toFixed(2));
 
                 var highTd = $("<td></td>");
-                highTd.html(data[i].highestPrice);
+                highTd.html(data[i].highestPrice.toFixed(2));
 
                 var rateTd = $("<td></td>");
-                rateTd.html((data[i].endPrice / data[i].highestPrice * 100).toFixed(2));
+                rateTd.html((data[i].endPrice / data[i].highestPrice * 100).toFixed(2).toString() + "%");
 
                 var increaseTd = $("<td></td>");
-                increaseTd.html(data[i].averageIncreaseRate.toFixed(2));
+                increaseTd.html((data[i].increaseTotal * 100).toFixed(2).toString() + "%");
 
                 var diffTd = $("<td></td>");
                 diffTd.html(data[i].firstDiff.toFixed(3));
+
+                var consistDaysTd = $("<td></td>");
+                consistDaysTd.html(data[i].averageGoldDays);
 
                 seqTd.appendTo(tr);
                 codeTd.appendTo(tr);
@@ -113,6 +117,7 @@
                 rateTd.appendTo(tr);
                 increaseTd.appendTo(tr);
                 diffTd.appendTo(tr);
+                consistDaysTd.appendTo(tr);
                 tr.appendTo(tableFrame);
             }
         },

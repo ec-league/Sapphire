@@ -14,7 +14,7 @@ import com.sapphire.common.dto.Dto;
  */
 public class Stock implements Dto {
    private List<StockItem> stockItems;
-   private double averageGoldDays;
+   private int averageGoldDays;
    private double increaseTotal;
    private double highestPrice;
    private double endPrice;
@@ -121,11 +121,14 @@ public class Stock implements Dto {
       List<StockStatic> statics = group(stockItems);
 
       double origin = 1.0;
+      int days = 0;
 
       for (StockStatic stockStatic : statics) {
-         origin *= 1 + stockStatic.increaseRate / 100;
+         origin *= (1 + stockStatic.increaseRate / 100);
+         days += stockStatic.consistDays;
       }
       setIncreaseTotal(origin);
+      averageGoldDays = days / statics.size();
       if (statics.isEmpty())
          return;
       setFirstDiff(statics.get(0).getFirstDiff());
@@ -290,6 +293,10 @@ public class Stock implements Dto {
 
    public String getName() {
       return name;
+   }
+
+   public int getAverageGoldDays() {
+      return averageGoldDays;
    }
 
    private static class StockStatic {
