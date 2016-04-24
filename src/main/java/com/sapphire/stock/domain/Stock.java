@@ -234,6 +234,12 @@ public class Stock implements Dto {
       highestPrice = temp;
    }
 
+   public void update(StockStatistics statistics){
+      highestPrice = statistics.getHighestPrice();
+      increaseTotal = statistics.getIncreaseTotal();
+      averageGoldDays = statistics.getAverageGoldDays();
+   }
+
    public boolean isUpper() {
       int size = stockItems.size();
       if (size < 3)

@@ -14,7 +14,9 @@ import com.sapphire.common.dto.ListJsonDto;
 import com.sapphire.stock.cache.StockCache;
 import com.sapphire.stock.domain.Stock;
 import com.sapphire.stock.domain.StockStatics;
+import com.sapphire.stock.domain.StockStatistics;
 import com.sapphire.stock.service.StockService;
+import com.sapphire.stock.service.StockStatisticsService;
 
 /**
  * Author: Ethan Date: 2016/4/17
@@ -27,6 +29,9 @@ public class StockController {
 
    @Autowired
    private StockCache stockCache;
+
+   @Autowired
+   private StockStatisticsService stockStatisticsService;
 
    @RequestMapping("/industries")
    @ResponseBody
@@ -91,16 +96,31 @@ public class StockController {
    public JsonDto getStaticsLowest() {
       StockStatics stockStatics = stockCache.getStockStatics();
 
-      List<String> codes = stockStatics.getLowestMacd();
+      List<Stock> stocks = stockStatics.getLowestMacd();
 
-      List<Stock> result = new ArrayList<>(codes.size());
-      for (String code : codes) {
-         Stock stock = stockService.getStockByCode(code);
-         stock.process();
-         result.add(stock);
+      List<Stock> result = new ArrayList<>(stocks.size());
+      for (Stock stock : stocks) {
+         StockStatistics stat =
+               stockStatisticsService.findByCode(stock.getCode());
+
+         if (stat == null)
+            continue;
+
+         stock.update(stat);
       }
 
       JsonDto dto = new ListJsonDto<>(result).formSuccessDto();
+
+      return dto;
+   }
+
+   @RequestMapping("/statics/increase.ep")
+   @ResponseBody
+   public JsonDto getIncreaseStatics() {
+      StockStatics stockStatics = stockCache.getIncreasTotalStat();
+
+      JsonDto dto =
+            new ListJsonDto<>(stockStatics.getStocks()).formSuccessDto();
 
       return dto;
    }

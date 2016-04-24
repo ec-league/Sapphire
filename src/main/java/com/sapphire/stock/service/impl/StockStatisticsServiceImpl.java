@@ -31,4 +31,9 @@ public class StockStatisticsServiceImpl implements StockStatisticsService {
 
       stockStatisticsRepository.save(stats);
    }
+
+   @Override
+   public StockStatistics findByCode(String code) {
+      return stockStatisticsRepository.findByCode(code);
+   }
 }

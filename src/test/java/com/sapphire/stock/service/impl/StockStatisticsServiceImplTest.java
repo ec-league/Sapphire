@@ -3,14 +3,14 @@ package com.sapphire.stock.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sapphire.common.TimeUtil;
-import com.sapphire.stock.domain.Stock;
-import com.sapphire.stock.domain.StockStatistics;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;
+import com.sapphire.common.TimeUtil;
+import com.sapphire.stock.domain.Stock;
+import com.sapphire.stock.domain.StockStatistics;
 import com.sapphire.stock.repository.StockStatisticsRepository;
 import com.sapphire.stock.service.StockService;
 import com.sapphire.stock.service.StockStatisticsService;
@@ -68,5 +68,9 @@ public class StockStatisticsServiceImplTest extends BaseTest {
       Long uidPk = stockStatisticsRepository.findStatByCode("60000000");
 
       Assert.assertNull(uidPk);
+
+      List<String> codes = stockStatisticsRepository.findByIncrease();
+
+      Assert.assertTrue(codes.size() == 200);
    }
 }

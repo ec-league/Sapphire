@@ -1,6 +1,7 @@
 package com.sapphire.stock.service;
 
 import com.sapphire.stock.domain.StockStatistics;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -12,5 +13,5 @@ import java.util.List;
 public interface StockStatisticsService {
    void update(List<StockStatistics> stats);
 
-
+   StockStatistics findByCode(String code);
 }

@@ -18,6 +18,10 @@ public class StockStatics {
                   .collect(Collectors.toList());
    }
 
+   public List<Stock> getStocks() {
+      return stocks;
+   }
+
    /**
     * 获取为死叉的股票，按Macd值大小排序
     * 
@@ -59,7 +63,7 @@ public class StockStatics {
     * 
     * @return
     */
-   public List<String> getLowestMacd() {
+   public List<Stock> getLowestMacd() {
       List<Stock> result =
             stocks.stream().filter(stock -> stock.getCurrentMacd() < 0)
                   .filter(stock -> stock.isUpper())
@@ -69,12 +73,6 @@ public class StockStatics {
 
       int limit = result.size() < 20 ? result.size() : LIMIT_SIZE;
 
-      List<String> resultCodes = new ArrayList<>(limit);
-
-      for (int i = 0; i < limit; i++) {
-         resultCodes.add(result.get(i).getCode());
-      }
-
-      return resultCodes;
+      return result.subList(0, limit);
    }
 }

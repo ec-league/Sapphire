@@ -23,7 +23,7 @@ public interface StockService {
 
    List<String> getIndustries();
 
-   void removeAll();
-
    void saveAll(List<StockItem> items);
+
+   StockStatics getStocksByIncreaseTotal();
 }

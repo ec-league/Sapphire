@@ -13,6 +13,7 @@
     <task:annotation-driven/>
 
     <bean id="reminderEmailJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="name" value="reminderEmailJob"/>
         <property name="jobClass" value="com.sapphire.manage.task.ReminderEmailTask"></property>
         <property name="durability" value="true"/>
     </bean>
@@ -23,6 +24,8 @@
     </bean>
 
     <bean id="updateStockStatisticsJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="name" value="updateStockStat"/>
+        <property name="group" value="Stock"/>
         <property name="jobClass" value="com.sapphire.stock.task.UpdateStatisticTask"/>
         <property name="durability" value="true"/>
     </bean>

@@ -7,9 +7,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,6 +38,9 @@ public class StockCacheController {
 
    @Autowired
    private StockService stockService;
+
+   @Autowired
+   private SchedulerFactoryBean schedulerFactoryBean;
 
    @RequestMapping("/load")
    @ResponseBody
@@ -79,5 +86,15 @@ public class StockCacheController {
 
       return new DataJsonDto<>(PropertyManager.getProperty("DATA.FOLDER"))
             .formSuccessDto();
+   }
+
+
+   @RequestMapping("/update/stat.ep")
+   @ResponseBody
+   public JsonDto start() throws SchedulerException {
+      Scheduler scheduler = schedulerFactoryBean.getScheduler();
+      JobKey jobKey = JobKey.jobKey("updateStockStat", "Stock");
+      scheduler.triggerJob(jobKey);
+      return new JsonDto().formSuccessDto();
    }
 }

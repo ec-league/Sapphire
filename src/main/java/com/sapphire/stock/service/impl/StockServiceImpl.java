@@ -4,9 +4,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +12,7 @@ import com.sapphire.stock.domain.Stock;
 import com.sapphire.stock.domain.StockItem;
 import com.sapphire.stock.domain.StockStatics;
 import com.sapphire.stock.repository.StockItemRepository;
+import com.sapphire.stock.repository.StockStatisticsRepository;
 import com.sapphire.stock.service.StockService;
 
 /**
@@ -25,8 +23,8 @@ public class StockServiceImpl implements StockService {
    @Autowired
    private StockItemRepository stockItemRepository;
 
-   @PersistenceContext
-   private EntityManager entityManager;
+   @Autowired
+   private StockStatisticsRepository stockStatisticsRepository;
 
    @Override
    public List<String> getAllCodes() {
@@ -109,12 +107,30 @@ public class StockServiceImpl implements StockService {
    }
 
    @Override
-   public void removeAll() {
-      stockItemRepository.deleteAll();
-   }
-
-   @Override
    public void saveAll(List<StockItem> items) {
       stockItemRepository.save(items);
    }
+
+   /**
+    * 所有股票中，增幅排名前200的股票的统计数据。
+    * 
+    * @return
+    */
+   @Override
+   public StockStatics getStocksByIncreaseTotal() {
+      List<String> codes = stockStatisticsRepository.findByIncrease();
+
+      List<Stock> stocks = new ArrayList<>(codes.size());
+      Timestamp from = TimeUtil.oneMonthAgo();
+      Timestamp to = TimeUtil.now();
+      for (String code : codes) {
+         Stock stock = getStockByCodeAndTime(code, from, to);
+         if (stock == null)
+            continue;
+         stocks.add(stock);
+      }
+
+      return new StockStatics(stocks);
+   }
+
 }

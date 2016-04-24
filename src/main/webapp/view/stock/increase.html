@@ -7,42 +7,64 @@
     <link rel="stylesheet" media="screen" href="../../css/common/bootstrap-theme.min.css">
     <link rel="stylesheet" media="screen" href="../../css/common/mycommon.css">
     <style>
-        /*#bk {*/
-        /*background-image: url(../../img/blog/bg-style.jpg);*/
-        /*background-size: 100%;*/
-        /*margin-top: 0;*/
-        /*position: absolute;*/
-        /*}*/
-
         nav {
             font-size: 250%;
             color: #2b669a;
+            padding: 0;
+            margin: 0;
+        }
+
+        #header {
+            background: #e04545;
+            color:white;
+        }
+
+        body {
+            background: #FDFDFD;
         }
 
         thead tr td {
             font-weight: bold;
         }
+
+        #left-panel {
+            background: #43403D;
+        }
+
+        #left-panel li a {
+            color: white;
+            background : #64625f;
+        }
+
+        #left-panel li a:hover {
+            background: #43403D;
+        }
     </style>
 </head>
 <body>
 <!-- Header -->
-<nav class="navbar navbar-default" style="background: lightblue">
+<nav id="header" class="navbar navbar-default">
     STOCK PAGE
 </nav>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
-            <ul class="nav nav-tabs nav-stacked" data-spy="affix" data-offset-top="125">
-                <li><a href="#section-1">Macd最低筛选</a></li>
-                <li><a href="#section-2">缓存刷新</a></li>
-                <li><a href="#section-3">数据更新</a></li>
+            <ul id="left-panel" class="nav" data-spy="affix" data-offset-top="125">
+                <li>
+                    <a href="/stock/stock.html">MACD最低筛选</a>
+                </li>
+                <li class="active">
+                    <a href="/stock/increase.html">MACD增幅筛选</a>
+                </li>
+                <li><a href="/stock/cache.html">缓存刷新</a></li>
+                <li><a href="/stock/data.html">数据更新</a></li>
             </ul>
         </div>
 
         <div class="col-md-10" style="background: lightyellow">
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table table-hover">
+                    <table id="table" class="table table-hover">
                         <thead>
                         <tr>
                             <td>#</td>
@@ -71,6 +93,15 @@
 <script src="../../js/framework/bootstrap.min.js"></script>
 <script src="../../js/framework/jquery.tmpl.min.js"></script>
 <script src="../../js/nav.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+
+<!-- Latest compiled and minified Locales -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/locale/bootstrap-table-zh-CN.min.js"></script>
+
 <script type="text/javascript">
     var stock = {
         renderTable: function (data) {
@@ -124,7 +155,7 @@
         loadStock: function () {
             var instance = this;
             $.ajax({
-                url: "/stock/statics/lowest.ep",
+                url: "/stock/statics/increase.ep",
                 headers: {
                     "Accept": "application/json",
                     "Content-type": "application/json"
@@ -138,6 +169,13 @@
                 }
             });
         },
+
+        initTable : function() {
+            var table = $("#table");
+            table.bootstrapTable({
+
+            });
+        }
     }
     stock.loadStock();
 </script>

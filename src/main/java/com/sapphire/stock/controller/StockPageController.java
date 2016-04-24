@@ -12,7 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/stock")
 public class StockPageController {
    @RequestMapping("/stock.html")
-   public String stockPage() {
-      return "stock/index";
+   public String lowestPage() {
+      return "stock/lowest";
+   }
+
+   @RequestMapping("/increase.html")
+   public String increasePage() {
+      return "stock/increase";
    }
 }

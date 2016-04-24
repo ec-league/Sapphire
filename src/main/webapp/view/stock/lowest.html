@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock List Page</title>
+    <link rel="stylesheet" media="screen" href="../../css/common/bootstrap.min.css">
+    <link rel="stylesheet" media="screen" href="../../css/common/bootstrap-theme.min.css">
+    <link rel="stylesheet" media="screen" href="../../css/common/mycommon.css">
+    <style>
+        nav {
+            font-size: 250%;
+            color: #2b669a;
+            padding: 0;
+            margin: 0;
+        }
+
+        #header {
+            background: #e04545;
+            color:white;
+        }
+
+        body {
+            background: #FDFDFD;
+        }
+
+        thead tr td {
+            font-weight: bold;
+        }
+
+        #left-panel {
+            background: #43403D;
+        }
+
+        #left-panel li a {
+            color: white;
+            background : #64625f;
+        }
+
+        #left-panel li a:hover {
+            background: #43403D;
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<nav id="header" class="navbar navbar-default">
+    STOCK PAGE
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <ul id="left-panel" class="nav" data-spy="affix" data-offset-top="125">
+                <li class="active">
+                    <a href="/stock/stock.html">MACD最低筛选</a>
+                </li>
+                <li>
+                    <a href="/stock/increase.html">MACD增幅筛选</a>
+                </li>
+                <li><a href="/stock/cache.html">缓存刷新</a></li>
+                <li><a href="/stock/data.html">数据更新</a></li>
+            </ul>
+        </div>
+
+        <div class="col-md-10" style="background: lightyellow">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <td>#</td>
+                            <td>股票代码</td>
+                            <td>股票名字</td>
+                            <td>当前MACD</td>
+                            <td>当前收盘(元)</td>
+                            <td>历史最高(元)</td>
+                            <td>当前历史比例（%）</td>
+                            <td>MACD成长率(%)</td>
+                            <td>FIRST DIFF</td>
+                            <td>金叉时长(天)</td>
+                        </tr>
+                        </thead>
+                        <tbody id="stock-table">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="../../js/framework/jquery-1.11.3.js"></script>
+<script src="../../js/framework/bootstrap.min.js"></script>
+<script type="text/javascript">
+    var stock = {
+        renderTable: function (data) {
+            var tableFrame = document.getElementById("stock-table");
+            for (var i = 0; i < data.length; i++) {
+                var tr = $("<tr></tr>");
+
+                var seqTd = $("<td></td>");
+                seqTd.html(i);
+
+                var codeTd = $("<td></td>");
+                codeTd.html(data[i].code);
+
+                var nameTd = $("<td></td>");
+                nameTd.html(data[i].name);
+
+                var macdTd = $("<td></td>");
+                macdTd.html(data[i].currentMacd.toFixed(3));
+
+                var priceTd = $("<td></td>");
+                priceTd.html(data[i].endPrice.toFixed(2));
+
+                var highTd = $("<td></td>");
+                highTd.html(data[i].highestPrice.toFixed(2));
+
+                var rateTd = $("<td></td>");
+                rateTd.html((data[i].endPrice / data[i].highestPrice * 100).toFixed(2).toString() + "%");
+
+                var increaseTd = $("<td></td>");
+                increaseTd.html((data[i].increaseTotal * 100).toFixed(2).toString() + "%");
+
+                var diffTd = $("<td></td>");
+                diffTd.html(data[i].firstDiff.toFixed(3));
+
+                var consistDaysTd = $("<td></td>");
+                consistDaysTd.html(data[i].averageGoldDays);
+
+                seqTd.appendTo(tr);
+                codeTd.appendTo(tr);
+                nameTd.appendTo(tr);
+                macdTd.appendTo(tr);
+                priceTd.appendTo(tr);
+                highTd.appendTo(tr);
+                rateTd.appendTo(tr);
+                increaseTd.appendTo(tr);
+                diffTd.appendTo(tr);
+                consistDaysTd.appendTo(tr);
+                tr.appendTo(tableFrame);
+            }
+        },
+        loadStock: function () {
+            var instance = this;
+            $.ajax({
+                url: "/stock/statics/lowest.ep",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-type": "application/json"
+                },
+                success: function (data) {
+                    if (data.returnCode == "200" && data.returnMessage == "SUCCESS") {
+                        instance.renderTable(data.data);
+                    } else {
+                        alert("Show Stock Failed! \n" + data.returnMessage);
+                    }
+                }
+            });
+        },
+    }
+    stock.loadStock();
+</script>
+</html>
