@@ -35,11 +35,24 @@
         <property name="cronExpression" value="0 0 1 * * ?"/>
     </bean>
 
+    <bean id="updateStockItemsJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="name" value="updateStockItem"/>
+        <property name="group" value="Stock"/>
+        <property name="jobClass" value="com.sapphire.stock.task.UpdateStockItemTask"/>
+        <property name="durability" value="true"/>
+    </bean>
+
+    <bean id="updateStockItemsCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="updateStockItemsJob"/>
+        <property name="cronExpression" value="0 0 1 * * ?"/>
+    </bean>
+
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
                 <ref bean="reminderCronTrigger"/>
                 <ref bean="updateStockStatisticsCronTrigger"/>
+                <ref bean="updateStockItemsCronTrigger"/>
             </list>
         </property>
         <property name="schedulerContextAsMap">

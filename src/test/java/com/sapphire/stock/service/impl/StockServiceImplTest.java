@@ -165,7 +165,7 @@ public class StockServiceImplTest extends BaseTest {
             double averageIncreaseRate = 0;
             double increaseTotal = 0;
             for (Stock stock : stocks) {
-               stock.calculateMacd(8, 16);
+               stock.calculateMacd(8, 16,true);
                stock.calcStatics();
                if (stock.isShouldPass()) {
                   continue;
@@ -218,7 +218,7 @@ public class StockServiceImplTest extends BaseTest {
 
       Stock stock = stockService.getStockByCodeAndTime("300202", from, to);
 
-      stock.calculateMacd(12, 26);
+      stock.calculateMacd(12, 26, true);
 
       Assert.assertNotNull(stock);
    }

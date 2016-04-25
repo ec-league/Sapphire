@@ -111,6 +111,11 @@ public class StockServiceImpl implements StockService {
       stockItemRepository.save(items);
    }
 
+   @Override
+   public StockItem save(StockItem item) {
+      return stockItemRepository.save(item);
+   }
+
    /**
     * 所有股票中，增幅排名前200的股票的统计数据。
     * 
@@ -133,4 +138,17 @@ public class StockServiceImpl implements StockService {
       return new StockStatics(stocks);
    }
 
+   /**
+    * 获取上次更新的最后一天的所有的StockItem
+    * @return
+    */
+   @Override
+   public List<StockItem> getLatestStockItems() {
+      return stockItemRepository.getLatestItems();
+   }
+
+   @Override
+   public StockItem getLatestStockItemByCode(String code) {
+      return stockItemRepository.getLatestStockItem(code);
+   }
 }

@@ -48,4 +48,14 @@ public class TimeUtilTest {
 
       Assert.assertNotNull(timestamp);
    }
+
+   @Test
+   public void testBefore() {
+      String test = "08/10/2012";
+      Timestamp date1 = TimeUtil.fromStockString(test);
+
+      Timestamp date2 = TimeUtil.fromStockString(test);
+
+      Assert.assertFalse(date1.before(date2));
+   }
 }

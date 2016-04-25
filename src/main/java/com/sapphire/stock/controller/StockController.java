@@ -98,18 +98,18 @@ public class StockController {
 
       List<Stock> stocks = stockStatics.getLowestMacd();
 
-      List<Stock> result = new ArrayList<>(stocks.size());
       for (Stock stock : stocks) {
          StockStatistics stat =
                stockStatisticsService.findByCode(stock.getCode());
 
-         if (stat == null)
+         if (stat == null) {
             continue;
+         }
 
          stock.update(stat);
       }
 
-      JsonDto dto = new ListJsonDto<>(result).formSuccessDto();
+      JsonDto dto = new ListJsonDto<>(stocks).formSuccessDto();
 
       return dto;
    }
@@ -121,6 +121,27 @@ public class StockController {
 
       JsonDto dto =
             new ListJsonDto<>(stockStatics.getStocks()).formSuccessDto();
+
+      return dto;
+   }
+
+   @RequestMapping("/statics/dead.ep")
+   @ResponseBody
+   public JsonDto getDeadStatics() {
+      StockStatics stockStatics = stockCache.getStockStatics();
+      List<Stock> stocks = stockStatics.getDeadMacd();
+
+      for (Stock stock : stocks) {
+         StockStatistics stat =
+               stockStatisticsService.findByCode(stock.getCode());
+
+         if (stat == null)
+            continue;
+
+         stock.update(stat);
+      }
+
+      JsonDto dto = new ListJsonDto<>(stocks).formSuccessDto();
 
       return dto;
    }

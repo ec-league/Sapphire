@@ -20,4 +20,9 @@ public class StockPageController {
    public String increasePage() {
       return "stock/increase";
    }
+
+   @RequestMapping("/dead.html")
+   public String deadPage() {
+      return "stock/dead";
+   }
 }

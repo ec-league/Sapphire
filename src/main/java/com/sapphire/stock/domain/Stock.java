@@ -61,8 +61,9 @@ public class Stock implements Dto {
       return code;
    }
 
-   public void calculateMacd(int small, int big) {
-      init();
+   public void calculateMacd(int small, int big, boolean needInit) {
+      if (needInit)
+         init();
       for (int i = 1; i < stockItems.size(); i++) {
          stockItems.get(i).setEma12(
                stockItems.get(i - 1).getEma12() * (small - 1) / (small + 1)

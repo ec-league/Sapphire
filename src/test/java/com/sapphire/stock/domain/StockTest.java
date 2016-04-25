@@ -49,7 +49,7 @@ public class StockTest extends BaseTest {
       Assert.assertNotNull(stockItems);
    }
 
-//   @Test
+   @Test
    public void construct1() throws Exception {
       Assert.assertNotNull(stockItemRepository);
       System.out.println(TimeUtil.now());
@@ -80,7 +80,9 @@ public class StockTest extends BaseTest {
          if (stockItems.isEmpty())
             continue;
          Stock stock = new Stock(stockItems);
-         stock.calculateMacd(7, 18);
+         stock.calculateMacd(7, 18, true);
+
+         stockItems.get(stockItems.size() - 1).setLast(true);
 
          stockItemRepository.save(stockItems);
       }
@@ -131,5 +133,27 @@ public class StockTest extends BaseTest {
       Stock stock = stockService.getStockByCode("000001");
 
       Assert.assertTrue(stock.isUpper());
+   }
+
+   @Test
+   public void testLatestStockItem() {
+      List<String> codes = stockItemRepository.getCodes();
+
+      for (String code : codes) {
+         StockItem item = stockItemRepository.getLatestStockItem(code);
+         item.setLast(true);
+         stockItemRepository.save(item);
+      }
+   }
+
+   @Test
+   public void testLatestItems() {
+      List<StockItem> items = stockItemRepository.getLatestItems();
+
+      for(StockItem item : items) {
+         item.setDate(TimeUtil.fromStockString("04/21/2016"));
+      }
+
+      stockItemRepository.save(items);
    }
 }

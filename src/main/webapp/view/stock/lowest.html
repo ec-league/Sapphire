@@ -56,6 +56,9 @@
                 <li>
                     <a href="/stock/increase.html">MACD增幅筛选</a>
                 </li>
+                <li>
+                    <a href="/stock/dead.html">MACD死叉筛选</a>
+                </li>
                 <li><a href="/stock/cache.html">缓存刷新</a></li>
                 <li><a href="/stock/data.html">数据更新</a></li>
             </ul>
@@ -123,7 +126,7 @@
                 increaseTd.html((data[i].increaseTotal * 100).toFixed(2).toString() + "%");
 
                 var diffTd = $("<td></td>");
-                diffTd.html(data[i].firstDiff.toFixed(3));
+                diffTd.html(data[i].currentDiff.toFixed(3));
 
                 var consistDaysTd = $("<td></td>");
                 consistDaysTd.html(data[i].averageGoldDays);

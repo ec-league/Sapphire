@@ -75,4 +75,15 @@ public class StockStatics {
 
       return result.subList(0, limit);
    }
+
+   public List<Stock> getDeadMacd() {
+      List<Stock> result =
+            stocks.stream().filter(stock -> stock.getCurrentMacd() < 0)
+                  .filter(stock -> !stock.isStop())
+                  .collect(Collectors.toList());
+      Collections.sort(result, (o1, o2) -> Double.compare(o2.getCurrentMacd(),
+            o1.getCurrentMacd()));
+
+      return result.subList(0, result.size() < 20 ? result.size() : LIMIT_SIZE);
+   }
 }

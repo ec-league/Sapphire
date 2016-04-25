@@ -133,6 +133,9 @@ public class StockItem {
    @Column(name = "EMA_26", precision = 11, scale = 6)
    private double ema26;
 
+   @Column(name = "IS_LAST")
+   private boolean last;
+
    public long getUidPk() {
       return uidPk;
    }
@@ -275,5 +278,13 @@ public class StockItem {
 
    public void setEma26(double ema26) {
       this.ema26 = ema26;
+   }
+
+   public boolean isLast() {
+      return last;
+   }
+
+   public void setLast(boolean last) {
+      this.last = last;
    }
 }

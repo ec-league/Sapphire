@@ -74,7 +74,7 @@ public class StockCacheController {
             if (stockItems.isEmpty())
                continue;
             Stock stock = new Stock(stockItems);
-            stock.calculateMacd(7, 18);
+            stock.calculateMacd(7, 18, false);
 
             stockService.saveAll(stockItems);
          }
@@ -91,10 +91,29 @@ public class StockCacheController {
 
    @RequestMapping("/update/stat.ep")
    @ResponseBody
-   public JsonDto start() throws SchedulerException {
+   public JsonDto startStatTask() {
       Scheduler scheduler = schedulerFactoryBean.getScheduler();
       JobKey jobKey = JobKey.jobKey("updateStockStat", "Stock");
-      scheduler.triggerJob(jobKey);
+      try {
+         scheduler.triggerJob(jobKey);
+      } catch (SchedulerException e) {
+         logger.error("Schedule Update Stock Stat Failed", e);
+         return new JsonDto().formFailureDto(e);
+      }
+      return new JsonDto().formSuccessDto();
+   }
+
+   @RequestMapping("/update/item.ep")
+   @ResponseBody
+   public JsonDto startItemTask() {
+      Scheduler scheduler = schedulerFactoryBean.getScheduler();
+      JobKey jobKey = JobKey.jobKey("updateStockItem", "Stock");
+      try {
+         scheduler.triggerJob(jobKey);
+      } catch (SchedulerException e) {
+         logger.error("Schedule Update Stock Item Failed", e);
+         return new JsonDto().formFailureDto(e);
+      }
       return new JsonDto().formSuccessDto();
    }
 }

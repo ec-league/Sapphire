@@ -25,5 +25,11 @@ public interface StockService {
 
    void saveAll(List<StockItem> items);
 
+   StockItem save(StockItem item);
+
    StockStatics getStocksByIncreaseTotal();
+
+   List<StockItem> getLatestStockItems();
+
+   StockItem getLatestStockItemByCode(String code);
 }
