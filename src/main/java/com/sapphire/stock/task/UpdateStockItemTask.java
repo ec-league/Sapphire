@@ -13,10 +13,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import com.sapphire.stock.service.StockService;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,37 +50,25 @@ public class UpdateStockItemTask extends QuartzJobBean {
 
          for (File f : dir.listFiles()) {
             BufferedReader br =
-                  new BufferedReader(new InputStreamReader(new FileInputStream(f),
-                        "GBK"));
+                  new BufferedReader(new InputStreamReader(new FileInputStream(
+                        f), "GBK"));
 
-            List<StockItem> items = new ArrayList<StockItem>();
             String temp = br.readLine();
             String code = temp.split(" ")[0];
             String name = temp.split(" ")[1];
-            temp = br.readLine();
+
             StockItem lastItem = stockService.getLatestStockItemByCode(code);
 
             if (lastItem == null) {
-               logger.warn(String.format("For code \"%s\", There is no last item", code));
+               logger.info(String.format(
+                     "For code \"%s\", There is no last item", code));
+               insertNew(br, code, name);
                continue;
+            } else {
+               lastItem.setLast(false);
             }
 
-            lastItem.setLast(false);
-
-            while (temp != null) {
-               temp = br.readLine();
-               if (!temp.matches("[0-9].*"))
-                  break;
-
-               StockItem item = new StockItem(temp);
-
-               if (item.getDate().before(lastItem.getDate()))
-                  continue;
-
-               item.setCode(code);
-               item.setName(name);
-               items.add(item);
-            }
+            List<StockItem> items = goThrough(br, code, name);
 
             if (items.isEmpty()) {
                continue;
@@ -101,5 +86,46 @@ public class UpdateStockItemTask extends QuartzJobBean {
          logger.error("Init error", ex);
       }
       logger.info("Update Stock Item Task Finished!");
+   }
+
+   /**
+    * 初始化不存在StockItem的股票，用于更新新股票
+    * 
+    * @param br
+    * @param code
+    * @param name
+    * @throws IOException
+    */
+   private void insertNew(BufferedReader br, String code, String name)
+         throws IOException {
+      List<StockItem> stockItems = goThrough(br, code, name);
+
+      if (stockItems.isEmpty())
+         return;
+      Stock stock = new Stock(stockItems);
+      stock.calculateMacd(MACD_START, MACD_END, true);
+
+      stockItems.get(stockItems.size() - 1).setLast(true);
+
+      stockService.saveAll(stockItems);
+   }
+
+   private List<StockItem> goThrough(BufferedReader br, String code, String name)
+         throws IOException {
+      String temp = br.readLine();
+      List<StockItem> stockItems = new ArrayList<>();
+      while (temp != null) {
+         temp = br.readLine();
+         if (!temp.matches("[0-9].*"))
+            break;
+
+         StockItem item = new StockItem(temp);
+         item.setCode(code);
+         item.setName(name);
+
+         stockItems.add(item);
+      }
+
+      return stockItems;
    }
 }
