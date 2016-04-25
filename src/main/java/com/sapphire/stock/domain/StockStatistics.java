@@ -31,6 +31,9 @@ public class StockStatistics {
    @Column(name = "HIGHEST_PRICE", precision = 7, scale = 2)
    private double highestPrice;
 
+   @Column(name = "LOWEST_MACD", precision = 11, scale = 5)
+   private double lowestMacd;
+
    @Temporal(TemporalType.TIMESTAMP)
    @Column(name = "LAST_MODIFY_DATE")
    private Timestamp lastModifyDate;
@@ -81,5 +84,13 @@ public class StockStatistics {
 
    public void setLastModifyDate(Timestamp lastModifyDate) {
       this.lastModifyDate = lastModifyDate;
+   }
+
+   public double getLowestMacd() {
+      return lowestMacd;
+   }
+
+   public void setLowestMacd(double lowestMacd) {
+      this.lowestMacd = lowestMacd;
    }
 }

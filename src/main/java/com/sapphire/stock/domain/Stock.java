@@ -1,12 +1,12 @@
 package com.sapphire.stock.domain;
 
+import com.sapphire.common.dto.Dto;
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sapphire.common.dto.Dto;
 
 
 /**
@@ -27,6 +27,8 @@ public class Stock implements Dto {
    private double firstDiff;
    private double averageIncreaseRate;
    private boolean shouldPass = false;
+   private double lowestMacd;
+
    /**
     * 最后一天的股票macd值
     */
@@ -227,18 +229,24 @@ public class Stock implements Dto {
             Double.compare(stockItems.get(stockItems.size() - 1).getTrading(),
                   0) == 0;
       double temp = 0;
+      double temp1 = 0;
       for (StockItem item : stockItems) {
          if (item.getHighestPrice() > temp) {
             temp = item.getHighestPrice();
          }
+         if (item.getMacd() < temp1) {
+            temp1 = item.getMacd();
+         }
       }
       highestPrice = temp;
+      lowestMacd = temp1;
    }
 
    public void update(StockStatistics statistics){
       highestPrice = statistics.getHighestPrice();
       increaseTotal = statistics.getIncreaseTotal();
       averageGoldDays = statistics.getAverageGoldDays();
+      lowestMacd = statistics.getLowestMacd();
    }
 
    public boolean isUpper() {
@@ -307,6 +315,10 @@ public class Stock implements Dto {
 
    public int getAverageGoldDays() {
       return averageGoldDays;
+   }
+
+   public double getLowestMacd() {
+      return lowestMacd;
    }
 
    private static class StockStatic {
