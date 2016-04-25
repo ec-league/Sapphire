@@ -120,6 +120,34 @@ public class Stock implements Dto {
       return count;
    }
 
+   /**
+    * 第二天变成金叉，所需要的收盘价格
+    * 
+    * @param lastItem
+    * @return
+    */
+   private static double goldPrice(StockItem lastItem) {
+      double price =
+            (76 * 17.0) / (19 * 11) * lastItem.getEma26() - 57.0 / 11
+                  * lastItem.getEma12() + 76.0 / 11 * lastItem.getMacdDea();
+      return price;
+   }
+
+   /**
+    * 第二天是否可能变成金叉
+    * 
+    * @param lastItem
+    * @return
+    */
+   public static boolean isGoldPossible(StockItem lastItem) {
+      double price = goldPrice(lastItem);
+
+      if ((price - lastItem.getEndPrice()) / lastItem.getEndPrice() > 0.1) {
+         return false;
+      }
+      return true;
+   }
+
    public void process() {
       List<StockStatic> statics = group(stockItems);
 
@@ -242,7 +270,7 @@ public class Stock implements Dto {
       lowestMacd = temp1;
    }
 
-   public void update(StockStatistics statistics){
+   public void update(StockStatistics statistics) {
       highestPrice = statistics.getHighestPrice();
       increaseTotal = statistics.getIncreaseTotal();
       averageGoldDays = statistics.getAverageGoldDays();
