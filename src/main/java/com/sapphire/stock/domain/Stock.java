@@ -19,6 +19,7 @@ public class Stock implements Dto {
    private double highestPrice;
    private double endPrice;
    private String name;
+   private boolean goldPossible;
 
    /**
     * 股票代码
@@ -268,6 +269,7 @@ public class Stock implements Dto {
       }
       highestPrice = temp;
       lowestMacd = temp1;
+      goldPossible = isGoldPossible(last);
    }
 
    public void update(StockStatistics statistics) {
@@ -347,6 +349,10 @@ public class Stock implements Dto {
 
    public double getLowestMacd() {
       return lowestMacd;
+   }
+
+   public boolean isGoldPossible() {
+      return goldPossible;
    }
 
    private static class StockStatic {

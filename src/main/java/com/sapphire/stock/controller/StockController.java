@@ -1,14 +1,5 @@
 package com.sapphire.stock.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.sapphire.common.dto.JsonDto;
 import com.sapphire.common.dto.ListJsonDto;
 import com.sapphire.stock.cache.StockCache;
@@ -17,6 +8,13 @@ import com.sapphire.stock.domain.StockStatics;
 import com.sapphire.stock.domain.StockStatistics;
 import com.sapphire.stock.service.StockService;
 import com.sapphire.stock.service.StockStatisticsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * Author: Ethan Date: 2016/4/17
@@ -37,8 +35,7 @@ public class StockController {
    @ResponseBody
    public JsonDto getIndustries() {
       List<String> codes = stockService.getIndustries();
-      JsonDto result = new ListJsonDto<>(codes).formSuccessDto();
-      return result;
+      return new ListJsonDto<>(codes).formSuccessDto();
    }
 
    @RequestMapping("/industry/statics/below")
@@ -48,11 +45,11 @@ public class StockController {
       StockStatics stockStatics =
             stockService.getLastMonthStockStaticsByIndustry(industry);
 
-      JsonDto dto =
-            new ListJsonDto<Stock>(stockStatics.getMacdBelowZero())
-                  .formSuccessDto();
+      List<Stock> stocks = stockStatics.getMacdBelowZero();
 
-      return dto;
+      update(stocks);
+
+      return new ListJsonDto<>(stocks);
    }
 
    @RequestMapping("/industry/statics/upon")
@@ -98,16 +95,7 @@ public class StockController {
 
       List<Stock> stocks = stockStatics.getLowestMacd();
 
-      for (Stock stock : stocks) {
-         StockStatistics stat =
-               stockStatisticsService.findByCode(stock.getCode());
-
-         if (stat == null) {
-            continue;
-         }
-
-         stock.update(stat);
-      }
+      update(stocks);
 
       JsonDto dto = new ListJsonDto<>(stocks).formSuccessDto();
 
@@ -131,6 +119,27 @@ public class StockController {
       StockStatics stockStatics = stockCache.getStockStatics();
       List<Stock> stocks = stockStatics.getDeadMacd();
 
+      update(stocks);
+
+      JsonDto dto = new ListJsonDto<>(stocks).formSuccessDto();
+
+      return dto;
+   }
+
+   @RequestMapping("/statics/gold.ep")
+   @ResponseBody
+   public JsonDto getGoldPossible() {
+      StockStatics stockStatics = stockCache.getStockStatics();
+      List<Stock> stocks = stockStatics.getGoldPossible();
+
+      update(stocks);
+
+      JsonDto dto = new ListJsonDto<>(stocks).formSuccessDto();
+
+      return dto;
+   }
+
+   private void update(List<Stock> stocks) {
       for (Stock stock : stocks) {
          StockStatistics stat =
                stockStatisticsService.findByCode(stock.getCode());
@@ -140,9 +149,5 @@ public class StockController {
 
          stock.update(stat);
       }
-
-      JsonDto dto = new ListJsonDto<>(stocks).formSuccessDto();
-
-      return dto;
    }
 }

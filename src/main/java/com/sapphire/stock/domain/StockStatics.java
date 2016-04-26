@@ -86,4 +86,21 @@ public class StockStatics {
 
       return result.subList(0, result.size() < 20 ? result.size() : LIMIT_SIZE);
    }
+
+   /**
+    * Get all the stocks which could possibly be gold tomorrow, which are
+    * ordered by current macd
+    * 
+    * @return
+    */
+   public List<Stock> getGoldPossible() {
+      List<Stock> result =
+            stocks.stream().filter(stock -> stock.isGoldPossible())
+                  .collect(Collectors.toList());
+
+      Collections.sort(result, (o1, o2) -> Double.compare(o1.getCurrentDiff(),
+            o2.getCurrentDiff()));
+
+      return result;
+   }
 }
