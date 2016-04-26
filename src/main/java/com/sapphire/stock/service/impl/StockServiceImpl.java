@@ -1,12 +1,5 @@
 package com.sapphire.stock.service.impl;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.sapphire.common.TimeUtil;
 import com.sapphire.stock.domain.Stock;
 import com.sapphire.stock.domain.StockItem;
@@ -14,6 +7,12 @@ import com.sapphire.stock.domain.StockStatics;
 import com.sapphire.stock.repository.StockItemRepository;
 import com.sapphire.stock.repository.StockStatisticsRepository;
 import com.sapphire.stock.service.StockService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ethan on 2016/3/30.
@@ -117,8 +116,7 @@ public class StockServiceImpl implements StockService {
    }
 
    /**
-    * �?有股票中，增幅排名前200的股票的统计数据�?
-    * 
+    *
     * @return
     */
    @Override
@@ -139,8 +137,7 @@ public class StockServiceImpl implements StockService {
    }
 
    /**
-    * 获取上次更新的最后一天的�?有的StockItem
-    * 
+    *
     * @return
     */
    @Override
