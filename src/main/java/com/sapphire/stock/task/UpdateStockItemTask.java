@@ -1,9 +1,9 @@
 package com.sapphire.stock.task;
 
-import com.sapphire.common.PropertyManager;
-import com.sapphire.common.constant.PropertyFlag;
-import com.sapphire.stock.domain.Stock;
-import com.sapphire.stock.domain.StockItem;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerException;
@@ -11,11 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import com.sapphire.common.PropertyManager;
+import com.sapphire.common.constant.PropertyFlag;
+import com.sapphire.stock.domain.Stock;
+import com.sapphire.stock.domain.StockItem;
 import com.sapphire.stock.service.StockService;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Author: EthanPark <br/>
@@ -89,7 +89,7 @@ public class UpdateStockItemTask extends QuartzJobBean {
    }
 
    /**
-    * ³õÊ¼»¯²»´æÔÚStockItemµÄ¹ÉÆ±£¬ÓÃÓÚ¸üĞÂĞÂ¹ÉÆ±
+    * åˆå§‹åŒ–ä¸å­˜åœ¨StockItemçš„è‚¡ç¥¨ï¼Œç”¨äºæ›´æ–°æ–°è‚¡ç¥¨
     * 
     * @param br
     * @param code

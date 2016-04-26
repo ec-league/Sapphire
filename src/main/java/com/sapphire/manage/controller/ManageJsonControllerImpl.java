@@ -1,5 +1,18 @@
 package com.sapphire.manage.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.sapphire.common.TimeUtil;
 import com.sapphire.common.dto.Dto;
 import com.sapphire.common.dto.JsonDto;
@@ -13,18 +26,6 @@ import com.sapphire.manage.service.ProjectService;
 import com.sapphire.manage.service.TicketService;
 import com.sapphire.user.domain.User;
 import com.sapphire.user.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Author: EthanPark <br/>
@@ -104,7 +105,8 @@ public class ManageJsonControllerImpl {
                      .getPrincipal();
 
          List<TicketItemDto> dtos = new ArrayList<TicketItemDto>();
-         for (Ticket ticket : ticketService.getTicketsByReportUserId(u.getUidPk())) {
+         for (Ticket ticket : ticketService.getTicketsByReportUserId(u
+               .getUidPk())) {
             dtos.add(new TicketItemDto(ticket));
          }
          return new ListJsonDto<TicketItemDto>(dtos).formSuccessDto();

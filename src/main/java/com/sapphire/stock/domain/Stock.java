@@ -1,12 +1,12 @@
 package com.sapphire.stock.domain;
 
-import com.sapphire.common.dto.Dto;
-
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sapphire.common.dto.Dto;
 
 
 /**

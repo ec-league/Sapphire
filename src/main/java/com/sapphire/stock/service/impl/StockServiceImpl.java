@@ -117,7 +117,7 @@ public class StockServiceImpl implements StockService {
    }
 
    /**
-    * 所有股票中，增幅排名前200的股票的统计数据。
+    * �?有股票中，增幅排名前200的股票的统计数据�?
     * 
     * @return
     */
@@ -139,7 +139,8 @@ public class StockServiceImpl implements StockService {
    }
 
    /**
-    * 获取上次更新的最后一天的所有的StockItem
+    * 获取上次更新的最后一天的�?有的StockItem
+    * 
     * @return
     */
    @Override

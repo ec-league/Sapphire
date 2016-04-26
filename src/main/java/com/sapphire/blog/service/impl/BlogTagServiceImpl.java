@@ -1,19 +1,21 @@
 package com.sapphire.blog.service.impl;
 
+import static java.util.stream.Collectors.toList;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.sapphire.blog.domain.Blog;
 import com.sapphire.blog.domain.BlogTag;
 import com.sapphire.blog.repository.BlogRepository;
 import com.sapphire.blog.repository.BlogTagRepository;
 import com.sapphire.blog.service.BlogTagService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 
 /**
@@ -47,8 +49,11 @@ public class BlogTagServiceImpl implements BlogTagService {
 
    @Override
    public long addBlogTag(BlogTag tag) {
-      List<BlogTag> tags = blogTagRepository.getBlogTagsByBlogId(tag.getBlogId());
-      boolean exist = tags.stream().filter(t -> t.getTagName().equals(tag.getTagName())).count() > 0;
+      List<BlogTag> tags =
+            blogTagRepository.getBlogTagsByBlogId(tag.getBlogId());
+      boolean exist =
+            tags.stream().filter(t -> t.getTagName().equals(tag.getTagName()))
+                  .count() > 0;
       if (exist) {
          throw new EntityExistsException();
       }

@@ -1,11 +1,12 @@
 package com.sapphire.user.repository;
 
-import com.sapphire.user.domain.User;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
+import com.sapphire.user.domain.User;
 
 /**
  * Author: Ethan <br/>

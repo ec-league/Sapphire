@@ -1,12 +1,11 @@
 package com.sapphire.stock.service;
 
-import com.sapphire.stock.constant.IgnoreStockFlag;
-
 import java.util.Set;
 
+import com.sapphire.stock.constant.IgnoreStockFlag;
+
 /**
- * Author: Ethan
- * Date: 2016/4/5
+ * Author: Ethan Date: 2016/4/5
  */
 public interface IgnoreStockService {
 

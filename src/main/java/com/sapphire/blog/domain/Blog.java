@@ -1,11 +1,12 @@
 package com.sapphire.blog.domain;
 
+import java.sql.Timestamp;
+
+import javax.persistence.*;
+
 import com.sapphire.blog.constant.BlogStatus;
 import com.sapphire.common.TimeUtil;
 import com.sapphire.user.domain.User;
-
-import javax.persistence.*;
-import java.sql.Timestamp;
 
 /**
  * Author: Ethan <br/>

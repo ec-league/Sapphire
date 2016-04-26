@@ -1,7 +1,7 @@
 package com.sapphire.user.dto;
 
-import com.sapphire.user.domain.User;
 import com.sapphire.common.dto.JsonDto;
+import com.sapphire.user.domain.User;
 
 /**
  * Author: Ethan <br/>

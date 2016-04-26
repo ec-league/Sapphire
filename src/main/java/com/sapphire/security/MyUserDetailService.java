@@ -1,12 +1,13 @@
 package com.sapphire.security;
 
-import com.sapphire.user.service.UserService;
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
+import com.sapphire.user.service.UserService;
 
 /**
  * Author: EthanPark <br/>

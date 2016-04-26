@@ -1,8 +1,9 @@
 package com.sapphire.user.repository;
 
-import com.sapphire.user.domain.UserInfo;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+
+import com.sapphire.user.domain.UserInfo;
 
 /**
  * Author: EthanPark <br/>

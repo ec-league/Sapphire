@@ -1,11 +1,12 @@
 package com.sapphire.blog.repository;
 
-import com.sapphire.blog.domain.Comment;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
+import com.sapphire.blog.domain.Comment;
 
 /**
  * Author: Ethan <br/>

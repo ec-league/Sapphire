@@ -1,22 +1,19 @@
 package com.sapphire.user.controller;
 
-import com.sapphire.user.domain.User;
-import com.sapphire.common.dto.DataJsonDto;
-import com.sapphire.common.dto.Dto;
-import com.sapphire.common.dto.JsonDto;
-import com.sapphire.user.dto.UserDto;
-import com.sapphire.user.dto.UserJsonDto;
-import com.sapphire.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import com.sapphire.common.dto.DataJsonDto;
+import com.sapphire.common.dto.Dto;
+import com.sapphire.common.dto.JsonDto;
+import com.sapphire.user.domain.User;
+import com.sapphire.user.dto.UserDto;
+import com.sapphire.user.dto.UserJsonDto;
+import com.sapphire.user.service.UserService;
 
 /**
  * Author: Ethan <br/>
@@ -32,7 +29,8 @@ public class UserJsonControllerImpl {
    private UserService userService;
 
    @RequestMapping("/create.ep")
-   @ResponseBody public JsonDto createUser(@RequestBody UserDto user) {
+   @ResponseBody
+   public JsonDto createUser(@RequestBody UserDto user) {
       try {
          userService.createUser(user);
          return new JsonDto().formSuccessDto();
@@ -43,7 +41,8 @@ public class UserJsonControllerImpl {
    }
 
    @RequestMapping("/{id}/get.ep")
-   @ResponseBody public JsonDto getUser(@PathVariable("id") long id) {
+   @ResponseBody
+   public JsonDto getUser(@PathVariable("id") long id) {
       try {
          User user = userService.getUserById(id);
          return new UserJsonDto(user).formSuccessDto();
@@ -54,8 +53,8 @@ public class UserJsonControllerImpl {
    }
 
    @RequestMapping("/getByVal.ep")
-   @ResponseBody public JsonDto getUserByUsernameOrPassword(
-         @RequestParam("val") String val) {
+   @ResponseBody
+   public JsonDto getUserByUsernameOrPassword(@RequestParam("val") String val) {
       try {
          User u = userService.getUserByUserNameOrEmail(val);
          return new UserJsonDto(u).formSuccessDto();
@@ -66,7 +65,8 @@ public class UserJsonControllerImpl {
    }
 
    @RequestMapping("/getCurrentUser.ep")
-   @ResponseBody public JsonDto getCurrentUser() {
+   @ResponseBody
+   public JsonDto getCurrentUser() {
       try {
          User u =
                (User) SecurityContextHolder.getContext().getAuthentication()

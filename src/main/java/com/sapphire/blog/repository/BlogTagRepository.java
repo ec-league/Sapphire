@@ -1,10 +1,11 @@
 package com.sapphire.blog.repository;
 
-import com.sapphire.blog.domain.BlogTag;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
+import com.sapphire.blog.domain.BlogTag;
 
 /**
  * Author: EthanPark <br/>

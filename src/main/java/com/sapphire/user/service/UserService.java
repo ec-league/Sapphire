@@ -1,9 +1,9 @@
 package com.sapphire.user.service;
 
+import java.util.List;
+
 import com.sapphire.user.domain.User;
 import com.sapphire.user.dto.UserDto;
-
-import java.util.List;
 
 /**
  * Author: Ethan <br/>

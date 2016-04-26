@@ -34,7 +34,7 @@
     <!-- 自定义权限管理，使用自己的user-service -->
     <authentication-manager>
         <authentication-provider user-service-ref="userDetailService">
-            <password-encoder ref="passwordEncoder" />
+            <password-encoder ref="passwordEncoder"/>
         </authentication-provider>
     </authentication-manager>
 

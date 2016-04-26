@@ -1,23 +1,24 @@
 package com.sapphire.service.manage;
 
-import com.sapphire.BaseTest;
-import com.sapphire.common.TimeUtil;
-import com.sapphire.manage.constant.TicketPriority;
-import com.sapphire.manage.constant.TicketType;
-import com.sapphire.user.domain.User;
-import com.sapphire.manage.domain.Project;
-import com.sapphire.manage.domain.Ticket;
-import com.sapphire.user.dto.UserDto;
-import com.sapphire.manage.service.ProjectService;
-import com.sapphire.manage.service.TicketService;
-import com.sapphire.user.service.UserService;
+import javax.persistence.EntityNotFoundException;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.EntityNotFoundException;
+import com.sapphire.BaseTest;
+import com.sapphire.common.TimeUtil;
+import com.sapphire.manage.constant.TicketPriority;
+import com.sapphire.manage.constant.TicketType;
+import com.sapphire.manage.domain.Project;
+import com.sapphire.manage.domain.Ticket;
+import com.sapphire.manage.service.ProjectService;
+import com.sapphire.manage.service.TicketService;
+import com.sapphire.user.domain.User;
+import com.sapphire.user.dto.UserDto;
+import com.sapphire.user.service.UserService;
 
 /**
  * Author: EthanPark <br/>

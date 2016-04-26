@@ -1,17 +1,18 @@
 package com.sapphire.service.user;
 
-import com.sapphire.BaseTest;
-import com.sapphire.user.domain.User;
-import com.sapphire.user.dto.UserDto;
-import com.sapphire.user.service.UserService;
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
+import com.sapphire.BaseTest;
+import com.sapphire.user.domain.User;
+import com.sapphire.user.dto.UserDto;
+import com.sapphire.user.service.UserService;
 
 /**
  * Author: EthanPark <br/>

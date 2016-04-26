@@ -1,9 +1,10 @@
 package com.sapphire.user.repository;
 
-import com.sapphire.user.domain.Role;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
+
+import com.sapphire.user.domain.Role;
 
 /**
  * Author: EthanPark <br/>

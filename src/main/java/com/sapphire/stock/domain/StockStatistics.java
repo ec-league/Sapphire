@@ -1,7 +1,8 @@
 package com.sapphire.stock.domain;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
+
+import javax.persistence.*;
 
 /**
  * Author: EthanPark <br/>

@@ -1,10 +1,11 @@
 package com.sapphire.common;
 
-import com.sapphire.common.exception.DateParseException;
+import java.sql.Timestamp;
+
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.sql.Timestamp;
+import com.sapphire.common.exception.DateParseException;
 
 
 /**

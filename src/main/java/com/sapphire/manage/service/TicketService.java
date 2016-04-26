@@ -1,8 +1,8 @@
 package com.sapphire.manage.service;
 
-import com.sapphire.manage.domain.Ticket;
-
 import java.util.List;
+
+import com.sapphire.manage.domain.Ticket;
 
 /**
  * Author: Ethan <br/>

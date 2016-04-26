@@ -1,15 +1,16 @@
 package com.sapphire.service.manage;
 
-import com.sapphire.BaseTest;
-import com.sapphire.common.TimeUtil;
-import com.sapphire.manage.domain.Project;
-import com.sapphire.manage.service.ProjectService;
+import javax.persistence.EntityNotFoundException;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.EntityNotFoundException;
+import com.sapphire.BaseTest;
+import com.sapphire.common.TimeUtil;
+import com.sapphire.manage.domain.Project;
+import com.sapphire.manage.service.ProjectService;
 
 /**
  * Author: EthanPark <br/>

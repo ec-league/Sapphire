@@ -11,4 +11,6 @@ public interface UserInfoService {
    long save(UserInfo userInfo);
 
    UserInfo getUserInfoByUserId(long userId);
+
+   void delete(long uidPk);
 }

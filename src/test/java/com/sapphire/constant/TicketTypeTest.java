@@ -1,8 +1,9 @@
 package com.sapphire.constant;
 
-import com.sapphire.manage.constant.TicketType;
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.sapphire.manage.constant.TicketType;
 
 /**
  * Author: EthanPark <br/>

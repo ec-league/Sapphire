@@ -1,10 +1,11 @@
 package com.sapphire.user.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.sapphire.user.domain.UserInfo;
 import com.sapphire.user.repository.UserInfoRepository;
 import com.sapphire.user.service.UserInfoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * Author: EthanPark <br/>
@@ -22,5 +23,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 
    public UserInfo getUserInfoByUserId(long userId) {
       return userInfoRepository.getUserInfoByUserId(userId);
+   }
+
+   @Override
+   public void delete(long uidPk) {
+      userInfoRepository.delete(uidPk);
    }
 }

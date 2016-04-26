@@ -1,9 +1,10 @@
 package com.sapphire.constant;
 
 
-import com.sapphire.blog.constant.BlogStatus;
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.sapphire.blog.constant.BlogStatus;
 
 /**
  * Author: EthanPark <br/>

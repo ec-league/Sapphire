@@ -1,5 +1,14 @@
 package com.sapphire.stock.service.impl;
 
+import com.sapphire.BaseTest;
+import com.sapphire.common.TimeUtil;
+import com.sapphire.stock.domain.Stock;
+import com.sapphire.stock.domain.StockStatics;
+import com.sapphire.stock.service.StockService;
+import org.junit.Assert;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,16 +16,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.sapphire.BaseTest;
-import com.sapphire.common.TimeUtil;
-import com.sapphire.stock.domain.Stock;
-import com.sapphire.stock.domain.StockStatics;
-import com.sapphire.stock.service.StockService;
 
 /**
  * StockServiceImpl Tester.
@@ -49,7 +48,7 @@ public class StockServiceImplTest extends BaseTest {
     * Method: getStockByCode(String code)
     * 
     */
-   @Test
+   //   @Test
    public void testGetStockByCode() throws Exception {
       String code = "600000";
 
@@ -95,7 +94,7 @@ public class StockServiceImplTest extends BaseTest {
             .printf("Frequency     : %s%n", successCount * 1.0 / totalCount);
    }
 
-   @Test
+   //   @Test
    public void output1() throws ParseException {
       List<String> codes = stockService.getAllCodes();
 
@@ -165,7 +164,7 @@ public class StockServiceImplTest extends BaseTest {
             double averageIncreaseRate = 0;
             double increaseTotal = 0;
             for (Stock stock : stocks) {
-               stock.calculateMacd(8, 16,true);
+               stock.calculateMacd(8, 16, true);
                stock.calcStatics();
                if (stock.isShouldPass()) {
                   continue;
@@ -211,7 +210,7 @@ public class StockServiceImplTest extends BaseTest {
       Assert.assertNotNull(stockStatics);
    }
 
-   @Test
+   //   @Test
    public void testMacd() {
       Timestamp from = TimeUtil.fromStockString("07/08/2014");
       Timestamp to = TimeUtil.now();

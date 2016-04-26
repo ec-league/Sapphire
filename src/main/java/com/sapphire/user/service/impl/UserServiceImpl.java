@@ -1,18 +1,20 @@
 package com.sapphire.user.service.impl;
 
+import java.util.Collections;
+import java.util.List;
+
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+
 import com.sapphire.user.domain.User;
 import com.sapphire.user.dto.UserDto;
 import com.sapphire.user.repository.UserRepository;
 import com.sapphire.user.service.RoleService;
 import com.sapphire.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
-
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Author: Ethan <br/>

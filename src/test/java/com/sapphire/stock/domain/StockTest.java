@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sapphire.stock.service.StockService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.sapphire.BaseTest;
 import com.sapphire.common.TimeUtil;
 import com.sapphire.stock.repository.StockItemRepository;
+import com.sapphire.stock.service.StockService;
 
 /**
  * Stock Tester.
@@ -33,7 +33,7 @@ public class StockTest extends BaseTest {
    private StockService stockService;
 
 
-   @Test
+   //   @Test
    public void construct() throws IOException, ParseException {
       String code = "600000";
       Timestamp from =
@@ -49,7 +49,7 @@ public class StockTest extends BaseTest {
       Assert.assertNotNull(stockItems);
    }
 
-   @Test
+   //   @Test
    public void construct1() throws Exception {
       Assert.assertNotNull(stockItemRepository);
       System.out.println(TimeUtil.now());
@@ -93,11 +93,11 @@ public class StockTest extends BaseTest {
     * 
     * @throws Exception
     */
-//   @Test
+   //   @Test
    public void construct2() throws Exception {
       BufferedReader br =
-            new BufferedReader(new InputStreamReader(new FileInputStream(new File("C:\\Users\\Ethan\\Desktop\\Table.txt")),
-                  "GBK"));
+            new BufferedReader(new InputStreamReader(new FileInputStream(
+                  new File("C:\\Users\\Ethan\\Desktop\\Table.txt")), "GBK"));
 
       br.readLine();
       String temp = br.readLine();
@@ -122,13 +122,13 @@ public class StockTest extends BaseTest {
       Assert.assertNotNull(codes);
    }
 
-   @Test
+   //   @Test
    public void testGetLatestStockItem() {
       StockItem item = stockItemRepository.getLatestStockItem("600000");
       Assert.assertNotNull(item);
    }
 
-   @Test
+   //   @Test
    public void testIsUpper() {
       Stock stock = stockService.getStockByCode("000001");
 
@@ -150,7 +150,7 @@ public class StockTest extends BaseTest {
    public void testLatestItems() {
       List<StockItem> items = stockItemRepository.getLatestItems();
 
-      for(StockItem item : items) {
+      for (StockItem item : items) {
          item.setDate(TimeUtil.fromStockString("04/21/2016"));
       }
 

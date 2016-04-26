@@ -1,14 +1,13 @@
 package com.sapphire.service.user;
 
-import javax.persistence.EntityExistsException;
-
+import com.sapphire.BaseTest;
+import com.sapphire.user.domain.UserInfo;
 import com.sapphire.user.service.UserInfoService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sapphire.BaseTest;
-import com.sapphire.user.domain.UserInfo;
+import javax.persistence.EntityExistsException;
 
 /**
  * Author: EthanPark <br/>

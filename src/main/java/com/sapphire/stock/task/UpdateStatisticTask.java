@@ -1,10 +1,8 @@
 package com.sapphire.stock.task;
 
-import com.sapphire.common.TimeUtil;
-import com.sapphire.stock.domain.Stock;
-import com.sapphire.stock.domain.StockStatistics;
-import com.sapphire.stock.service.StockService;
-import com.sapphire.stock.service.StockStatisticsService;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerException;
@@ -12,8 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.sapphire.common.TimeUtil;
+import com.sapphire.stock.domain.Stock;
+import com.sapphire.stock.domain.StockStatistics;
+import com.sapphire.stock.service.StockService;
+import com.sapphire.stock.service.StockStatisticsService;
 
 /**
  * Author: EthanPark <br/>

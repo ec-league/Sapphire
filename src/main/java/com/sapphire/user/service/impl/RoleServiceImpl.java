@@ -1,11 +1,12 @@
 package com.sapphire.user.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.sapphire.user.constant.RoleNameConstant;
 import com.sapphire.user.domain.Role;
 import com.sapphire.user.repository.RoleRepository;
 import com.sapphire.user.service.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * Author: EthanPark <br/>

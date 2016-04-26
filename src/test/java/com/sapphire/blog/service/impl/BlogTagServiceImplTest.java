@@ -1,5 +1,15 @@
 package com.sapphire.blog.service.impl;
 
+import java.util.List;
+
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+
+import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Assert;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.sapphire.BaseTest;
 import com.sapphire.blog.domain.Blog;
 import com.sapphire.blog.domain.BlogTag;
@@ -8,21 +18,12 @@ import com.sapphire.blog.service.BlogTagService;
 import com.sapphire.user.domain.User;
 import com.sapphire.user.dto.UserDto;
 import com.sapphire.user.service.UserService;
-import org.apache.commons.lang.RandomStringUtils;
-import org.junit.Assert;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
-import java.util.List;
 
 /**
  * BlogTagServiceImpl Tester.
  * 
  * @author EthanPark
  * @since <pre>
- * Ò»ÔÂ 15, 2016
  * </pre>
  * @version 1.0
  */
@@ -79,7 +80,7 @@ public class BlogTagServiceImplTest extends BaseTest {
    }
 
    @Test(expected = EntityNotFoundException.class)
-   public void testGetBlogTagByIdEmpty(){
+   public void testGetBlogTagByIdEmpty() {
       blogTagService.getBlogTagsByBlogId(0);
    }
 

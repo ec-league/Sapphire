@@ -1,9 +1,8 @@
 package com.sapphire.stock.service;
 
-import com.sapphire.stock.domain.StockStatistics;
-import org.springframework.data.jpa.repository.Query;
-
 import java.util.List;
+
+import com.sapphire.stock.domain.StockStatistics;
 
 /**
  * Author: EthanPark <br/>

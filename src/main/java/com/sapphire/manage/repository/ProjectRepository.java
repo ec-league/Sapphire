@@ -1,10 +1,11 @@
 package com.sapphire.manage.repository;
 
-import com.sapphire.manage.domain.Project;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
+import com.sapphire.manage.domain.Project;
 
 /**
  * Author: EthanPark <br/>

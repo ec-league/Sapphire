@@ -68,9 +68,5 @@ public class StockStatisticsServiceImplTest extends BaseTest {
       Long uidPk = stockStatisticsRepository.findStatByCode("60000000");
 
       Assert.assertNull(uidPk);
-
-      List<String> codes = stockStatisticsRepository.findByIncrease();
-
-      Assert.assertTrue(codes.size() == 200);
    }
 }

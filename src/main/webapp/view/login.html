@@ -14,11 +14,11 @@
 
     <!-- Custom styles -->
     <style type="text/css">
-        #bk{
+        #bk {
             background-image: url(../img/left.jpg);
-            filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
-            -moz-background-size:100% 100%;
-            background-size:100%;
+            filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+            -moz-background-size: 100% 100%;
+            background-size: 100%;
             margin-top: 0;
         }
     </style>
@@ -30,10 +30,12 @@
     </h2>
 </div>
 <div class="container" id="bk">
-    <div class="row" >
+    <div class="row">
         <div class="col-md-12">
-            <form id="login_form" class="bootstrap-admin-login-form" style="margin-top: 2%;margin-right: 5%;" action="j_spring_security_check" method="post">
+            <form id="login_form" class="bootstrap-admin-login-form" style="margin-top: 2%;margin-right: 5%;"
+                  action="j_spring_security_check" method="post">
                 <h1>Login</h1>
+
                 <div class="form-group">
                     <input class="form-control" type="text" name="j_username" placeholder="Username">
                 </div>
@@ -46,7 +48,8 @@
                         Remember me
                     </label>
                 </div>
-                <button id="login_submit" class="btn btn-lg btn-primary" type="submit">Sign In</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button id="login_submit" class="btn btn-lg btn-primary" type="submit">Sign In</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <button type="button" class="btn btn-success">Sign Up</button>
             </form>
         </div>
@@ -61,11 +64,10 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../js/framework/bootstrap.min.js"></script>
 <script type="text/javascript">
-    document.getElementById("login_submit").onclick = function() {
+    document.getElementById("login_submit").onclick = function () {
         document.getElementById("login_form").submit();
     }
 </script>
-
 
 
 <script src="../js/framework/jquery-1.11.3.js"></script>
