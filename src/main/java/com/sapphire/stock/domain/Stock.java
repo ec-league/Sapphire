@@ -1,5 +1,6 @@
 package com.sapphire.stock.domain;
 
+import java.beans.Transient;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,6 +20,7 @@ public class Stock implements Dto {
    private double highestPrice;
    private double endPrice;
    private String name;
+   private double targetPrice;
    private boolean goldPossible;
 
    /**
@@ -269,6 +271,7 @@ public class Stock implements Dto {
       }
       highestPrice = temp;
       lowestMacd = temp1;
+      targetPrice = goldPrice(last);
       goldPossible = isGoldPossible(last);
    }
 
@@ -291,6 +294,12 @@ public class Stock implements Dto {
             && Double.compare(yesterday.getMacd(), today.getMacd()) < 0;
    }
 
+
+   public double getTargetPrice() {
+      return targetPrice;
+   }
+
+   @Transient
    public List<StockItem> getStockItems() {
       return stockItems;
    }

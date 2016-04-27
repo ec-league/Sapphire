@@ -1,4 +1,4 @@
-package com.sapphire.common;
+package com.sapphire.common.cache;
 
 /**
  * Author: Ethan Date: 2016/4/10

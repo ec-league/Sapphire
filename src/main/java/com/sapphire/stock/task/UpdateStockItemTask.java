@@ -68,7 +68,22 @@ public class UpdateStockItemTask extends QuartzJobBean {
                lastItem.setLast(false);
             }
 
-            List<StockItem> items = goThrough(br, code, name);
+            temp = br.readLine();
+            List<StockItem> items = new ArrayList<>();
+            items.add(lastItem);
+            while (temp != null) {
+               temp = br.readLine();
+               if (!temp.matches("[0-9].*"))
+                  break;
+
+               StockItem item = new StockItem(temp);
+               if (lastItem.getDate().after(item.getDate()))
+                  continue;
+               item.setCode(code);
+               item.setName(name);
+
+               items.add(item);
+            }
 
             if (items.isEmpty()) {
                continue;
@@ -79,7 +94,8 @@ public class UpdateStockItemTask extends QuartzJobBean {
             stock.calculateMacd(MACD_START, MACD_END, false);
 
             items.get(items.size() - 1).setLast(true);
-            stockService.saveAll(items);
+
+            stockService.saveAll(items.subList(1, items.size()));
          }
 
       } catch (Exception ex) {

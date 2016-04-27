@@ -59,6 +59,9 @@
                 <li>
                     <a href="/stock/dead.html">MACD死叉筛选</a>
                 </li>
+                <li>
+                    <a href="/stock/gold.html">MACD金叉筛选</a>
+                </li>
                 <li><a href="/stock/cache.html">缓存刷新</a></li>
                 <li><a href="/stock/data.html">数据更新</a></li>
             </ul>
@@ -73,6 +76,7 @@
                             <td>#</td>
                             <td>股票代码</td>
                             <td>股票名字</td>
+                            <td>能否金叉</td>
                             <td>当前MACD</td>
                             <td>当前收盘(元)</td>
                             <td>历史最高(元)</td>
@@ -102,13 +106,16 @@
                 var tr = $("<tr></tr>");
 
                 var seqTd = $("<td></td>");
-                seqTd.html(i);
+                seqTd.html(i + 1);
 
                 var codeTd = $("<td></td>");
                 codeTd.html(data[i].code);
 
                 var nameTd = $("<td></td>");
                 nameTd.html(data[i].name);
+
+                var isGold = $("<td></td>");
+                isGold.html(data[i].goldPossible)
 
                 var macdTd = $("<td></td>");
                 macdTd.html(data[i].currentMacd.toFixed(3));
@@ -134,6 +141,7 @@
                 seqTd.appendTo(tr);
                 codeTd.appendTo(tr);
                 nameTd.appendTo(tr);
+                isGold.appendTo(tr);
                 macdTd.appendTo(tr);
                 priceTd.appendTo(tr);
                 highTd.appendTo(tr);

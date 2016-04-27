@@ -76,6 +76,7 @@
                             <td>#</td>
                             <td>股票代码</td>
                             <td>股票名字</td>
+                            <td>能否金叉</td>
                             <td>当前MACD</td>
                             <td>当前收盘(元)</td>
                             <td>历史最高(元)</td>
@@ -113,6 +114,9 @@
                 var nameTd = $("<td></td>");
                 nameTd.html(data[i].name);
 
+                var isGold = $("<td></td>");
+                isGold.html(data[i].goldPossible)
+
                 var macdTd = $("<td></td>");
                 macdTd.html(data[i].currentMacd.toFixed(3));
 
@@ -137,6 +141,7 @@
                 seqTd.appendTo(tr);
                 codeTd.appendTo(tr);
                 nameTd.appendTo(tr);
+                isGold.appendTo(tr);
                 macdTd.appendTo(tr);
                 priceTd.appendTo(tr);
                 highTd.appendTo(tr);
@@ -150,7 +155,7 @@
         loadStock: function () {
             var instance = this;
             $.ajax({
-                url: "/stock/statics/dead.ep",
+                url: "/stock/statics/gold.ep",
                 headers: {
                     "Accept": "application/json",
                     "Content-type": "application/json"

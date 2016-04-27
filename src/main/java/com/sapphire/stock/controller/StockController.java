@@ -108,8 +108,20 @@ public class StockController {
    public JsonDto getIncreaseStatics() {
       StockStatics stockStatics = stockCache.getIncreasTotalStat();
 
+      List<Stock> stocks = stockStatics.getStocks();
+
+      for (Stock stock : stocks) {
+         StockStatistics stat =
+               stockStatisticsService.findByCode(stock.getCode());
+
+         if (stat == null)
+            continue;
+
+         stock.update(stat);
+      }
+
       JsonDto dto =
-            new ListJsonDto<>(stockStatics.getStocks()).formSuccessDto();
+            new ListJsonDto<>(stocks).formSuccessDto();
 
       return dto;
    }

@@ -68,12 +68,10 @@ public class StockStatics {
             stocks.stream().filter(stock -> stock.getCurrentMacd() < 0)
                   .filter(stock -> stock.isUpper())
                   .collect(Collectors.toList());
-      Collections.sort(result, (o1, o2) -> Double.compare(o1.getCurrentMacd(),
-            o2.getCurrentMacd()));
+      Collections.sort(result, (o1, o2) -> Double.compare(o2.getCurrentMacd(),
+            o1.getCurrentMacd()));
 
-      int limit = result.size() < 20 ? result.size() : LIMIT_SIZE;
-
-      return result.subList(0, limit);
+      return result;
    }
 
    public List<Stock> getDeadMacd() {
@@ -96,6 +94,7 @@ public class StockStatics {
    public List<Stock> getGoldPossible() {
       List<Stock> result =
             stocks.stream().filter(stock -> stock.isGoldPossible())
+                  .filter(stock -> stock.getCurrentMacd() < 0)
                   .collect(Collectors.toList());
 
       Collections.sort(result, (o1, o2) -> Double.compare(o1.getCurrentDiff(),
