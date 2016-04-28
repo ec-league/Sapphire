@@ -1,15 +1,14 @@
 package com.sapphire.common;
 
+import com.sapphire.common.exception.PropertyManagerInitException;
+import com.sapphire.common.exception.PropertyNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.sapphire.common.exception.PropertyManagerInitException;
-import com.sapphire.common.exception.PropertyNotFoundException;
 
 /**
  * Author: Ethan <br/>
@@ -28,6 +27,7 @@ public class PropertyManager {
    private static Map<String, String> map = new HashMap<String, String>();
 
    public static void load(Class c) {
+      LOGGER.info("Init the Property");
       synchronized (map) {
          initFromResource(c);
          initFromAppConfig();

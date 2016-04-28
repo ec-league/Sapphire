@@ -1,8 +1,5 @@
 package com.sapphire.stock.controller;
 
-import com.sapphire.stock.domain.StockStatics;
-import com.sapphire.stock.service.StockService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,9 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/stock")
 public class StockPageController {
-
-   @Autowired
-   private static StockService stockService;
 
    @RequestMapping("/stock.html")
    public String lowestPage() {

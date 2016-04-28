@@ -1,8 +1,9 @@
 package com.sapphire.stock.cache;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
+import com.sapphire.common.cache.Cache;
+import com.sapphire.common.cache.CacheService;
+import com.sapphire.stock.domain.StockStatics;
+import com.sapphire.stock.service.StockService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sapphire.common.cache.Cache;
-import com.sapphire.stock.domain.StockStatics;
-import com.sapphire.stock.service.StockService;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Author: Ethan Date: 2016/4/10
@@ -27,16 +27,20 @@ public class StockCache implements Cache {
    private StockService stockService;
 
    private static StockStatics stockStatics;
-   private static StockStatics increasTotalStat;
+   private static StockStatics increaseTotalStat;
 
    private final Lock lock = new ReentrantLock();
 
+   public StockCache() {
+      CacheService.register(this);
+   }
 
    @Override
    @RequestMapping("/refresh")
    @ResponseBody
    public boolean refresh() {
       try {
+         logger.info("Refresh the Stock Cache!");
          init();
          return true;
       } catch (Exception ex) {
@@ -47,17 +51,16 @@ public class StockCache implements Cache {
 
    @Override
    public long interval() {
-      return 0;
+      return 1000;
    }
 
    private void init() {
-      StockStatics stat = stockService.getLastMonthStockStatics();
-      StockStatics stat1 = stockService.getStocksByIncreaseTotal();
-
       lock.lock();
       try {
+         StockStatics stat = stockService.getLastMonthStockStatics();
+         StockStatics stat1 = stockService.getStocksByIncreaseTotal();
          stockStatics = stat;
-         increasTotalStat = stat1;
+         increaseTotalStat = stat1;
       } catch (Exception ex) {
          logger.error("Init Stock Cache failed!", ex);
       } finally {
@@ -73,9 +76,9 @@ public class StockCache implements Cache {
    }
 
    public StockStatics getIncreasTotalStat() {
-      if (increasTotalStat == null && !refresh()) {
+      if (increaseTotalStat == null && !refresh()) {
          return null;
       }
-      return increasTotalStat;
+      return increaseTotalStat;
    }
 }

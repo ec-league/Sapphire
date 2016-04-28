@@ -1,6 +1,8 @@
 package com.sapphire.common.cache;
 
-import com.sapphire.stock.cache.StockCache;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Author: EthanPark <br/>
@@ -8,8 +10,13 @@ import com.sapphire.stock.cache.StockCache;
  * Email: byp5303628@hotmail.com
  */
 public class CacheService {
+   public static final long ONE_MINUTE = 60 * 1000;
 
-   public static void start() {
+   private static ScheduledExecutorService executor = Executors
+         .newScheduledThreadPool(1);
 
+   public static void register(Cache cache) {
+      executor.scheduleAtFixedRate(() -> cache.refresh(), 0, cache.interval(),
+            TimeUnit.MILLISECONDS);
    }
 }

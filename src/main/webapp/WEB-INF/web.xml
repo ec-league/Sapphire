@@ -14,10 +14,6 @@
     </context-param>
 
     <listener>
-        <listener-class>com.sapphire.listener.PreloadListener</listener-class>
-    </listener>
-
-    <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
@@ -35,6 +31,10 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
+    <listener>
+        <listener-class>com.sapphire.listener.PreloadListener</listener-class>
+    </listener>
 
     <!--servlet mapping -->
     <servlet-mapping>
