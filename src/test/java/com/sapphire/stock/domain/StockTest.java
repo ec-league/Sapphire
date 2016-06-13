@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
@@ -32,6 +33,58 @@ public class StockTest extends BaseTest {
    @Autowired
    private StockService stockService;
 
+   @Test
+   public void testStat() {
+      List<String> codes = stockItemRepository.getCodes();
+      List<CodeIncrease> list = new ArrayList<>(codes.size());
+
+      for( String code : codes){
+         Stock stock = stockService.getStockByCodeAndTime(code, TimeUtil.fromStockString("05/26/2016"), TimeUtil.now());
+
+         if (stock == null)
+            continue;
+
+         list.add(new CodeIncrease(code, stock.getIncreaseFromStart()));
+      }
+
+      Collections.sort(list, (o1, o2) -> Double.compare(o1.getIncrease(), o2.getIncrease()));
+
+      for (int i = 0;i< 100; i++){
+         System.out.println(String.format("Code: \"%s\", Increase: %.2f", list.get(i).getCode(), list.get(i).getIncrease()));
+      }
+
+      Collections.reverse(list);
+      System.out.println("#############################");
+      for (int i = 0;i< 100; i++){
+         System.out.println(String.format("Code: \"%s\", Increase: %.2f", list.get(i).getCode(), list.get(i).getIncrease()));
+      }
+   }
+
+   private static class CodeIncrease {
+      private String code;
+      private double increase;
+
+      public CodeIncrease(String code, double increase) {
+         this.code = code;
+         this.increase = increase;
+      }
+
+      public String getCode() {
+         return code;
+      }
+
+      public void setCode(String code) {
+         this.code = code;
+      }
+
+      public double getIncrease() {
+         return increase;
+      }
+
+      public void setIncrease(double increase) {
+         this.increase = increase;
+      }
+   }
 
    //   @Test
    public void construct() throws IOException, ParseException {
@@ -49,7 +102,7 @@ public class StockTest extends BaseTest {
       Assert.assertNotNull(stockItems);
    }
 
-   //   @Test
+   @Test
    public void construct1() throws Exception {
       Assert.assertNotNull(stockItemRepository);
       System.out.println(TimeUtil.now());

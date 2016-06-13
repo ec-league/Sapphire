@@ -294,6 +294,14 @@ public class Stock implements Dto {
             && Double.compare(yesterday.getMacd(), today.getMacd()) < 0;
    }
 
+   public double getIncreaseFromStart(){
+      if (stockItems == null || stockItems.size() == 0)
+         return 0d;
+      double start = stockItems.get(0).getEndPrice();
+      double end = stockItems.get(stockItems.size() - 1).getEndPrice();
+
+      return (end - start) / start * 100;
+   }
 
    public double getTargetPrice() {
       return targetPrice;
