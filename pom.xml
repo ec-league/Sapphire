@@ -67,6 +67,12 @@
         </dependency>
         <!-- Json support end -->
 
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <version>2.2.1.GA</version>
+        </dependency>
+
         <!-- Testing dependency -->
         <dependency>
             <groupId>junit</groupId>
