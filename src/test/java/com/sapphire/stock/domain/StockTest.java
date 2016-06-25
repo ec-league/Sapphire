@@ -37,8 +37,10 @@ public class StockTest extends BaseTest {
       List<String> codes = stockItemRepository.getCodes();
       List<CodeIncrease> list = new ArrayList<>(codes.size());
 
-      for( String code : codes){
-         Stock stock = stockService.getStockByCodeAndTime(code, TimeUtil.fromStockString("05/26/2016"), TimeUtil.now());
+      for (String code : codes) {
+         Stock stock =
+               stockService.getStockByCodeAndTime(code,
+                     TimeUtil.fromStockString("05/26/2016"), TimeUtil.now());
 
          if (stock == null)
             continue;
@@ -46,16 +48,19 @@ public class StockTest extends BaseTest {
          list.add(new CodeIncrease(code, stock.getIncreaseFromStart()));
       }
 
-      Collections.sort(list, (o1, o2) -> Double.compare(o1.getIncrease(), o2.getIncrease()));
+      Collections.sort(list,
+            (o1, o2) -> Double.compare(o1.getIncrease(), o2.getIncrease()));
 
-      for (int i = 0;i< 100; i++){
-         System.out.println(String.format("Code: \"%s\", Increase: %.2f", list.get(i).getCode(), list.get(i).getIncrease()));
+      for (int i = 0; i < 100; i++) {
+         System.out.println(String.format("Code: \"%s\", Increase: %.2f", list
+               .get(i).getCode(), list.get(i).getIncrease()));
       }
 
       Collections.reverse(list);
       System.out.println("#############################");
-      for (int i = 0;i< 100; i++){
-         System.out.println(String.format("Code: \"%s\", Increase: %.2f", list.get(i).getCode(), list.get(i).getIncrease()));
+      for (int i = 0; i < 100; i++) {
+         System.out.println(String.format("Code: \"%s\", Increase: %.2f", list
+               .get(i).getCode(), list.get(i).getIncrease()));
       }
    }
 

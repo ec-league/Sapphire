@@ -73,7 +73,7 @@ public class UpdateStockItemTask extends QuartzJobBean {
                StockItem last = stockService.getLatestStockItemByCode(code);
 
                if (last.getLogDate().equals(item.getLogDate()))
-                  return;
+                  continue;
 
                if (last.isStop()) {
                   last.updateItem(item, MACD_START, MACD_END);
