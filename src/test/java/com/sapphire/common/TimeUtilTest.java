@@ -1,6 +1,8 @@
 package com.sapphire.common;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -58,5 +60,14 @@ public class TimeUtilTest {
       Timestamp date2 = TimeUtil.fromStockString(test);
 
       Assert.assertFalse(date1.before(date2));
+   }
+
+   @Test
+   public void testToday() throws ParseException {
+      String format = "HH:mm:ss";
+
+      Date now = new Date();
+
+      Assert.assertNotNull(now);
    }
 }

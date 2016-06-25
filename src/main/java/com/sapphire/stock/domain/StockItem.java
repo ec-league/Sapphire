@@ -18,14 +18,16 @@ public class StockItem {
    private static final String FORMAT = "MM/dd/yyyy";
 
    public StockItem() {
-
+      setEma12(getEndPrice());
+      setEma26(getEndPrice());
+      setIndustry("");
    }
 
    public StockItem(String line) {
       String[] lines = line.split("\t");
 
       try {
-         setDate(new Timestamp(new SimpleDateFormat(FORMAT).parse(lines[0])
+         setLogDate(new Timestamp(new SimpleDateFormat(FORMAT).parse(lines[0])
                .getTime()));
       } catch (ParseException e) {
          e.printStackTrace();
@@ -39,12 +41,42 @@ public class StockItem {
 
       setEma12(getEndPrice());
       setEma26(getEndPrice());
-      setIncreaseRate((endPrice / startPrice - 1) * 100);
       setIndustry("");
    }
 
    public static StockItem makeStockItemFromAll(String line) {
       return new StockItem(line);
+   }
+
+   /**
+    * 更新原来的StockItem，如果新的Item是停牌的，则只更新日期
+    * 
+    * @param item
+    */
+   public void updateItem(StockItem item, int small, int big) {
+      setLogDate(item.getLogDate());
+      if (item.isStop()) {
+         return;
+      }
+
+      setStartPrice(item.getStartPrice());
+      setEndPrice(item.getEndPrice());
+      setHighestPrice(item.getHighestPrice());
+      setLowestPrice(item.getLowestPrice());
+      setIncreaseRate(item.getIncreaseRate());
+
+      setTrading(item.getTrading());
+      setTradingValue(item.getTradingValue());
+
+      setStop(false);
+
+      setEma12(getEma12() * (small - 1) / (small + 1) + item.getEma12() * 2
+            / (small + 1));
+      setEma26(getEma26() * (big - 1) / (big + 1) + item.getEma26() * 2
+            / (big + 1));
+      setMacdDiff(getEma12() - getEma26());
+      setMacdDea(getMacdDea() * 0.8 + getMacdDiff() * 0.2);
+      setMacd(getMacdDiff() - getMacdDea());
    }
 
    public static StockItem makeStockItemFromDaily(String line) {
@@ -110,7 +142,7 @@ public class StockItem {
 
    @Temporal(TemporalType.TIMESTAMP)
    @Column(name = "LOG_DATE")
-   private Timestamp date;
+   private Timestamp logDate;
 
    @Column(name = "TRADING", precision = 40, scale = 2)
    private double trading;
@@ -133,8 +165,25 @@ public class StockItem {
    @Column(name = "EMA_26", precision = 11, scale = 6)
    private double ema26;
 
+   /**
+    * 是否为最新数据
+    */
    @Column(name = "IS_LAST")
    private boolean last;
+
+   /**
+    * 是否停牌
+    */
+   @Column(name = "IS_STOP")
+   private boolean stop;
+
+   public boolean isStop() {
+      return stop;
+   }
+
+   public void setStop(boolean stop) {
+      this.stop = stop;
+   }
 
    public long getUidPk() {
       return uidPk;
@@ -216,12 +265,12 @@ public class StockItem {
       this.circulationMarketValue = circulationMarketValue;
    }
 
-   public Timestamp getDate() {
-      return date;
+   public Timestamp getLogDate() {
+      return logDate;
    }
 
-   public void setDate(Timestamp date) {
-      this.date = date;
+   public void setLogDate(Timestamp logDate) {
+      this.logDate = logDate;
    }
 
    public double getTrading() {

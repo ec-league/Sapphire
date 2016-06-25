@@ -44,7 +44,7 @@
 
     <bean id="updateStockItemsCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="updateStockItemsJob"/>
-        <property name="cronExpression" value="0 0 1 * * ?"/>
+        <property name="cronExpression" value="0 0 16 * * ?"/>
     </bean>
 
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">

@@ -1,14 +1,5 @@
 package com.sapphire.stock.service.impl;
 
-import com.sapphire.BaseTest;
-import com.sapphire.common.TimeUtil;
-import com.sapphire.stock.domain.Stock;
-import com.sapphire.stock.domain.StockStatics;
-import com.sapphire.stock.service.StockService;
-import org.junit.Assert;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,6 +7,16 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sapphire.BaseTest;
+import com.sapphire.common.TimeUtil;
+import com.sapphire.stock.domain.Stock;
+import com.sapphire.stock.domain.StockStatics;
+import com.sapphire.stock.service.StockService;
 
 /**
  * StockServiceImpl Tester.
@@ -63,7 +64,7 @@ public class StockServiceImplTest extends BaseTest {
       Assert.assertNull(stock);
    }
 
-   @Test
+   //   @Test
    public void outputStatics() throws ParseException {
       List<String> codes = stockService.getAllCodes();
 
@@ -134,7 +135,7 @@ public class StockServiceImplTest extends BaseTest {
     *
     * @throws Exception
     */
-   @Test
+   //   @Test
    public void output2() {
       Timestamp from = TimeUtil.fromStockString("07/16/2015");
       List<String> codes = stockService.getAllCodes();
@@ -164,7 +165,7 @@ public class StockServiceImplTest extends BaseTest {
             double averageIncreaseRate = 0;
             double increaseTotal = 0;
             for (Stock stock : stocks) {
-               stock.calculateMacd(8, 16, true);
+               stock.calculateMacd(12, 26, true);
                stock.calcStatics();
                if (stock.isShouldPass()) {
                   continue;
@@ -201,7 +202,7 @@ public class StockServiceImplTest extends BaseTest {
       }
    }
 
-   @Test
+   //   @Test
    public void getLastMonthTest() {
       Timestamp now = TimeUtil.now();
       StockStatics stockStatics = stockService.getLastMonthStockStatics();

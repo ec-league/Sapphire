@@ -40,7 +40,7 @@ public class StockStatisticsServiceImplTest extends BaseTest {
     * Method: update(List<StockStatistics> stats)
     * 
     */
-   @Test
+   //   @Test
    public void testUpdate() throws Exception {
       List<String> codes = stockService.getAllCodes();
 

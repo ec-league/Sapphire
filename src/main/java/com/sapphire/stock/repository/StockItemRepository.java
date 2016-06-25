@@ -20,7 +20,7 @@ public interface StockItemRepository extends JpaRepository<StockItem, Long> {
    @Query(value = "SELECT DISTINCT CODE FROM STOCK_ITEM", nativeQuery = true)
    List<String> getCodes();
 
-   @Query(value = "select s from StockItem as s where s.code = :code and s.date >= :dateFrom and s.date <= :dateTo")
+   @Query(value = "select s from StockItem as s where s.code = :code and s.logDate >= :dateFrom and s.logDate <= :dateTo")
    List<StockItem> getStockByCodeAndTime(@Param("code") String code,
          @Param("dateFrom") Timestamp from, @Param("dateTo") Timestamp to);
 
@@ -30,7 +30,7 @@ public interface StockItemRepository extends JpaRepository<StockItem, Long> {
    @Query(value = "SELECT DISTINCT INDUSTRY FROM STOCK_ITEM WHERE INDUSTRY != ''", nativeQuery = true)
    List<String> getIndustries();
 
-   @Query(value = "SELECT * FROM STOCK_ITEM WHERE CODE = ?1 and IS_LAST = 1", nativeQuery = true)
+   @Query(value = "SELECT s FROM StockItem as s WHERE s.code = ?1 and s.last = true")
    StockItem getLatestStockItem(String code);
 
    @Query(value = "SELECT * FROM STOCK_ITEM WHERE IS_LAST = 1", nativeQuery = true)

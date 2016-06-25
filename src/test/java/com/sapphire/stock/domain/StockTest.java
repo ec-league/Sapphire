@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;
@@ -33,7 +32,7 @@ public class StockTest extends BaseTest {
    @Autowired
    private StockService stockService;
 
-   @Test
+   //   @Test
    public void testStat() {
       List<String> codes = stockItemRepository.getCodes();
       List<CodeIncrease> list = new ArrayList<>(codes.size());
@@ -102,7 +101,7 @@ public class StockTest extends BaseTest {
       Assert.assertNotNull(stockItems);
    }
 
-   @Test
+   //   @Test
    public void construct1() throws Exception {
       Assert.assertNotNull(stockItemRepository);
       System.out.println(TimeUtil.now());
@@ -113,7 +112,7 @@ public class StockTest extends BaseTest {
                new BufferedReader(new InputStreamReader(new FileInputStream(f),
                      "GBK"));
 
-         List<StockItem> stockItems = new ArrayList<StockItem>(500);
+         List<StockItem> stockItems = new ArrayList<>(500);
          String temp = br.readLine();
          String code = temp.split(" ")[0];
          String name = temp.split(" ")[1];
@@ -133,9 +132,11 @@ public class StockTest extends BaseTest {
          if (stockItems.isEmpty())
             continue;
          Stock stock = new Stock(stockItems);
-         stock.calculateMacd(7, 18, true);
+         stock.calculateMacd(12, 26, true);
 
-         stockItems.get(stockItems.size() - 1).setLast(true);
+         StockItem last = stockItems.get(stockItems.size() - 1);
+
+         last.setLast(true);
 
          stockItemRepository.save(stockItems);
       }
@@ -168,7 +169,7 @@ public class StockTest extends BaseTest {
       stockItemRepository.save(items);
    }
 
-   @Test
+   //   @Test
    public void testCode() {
       List<String> codes = stockItemRepository.getCodeByIndustry("专用");
 
@@ -188,7 +189,7 @@ public class StockTest extends BaseTest {
       Assert.assertTrue(stock.isUpper());
    }
 
-   @Test
+   //   @Test
    public void testLatestStockItem() {
       List<String> codes = stockItemRepository.getCodes();
 
@@ -199,12 +200,12 @@ public class StockTest extends BaseTest {
       }
    }
 
-   @Test
+   //   @Test
    public void testLatestItems() {
       List<StockItem> items = stockItemRepository.getLatestItems();
 
       for (StockItem item : items) {
-         item.setDate(TimeUtil.fromStockString("04/21/2016"));
+         item.setLogDate(TimeUtil.fromStockString("04/21/2016"));
       }
 
       stockItemRepository.save(items);

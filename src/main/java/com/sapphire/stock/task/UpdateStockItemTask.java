@@ -1,9 +1,13 @@
 package com.sapphire.stock.task;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jboss.resteasy.client.ClientRequest;
+import org.jboss.resteasy.client.ClientResponse;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerException;
@@ -11,8 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import com.sapphire.common.PropertyManager;
-import com.sapphire.common.constant.PropertyFlag;
+import com.sapphire.common.TimeUtil;
 import com.sapphire.stock.domain.Stock;
 import com.sapphire.stock.domain.StockItem;
 import com.sapphire.stock.service.StockService;
@@ -25,10 +28,11 @@ import com.sapphire.stock.service.StockService;
 public class UpdateStockItemTask extends QuartzJobBean {
    private static final Logger logger = LoggerFactory
          .getLogger(UpdateStatisticTask.class);
+   private static String URL_FORMAT = "http://hq.sinajs.cn/list=%s%s";
 
    private static StockService stockService;
-   private static final int MACD_START = 7;
-   private static final int MACD_END = 18;
+   private static final int MACD_START = 12;
+   private static final int MACD_END = 26;
 
    private void init(JobExecutionContext context) throws SchedulerException {
       stockService =
@@ -45,103 +49,106 @@ public class UpdateStockItemTask extends QuartzJobBean {
       try {
          init(context);
 
-         String dirStr = PropertyManager.getProperty(PropertyFlag.DATA_FOLDER);
-         File dir = new File(dirStr);
+         List<String> codes = stockService.getAllCodes();
 
-         for (File f : dir.listFiles()) {
-            BufferedReader br =
-                  new BufferedReader(new InputStreamReader(new FileInputStream(
-                        f), "GBK"));
+         System.out.println(TimeUtil.now());
 
-            String temp = br.readLine();
-            String code = temp.split(" ")[0];
-            String name = temp.split(" ")[1];
+         for (String code : codes) {
+            String url = getUrl(code);
 
-            StockItem lastItem = stockService.getLatestStockItemByCode(code);
+            ClientRequest request = new ClientRequest(url);
 
-            if (lastItem == null) {
-               logger.info(String.format(
-                     "For code \"%s\", There is no last item", code));
-               insertNew(br, code, name);
-               continue;
-            } else {
-               lastItem.setLast(false);
-            }
+            ClientResponse<String> response;
+            try {
+               response = request.get(String.class);
+               BufferedReader br =
+                     new BufferedReader(new InputStreamReader(
+                           new ByteArrayInputStream(response.getEntity()
+                                 .getBytes())));
+               String output = br.readLine();
 
-            temp = br.readLine();
-            List<StockItem> items = new ArrayList<>();
-            items.add(lastItem);
-            while (temp != null) {
-               temp = br.readLine();
-               if (!temp.matches("[0-9].*"))
-                  break;
-
-               StockItem item = new StockItem(temp);
-               if (lastItem.getDate().after(item.getDate()))
-                  continue;
+               StockItem item = toDomain(output);
                item.setCode(code);
-               item.setName(name);
 
-               items.add(item);
-            }
+               StockItem last = stockService.getLatestStockItemByCode(code);
 
-            if (items.isEmpty()) {
+               if (last.getLogDate().equals(item.getLogDate()))
+                  return;
+
+               if (last.isStop()) {
+                  last.updateItem(item, MACD_START, MACD_END);
+                  stockService.save(last);
+               } else {
+                  last.setLast(false);
+
+                  List<StockItem> items = new ArrayList<>();
+                  items.add(last);
+                  items.add(item);
+
+                  Stock stock = new Stock(items);
+
+                  stock.calculateMacd(MACD_START, MACD_END, false);
+
+                  if (item.isStop()) {
+                     item.setMacdDea(last.getMacdDea());
+                     item.setMacdDiff(last.getMacdDiff());
+                     item.setMacd(last.getMacd());
+                     item.setEma12(last.getEma12());
+                     item.setEma26(last.getEma26());
+                  }
+
+                  stockService.saveAll(items);
+               }
+            } catch (Exception e) {
+               System.out.printf("Code :\"%s\" Not Updated%n", code);
+               e.printStackTrace();
                continue;
             }
-            stockService.save(lastItem);
-
-            Stock stock = new Stock(items);
-            stock.calculateMacd(MACD_START, MACD_END, false);
-
-            items.get(items.size() - 1).setLast(true);
-
-            stockService.saveAll(items.subList(1, items.size()));
          }
-
       } catch (Exception ex) {
          logger.error("Init error", ex);
       }
       logger.info("Update Stock Item Task Finished!");
    }
 
-   /**
-    * 初始化不存在StockItem的股票，用于更新新股票
-    * 
-    * @param br
-    * @param code
-    * @param name
-    * @throws IOException
-    */
-   private void insertNew(BufferedReader br, String code, String name)
-         throws IOException {
-      List<StockItem> stockItems = goThrough(br, code, name);
+   private StockItem toDomain(String output) {
+      StockItem item = new StockItem();
 
-      if (stockItems.isEmpty())
-         return;
-      Stock stock = new Stock(stockItems);
-      stock.calculateMacd(MACD_START, MACD_END, true);
+      String data =
+            output.substring(output.indexOf('"') + 1, output.indexOf(';') - 1);
 
-      stockItems.get(stockItems.size() - 1).setLast(true);
+      String[] datas = data.split(",");
 
-      stockService.saveAll(stockItems);
+      item.setName(datas[0]);
+      item.setStartPrice(Double.parseDouble(datas[1]));
+      item.setEndPrice(Double.parseDouble(datas[3]));
+      item.setHighestPrice(Double.parseDouble(datas[4]));
+      item.setLowestPrice(Double.parseDouble(datas[5]));
+
+      item.setTrading(Double.parseDouble(datas[8]));
+      item.setTradingValue(Double.parseDouble(datas[9]));
+
+      item.setStop(Double.compare(0d, item.getStartPrice()) == 0);
+      item.setLast(true);
+      item.setLogDate(TimeUtil.fromStockWebString(datas[30]));
+
+      item.setEma12(item.getEndPrice());
+      item.setEma26(item.getEndPrice());
+      if (!item.isStop())
+         item.setIncreaseRate((item.getEndPrice()
+               / Double.parseDouble(datas[2]) - 1) * 100);
+      else {
+         item.setStartPrice(item.getEndPrice());
+         item.setHighestPrice(item.getEndPrice());
+         item.setLowestPrice(item.getEndPrice());
+      }
+      return item;
    }
 
-   private List<StockItem> goThrough(BufferedReader br, String code, String name)
-         throws IOException {
-      String temp = br.readLine();
-      List<StockItem> stockItems = new ArrayList<>();
-      while (temp != null) {
-         temp = br.readLine();
-         if (!temp.matches("[0-9].*"))
-            break;
-
-         StockItem item = new StockItem(temp);
-         item.setCode(code);
-         item.setName(name);
-
-         stockItems.add(item);
-      }
-
-      return stockItems;
+   private String getUrl(String code) {
+      if (code.indexOf("60") == 0)
+         return String.format(URL_FORMAT, "sh", code);
+      else
+         return String.format(URL_FORMAT, "sz", code);
    }
 }

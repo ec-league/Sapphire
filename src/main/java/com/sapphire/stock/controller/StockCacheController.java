@@ -74,7 +74,7 @@ public class StockCacheController {
             if (stockItems.isEmpty())
                continue;
             Stock stock = new Stock(stockItems);
-            stock.calculateMacd(7, 18, false);
+            stock.calculateMacd(12, 26, false);
 
             stockService.saveAll(stockItems);
          }

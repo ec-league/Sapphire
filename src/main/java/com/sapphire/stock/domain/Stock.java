@@ -86,6 +86,9 @@ public class Stock implements Dto {
                .setMacd(
                      stockItems.get(i).getMacdDiff()
                            - stockItems.get(i).getMacdDea());
+         stockItems.get(i).setIncreaseRate(
+               (stockItems.get(i).getEndPrice()
+                     / stockItems.get(i - 1).getEndPrice() - 1) * 100);
       }
    }
 
@@ -184,7 +187,7 @@ public class Stock implements Dto {
       long to = new SimpleDateFormat("MM/dd/yyyy").parse(dateTo).getTime();
 
       for (StockItem item : stockItems) {
-         long time = item.getDate().getTime();
+         long time = item.getLogDate().getTime();
          if (from <= time && time <= to) {
             items.add(item);
          }
@@ -214,8 +217,8 @@ public class Stock implements Dto {
       }
 
       if (!complexItems.isEmpty()) {
-         if (complexItems.get(0).get(0).getDate()
-               .equals(items.get(0).getDate())) {
+         if (complexItems.get(0).get(0).getLogDate()
+               .equals(items.get(0).getLogDate())) {
             complexItems = complexItems.subList(1, complexItems.size());
          }
       }
@@ -226,8 +229,8 @@ public class Stock implements Dto {
          StockItem start = list.get(0);
          StockItem end = list.get(list.size() - 1);
 
-         stockStatic.setStartDate(start.getDate());
-         stockStatic.setEndDate(end.getDate());
+         stockStatic.setStartDate(start.getLogDate());
+         stockStatic.setEndDate(end.getLogDate());
          stockStatic.setIsOverZero(start.getMacdDiff() > 0);
          stockStatic.setConsistDays(list.size());
          stockStatic.setFirstDiff(start.getMacdDiff());
@@ -294,7 +297,7 @@ public class Stock implements Dto {
             && Double.compare(yesterday.getMacd(), today.getMacd()) < 0;
    }
 
-   public double getIncreaseFromStart(){
+   public double getIncreaseFromStart() {
       if (stockItems == null || stockItems.size() == 0)
          return 0d;
       double start = stockItems.get(0).getEndPrice();
