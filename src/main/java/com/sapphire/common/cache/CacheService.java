@@ -12,6 +12,8 @@ import java.util.concurrent.TimeUnit;
 public class CacheService {
    public static final long ONE_MINUTE = 60 * 1000;
 
+   public static final long ONE_HOUR = 60 * 60 * 1000;
+
    private static ScheduledExecutorService executor = Executors
          .newScheduledThreadPool(1);
 

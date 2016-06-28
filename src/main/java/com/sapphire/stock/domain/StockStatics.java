@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  * Author: Ethan Date: 2016/4/6
  */
 public class StockStatics {
-   private static final int LIMIT_SIZE = 20;
+   private static final int LIMIT_SIZE = 100;
    private List<Stock> stocks;
 
    public StockStatics(List<Stock> stocks) {
@@ -101,5 +101,21 @@ public class StockStatics {
             o2.getCurrentDiff()));
 
       return result;
+   }
+
+   /**
+    * 获取增幅排名为前100的所有股票
+    * 
+    * @return
+    */
+   public List<Stock> getIncreaseTop100() {
+      stocks.forEach(com.sapphire.stock.domain.Stock::process);
+
+      Collections.sort(
+            stocks,
+            (o1, o2) -> Double.compare(o2.getIncreaseTotal(),
+                  o1.getIncreaseTotal()));
+
+      return stocks.subList(0, LIMIT_SIZE);
    }
 }

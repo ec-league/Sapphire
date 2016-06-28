@@ -61,7 +61,7 @@ public class StockController {
             stockService.getLastMonthStockStaticsByIndustry(industry);
 
       JsonDto dto =
-            new ListJsonDto<Stock>(stockStatics.getMacdUpZero())
+            new ListJsonDto<>(stockStatics.getMacdUpZero())
                   .formSuccessDto();
 
       return dto;
@@ -106,7 +106,7 @@ public class StockController {
    @RequestMapping("/statics/increase.ep")
    @ResponseBody
    public JsonDto getIncreaseStatics() {
-      StockStatics stockStatics = stockCache.getIncreasTotalStat();
+      StockStatics stockStatics = stockCache.getIncreaseTotalStat();
 
       List<Stock> stocks = stockStatics.getStocks();
 

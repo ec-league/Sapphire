@@ -14,9 +14,10 @@ public class EmailUtil {
       HtmlEmail email = new HtmlEmail();
       email.setHostName("smtp.sina.com");
       email.setAuthentication("ethanpark", "mylove3315");
+      email.setCharset("UTF-8");
 
       try {
-         email.setFrom("ethanpark@sina.com", "CP4");
+         email.setFrom("ethanpark@sina.com", "Stock Analysis");
          email.addTo(builder.getEmail());
          email.setSubject(builder.getTitle());
          email.setMsg(builder.getContent());

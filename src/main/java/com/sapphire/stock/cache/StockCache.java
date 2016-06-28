@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.PostConstruct;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -32,6 +33,10 @@ public class StockCache implements Cache {
    private final Lock lock = new ReentrantLock();
 
    public StockCache() {
+   }
+
+   @PostConstruct
+   public void registerCache() {
       CacheService.register(this);
    }
 
@@ -51,7 +56,7 @@ public class StockCache implements Cache {
 
    @Override
    public long interval() {
-      return 1000;
+      return CacheService.ONE_HOUR;
    }
 
    private void init() {
@@ -75,7 +80,7 @@ public class StockCache implements Cache {
       return stockStatics;
    }
 
-   public StockStatics getIncreasTotalStat() {
+   public StockStatics getIncreaseTotalStat() {
       if (increaseTotalStat == null && !refresh()) {
          return null;
       }
