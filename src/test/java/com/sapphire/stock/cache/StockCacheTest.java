@@ -1,14 +1,18 @@
 package com.sapphire.stock.cache;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.mail.EmailException;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;
 import com.sapphire.common.EmailUtil;
+import com.sapphire.common.TimeUtil;
 import com.sapphire.stock.domain.Stock;
+import com.sapphire.stock.domain.StockStatistics;
+import com.sapphire.stock.service.StockService;
+import com.sapphire.stock.service.StockStatisticsService;
 
 /**
  * StockCache Tester.
@@ -24,16 +28,47 @@ public class StockCacheTest extends BaseTest {
    @Autowired
    private StockCache stockCache;
 
-   @Test
+   @Autowired
+   private StockService stockService;
+
+   @Autowired
+   private StockStatisticsService stockStatisticsService;
+
+   //   @Test
+   public void updateStatistics() {
+      List<String> codes = stockService.getAllCodes();
+      List<StockStatistics> stats = new ArrayList<>(codes.size());
+
+      for (String code : codes) {
+         Stock stock = stockService.getStockByCode(code);
+
+         stock.process();
+
+         StockStatistics stat = new StockStatistics();
+         stat.setIncreaseTotal(stock.getIncreaseTotal());
+         stat.setAverageGoldDays(stock.getAverageGoldDays());
+         stat.setCode(code);
+         stat.setHighestPrice(stock.getHighestPrice());
+         stat.setLastModifyDate(TimeUtil.now());
+         stat.setLowestMacd(stock.getLowestMacd());
+         stat.setEarlyDate(stock.getEarlyDate());
+         stats.add(stat);
+      }
+      stockStatisticsService.update(stats);
+   }
+
+   //   @Test
    public void outputIncreaseTop100ThisMonth() throws EmailException {
       List<Stock> stocks = stockCache.getStockStatics().getIncreaseTop100();
 
       EmailUtil.EmailBuilder builder =
-            new EmailUtil.EmailBuilder().setTitle("最近一个月增幅排名前百的股票信息")
+            new EmailUtil.EmailBuilder().setTitle("最近一个月增幅排名前百的股票信息:排除新股")
                   .setEmail("515466823@qq.com")
                   .setContent(generateEmail(stocks));
 
       EmailUtil.sendEmail(builder);
+
+      EmailUtil.sendEmail(builder.setEmail("136689664@qq.com"));
    }
 
    private String generateEmail(List<Stock> stocks) {

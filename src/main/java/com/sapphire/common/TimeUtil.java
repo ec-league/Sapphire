@@ -21,6 +21,8 @@ public class TimeUtil {
 
    private static final long ONE_MONTH = 30 * 24 * 60 * 60 * 1000l;
 
+   private static final long ONE_YEAR = 365 * 24 * 60 * 60 * 1000l;
+
    public static String formatTime(Date date) {
       SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
       return sdf.format(date);
@@ -32,6 +34,10 @@ public class TimeUtil {
 
    public static Timestamp oneMonthAgo() {
       return new Timestamp(currentTimeMillis() - ONE_MONTH);
+   }
+
+   public static Timestamp oneYearAgo() {
+      return new Timestamp(currentTimeMillis() - ONE_YEAR);
    }
 
    public static Timestamp fromString(String time) {

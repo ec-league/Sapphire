@@ -165,6 +165,18 @@ public class StockItem {
    @Column(name = "EMA_26", precision = 11, scale = 6)
    private double ema26;
 
+   @Column(name = "AVERAGE_5", precision = 7, scale = 2)
+   private double average5;
+
+   @Column(name = "AVERAGE_10", precision = 7, scale = 2)
+   private double average10;
+
+   @Column(name = "AVERAGE_20", precision = 7, scale = 2)
+   private double average20;
+
+   @Column(name = "AVERAGE_30", precision = 7, scale = 2)
+   private double average30;
+
    /**
     * 是否为最新数据
     */
@@ -176,6 +188,49 @@ public class StockItem {
     */
    @Column(name = "IS_STOP")
    private boolean stop;
+
+   @Column(name = "IS_NEW")
+   private boolean newStock;
+
+   public boolean isNewStock() {
+      return newStock;
+   }
+
+   public double getAverage5() {
+      return average5;
+   }
+
+   public void setAverage5(double average5) {
+      this.average5 = average5;
+   }
+
+   public double getAverage10() {
+      return average10;
+   }
+
+   public void setAverage10(double average10) {
+      this.average10 = average10;
+   }
+
+   public double getAverage20() {
+      return average20;
+   }
+
+   public void setAverage20(double average20) {
+      this.average20 = average20;
+   }
+
+   public double getAverage30() {
+      return average30;
+   }
+
+   public void setAverage30(double average30) {
+      this.average30 = average30;
+   }
+
+   public void setNewStock(boolean newStock) {
+      this.newStock = newStock;
+   }
 
    public boolean isStop() {
       return stop;

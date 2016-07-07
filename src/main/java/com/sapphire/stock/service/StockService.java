@@ -19,6 +19,8 @@ public interface StockService {
 
    StockStatics getLastMonthStockStatics();
 
+   StockStatics getLastYearStockStatics();
+
    StockStatics getLastMonthStockStaticsByIndustry(String industry);
 
    List<String> getIndustries();
@@ -32,4 +34,6 @@ public interface StockService {
    List<StockItem> getLatestStockItems();
 
    StockItem getLatestStockItemByCode(String code);
+
+   List<StockItem> getLast30Stock(String code);
 }

@@ -22,6 +22,7 @@ public class Stock implements Dto {
    private String name;
    private double targetPrice;
    private boolean goldPossible;
+   private Timestamp earlyDate;
 
    /**
     * 股票代码
@@ -60,6 +61,33 @@ public class Stock implements Dto {
       StockItem item = this.stockItems.get(0);
       item.setEma12(item.getEndPrice());
       item.setEma26(item.getEndPrice());
+   }
+
+   /**
+    * 计算5日均线，10日均线，20日均线，以及30日均线
+    */
+   public void processAverage() {
+      if (stockItems == null || stockItems.isEmpty())
+         return;
+
+      for (int i = 0; i < stockItems.size(); i++) {
+         stockItems.get(i).setAverage5(calculateAverage(i, 5));
+         stockItems.get(i).setAverage10(calculateAverage(i, 10));
+         stockItems.get(i).setAverage20(calculateAverage(i, 20));
+         stockItems.get(i).setAverage30(calculateAverage(i, 30));
+      }
+   }
+
+   private double calculateAverage(int fromIndex, int t) {
+      if (fromIndex - t + 1 < 0)
+         return 0d;
+
+      double d = 0;
+      for (int i = fromIndex - t + 1; i <= fromIndex; i++) {
+         d += stockItems.get(i).getEndPrice();
+      }
+
+      return d / t;
    }
 
    public String getCode() {
@@ -258,6 +286,7 @@ public class Stock implements Dto {
       endPrice = last.getEndPrice();
       currentMacd = last.getMacd();
       currentDiff = last.getMacdDiff();
+      earlyDate = stockItems.get(0).getLogDate();
 
       stop =
             Double.compare(stockItems.get(stockItems.size() - 1).getTrading(),
@@ -297,6 +326,10 @@ public class Stock implements Dto {
             && Double.compare(yesterday.getMacd(), today.getMacd()) < 0;
    }
 
+   public Timestamp getEarlyDate() {
+      return earlyDate;
+   }
+
    public double getIncreaseFromStart() {
       if (stockItems == null || stockItems.size() == 0)
          return 0d;
@@ -304,6 +337,10 @@ public class Stock implements Dto {
       double end = stockItems.get(stockItems.size() - 1).getEndPrice();
 
       return (end - start) / start * 100;
+   }
+
+   public boolean isNewStock() {
+      return stockItems.get(stockItems.size() - 1).isNewStock();
    }
 
    public double getTargetPrice() {

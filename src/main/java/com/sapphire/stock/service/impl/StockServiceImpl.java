@@ -1,5 +1,13 @@
 package com.sapphire.stock.service.impl;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.sapphire.common.TimeUtil;
 import com.sapphire.stock.domain.Stock;
 import com.sapphire.stock.domain.StockItem;
@@ -7,12 +15,6 @@ import com.sapphire.stock.domain.StockStatics;
 import com.sapphire.stock.repository.StockItemRepository;
 import com.sapphire.stock.repository.StockStatisticsRepository;
 import com.sapphire.stock.service.StockService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Ethan on 2016/3/30.
@@ -62,6 +64,25 @@ public class StockServiceImpl implements StockService {
       List<Stock> stocks = new ArrayList<>(codes.size());
 
       Timestamp from = TimeUtil.oneMonthAgo();
+      Timestamp to = TimeUtil.now();
+
+      for (String code : codes) {
+         Stock stock = getStockByCodeAndTime(code, from, to);
+         if (stock != null && !stock.isStop()) {
+            stocks.add(stock);
+         }
+      }
+      StockStatics result = new StockStatics(stocks);
+      return result;
+   }
+
+   @Override
+   public StockStatics getLastYearStockStatics() {
+      List<String> codes = stockItemRepository.getCodes();
+
+      List<Stock> stocks = new ArrayList<>(codes.size());
+
+      Timestamp from = TimeUtil.oneYearAgo();
       Timestamp to = TimeUtil.now();
 
       for (String code : codes) {
@@ -148,5 +169,16 @@ public class StockServiceImpl implements StockService {
    @Override
    public StockItem getLatestStockItemByCode(String code) {
       return stockItemRepository.getLatestStockItem(code);
+   }
+
+   @Override
+   public List<StockItem> getLast30Stock(String code) {
+      List<StockItem> items = stockItemRepository.getLast30Items(code);
+
+      List<StockItem> result = new ArrayList<>(items);
+      Collections.sort(result,
+            (o1, o2) -> Long.compare(o1.getUidPk(), o2.getUidPk()));
+
+      return result;
    }
 }

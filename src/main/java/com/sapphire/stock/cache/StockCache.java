@@ -1,9 +1,10 @@
 package com.sapphire.stock.cache;
 
-import com.sapphire.common.cache.Cache;
-import com.sapphire.common.cache.CacheService;
-import com.sapphire.stock.domain.StockStatics;
-import com.sapphire.stock.service.StockService;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.PostConstruct;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import com.sapphire.common.cache.Cache;
+import com.sapphire.common.cache.CacheService;
+import com.sapphire.stock.domain.StockStatics;
+import com.sapphire.stock.service.StockService;
 
 /**
  * Author: Ethan Date: 2016/4/10
@@ -62,7 +64,7 @@ public class StockCache implements Cache {
    private void init() {
       lock.lock();
       try {
-         StockStatics stat = stockService.getLastMonthStockStatics();
+         StockStatics stat = stockService.getLastYearStockStatics();
          StockStatics stat1 = stockService.getStocksByIncreaseTotal();
          stockStatics = stat;
          increaseTotalStat = stat1;

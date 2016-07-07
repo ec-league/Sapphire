@@ -60,6 +60,7 @@ public class UpdateStatisticTask extends QuartzJobBean {
             stat.setHighestPrice(stock.getHighestPrice());
             stat.setLastModifyDate(TimeUtil.now());
             stat.setLowestMacd(stock.getLowestMacd());
+            stat.setEarlyDate(stock.getEarlyDate());
             stats.add(stat);
          }
          stockStatisticsService.update(stats);

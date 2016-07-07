@@ -35,4 +35,7 @@ public interface StockItemRepository extends JpaRepository<StockItem, Long> {
 
    @Query(value = "SELECT * FROM STOCK_ITEM WHERE IS_LAST = 1", nativeQuery = true)
    List<StockItem> getLatestItems();
+
+   @Query(value = "SELECT * FROM STOCK_ITEM WHERE CODE = ?1 ORDER BY LOG_DATE DESC LIMIT 30", nativeQuery = true)
+   List<StockItem> getLast30Items(String code);
 }

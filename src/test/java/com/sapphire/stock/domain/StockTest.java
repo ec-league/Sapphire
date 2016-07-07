@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;
@@ -214,5 +215,18 @@ public class StockTest extends BaseTest {
       }
 
       stockItemRepository.save(items);
+   }
+
+   @Test
+   public void testLast30() {
+      List<StockItem> items = stockService.getLast30Stock("000001");
+
+      Assert.assertEquals(items.size(), 30);
+
+      Stock stock = new Stock(items);
+
+      stock.processAverage();
+
+      return;
    }
 }

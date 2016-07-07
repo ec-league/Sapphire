@@ -51,8 +51,6 @@ public class UpdateStockItemTask extends QuartzJobBean {
 
          List<String> codes = stockService.getAllCodes();
 
-         System.out.println(TimeUtil.now());
-
          for (String code : codes) {
             String url = getUrl(code);
 
@@ -99,6 +97,12 @@ public class UpdateStockItemTask extends QuartzJobBean {
 
                   stockService.saveAll(items);
                }
+
+               List<StockItem> items = stockService.getLast30Stock(code);
+               Stock stock = new Stock(items);
+               stock.processAverage();
+
+               stockService.saveAll(items);
             } catch (Exception e) {
                System.out.printf("Code :\"%s\" Not Updated%n", code);
                e.printStackTrace();

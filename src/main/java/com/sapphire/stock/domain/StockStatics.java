@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
  * Author: Ethan Date: 2016/4/6
  */
 public class StockStatics {
+
    private static final int LIMIT_SIZE = 100;
    private List<Stock> stocks;
 

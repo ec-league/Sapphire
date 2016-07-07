@@ -35,9 +35,24 @@ public class StockStatistics {
    @Column(name = "LOWEST_MACD", precision = 11, scale = 5)
    private double lowestMacd;
 
-   @Temporal(TemporalType.TIMESTAMP)
+   @Temporal(TemporalType.DATE)
    @Column(name = "LAST_MODIFY_DATE")
    private Timestamp lastModifyDate;
+
+   /**
+    * 股票最早出现的日期
+    */
+   @Temporal(TemporalType.DATE)
+   @Column(name = "EARLY_DATE")
+   private Timestamp earlyDate;
+
+   public Timestamp getEarlyDate() {
+      return earlyDate;
+   }
+
+   public void setEarlyDate(Timestamp earlyDate) {
+      this.earlyDate = earlyDate;
+   }
 
    public long getUidPk() {
       return uidPk;
