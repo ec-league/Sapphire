@@ -139,6 +139,7 @@ public class StockTest extends BaseTest {
             continue;
          Stock stock = new Stock(stockItems);
          stock.calculateMacd(12, 26, true);
+         stock.processAverage();
 
          StockItem last = stockItems.get(stockItems.size() - 1);
 

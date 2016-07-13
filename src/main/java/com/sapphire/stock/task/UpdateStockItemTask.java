@@ -97,17 +97,18 @@ public class UpdateStockItemTask extends QuartzJobBean {
 
                   stockService.saveAll(items);
                }
-
-               List<StockItem> items = stockService.getLast30Stock(code);
-               Stock stock = new Stock(items);
-               stock.processAverage();
-
-               stockService.saveAll(items);
             } catch (Exception e) {
                System.out.printf("Code :\"%s\" Not Updated%n", code);
                e.printStackTrace();
                continue;
             }
+         }
+
+         for(String code: codes) {
+            List<StockItem> items = stockService.getLast30Stock(code);
+            Stock stock = new Stock(items);
+            stock.processAverage();
+            stockService.saveAll(items);
          }
       } catch (Exception ex) {
          logger.error("Init error", ex);

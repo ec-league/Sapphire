@@ -71,18 +71,20 @@ public class Stock implements Dto {
          return;
 
       for (int i = 0; i < stockItems.size(); i++) {
-         stockItems.get(i).setAverage5(calculateAverage(i, 5));
-         stockItems.get(i).setAverage10(calculateAverage(i, 10));
-         stockItems.get(i).setAverage20(calculateAverage(i, 20));
-         stockItems.get(i).setAverage30(calculateAverage(i, 30));
+         if (i >= 4)
+            stockItems.get(i).setAverage5(calculateAverage(i, 5));
+         if (i >= 9)
+            stockItems.get(i).setAverage10(calculateAverage(i, 10));
+         if (i >= 19)
+            stockItems.get(i).setAverage20(calculateAverage(i, 20));
+         if (i >= 29)
+            stockItems.get(i).setAverage30(calculateAverage(i, 30));
       }
    }
 
    private double calculateAverage(int fromIndex, int t) {
-      if (fromIndex - t + 1 < 0)
-         return 0d;
-
       double d = 0;
+
       for (int i = fromIndex - t + 1; i <= fromIndex; i++) {
          d += stockItems.get(i).getEndPrice();
       }
