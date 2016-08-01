@@ -49,6 +49,7 @@ public class StockCache implements Cache {
       try {
          logger.info("Refresh the Stock Cache!");
          init();
+         logger.info("Refresh Cache Succeed!");
          return true;
       } catch (Exception ex) {
          logger.error("Init StockCache Error", ex);

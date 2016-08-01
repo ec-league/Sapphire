@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerException;
@@ -25,6 +26,7 @@ import com.sapphire.stock.service.StockService;
  * Date: ${date}<br/>
  * Email: byp5303628@hotmail.com
  */
+@DisallowConcurrentExecution
 public class UpdateStockItemTask extends QuartzJobBean {
    private static final Logger logger = LoggerFactory
          .getLogger(UpdateStatisticTask.class);
