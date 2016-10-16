@@ -1,5 +1,7 @@
 package com.sapphire.common.cache;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -14,11 +16,23 @@ public class CacheService {
 
    public static final long ONE_HOUR = 60 * 60 * 1000;
 
+   public static final long ONE_DAY = 24 * 60 * 60 * 1000;
+
+   private static Map<Class<? extends Cache>, Cache> cacheMap = new HashMap<>();
+
    private static ScheduledExecutorService executor = Executors
          .newScheduledThreadPool(1);
 
    public static void register(Cache cache) {
+      cacheMap.put(cache.getClass(), cache);
+
       executor.scheduleAtFixedRate(() -> cache.refresh(), 0, cache.interval(),
             TimeUnit.MILLISECONDS);
+   }
+
+   public static <T extends Cache> T getCache(Class<? extends T> clazz) {
+      if (cacheMap.containsKey(clazz))
+         return (T) cacheMap.get(clazz);
+      throw new CacheNotExistException(clazz.toString());
    }
 }

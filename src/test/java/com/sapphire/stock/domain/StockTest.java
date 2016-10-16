@@ -107,7 +107,7 @@ public class StockTest extends BaseTest {
       Assert.assertNotNull(stockItems);
    }
 
-   //   @Test
+   //      @Test
    public void construct1() throws Exception {
       Assert.assertNotNull(stockItemRepository);
       System.out.println(TimeUtil.now());

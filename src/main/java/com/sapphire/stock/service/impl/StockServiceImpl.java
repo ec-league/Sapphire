@@ -12,6 +12,7 @@ import com.sapphire.common.TimeUtil;
 import com.sapphire.stock.domain.Stock;
 import com.sapphire.stock.domain.StockItem;
 import com.sapphire.stock.domain.StockStatics;
+import com.sapphire.stock.domain.StockStatistics;
 import com.sapphire.stock.repository.StockItemRepository;
 import com.sapphire.stock.repository.StockStatisticsRepository;
 import com.sapphire.stock.service.StockService;
@@ -36,9 +37,19 @@ public class StockServiceImpl implements StockService {
    public Stock getStockByCode(String code) {
       List<StockItem> items = stockItemRepository.getStocksByCode(code);
 
-      if (!items.isEmpty())
-         return new Stock(items);
-      return null;
+      if (items.isEmpty())
+         return null;
+
+      Stock stock = new Stock(items);
+      StockStatistics stat = stockStatisticsRepository.findByCode(code);
+
+      if (stat != null) {
+         stock.setIncreaseTotal(stat.getIncreaseTotal());
+         stock.setHighestPrice(stat.getHighestPrice());
+         stock.setAverageGoldDays(stat.getAverageGoldDays());
+      }
+
+      return stock;
    }
 
    @Override

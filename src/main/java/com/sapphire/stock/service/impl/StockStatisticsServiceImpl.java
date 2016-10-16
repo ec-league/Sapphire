@@ -36,4 +36,10 @@ public class StockStatisticsServiceImpl implements StockStatisticsService {
    public StockStatistics findByCode(String code) {
       return stockStatisticsRepository.findByCode(code);
    }
+
+   @Override
+   public List<StockStatistics> getAll() {
+
+      return stockStatisticsRepository.findAll();
+   }
 }

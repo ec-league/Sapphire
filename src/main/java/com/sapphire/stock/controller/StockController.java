@@ -73,7 +73,7 @@ public class StockController {
       StockStatics stockStatics = stockCache.getStockStatics();
 
       JsonDto dto =
-            new ListJsonDto<>(stockStatics.getMacdBelowZero()).formSuccessDto();
+ new ListJsonDto<>(stockStatics.pick()).formSuccessDto();
 
       return dto;
    }

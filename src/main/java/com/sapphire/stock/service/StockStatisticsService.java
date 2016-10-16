@@ -13,4 +13,6 @@ public interface StockStatisticsService {
    void update(List<StockStatistics> stats);
 
    StockStatistics findByCode(String code);
+
+   List<StockStatistics> getAll();
 }

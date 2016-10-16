@@ -280,7 +280,12 @@ public class Stock implements Dto {
       return false;
    }
 
-   public void update(List<StockItem> items) {
+   /**
+    * 只计算不受总Stock数目影响的属性值
+    * 
+    * @param items
+    */
+   private void update(List<StockItem> items) {
       stockItems = items;
       code = stockItems.get(0).getCode();
       name = stockItems.get(0).getName();
@@ -288,23 +293,7 @@ public class Stock implements Dto {
       endPrice = last.getEndPrice();
       currentMacd = last.getMacd();
       currentDiff = last.getMacdDiff();
-      earlyDate = stockItems.get(0).getLogDate();
-
-      stop =
-            Double.compare(stockItems.get(stockItems.size() - 1).getTrading(),
-                  0) == 0;
-      double temp = 0;
-      double temp1 = 0;
-      for (StockItem item : stockItems) {
-         if (item.getHighestPrice() > temp) {
-            temp = item.getHighestPrice();
-         }
-         if (item.getMacd() < temp1) {
-            temp1 = item.getMacd();
-         }
-      }
-      highestPrice = temp;
-      lowestMacd = temp1;
+      stop = last.isStop();
       targetPrice = goldPrice(last);
       goldPossible = isGoldPossible(last);
    }
@@ -368,6 +357,14 @@ public class Stock implements Dto {
 
    public void setIncreaseTotal(double increaseTotal) {
       this.increaseTotal = increaseTotal;
+   }
+
+   public void setHighestPrice(double highestPrice) {
+      this.highestPrice = highestPrice;
+   }
+
+   public void setAverageGoldDays(int averageGoldDays) {
+      this.averageGoldDays = averageGoldDays;
    }
 
    public double getFirstDiff() {
