@@ -2,6 +2,8 @@ package com.sapphire.stock.task.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,8 @@ import com.sapphire.stock.task.StockStatisticJob;
  */
 @Job
 public class StockStaticsticJobImpl implements StockStatisticJob {
+   private static final ExecutorService threadPool = Executors
+         .newSingleThreadExecutor();
 
    private static final Logger logger = LoggerFactory
          .getLogger(StockStaticsticJobImpl.class);
@@ -34,6 +38,16 @@ public class StockStaticsticJobImpl implements StockStatisticJob {
 
    @Override
    public void updateStatistic() {
+      threadPool.execute(new Runnable() {
+         @Override
+         public void run() {
+            updateStatisticInternal();
+         }
+      });
+   }
+
+
+   public void updateStatisticInternal() {
       logger.info("Update Stock Statistics Task Begin");
 
       List<String> codes = stockService.getAllCodes();
@@ -43,6 +57,9 @@ public class StockStaticsticJobImpl implements StockStatisticJob {
          Stock stock =
                stockService.getStockByCodeAndTime(code, TimeUtil.oneYearAgo(),
                      TimeUtil.now());
+
+         if (stock == null)
+            continue;
 
          stock.process();
 

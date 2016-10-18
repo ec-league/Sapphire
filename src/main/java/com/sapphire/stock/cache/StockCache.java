@@ -30,7 +30,6 @@ public class StockCache implements Cache {
    private StockService stockService;
 
    private static StockStatics stockStatics;
-   private static StockStatics increaseTotalStat;
 
    private final Lock lock = new ReentrantLock();
 
@@ -65,10 +64,8 @@ public class StockCache implements Cache {
    private void init() {
       lock.lock();
       try {
-         StockStatics stat = stockService.getLastYearStockStatics();
-         StockStatics stat1 = stockService.getStocksByIncreaseTotal();
+         StockStatics stat = stockService.getLastMonthStockStatics();
          stockStatics = stat;
-         increaseTotalStat = stat1;
       } catch (Exception ex) {
          logger.error("Init Stock Cache failed!", ex);
       } finally {
@@ -81,12 +78,5 @@ public class StockCache implements Cache {
          return null;
       }
       return stockStatics;
-   }
-
-   public StockStatics getIncreaseTotalStat() {
-      if (increaseTotalStat == null && !refresh()) {
-         return null;
-      }
-      return increaseTotalStat;
    }
 }

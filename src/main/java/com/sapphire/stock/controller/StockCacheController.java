@@ -1,7 +1,5 @@
 package com.sapphire.stock.controller;
 
-import net.ethanpark.common.task.Task;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +17,7 @@ import com.sapphire.stock.task.StockStatisticJob;
 @RequestMapping("/stock/data")
 @Controller
 public class StockCacheController {
+
    @Autowired
    private StockItemJob stockItemJob;
 
@@ -28,28 +27,16 @@ public class StockCacheController {
    @RequestMapping("/update/stat.ep")
    @ResponseBody
    public JsonDto startStatTask() {
-      Task task = new Task(new Runnable() {
-         @Override
-         public void run() {
-            stockStatisticJob.updateStatistic();
-         }
-      });
+      stockStatisticJob.updateStatistic();
 
-      task.start();
       return new JsonDto().formSuccessDto();
    }
 
    @RequestMapping("/update/item.ep")
    @ResponseBody
    public JsonDto startItemTask() {
-      Task task = new Task(new Runnable() {
-         @Override
-         public void run() {
-            stockItemJob.updateStock();
-         }
-      });
+      stockItemJob.updateStock();
 
-      task.start();
       return new JsonDto().formSuccessDto();
    }
 }

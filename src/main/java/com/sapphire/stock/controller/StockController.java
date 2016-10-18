@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import com.sapphire.common.dto.JsonDto;
 import com.sapphire.common.dto.ListJsonDto;
 import com.sapphire.stock.cache.StockCache;
@@ -106,24 +108,7 @@ public class StockController {
    @RequestMapping("/statics/increase.ep")
    @ResponseBody
    public JsonDto getIncreaseStatics() {
-      StockStatics stockStatics = stockCache.getIncreaseTotalStat();
-
-      List<Stock> stocks = stockStatics.getStocks();
-
-      for (Stock stock : stocks) {
-         StockStatistics stat =
-               stockStatisticsService.findByCode(stock.getCode());
-
-         if (stat == null)
-            continue;
-
-         stock.update(stat);
-      }
-
-      JsonDto dto =
-            new ListJsonDto<>(stocks).formSuccessDto();
-
-      return dto;
+      throw new NotImplementedException();
    }
 
    @RequestMapping("/statics/dead.ep")

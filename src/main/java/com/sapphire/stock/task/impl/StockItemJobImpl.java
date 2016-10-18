@@ -5,6 +5,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
@@ -26,6 +28,8 @@ import com.sapphire.stock.task.StockItemJob;
  */
 @Job
 public class StockItemJobImpl implements StockItemJob {
+   private static final ExecutorService threadPool = Executors
+         .newSingleThreadExecutor();
 
    private static final Logger logger = LoggerFactory
          .getLogger(StockItemJobImpl.class);
@@ -37,8 +41,7 @@ public class StockItemJobImpl implements StockItemJob {
 
    private static String URL_FORMAT = "http://hq.sinajs.cn/list=%s%s";
 
-   @Override
-   public void updateStock() {
+   public void updateStockInternal() {
       logger.info("Update Stock Items Task Begin");
 
       try {
@@ -149,5 +152,15 @@ public class StockItemJobImpl implements StockItemJob {
          item.setLowestPrice(item.getEndPrice());
       }
       return item;
+   }
+
+   @Override
+   public void updateStock() {
+      threadPool.execute(new Runnable() {
+         @Override
+         public void run() {
+            updateStockInternal();
+         }
+      });
    }
 }
