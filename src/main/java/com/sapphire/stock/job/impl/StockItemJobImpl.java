@@ -1,12 +1,10 @@
-package com.sapphire.stock.task.impl;
+package com.sapphire.stock.job.impl;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
@@ -18,8 +16,9 @@ import com.sapphire.common.TimeUtil;
 import com.sapphire.common.annotation.Job;
 import com.sapphire.stock.domain.Stock;
 import com.sapphire.stock.domain.StockItem;
+import com.sapphire.stock.job.SingleThreadJob;
+import com.sapphire.stock.job.StockItemJob;
 import com.sapphire.stock.service.StockService;
-import com.sapphire.stock.task.StockItemJob;
 
 /**
  * Author: EthanPark <br/>
@@ -27,9 +26,7 @@ import com.sapphire.stock.task.StockItemJob;
  * Email: byp5303628@hotmail.com
  */
 @Job
-public class StockItemJobImpl implements StockItemJob {
-   private static final ExecutorService threadPool = Executors
-         .newSingleThreadExecutor();
+public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
 
    private static final Logger logger = LoggerFactory
          .getLogger(StockItemJobImpl.class);
@@ -41,7 +38,7 @@ public class StockItemJobImpl implements StockItemJob {
 
    private static String URL_FORMAT = "http://hq.sinajs.cn/list=%s%s";
 
-   public void updateStockInternal() {
+   private void updateStockInternal() {
       logger.info("Update Stock Items Task Begin");
 
       try {
@@ -156,7 +153,7 @@ public class StockItemJobImpl implements StockItemJob {
 
    @Override
    public void updateStock() {
-      threadPool.execute(new Runnable() {
+      submit(new Runnable() {
          @Override
          public void run() {
             updateStockInternal();

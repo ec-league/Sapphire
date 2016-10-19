@@ -1,4 +1,4 @@
-package com.sapphire.stock.task;
+package com.sapphire.stock.job;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

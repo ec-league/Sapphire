@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sapphire.common.dto.JsonDto;
-import com.sapphire.stock.task.StockItemJob;
-import com.sapphire.stock.task.StockStatisticJob;
+import com.sapphire.stock.job.StockItemJob;
+import com.sapphire.stock.job.StockStatisticJob;
 
 /**
  * Author: EthanPark <br/>

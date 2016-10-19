@@ -50,19 +50,19 @@
     <div class="row">
         <div class="col-md-2">
             <ul id="left-panel" class="nav" data-spy="affix" data-offset-top="125">
-                <li class="active">
-                    <a href="/stock/stock.html">MACD最低筛选</a>
+                <li id="lowest">
+                    <a href="#">MACD最低筛选</a>
                 </li>
-                <li>
-                    <a href="/stock/increase.html">MACD增幅筛选</a>
+                <li id="increase">
+                    <a href="#l">MACD增幅筛选</a>
                 </li>
-                <li>
-                    <a href="/stock/dead.html">MACD死叉筛选</a>
+                <li id="dead">
+                    <a href="#">MACD死叉筛选</a>
                 </li>
-                <li>
-                    <a href="/stock/gold.html">MACD金叉筛选</a>
+                <li id="gold">
+                    <a href="#">MACD金叉筛选</a>
                 </li>
-                <li><a href="/stock/cache.html">缓存刷新</a></li>
+                <li><a href="#">缓存刷新</a></li>
                 <li><a href="#" id="refreshItem">数据更新</a></li>
                 <li><a href="#" id="refreshStat">统计更新</a></li>
             </ul>
@@ -71,12 +71,13 @@
         <div class="col-md-10" style="background: lightyellow">
             <div class="row">
                 <div class="col-md-12">
-                    <table id="table" class="table table-hover">
+                    <table class="table table-hover">
                         <thead>
                         <tr>
                             <td>#</td>
                             <td>股票代码</td>
-                            <td>最低MACD</td>
+                            <td>股票名字</td>
+                            <td>能否金叉</td>
                             <td>当前MACD</td>
                             <td>当前收盘(元)</td>
                             <td>历史最高(元)</td>
@@ -98,21 +99,15 @@
 </body>
 <script src="../../js/framework/jquery-1.11.3.js"></script>
 <script src="../../js/framework/bootstrap.min.js"></script>
-<script src="../../js/framework/jquery.tmpl.min.js"></script>
-<script src="../../js/nav.js"></script>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
-
-<!-- Latest compiled and minified Locales -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/locale/bootstrap-table-zh-CN.min.js"></script>
-
 <script type="text/javascript">
     var stock = {
+        goldUrl: "/stock/statics/gold.ep",
+        deadUrl: "/stock/statics/dead.ep",
+        increaseUrl: "/stock/statics/increase.ep",
+        lowestUrl: "/stock/statics/lowest.ep",
         renderTable: function (data) {
-            var tableFrame = document.getElementById("stock-table");
+            var tableFrame = $("#stock-table");
+            tableFrame.html("");
             for (var i = 0; i < data.length; i++) {
                 var tr = $("<tr></tr>");
 
@@ -123,7 +118,10 @@
                 codeTd.html(data[i].code);
 
                 var nameTd = $("<td></td>");
-                nameTd.html(data[i].lowestMacd);
+                nameTd.html(data[i].name);
+
+                var isGold = $("<td></td>");
+                isGold.html(data[i].goldPossible)
 
                 var macdTd = $("<td></td>");
                 macdTd.html(data[i].currentMacd.toFixed(3));
@@ -149,6 +147,7 @@
                 seqTd.appendTo(tr);
                 codeTd.appendTo(tr);
                 nameTd.appendTo(tr);
+                isGold.appendTo(tr);
                 macdTd.appendTo(tr);
                 priceTd.appendTo(tr);
                 highTd.appendTo(tr);
@@ -159,10 +158,10 @@
                 tr.appendTo(tableFrame);
             }
         },
-        loadStock: function () {
+        loadStock: function (dataUrl) {
             var instance = this;
             $.ajax({
-                url: "/stock/statics/increase.ep",
+                url: dataUrl,
                 headers: {
                     "Accept": "application/json",
                     "Content-type": "application/json"
@@ -175,6 +174,10 @@
                     }
                 }
             });
+        },
+        init: function () {
+            //region Bind update service
+
             $("#refreshItem").click(function () {
                 $.ajax({
                     url: "/stock/data/update/item.ep",
@@ -208,13 +211,31 @@
                     }
                 })
             });
-        },
 
-        initTable: function () {
-            var table = $("#table");
-            table.bootstrapTable({});
+            //endregion
+
+            //region Bind select service
+
+            var instance = this;
+            $("#lowest").click(function () {
+                instance.loadStock(instance.lowestUrl);
+            });
+
+            $("#increase").click(function () {
+                instance.loadStock(instance.increaseUrl);
+            });
+
+            $("#dead").click(function () {
+                instance.loadStock(instance.deadUrl);
+            });
+
+            $("#gold").click(function () {
+                instance.loadStock(instance.goldUrl);
+            });
+
+            //endregion
         }
     }
-    stock.loadStock();
+    stock.init();
 </script>
 </html>

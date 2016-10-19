@@ -1,6 +1,9 @@
-package com.sapphire.stock.task;
+package com.sapphire.stock.job;
 
-import com.sapphire.stock.domain.StockItem;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 import org.quartz.JobExecutionContext;
@@ -10,11 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import com.sapphire.stock.domain.StockItem;
 import com.sapphire.stock.service.StockService;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStreamReader;
 
 /**
  * Author: EthanPark <br/>

@@ -1,9 +1,9 @@
-package com.sapphire.stock.task.impl;
+package com.sapphire.stock.job.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;
-import com.sapphire.stock.task.StockStatisticJob;
+import com.sapphire.stock.job.StockStatisticJob;
 
 /**
  * StockItemJobImpl Tester.

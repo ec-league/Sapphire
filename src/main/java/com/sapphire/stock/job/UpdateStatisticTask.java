@@ -1,4 +1,4 @@
-package com.sapphire.stock.task;
+package com.sapphire.stock.job;
 
 import java.util.ArrayList;
 import java.util.List;

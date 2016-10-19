@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Author: EthanPark <br/>
- * Date: ${date}<br/>
+ * Date: 2016/10/19<br/>
  * Email: byp5303628@hotmail.com
  */
 @Controller
@@ -14,21 +14,6 @@ public class StockPageController {
 
    @RequestMapping("/stock.html")
    public String lowestPage() {
-      return "stock/lowest";
-   }
-
-   @RequestMapping("/increase.html")
-   public String increasePage() {
-      return "stock/increase";
-   }
-
-   @RequestMapping("/dead.html")
-   public String deadPage() {
-      return "stock/dead";
-   }
-
-   @RequestMapping("/gold.html")
-   public String goldPage() {
-      return "stock/gold";
+      return "stock/stock";
    }
 }

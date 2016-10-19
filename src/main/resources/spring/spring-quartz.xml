@@ -26,7 +26,7 @@
     <bean id="updateStockStatisticsJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="name" value="updateStockStat"/>
         <property name="group" value="Stock"/>
-        <property name="jobClass" value="com.sapphire.stock.task.UpdateStatisticTask"/>
+        <property name="jobClass" value="com.sapphire.stock.job.UpdateStatisticTask"/>
         <property name="durability" value="true"/>
     </bean>
 
@@ -38,7 +38,7 @@
     <bean id="updateStockItemsJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="name" value="updateStockItem"/>
         <property name="group" value="Stock"/>
-        <property name="jobClass" value="com.sapphire.stock.task.UpdateStockItemTask"/>
+        <property name="jobClass" value="com.sapphire.stock.job.UpdateStockItemTask"/>
         <property name="durability" value="true"/>
     </bean>
 
