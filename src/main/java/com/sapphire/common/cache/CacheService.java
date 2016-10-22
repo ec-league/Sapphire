@@ -30,6 +30,7 @@ public class CacheService {
             TimeUnit.MILLISECONDS);
    }
 
+   @SuppressWarnings("unchecked")
    public static <T extends Cache> T getCache(Class<? extends T> clazz) {
       if (cacheMap.containsKey(clazz))
          return (T) cacheMap.get(clazz);
