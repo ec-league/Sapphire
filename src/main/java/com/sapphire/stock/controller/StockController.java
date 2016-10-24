@@ -2,16 +2,21 @@ package com.sapphire.stock.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sapphire.common.dto.DataJsonDto;
 import com.sapphire.common.dto.JsonDto;
 import com.sapphire.common.dto.ListJsonDto;
 import com.sapphire.stock.cache.StockCache;
 import com.sapphire.stock.domain.Stock;
+import com.sapphire.stock.domain.StockItem;
 import com.sapphire.stock.domain.StockStatics;
 import com.sapphire.stock.domain.StockStatistics;
 import com.sapphire.stock.service.StockService;
@@ -23,6 +28,10 @@ import com.sapphire.stock.service.StockStatisticsService;
 @Controller
 @RequestMapping("/stock")
 public class StockController {
+
+   private static final Logger logger = LoggerFactory
+         .getLogger(StockController.class);
+
    @Autowired
    private StockService stockService;
 
@@ -131,6 +140,34 @@ public class StockController {
       JsonDto dto = new ListJsonDto<>(stocks).formSuccessDto();
 
       return dto;
+   }
+
+   @RequestMapping("/{code}/info.ep")
+   @ResponseBody
+   public JsonDto getStockByCode(@PathVariable String code) {
+      try {
+         StockItem item = stockService.getLatestStockItemByCode(code);
+         StockStatistics statistics = stockStatisticsService.findByCode(code);
+
+         Stock stock = new Stock();
+
+         stock.setHighestPrice(statistics.getHighestPrice());
+         stock.setIncreaseTotal(statistics.getIncreaseTotal());
+         stock.setAverageGoldDays(statistics.getAverageGoldDays());
+         stock.setFirstDiff(item.getMacdDiff());
+         stock.setCode(item.getCode());
+         stock.setCurrentMacd(item.getMacd());
+         stock.setLowestMacd(statistics.getLowestMacd());
+         stock.setName(item.getName());
+         stock.setEndPrice(item.getEndPrice());
+
+         JsonDto dto = new DataJsonDto<>(stock);
+
+         return dto.formSuccessDto();
+      } catch (Exception ex) {
+         logger.error("Get Stock By Code Failed!", ex);
+         return new JsonDto().formFailureDto(ex);
+      }
    }
 
    private void update(List<Stock> stocks) {

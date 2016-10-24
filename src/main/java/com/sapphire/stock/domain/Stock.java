@@ -379,6 +379,30 @@ public class Stock implements Dto {
       return currentMacd;
    }
 
+   public void setEndPrice(double endPrice) {
+      this.endPrice = endPrice;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public void setCode(String code) {
+      this.code = code;
+   }
+
+   public void setCurrentMacd(double currentMacd) {
+      this.currentMacd = currentMacd;
+   }
+
+   public void setCurrentDiff(double currentDiff) {
+      this.currentDiff = currentDiff;
+   }
+
+   public void setLowestMacd(double lowestMacd) {
+      this.lowestMacd = lowestMacd;
+   }
+
    public double getCurrentDiff() {
       return currentDiff;
    }
