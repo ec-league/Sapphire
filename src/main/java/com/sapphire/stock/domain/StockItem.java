@@ -6,7 +6,8 @@ import java.text.SimpleDateFormat;
 
 import javax.persistence.*;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+
 
 /**
  * Created by Ethan on 2016/3/30.
