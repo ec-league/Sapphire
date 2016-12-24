@@ -114,39 +114,44 @@ public class StockTest extends BaseTest {
       File dir = new File("C:\\Users\\Ethan\\Desktop\\script\\export");
 
       for (File f : dir.listFiles()) {
-         BufferedReader br =
-               new BufferedReader(new InputStreamReader(new FileInputStream(f),
-                     "GBK"));
-
-         List<StockItem> stockItems = new ArrayList<>(500);
-         String temp = br.readLine();
-         String code = temp.split(" ")[0];
-         String name = temp.split(" ")[1];
-         temp = br.readLine();
-         while (temp != null) {
-            temp = br.readLine();
-            if (!temp.matches("[0-9].*"))
-               break;
-
-            StockItem item = new StockItem(temp);
-            item.setCode(code);
-            item.setName(name);
-
-            stockItems.add(item);
-         }
-
-         if (stockItems.isEmpty())
-            continue;
-         Stock stock = new Stock(stockItems);
-         stock.calculateMacd(12, 26, true);
-         stock.processAverage();
-
-         StockItem last = stockItems.get(stockItems.size() - 1);
-
-         last.setLast(true);
-
-         stockItemRepository.save(stockItems);
+         handleOneStock(f);
       }
+   }
+
+   private void handleOneStock(File f) throws Exception {
+      BufferedReader br =
+            new BufferedReader(new InputStreamReader(new FileInputStream(f),
+                  "GBK"));
+
+      List<StockItem> stockItems = new ArrayList<>(500);
+      String temp = br.readLine();
+      String code = temp.split(" ")[0];
+      String name = temp.split(" ")[1];
+      System.out.printf("%s : %s processing.%n", code, name);
+      temp = br.readLine();
+      while (temp != null) {
+         temp = br.readLine();
+         if (!temp.matches("[0-9].*"))
+            break;
+
+         StockItem item = new StockItem(temp);
+         item.setCode(code);
+         item.setName(name);
+
+         stockItems.add(item);
+      }
+
+      if (stockItems.isEmpty())
+         return;
+      Stock stock = new Stock(stockItems);
+      stock.calculateMacd(12, 26, true);
+      stock.processAverage();
+
+      StockItem last = stockItems.get(stockItems.size() - 1);
+
+      last.setLast(true);
+
+      stockItemRepository.save(stockItems);
    }
 
    /**

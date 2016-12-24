@@ -29,7 +29,7 @@ public class StockCache implements Cache {
    @Autowired
    private StockService stockService;
 
-   private static StockStatics stockStatics;
+   private StockStatics stockStatics;
 
    private final Lock lock = new ReentrantLock();
 
@@ -63,11 +63,11 @@ public class StockCache implements Cache {
 
    private void init() {
       lock.lock();
+      StockStatics stat = stockService.getLastMonthStockStatics();
       try {
-         StockStatics stat = stockService.getLastMonthStockStatics();
          stockStatics = stat;
       } catch (Exception ex) {
-         logger.error("Init Stock Cache failed!", ex);
+         logger.error("Init Stock Cache failed!", ex.getMessage());
       } finally {
          lock.unlock();
       }

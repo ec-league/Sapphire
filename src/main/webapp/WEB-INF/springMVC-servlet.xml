@@ -25,14 +25,14 @@
     <bean
             class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="order" value="1"/>
-        <property name="mediaTypes">
-            <map>
-                <entry key="json" value="application/json"/>
-                <entry key="xml" value="application/xml"/>
-                <entry key="htm" value="text/html"/>
-                <entry key="jsp" value="text/html"/>
-            </map>
-        </property>
+        <!--<property name="mediaTypes">-->
+            <!--<map>-->
+                <!--<entry key="json" value="application/json"/>-->
+                <!--<entry key="xml" value="application/xml"/>-->
+                <!--<entry key="htm" value="text/html"/>-->
+                <!--<entry key="jsp" value="text/html"/>-->
+            <!--</map>-->
+        <!--</property>-->
 
         <property name="defaultViews">
             <list>
@@ -41,7 +41,7 @@
                 </bean>
             </list>
         </property>
-        <property name="ignoreAcceptHeader" value="true"/>
+        <!--<property name="ignoreAcceptHeader" value="true"/>-->
     </bean>
 
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>

@@ -202,6 +202,13 @@ public class StockServiceImplTest extends BaseTest {
       }
    }
 
+   @Test
+   public void testGetLastMonthStockStatics(){
+      StockStatics statics = stockService.getLastMonthStockStatics();
+
+      Assert.assertNotNull(statics);
+   }
+
    //   @Test
    public void getLastMonthTest() {
       Timestamp now = TimeUtil.now();
