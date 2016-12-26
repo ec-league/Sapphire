@@ -196,7 +196,7 @@
                     <systemProperties>
                         <systemProperty>
                             <name>APP_CONFIG_PATH</name>
-                            <value>C:/sapphire</value>
+                            <value>/Users/ethan/sapphire</value>
                         </systemProperty>
                     </systemProperties>
                 </configuration>
@@ -222,7 +222,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
                 <configuration>
-                    <argLine>-DAPP_CONFIG_PATH=C:/sapphire</argLine>
+                    <argLine>-DAPP_CONFIG_PATH=/Users/ethan/sapphire</argLine>
                 </configuration>
             </plugin>
             <plugin>

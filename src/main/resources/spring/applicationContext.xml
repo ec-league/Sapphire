@@ -11,7 +11,4 @@
 
     <!-- load spring security properties -->
     <import resource="classpath:spring/spring-security.xml"/>
-
-    <!-- load spring quartz properties -->
-    <import resource="classpath:spring/spring-quartz.xml"/>
 </beans>

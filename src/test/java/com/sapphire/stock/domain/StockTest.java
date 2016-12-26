@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;
@@ -21,11 +23,16 @@ import com.sapphire.stock.service.StockService;
  * Stock Tester.
  * 
  * @author <Authors name>
- * @since <pre>
- * </pre>
+ * @since
+ * 
+ *        <pre>
+ *        </pre>
+ * 
  * @version 1.0
  */
 public class StockTest extends BaseTest {
+
+   private static final Logger LOGGER = LoggerFactory.getLogger(StockTest.class);
 
    @Autowired
    private StockItemRepository stockItemRepository;
@@ -39,9 +46,8 @@ public class StockTest extends BaseTest {
       List<CodeIncrease> list = new ArrayList<>(codes.size());
 
       for (String code : codes) {
-         Stock stock =
-               stockService.getStockByCodeAndTime(code,
-                     TimeUtil.fromStockString("05/26/2016"), TimeUtil.now());
+         Stock stock = stockService.getStockByCodeAndTime(code,
+               TimeUtil.fromStockString("05/26/2016"), TimeUtil.now());
 
          if (stock == null)
             continue;
@@ -53,15 +59,15 @@ public class StockTest extends BaseTest {
             (o1, o2) -> Double.compare(o1.getIncrease(), o2.getIncrease()));
 
       for (int i = 0; i < 100; i++) {
-         System.out.println(String.format("Code: \"%s\", Increase: %.2f", list
-               .get(i).getCode(), list.get(i).getIncrease()));
+         System.out.println(String.format("Code: \"%s\", Increase: %.2f",
+               list.get(i).getCode(), list.get(i).getIncrease()));
       }
 
       Collections.reverse(list);
       System.out.println("#############################");
       for (int i = 0; i < 100; i++) {
-         System.out.println(String.format("Code: \"%s\", Increase: %.2f", list
-               .get(i).getCode(), list.get(i).getIncrease()));
+         System.out.println(String.format("Code: \"%s\", Increase: %.2f",
+               list.get(i).getCode(), list.get(i).getIncrease()));
       }
    }
 
@@ -94,12 +100,10 @@ public class StockTest extends BaseTest {
    //   @Test
    public void construct() throws IOException, ParseException {
       String code = "600000";
-      Timestamp from =
-            new Timestamp(new SimpleDateFormat("MM/dd/yyyy")
-                  .parse("07/20/2015").getTime());
-      Timestamp to =
-            new Timestamp(new SimpleDateFormat("MM/dd/yyyy")
-                  .parse("09/10/2015").getTime());
+      Timestamp from = new Timestamp(
+            new SimpleDateFormat("MM/dd/yyyy").parse("07/20/2015").getTime());
+      Timestamp to = new Timestamp(
+            new SimpleDateFormat("MM/dd/yyyy").parse("09/10/2015").getTime());
 
       List<StockItem> stockItems =
             stockItemRepository.getStockByCodeAndTime(code, from, to);
@@ -107,11 +111,15 @@ public class StockTest extends BaseTest {
       Assert.assertNotNull(stockItems);
    }
 
-   //      @Test
+   @Test
    public void construct1() throws Exception {
       Assert.assertNotNull(stockItemRepository);
+
+      if (!stockItemRepository.getCodes().isEmpty())
+         return;
+
       System.out.println(TimeUtil.now());
-      File dir = new File("C:\\Users\\Ethan\\Desktop\\script\\export");
+      File dir = new File("/Users/ethan/Desktop/export");
 
       for (File f : dir.listFiles()) {
          handleOneStock(f);
@@ -119,15 +127,14 @@ public class StockTest extends BaseTest {
    }
 
    private void handleOneStock(File f) throws Exception {
-      BufferedReader br =
-            new BufferedReader(new InputStreamReader(new FileInputStream(f),
-                  "GBK"));
+      BufferedReader br = new BufferedReader(
+            new InputStreamReader(new FileInputStream(f), "GBK"));
 
       List<StockItem> stockItems = new ArrayList<>(500);
       String temp = br.readLine();
       String code = temp.split(" ")[0];
       String name = temp.split(" ")[1];
-      System.out.printf("%s : %s processing.%n", code, name);
+      LOGGER.info(String.format("%s : %s processing.%n", code, name));
       temp = br.readLine();
       while (temp != null) {
          temp = br.readLine();
@@ -162,8 +169,10 @@ public class StockTest extends BaseTest {
    //   @Test
    public void construct2() throws Exception {
       BufferedReader br =
-            new BufferedReader(new InputStreamReader(new FileInputStream(
-                  new File("C:\\Users\\Ethan\\Desktop\\Table.txt")), "GBK"));
+            new BufferedReader(new InputStreamReader(
+                  new FileInputStream(
+                        new File("C:\\Users\\Ethan\\Desktop\\Table.txt")),
+                  "GBK"));
 
       br.readLine();
       String temp = br.readLine();

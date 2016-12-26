@@ -12,6 +12,8 @@ import com.sapphire.stock.domain.StockStatistics;
 public interface StockStatisticsService {
    void update(List<StockStatistics> stats);
 
+   void update(StockStatistics stat);
+
    StockStatistics findByCode(String code);
 
    List<StockStatistics> getAll();

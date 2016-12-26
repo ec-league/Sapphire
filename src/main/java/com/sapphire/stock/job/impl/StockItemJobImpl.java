@@ -20,6 +20,8 @@ import com.sapphire.stock.job.SingleThreadJob;
 import com.sapphire.stock.job.StockItemJob;
 import com.sapphire.stock.service.StockService;
 
+import javax.persistence.OptimisticLockException;
+
 /**
  * Author: EthanPark <br/>
  * Date: 2016/10/16<br/>
@@ -45,54 +47,12 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
          List<String> codes = stockService.getAllCodes();
 
          for (String code : codes) {
-            String url = getUrl(code);
+            logger.info(String.format("Update Stock Code : %s", code));
 
-            ClientRequest request = new ClientRequest(url);
-
-            ClientResponse<String> response;
             try {
-               response = request.get(String.class);
-               BufferedReader br =
-                     new BufferedReader(new InputStreamReader(
-                           new ByteArrayInputStream(response.getEntity()
-                                 .getBytes())));
-               String output = br.readLine();
-
-               StockItem item = toDomain(output);
-               item.setCode(code);
-
-               StockItem last = stockService.getLatestStockItemByCode(code);
-
-               if (last.getLogDate().equals(item.getLogDate()))
-                  continue;
-
-               if (last.isStop()) {
-                  last.updateItem(item, MACD_START, MACD_END);
-                  stockService.save(last);
-               } else {
-                  last.setLast(false);
-
-                  List<StockItem> items = new ArrayList<>();
-                  items.add(last);
-                  items.add(item);
-
-                  Stock stock = new Stock(items);
-
-                  stock.calculateMacd(MACD_START, MACD_END, false);
-
-                  if (item.isStop()) {
-                     item.setMacdDea(last.getMacdDea());
-                     item.setMacdDiff(last.getMacdDiff());
-                     item.setMacd(last.getMacd());
-                     item.setEma12(last.getEma12());
-                     item.setEma26(last.getEma26());
-                  }
-
-                  stockService.saveAll(items);
-               }
+               handleOneStock(code);
             } catch (Exception e) {
-               System.out.printf("Code :\"%s\" Not Updated%n", code);
-               e.printStackTrace();
+               logger.error(String.format("Code :\"%s\" Not Updated%n", code), e);
                continue;
             }
          }
@@ -108,6 +68,50 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
       }
 
       logger.info("Update Stock Item Task Finished!");
+   }
+
+   private void handleOneStock(String code) throws Exception {
+      String url = getUrl(code);
+      ClientRequest request = new ClientRequest(url);
+      ClientResponse<String> response = request.get(String.class);
+      BufferedReader br =
+            new BufferedReader(new InputStreamReader(
+                  new ByteArrayInputStream(response.getEntity()
+                        .getBytes())));
+      String output = br.readLine();
+
+      StockItem item = toDomain(output);
+      item.setCode(code);
+
+      StockItem last = stockService.getLatestStockItemByCode(code);
+
+      if (last.getLogDate().equals(item.getLogDate()))
+         return;
+
+      if (last.isStop()) {
+         last.updateItem(item, MACD_START, MACD_END);
+         stockService.save(last);
+      } else {
+         last.setLast(false);
+
+         List<StockItem> items = new ArrayList<>();
+         items.add(last);
+         items.add(item);
+
+         Stock stock = new Stock(items);
+
+         stock.calculateMacd(MACD_START, MACD_END, false);
+
+         if (item.isStop()) {
+            item.setMacdDea(last.getMacdDea());
+            item.setMacdDiff(last.getMacdDiff());
+            item.setMacd(last.getMacd());
+            item.setEma12(last.getEma12());
+            item.setEma26(last.getEma26());
+         }
+
+         stockService.saveAll(items);
+      }
    }
 
    private String getUrl(String code) {

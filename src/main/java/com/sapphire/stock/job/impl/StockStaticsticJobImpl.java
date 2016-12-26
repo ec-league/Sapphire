@@ -49,30 +49,34 @@ public class StockStaticsticJobImpl extends SingleThreadJob implements
       logger.info("Update Stock Statistics Task Begin");
 
       List<String> codes = stockService.getAllCodes();
-      List<StockStatistics> stats = new ArrayList<>(codes.size());
 
       for (String code : codes) {
-         Stock stock =
-               stockService.getStockByCodeAndTime(code, TimeUtil.oneYearAgo(),
-                     TimeUtil.now());
-
-         if (stock == null)
-            continue;
-
-         stock.process();
-
-         StockStatistics stat = new StockStatistics();
-         stat.setIncreaseTotal(stock.getIncreaseTotal());
-         stat.setAverageGoldDays(stock.getAverageGoldDays());
-         stat.setCode(code);
-         stat.setHighestPrice(stock.getHighestPrice());
-         stat.setLastModifyDate(TimeUtil.now());
-         stat.setLowestMacd(stock.getLowestMacd());
-         stat.setEarlyDate(stock.getEarlyDate());
-         stats.add(stat);
+         handleStat(code);
       }
-      statisticsService.update(stats);
 
       logger.info("Update Stock Statistics Task Finished!");
+   }
+
+   private void handleStat(String code){
+      logger.info(String.format("Update Stock Statistics : %s", code));
+      Stock stock =
+            stockService.getStockByCodeAndTime(code, TimeUtil.oneYearAgo(),
+                  TimeUtil.now());
+
+      if (stock == null)
+         return;
+
+      stock.process();
+
+      StockStatistics stat = new StockStatistics();
+      stat.setIncreaseTotal(stock.getIncreaseTotal());
+      stat.setAverageGoldDays(stock.getAverageGoldDays());
+      stat.setCode(code);
+      stat.setHighestPrice(stock.getHighestPrice());
+      stat.setLastModifyDate(TimeUtil.now());
+      stat.setLowestMacd(stock.getLowestMacd());
+      stat.setEarlyDate(stock.getEarlyDate());
+
+      statisticsService.update(stat);
    }
 }
