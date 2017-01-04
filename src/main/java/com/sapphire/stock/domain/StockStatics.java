@@ -16,9 +16,11 @@ public class StockStatics {
    private List<Stock> stocks;
 
    public StockStatics(List<Stock> stocks) {
-      this.stocks =
-            stocks.stream().filter(stock -> !stock.isStop())
-                  .collect(Collectors.toList());
+      this.stocks = stocks.stream().filter(stock -> !stock.isStop())
+            .filter(stock -> stock.getIncreaseTotal() > 1.7)
+            .filter(
+                  stock -> stock.getEndPrice() / stock.getHighestPrice() < 0.75)
+            .collect(Collectors.toList());
    }
 
    public List<Stock> pick() {
@@ -44,8 +46,8 @@ public class StockStatics {
    public List<Stock> getMacdBelowZero() {
       List<Stock> result = new ArrayList<>(stocks.size());
 
-      result.addAll(stocks.stream()
-            .filter(stock -> stock.getCurrentMacd() <= 0)
+      result.addAll(stocks.stream().filter(stock -> stock.getCurrentMacd() <= 0)
+            .filter(stock -> stock.getIncreaseTotal() > 1.25)
             .collect(Collectors.toList()));
 
       Collections.sort(result, (o1, o2) -> Double.compare(o2.getCurrentMacd(),
@@ -61,9 +63,8 @@ public class StockStatics {
     * @return
     */
    public List<Stock> getMacdUpZero() {
-      List<Stock> result =
-            stocks.stream().filter(stock -> stock.isTodayPlus())
-                  .collect(Collectors.toList());
+      List<Stock> result = stocks.stream().filter(stock -> stock.isTodayPlus())
+            .collect(Collectors.toList());
 
       Collections.sort(result, (o1, o2) -> Double.compare(o1.getCurrentDiff(),
             o2.getCurrentDiff()));
@@ -78,10 +79,9 @@ public class StockStatics {
     * @return
     */
    public List<Stock> getLowestMacd() {
-      List<Stock> result =
-            stocks.stream().filter(stock -> stock.getCurrentMacd() < 0)
-                  .filter(stock -> stock.isUpper())
-                  .collect(Collectors.toList());
+      List<Stock> result = stocks.stream()
+            .filter(stock -> stock.getCurrentMacd() < 0)
+            .filter(stock -> stock.isUpper()).collect(Collectors.toList());
       Collections.sort(result, (o1, o2) -> Double.compare(o2.getCurrentMacd(),
             o1.getCurrentMacd()));
 
@@ -89,12 +89,11 @@ public class StockStatics {
    }
 
    public List<Stock> getDeadMacd() {
-      List<Stock> result =
-            stocks.stream().filter(stock -> stock.getCurrentMacd() < 0)
-                  .filter(stock -> !stock.isStop())
-                  .collect(Collectors.toList());
-      Collections.sort(result, (o1, o2) -> Double.compare(o2.getCurrentMacd(),
-            o1.getCurrentMacd()));
+      List<Stock> result = stocks.stream()
+            .filter(stock -> stock.getCurrentMacd() < 0)
+            .filter(stock -> stock.getFirstDiff() < 0).collect(Collectors.toList());
+      Collections.sort(result, (o1, o2) -> Double.compare(o1.getCurrentMacd(),
+            o2.getCurrentMacd()));
 
       return result.subList(0, result.size() < 20 ? result.size() : LIMIT_SIZE);
    }
@@ -125,10 +124,8 @@ public class StockStatics {
    public List<Stock> getIncreaseTop100() {
       stocks.forEach(com.sapphire.stock.domain.Stock::process);
 
-      Collections.sort(
-            stocks,
-            (o1, o2) -> Double.compare(o2.getIncreaseTotal(),
-                  o1.getIncreaseTotal()));
+      Collections.sort(stocks, (o1, o2) -> Double.compare(o2.getIncreaseTotal(),
+            o1.getIncreaseTotal()));
 
       return stocks.subList(0, LIMIT_SIZE);
    }

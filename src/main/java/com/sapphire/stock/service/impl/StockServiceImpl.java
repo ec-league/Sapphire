@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.sapphire.stock.service.StockStatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,6 +81,8 @@ public class StockServiceImpl implements StockService {
       for (String code : codes) {
          Stock stock = getStockByCodeAndTime(code, from, to);
          if (stock != null && !stock.isStop()) {
+            StockStatistics stockStatistics = stockStatisticsRepository.findByCode(code);
+            stock.update(stockStatistics);
             stocks.add(stock);
          }
       }

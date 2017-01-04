@@ -113,7 +113,14 @@ public class StockController {
    @RequestMapping("/statics/increase.ep")
    @ResponseBody
    public JsonDto getIncreaseStatics() {
-      return null;
+      StockStatics stockStatics = stockCache.getStockStatics();
+      List<Stock> stocks = stockStatics.getIncreaseTop100();
+
+      update(stocks);
+
+      JsonDto dto = new ListJsonDto<>(stocks).formSuccessDto();
+
+      return dto;
    }
 
    @RequestMapping("/statics/dead.ep")

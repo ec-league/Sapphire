@@ -202,6 +202,14 @@ public class Stock implements Dto {
       if (statics.isEmpty())
          return;
       setFirstDiff(statics.get(0).getFirstDiff());
+
+      double highestPrice = 0;
+      for (StockItem item : stockItems){
+         if (item.getHighestPrice() > highestPrice)
+            highestPrice = item.getHighestPrice();
+      }
+
+      setHighestPrice(highestPrice);
    }
 
    public int macdTotalCount(String dateFrom, String dateTo)
@@ -304,6 +312,7 @@ public class Stock implements Dto {
       increaseTotal = statistics.getIncreaseTotal();
       averageGoldDays = statistics.getAverageGoldDays();
       lowestMacd = statistics.getLowestMacd();
+      firstDiff = stockItems.get(stockItems.size() - 1).getMacdDiff();
    }
 
    public boolean isUpper() {
