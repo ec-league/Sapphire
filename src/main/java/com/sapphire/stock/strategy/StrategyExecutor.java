@@ -13,7 +13,7 @@ public class StrategyExecutor {
 
    public static void execute(List<Stock> stocks) {
       StrategyFactory sf =
-            StrategyFactory.getFactory(StrategyFactory.StrategyCategory.MACD);
+            StrategyFactory.getFactory(StrategyCategory.MACD);
 
       List<Strategy> strategies = sf.buildStrategy();
 

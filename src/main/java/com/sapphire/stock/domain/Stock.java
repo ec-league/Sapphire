@@ -22,7 +22,11 @@ public class Stock implements Dto {
    private String name;
    private double targetPrice;
    private boolean goldPossible;
-   private Timestamp earlyDate;
+
+   /**
+    * Stock中的一些具体信息
+    */
+   private StockDetail stockDetail;
 
    /**
     * 股票代码
@@ -42,11 +46,6 @@ public class Stock implements Dto {
     * 最后一天的股票macd diff值
     */
    private double currentDiff;
-
-   /**
-    * 股票统计数据
-    */
-   private List<StockStatic> statics;
 
    private boolean stop;
 
@@ -195,10 +194,11 @@ public class Stock implements Dto {
          days += stockStatic.consistDays;
       }
       setIncreaseTotal(origin);
-      if (statics.size() == 0)
-         averageGoldDays = 0;
-      else
-         averageGoldDays = days / statics.size();
+
+      int average = 0;
+      if (statics.size() != 0)
+         average = days / statics.size();
+      stockDetail.getHistoryInfo().setAverageGoldDays(average);
       if (statics.isEmpty())
          return;
       setFirstDiff(statics.get(0).getFirstDiff());
@@ -299,7 +299,8 @@ public class Stock implements Dto {
    }
 
    public void update(StockStatistics statistics) {
-      highestPrice = statistics.getHighestPrice();
+      stockDetail.setHistoryInfo(new HistoryInfo());
+      stockDetail.getHistoryInfo().setHighestPrice(statistics.getHighestPrice());
       increaseTotal = statistics.getIncreaseTotal();
       averageGoldDays = statistics.getAverageGoldDays();
       lowestMacd = statistics.getLowestMacd();
@@ -315,10 +316,6 @@ public class Stock implements Dto {
 
       return Double.compare(beforeYesterday.getMacd(), yesterday.getMacd()) < 0
             && Double.compare(yesterday.getMacd(), today.getMacd()) < 0;
-   }
-
-   public Timestamp getEarlyDate() {
-      return earlyDate;
    }
 
    public double getIncreaseFromStart() {
@@ -361,10 +358,6 @@ public class Stock implements Dto {
 
    public void setHighestPrice(double highestPrice) {
       this.highestPrice = highestPrice;
-   }
-
-   public void setAverageGoldDays(int averageGoldDays) {
-      this.averageGoldDays = averageGoldDays;
    }
 
    public double getFirstDiff() {
@@ -423,16 +416,20 @@ public class Stock implements Dto {
       return name;
    }
 
-   public int getAverageGoldDays() {
-      return averageGoldDays;
-   }
-
    public double getLowestMacd() {
       return lowestMacd;
    }
 
    public boolean isGoldPossible() {
       return goldPossible;
+   }
+
+   public StockDetail getStockDetail() {
+      return stockDetail;
+   }
+
+   public void setStockDetail(StockDetail stockDetail) {
+      this.stockDetail = stockDetail;
    }
 
    private static class StockStatic {

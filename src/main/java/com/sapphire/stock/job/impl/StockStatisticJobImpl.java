@@ -1,6 +1,5 @@
 package com.sapphire.stock.job.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -22,11 +21,11 @@ import com.sapphire.stock.service.StockStatisticsService;
  * Email: byp5303628@hotmail.com
  */
 @Job
-public class StockStaticsticJobImpl extends SingleThreadJob implements
+public class StockStatisticJobImpl extends SingleThreadJob implements
       StockStatisticJob {
 
    private static final Logger logger = LoggerFactory
-         .getLogger(StockStaticsticJobImpl.class);
+         .getLogger(StockStatisticJobImpl.class);
 
    @Autowired
    private StockService stockService;
@@ -70,12 +69,11 @@ public class StockStaticsticJobImpl extends SingleThreadJob implements
 
       StockStatistics stat = new StockStatistics();
       stat.setIncreaseTotal(stock.getIncreaseTotal());
-      stat.setAverageGoldDays(stock.getAverageGoldDays());
+      stat.setAverageGoldDays(stock.getStockDetail().getHistoryInfo().getAverageGoldDays());
       stat.setCode(code);
       stat.setHighestPrice(stock.getHighestPrice());
       stat.setLastModifyDate(TimeUtil.now());
       stat.setLowestMacd(stock.getLowestMacd());
-      stat.setEarlyDate(stock.getEarlyDate());
 
       statisticsService.update(stat);
    }

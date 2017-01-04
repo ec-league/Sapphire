@@ -45,12 +45,10 @@ public class UpdateStatisticTaskTest extends BaseTest {
 
          StockStatistics stat = new StockStatistics();
          stat.setIncreaseTotal(stock.getIncreaseTotal());
-         stat.setAverageGoldDays(stock.getAverageGoldDays());
          stat.setCode(code);
          stat.setHighestPrice(stock.getHighestPrice());
          stat.setLastModifyDate(TimeUtil.now());
          stat.setLowestMacd(stock.getLowestMacd());
-         stat.setEarlyDate(stock.getEarlyDate());
          stats.add(stat);
       }
       stockStatisticsService.update(stats);

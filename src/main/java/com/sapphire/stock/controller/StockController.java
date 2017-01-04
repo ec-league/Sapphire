@@ -153,7 +153,6 @@ public class StockController {
 
          stock.setHighestPrice(statistics.getHighestPrice());
          stock.setIncreaseTotal(statistics.getIncreaseTotal());
-         stock.setAverageGoldDays(statistics.getAverageGoldDays());
          stock.setFirstDiff(item.getMacdDiff());
          stock.setCode(item.getCode());
          stock.setCurrentMacd(item.getMacd());

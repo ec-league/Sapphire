@@ -46,12 +46,11 @@ public class StockCacheTest extends BaseTest {
 
          StockStatistics stat = new StockStatistics();
          stat.setIncreaseTotal(stock.getIncreaseTotal());
-         stat.setAverageGoldDays(stock.getAverageGoldDays());
+         stat.setAverageGoldDays(stock.getStockDetail().getHistoryInfo().getAverageGoldDays());
          stat.setCode(code);
          stat.setHighestPrice(stock.getHighestPrice());
          stat.setLastModifyDate(TimeUtil.now());
          stat.setLowestMacd(stock.getLowestMacd());
-         stat.setEarlyDate(stock.getEarlyDate());
          stats.add(stat);
       }
       stockStatisticsService.update(stats);
@@ -89,7 +88,7 @@ public class StockCacheTest extends BaseTest {
          sb.append(String.format("<td>%s</td>", s.getCode()));
          sb.append(String.format("<td>%s</td>", s.getName()));
          sb.append(String.format("<td>%.2f</td>", s.getHighestPrice()));
-         sb.append(String.format("<td>%d</td>", s.getAverageGoldDays()));
+         sb.append(String.format("<td>%d</td>", s.getStockDetail().getHistoryInfo().getAverageGoldDays()));
          sb.append(String.format("<td>%.2f</td>", s.getIncreaseTotal() * 100));
          sb.append("</tr>");
       }

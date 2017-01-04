@@ -41,8 +41,4 @@ public abstract class StrategyFactory {
     * 添加Filter策略连
     */
    protected abstract void addFilterStrategies();
-
-   public enum StrategyCategory {
-      MACD
-   }
 }

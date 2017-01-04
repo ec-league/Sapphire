@@ -53,7 +53,6 @@ public class StockStatisticsServiceImplTest extends BaseTest {
 
          StockStatistics stat = new StockStatistics();
          stat.setIncreaseTotal(stock.getIncreaseTotal());
-         stat.setAverageGoldDays(stock.getAverageGoldDays());
          stat.setCode(code);
          stat.setHighestPrice(stock.getHighestPrice());
          stat.setLastModifyDate(TimeUtil.now());
