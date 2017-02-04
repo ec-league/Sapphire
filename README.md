@@ -1,4 +1,7 @@
 # Sapphire
+=========
+[![Build Status](https://travis-ci.org/ec-league/Sapphire.svg?branch=master)](https://travis-ci.org/ec-league/Sapphire)
+
 ## Info
 This is a project which display some personal infomation.
 ---
