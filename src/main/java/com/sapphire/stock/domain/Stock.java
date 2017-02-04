@@ -1,13 +1,13 @@
 package com.sapphire.stock.domain;
 
+import com.sapphire.common.dto.Dto;
+
 import java.beans.Transient;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sapphire.common.dto.Dto;
 
 
 /**
@@ -439,6 +439,10 @@ public class Stock implements Dto {
 
    public void setStockDetail(StockDetail stockDetail) {
       this.stockDetail = stockDetail;
+   }
+
+   public void setAverageGoldDays(int averageGoldDays) {
+      this.averageGoldDays = averageGoldDays;
    }
 
    private static class StockStatic {
