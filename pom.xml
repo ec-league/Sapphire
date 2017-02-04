@@ -20,11 +20,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>net.ethanpark.common</groupId>
-            <artifactId>AsyncTask</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
         <!-- Spring support -->
         <dependency>
             <groupId>org.springframework</groupId>
