@@ -3,6 +3,11 @@ sudo: false
 
 jdk:
   - oraclejdk8
+services:
+  - mysql
+
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS sapphire;'
 
 install:
   # Compile sources with Java 1.8
@@ -11,3 +16,6 @@ install:
   - ./travis/install.sh
   # Switch back to the original JDK to run the tests
   - jdk_switcher use ${TRAVIS_JDK_VERSION}
+
+script:
+  - ./travis/package.sh
