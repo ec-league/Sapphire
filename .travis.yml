@@ -18,4 +18,6 @@ install:
   - jdk_switcher use ${TRAVIS_JDK_VERSION}
 
 script:
+  - jdk_switcher use oraclejdk8
+  - chmod -R 777 ./travis/package.sh
   - ./travis/package.sh
