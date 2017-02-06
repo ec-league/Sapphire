@@ -7,17 +7,16 @@ services:
   - mysql
 
 before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS sapphire;'
+  - chmod -R 777 ./travis/before_install.sh
+  - ./travis/before_install.sh
 
 install:
   # Compile sources with Java 1.8
   - jdk_switcher use oraclejdk8
   - chmod -R 777 ./travis/install.sh
   - ./travis/install.sh
-  # Switch back to the original JDK to run the tests
-  - jdk_switcher use ${TRAVIS_JDK_VERSION}
 
-script:
-  - jdk_switcher use oraclejdk8
-  - chmod -R 777 ./travis/package.sh
-  - ./travis/package.sh
+#script:
+#  - jdk_switcher use oraclejdk8
+#  - chmod -R 777 ./travis/package.sh
+#  - ./travis/package.sh

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mvn package -DskipTests=true -s settings.xml
+mvn package -s settings.xml
