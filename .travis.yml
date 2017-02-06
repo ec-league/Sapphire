@@ -7,8 +7,13 @@ services:
   - mysql
 
 before_install:
-  - chmod -R 777 ./travis/before_install.sh
-  - ./travis/before_install.sh
+  # Build DB dependency for testd
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS sapphire;'
+  - mysql -e 'USE sapphire;'
+
+  - chmod -R 777 input.sql
+
+  - mysql -e 'source input.sql'
 
 install:
   # Compile sources with Java 1.8
