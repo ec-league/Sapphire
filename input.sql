@@ -1,3 +1,5 @@
+USE sapphire;
+
 DROP TABLE if EXISTS USER;
 
 CREATE TABLE USER
