@@ -19,7 +19,7 @@ install:
   - chmod -R 777 ./travis/install.sh
   - ./travis/install.sh
 
-#script:
-#  - jdk_switcher use oraclejdk8
-#  - chmod -R 777 ./travis/package.sh
-#  - ./travis/package.sh
+script:
+  - jdk_switcher use oraclejdk8
+  - chmod -R 777 ./travis/package.sh
+  - ./travis/package.sh

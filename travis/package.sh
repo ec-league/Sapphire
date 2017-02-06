@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mvn package -s settings.xml -Ptravis
+mvn test -B -s settings.xml -Ptravis
