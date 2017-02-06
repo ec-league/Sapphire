@@ -9,11 +9,9 @@ services:
 before_install:
   # Build DB dependency for testd
   - mysql -e 'CREATE DATABASE IF NOT EXISTS sapphire;'
-  - mysql -e 'USE sapphire;'
-
   - chmod -R 777 input.sql
 
-  - mysql -e 'source input.sql'
+  - mysql -e 'use sapphire;source input.sql'
 
 install:
   # Compile sources with Java 1.8
