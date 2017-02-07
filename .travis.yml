@@ -29,5 +29,3 @@ script:
   - jdk_switcher use oraclejdk8
   - chmod -R 777 ./travis/package.sh
   - ./travis/package.sh
-  - bash <(curl -s https://codecov.io/bash)
-  - sonar-scanner
