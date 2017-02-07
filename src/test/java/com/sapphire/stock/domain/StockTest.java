@@ -1,5 +1,15 @@
 package com.sapphire.stock.domain;
 
+import com.sapphire.BaseTest;
+import com.sapphire.common.TimeUtil;
+import com.sapphire.stock.repository.StockItemRepository;
+import com.sapphire.stock.service.StockService;
+import org.junit.Assert;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.*;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -7,17 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.sapphire.BaseTest;
-import com.sapphire.common.TimeUtil;
-import com.sapphire.stock.repository.StockItemRepository;
-import com.sapphire.stock.service.StockService;
 
 /**
  * Stock Tester.
@@ -115,7 +114,7 @@ public class StockTest extends BaseTest {
    public void construct1() throws Exception {
       Assert.assertNotNull(stockItemRepository);
 
-      if (!stockItemRepository.getCodes().isEmpty())
+      if (stockItemRepository.getCodes().isEmpty())
          return;
 
       System.out.println(TimeUtil.now());
@@ -235,6 +234,9 @@ public class StockTest extends BaseTest {
    @Test
    public void testLast30() {
       List<StockItem> items = stockService.getLast30Stock("000001");
+
+      if (items == null || items.isEmpty())
+         return;
 
       Assert.assertEquals(items.size(), 30);
 

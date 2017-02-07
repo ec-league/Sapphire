@@ -27,6 +27,11 @@
         </profile>
         <profile>
             <id>travis</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
             <properties>
                 <app.config.path>./travis</app.config.path>
             </properties>
