@@ -3,8 +3,14 @@ sudo: false
 
 jdk:
   - oraclejdk8
+
+dist: trusty
+
 services:
   - mysql
+
+addons:
+  sonarqube
 
 before_install:
   # Build DB dependency for testd
@@ -24,3 +30,4 @@ script:
   - chmod -R 777 ./travis/package.sh
   - ./travis/package.sh
   - bash <(curl -s https://codecov.io/bash)
+  - sonar-scanner
