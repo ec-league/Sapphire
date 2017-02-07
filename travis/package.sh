@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mvn test -B -s settings.xml -Ptravis
+mvn clean cobertura:cobertura -s settings.xml -Ptravis -q
