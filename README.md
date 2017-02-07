@@ -1,7 +1,7 @@
 # Sapphire
 =========
 [![Build Status](https://travis-ci.org/ec-league/Sapphire.svg?branch=master)](https://travis-ci.org/ec-league/Sapphire)
-[![Coverage Status](https://coveralls.io/repos/github/ec-league/Sapphire/badge.svg?branch=master)](https://coveralls.io/github/ec-league/Sapphire?branch=master)
+[![codecov](https://codecov.io/gh/ec-league/Sapphire/branch/master/graph/badge.svg)](https://codecov.io/gh/ec-league/Sapphire)
 
 ## Info
 This is a project which display some personal infomation.
