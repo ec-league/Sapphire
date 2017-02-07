@@ -12,9 +12,6 @@ import com.sapphire.stock.constant.IgnoreStockFlag;
 public class IgnoreStock {
    public static final String TABLE_NAME = "IGNORE_STOCK";
 
-   public IgnoreStock() {
-   }
-
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "UIDPK")

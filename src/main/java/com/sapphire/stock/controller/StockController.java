@@ -69,10 +69,7 @@ public class StockController {
       StockStatics stockStatics =
             stockService.getLastMonthStockStaticsByIndustry(industry);
 
-      JsonDto dto =
-            new ListJsonDto<>(stockStatics.getMacdUpZero()).formSuccessDto();
-
-      return dto;
+      return new ListJsonDto<>(stockStatics.getMacdUpZero()).formSuccessDto();
    }
 
    @RequestMapping("/statics/below")
@@ -80,9 +77,7 @@ public class StockController {
    public JsonDto getStaticsBelow() {
       StockStatics stockStatics = stockCache.getStockStatics();
 
-      JsonDto dto = new ListJsonDto<>(stockStatics.pick()).formSuccessDto();
-
-      return dto;
+      return new ListJsonDto<>(stockStatics.pick()).formSuccessDto();
    }
 
    @RequestMapping("/statics/upon")
@@ -90,10 +85,8 @@ public class StockController {
    public JsonDto getStaticsUpon() {
       StockStatics stockStatics = stockCache.getStockStatics();
 
-      JsonDto dto =
+      return
             new ListJsonDto<>(stockStatics.getMacdUpZero()).formSuccessDto();
-
-      return dto;
    }
 
    @RequestMapping("/statics/lowest.ep")
@@ -105,9 +98,7 @@ public class StockController {
 
       update(stocks);
 
-      JsonDto dto = new ListJsonDto<>(stocks).formSuccessDto();
-
-      return dto;
+      return new ListJsonDto<>(stocks).formSuccessDto();
    }
 
    @RequestMapping("/statics/increase.ep")
@@ -118,9 +109,7 @@ public class StockController {
 
       update(stocks);
 
-      JsonDto dto = new ListJsonDto<>(stocks).formSuccessDto();
-
-      return dto;
+      return new ListJsonDto<>(stocks).formSuccessDto();
    }
 
    @RequestMapping("/statics/dead.ep")
@@ -131,9 +120,7 @@ public class StockController {
 
       update(stocks);
 
-      JsonDto dto = new ListJsonDto<>(stocks).formSuccessDto();
-
-      return dto;
+      return new ListJsonDto<>(stocks).formSuccessDto();
    }
 
    @RequestMapping("/statics/gold.ep")
@@ -144,9 +131,7 @@ public class StockController {
 
       update(stocks);
 
-      JsonDto dto = new ListJsonDto<>(stocks).formSuccessDto();
-
-      return dto;
+      return new ListJsonDto<>(stocks).formSuccessDto();
    }
 
    @RequestMapping("/{code}/info.ep")
