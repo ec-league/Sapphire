@@ -23,3 +23,6 @@ script:
   - jdk_switcher use oraclejdk8
   - chmod -R 777 ./travis/package.sh
   - ./travis/package.sh
+
+after_success:
+  - mvn clean cobertura:cobertura coveralls:report -s settings.xml -Ptravis
