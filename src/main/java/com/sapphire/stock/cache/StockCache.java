@@ -33,9 +33,6 @@ public class StockCache implements Cache {
 
    private final Lock lock = new ReentrantLock();
 
-   public StockCache() {
-   }
-
    @PostConstruct
    public void registerCache() {
       CacheService.register(this);
@@ -67,7 +64,7 @@ public class StockCache implements Cache {
       try {
          stockStatics = stat;
       } catch (Exception ex) {
-         logger.error("Init Stock Cache failed!", ex.getMessage());
+         logger.error("Init Stock Cache failed!", ex.getMessage(), ex);
       } finally {
          lock.unlock();
       }
