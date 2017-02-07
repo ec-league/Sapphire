@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mvn package -DskipTests=true -s settings.xml
+mvn test -B -s settings.xml -Ptravis
