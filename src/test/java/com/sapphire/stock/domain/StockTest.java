@@ -31,7 +31,8 @@ import java.util.List;
  */
 public class StockTest extends BaseTest {
 
-   private static final Logger LOGGER = LoggerFactory.getLogger(StockTest.class);
+   private static final Logger LOGGER =
+         LoggerFactory.getLogger(StockTest.class);
 
    @Autowired
    private StockItemRepository stockItemRepository;
@@ -96,7 +97,7 @@ public class StockTest extends BaseTest {
       }
    }
 
-   //   @Test
+   @Test
    public void construct() throws IOException, ParseException {
       String code = "600000";
       Timestamp from = new Timestamp(
