@@ -10,7 +10,9 @@ services:
   - mysql
 
 addons:
-  sonarqube
+  sonarqube:
+    token:
+      secure: "FJi7v4qWQ9cKFp/1ccHAWB/0CSt461XSOa7u+qCMflz6/TdO5QTqNfcE+gj5bIlSByY1M03n7eWKkUP3c9mvKR3bGlXcGb95GPpXJ+nTZQhFYAYyJ5xZxyCbOZfdkFZZ2i5XUm2rtxOxiFtzHpCXnrYZKdaSUk76Fj92Uc1weMBgbRZZOSSbicfROYp+71Yo+VMHpmQ+sqLVj86zvA4bGZS4dAh+sDly2DqeGSN2iV9qpD0wuDL4GxFJJ8UuXrs3qRyhG3TXjyaV2g20zDZ3DMB4eYhh6Ql6Cl5wxcUAzEqEoSmWGCVZ4jtnSd8n9tgDGwlSeNKfBqkf8oxzrp4Uju5VipwrIxKe8D5VtF3HfafA1AE8B1vC9Jk4W1EGUjBXjA2lxoRLJfyEt/PZg+O337Jm+Upk94xQ5BH7m7s/BItuNPgD4ppzt58+rLnPHFqLC3H/2H1kfO6RngE7lma3P+ZeTd6W7oMluhtNSE+lQpKenPOBcYP6Qok8Zf01vMbatB0aFIQ1fWthZ6Qhg7zPQspdHm38nm7ImCmIaUS5ugcphkkNde6j5I0YdyiWOKxcOZNTZtuyX5UtjJT6wMmom0TQ3unYwmUmPllXlPMJSzkA7ZUwI+hUd9ovvIUZlh7UMhSAHVURfT8wVv2SVQAa18jB3myd58L/Yi7rCaDERUM="
 
 before_install:
   # Build DB dependency for testd
@@ -19,11 +21,12 @@ before_install:
 
   - mysql -e 'source input.sql'
 
-install:
-  # Compile sources with Java 1.8
-  - jdk_switcher use oraclejdk8
-  - chmod -R 777 ./travis/install.sh
-  - ./travis/install.sh
+install: true
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
 
 script:
   - jdk_switcher use oraclejdk8
