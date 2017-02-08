@@ -1,7 +1,13 @@
 # Sapphire
+
 =========
+
 [![Build Status](https://travis-ci.org/ec-league/Sapphire.svg?branch=master)](https://travis-ci.org/ec-league/Sapphire)
 [![codecov](https://codecov.io/gh/ec-league/Sapphire/branch/master/graph/badge.svg)](https://codecov.io/gh/ec-league/Sapphire)
+
+=========
+
+[Sonar Link](https://sonarqube.com/dashboard?id=com.sapphire%3Aroot)
 
 ## Info
 This is a project which display some personal infomation.
