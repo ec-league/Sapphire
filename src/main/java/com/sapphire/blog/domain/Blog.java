@@ -18,11 +18,6 @@ import com.sapphire.user.domain.User;
 public class Blog {
    public static final String TABLE_NAME = "BLOG";
 
-   public Blog() {
-      setCreateTime(TimeUtil.now());
-      setLastModifyTime(TimeUtil.now());
-   }
-
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "UIDPK")
@@ -56,6 +51,11 @@ public class Blog {
    @Basic
    @Column(name = "HIT")
    private long blogHit;
+
+   public Blog() {
+      setCreateTime(TimeUtil.now());
+      setLastModifyTime(TimeUtil.now());
+   }
 
    public long getBlogHit() {
       return blogHit;

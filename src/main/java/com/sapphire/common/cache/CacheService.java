@@ -12,16 +12,18 @@ import java.util.concurrent.TimeUnit;
  * Email: byp5303628@hotmail.com
  */
 public class CacheService {
-   public static final long ONE_MINUTE = 60 * 1000;
+   public static final long ONE_MINUTE = 60 * 1000L;
 
-   public static final long ONE_HOUR = 60 * 60 * 1000;
+   public static final long ONE_HOUR = 60 * 60 * 1000L;
 
-   public static final long ONE_DAY = 24 * 60 * 60 * 1000;
+   public static final long ONE_DAY = 24 * 60 * 60 * 1000L;
 
    private static Map<Class<? extends Cache>, Cache> cacheMap = new HashMap<>();
 
    private static ScheduledExecutorService executor = Executors
          .newScheduledThreadPool(1);
+
+   private CacheService(){}
 
    public static void register(Cache cache) {
       cacheMap.put(cache.getClass(), cache);

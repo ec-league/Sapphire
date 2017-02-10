@@ -1,17 +1,5 @@
 package com.sapphire.stock.job.impl;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.jboss.resteasy.client.ClientRequest;
-import org.jboss.resteasy.client.ClientResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.sapphire.common.TimeUtil;
 import com.sapphire.common.annotation.Job;
 import com.sapphire.stock.domain.Stock;
@@ -19,8 +7,17 @@ import com.sapphire.stock.domain.StockItem;
 import com.sapphire.stock.job.SingleThreadJob;
 import com.sapphire.stock.job.StockItemJob;
 import com.sapphire.stock.service.StockService;
+import org.jboss.resteasy.client.ClientRequest;
+import org.jboss.resteasy.client.ClientResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.OptimisticLockException;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: EthanPark <br/>
@@ -30,15 +27,15 @@ import javax.persistence.OptimisticLockException;
 @Job
 public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
 
-   private static final Logger logger = LoggerFactory
-         .getLogger(StockItemJobImpl.class);
+   private static final Logger logger =
+         LoggerFactory.getLogger(StockItemJobImpl.class);
    private static final int MACD_START = 12;
    private static final int MACD_END = 26;
 
    @Autowired
    private StockService stockService;
 
-   private static String URL_FORMAT = "http://hq.sinajs.cn/list=%s%s";
+   private static final String URL_FORMAT = "http://hq.sinajs.cn/list=%s%s";
 
    private void updateStockInternal() {
       logger.info("Update Stock Items Task Begin");
@@ -47,14 +44,9 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
          List<String> codes = stockService.getAllCodes();
 
          for (String code : codes) {
-            logger.info(String.format("Update Stock Code : %s", code));
+            logger.info("Update Stock Code : %s", code);
 
-            try {
-               handleOneStock(code);
-            } catch (Exception e) {
-               logger.error(String.format("Code :\"%s\" Not Updated%n", code), e);
-               continue;
-            }
+            handleOneStock(code);
          }
 
          for (String code : codes) {
@@ -70,47 +62,49 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
       logger.info("Update Stock Item Task Finished!");
    }
 
-   private void handleOneStock(String code) throws Exception {
-      String url = getUrl(code);
-      ClientRequest request = new ClientRequest(url);
-      ClientResponse<String> response = request.get(String.class);
-      BufferedReader br =
-            new BufferedReader(new InputStreamReader(
-                  new ByteArrayInputStream(response.getEntity()
-                        .getBytes())));
-      String output = br.readLine();
+   private void handleOneStock(String code) {
+      try {
+         String url = getUrl(code);
+         ClientRequest request = new ClientRequest(url);
+         ClientResponse<String> response = request.get(String.class);
+         BufferedReader br = new BufferedReader(new InputStreamReader(
+               new ByteArrayInputStream(response.getEntity().getBytes())));
+         String output = br.readLine();
 
-      StockItem item = toDomain(output);
-      item.setCode(code);
+         StockItem item = toDomain(output);
+         item.setCode(code);
 
-      StockItem last = stockService.getLatestStockItemByCode(code);
+         StockItem last = stockService.getLatestStockItemByCode(code);
 
-      if (last.getLogDate().equals(item.getLogDate()))
-         return;
+         if (last.getLogDate().equals(item.getLogDate()))
+            return;
 
-      if (last.isStop()) {
-         last.updateItem(item, MACD_START, MACD_END);
-         stockService.save(last);
-      } else {
-         last.setLast(false);
+         if (last.isStop()) {
+            last.updateItem(item, MACD_START, MACD_END);
+            stockService.save(last);
+         } else {
+            last.setLast(false);
 
-         List<StockItem> items = new ArrayList<>();
-         items.add(last);
-         items.add(item);
+            List<StockItem> items = new ArrayList<>();
+            items.add(last);
+            items.add(item);
 
-         Stock stock = new Stock(items);
+            Stock stock = new Stock(items);
 
-         stock.calculateMacd(MACD_START, MACD_END, false);
+            stock.calculateMacd(MACD_START, MACD_END, false);
 
-         if (item.isStop()) {
-            item.setMacdDea(last.getMacdDea());
-            item.setMacdDiff(last.getMacdDiff());
-            item.setMacd(last.getMacd());
-            item.setEma12(last.getEma12());
-            item.setEma26(last.getEma26());
+            if (item.isStop()) {
+               item.setMacdDea(last.getMacdDea());
+               item.setMacdDiff(last.getMacdDiff());
+               item.setMacd(last.getMacd());
+               item.setEma12(last.getEma12());
+               item.setEma26(last.getEma26());
+            }
+
+            stockService.saveAll(items);
          }
-
-         stockService.saveAll(items);
+      } catch (Exception ex) {
+         logger.error(String.format("Code :\"%s\" Not Updated%n", code), ex);
       }
    }
 
@@ -145,8 +139,8 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
       item.setEma12(item.getEndPrice());
       item.setEma26(item.getEndPrice());
       if (!item.isStop())
-         item.setIncreaseRate((item.getEndPrice()
-               / Double.parseDouble(datas[2]) - 1) * 100);
+         item.setIncreaseRate(
+               (item.getEndPrice() / Double.parseDouble(datas[2]) - 1) * 100);
       else {
          item.setStartPrice(item.getEndPrice());
          item.setHighestPrice(item.getEndPrice());
@@ -157,11 +151,6 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
 
    @Override
    public void updateStock() {
-      submit(new Runnable() {
-         @Override
-         public void run() {
-            updateStockInternal();
-         }
-      });
+      submit(this::updateStockInternal);
    }
 }

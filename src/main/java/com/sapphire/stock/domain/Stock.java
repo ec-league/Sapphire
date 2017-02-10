@@ -14,8 +14,7 @@ import java.util.List;
  * Created by Ethan on 2016/3/30.
  */
 public class Stock implements Dto {
-   private List<StockItem> stockItems;
-   private int averageGoldDays;
+   private transient List<StockItem> stockItems;
    private double increaseTotal;
    private double highestPrice;
    private double endPrice;
@@ -49,6 +48,9 @@ public class Stock implements Dto {
 
    private boolean stop;
 
+   /**
+    * Used when construct a item only with setter method.
+    */
    public Stock() {
    }
 
@@ -108,16 +110,12 @@ public class Stock implements Dto {
          stockItems.get(i).setMacdDiff(
                stockItems.get(i).getEma12() - stockItems.get(i).getEma26());
 
-         stockItems.get(i).setMacdDea(
-               stockItems.get(i - 1).getMacdDea() * 0.8
-                     + stockItems.get(i).getMacdDiff() * 0.2);
-         stockItems.get(i)
-               .setMacd(
-                     stockItems.get(i).getMacdDiff()
-                           - stockItems.get(i).getMacdDea());
-         stockItems.get(i).setIncreaseRate(
-               (stockItems.get(i).getEndPrice()
-                     / stockItems.get(i - 1).getEndPrice() - 1) * 100);
+         stockItems.get(i).setMacdDea(stockItems.get(i - 1).getMacdDea() * 0.8
+               + stockItems.get(i).getMacdDiff() * 0.2);
+         stockItems.get(i).setMacd(stockItems.get(i).getMacdDiff()
+               - stockItems.get(i).getMacdDea());
+         stockItems.get(i).setIncreaseRate((stockItems.get(i).getEndPrice()
+               / stockItems.get(i - 1).getEndPrice() - 1) * 100);
       }
    }
 
@@ -139,7 +137,7 @@ public class Stock implements Dto {
          }
       }
 
-      averageIncreaseRate = plusCount * 1.0 / count;
+      averageIncreaseRate = count == 0 ? 1 : plusCount * 1.0 / count;
    }
 
    public int macdPlusCount(String dateFrom, String dateTo)
@@ -162,10 +160,9 @@ public class Stock implements Dto {
     * @return
     */
    private static double goldPrice(StockItem lastItem) {
-      double price =
-            (76 * 17.0) / (19 * 11) * lastItem.getEma26() - 57.0 / 11
-                  * lastItem.getEma12() + 76.0 / 11 * lastItem.getMacdDea();
-      return price;
+      return  (76 * 17.0) / (19 * 11) * lastItem.getEma26()
+            - 57.0 / 11 * lastItem.getEma12()
+            + 76.0 / 11 * lastItem.getMacdDea();
    }
 
    /**
@@ -196,20 +193,20 @@ public class Stock implements Dto {
       setIncreaseTotal(origin);
 
       int average = 0;
-      if (statics.size() != 0)
+      if (!statics.isEmpty())
          average = days / statics.size();
       stockDetail.getHistoryInfo().setAverageGoldDays(average);
       if (statics.isEmpty())
          return;
       setFirstDiff(statics.get(0).getFirstDiff());
 
-      double highestPrice = 0;
-      for (StockItem item : stockItems){
-         if (item.getHighestPrice() > highestPrice)
-            highestPrice = item.getHighestPrice();
+      double highPrice = 0;
+      for (StockItem item : stockItems) {
+         if (item.getHighestPrice() > highPrice)
+            highPrice = item.getHighestPrice();
       }
 
-      setHighestPrice(highestPrice);
+      setHighestPrice(highPrice);
    }
 
    public int macdTotalCount(String dateFrom, String dateTo)
@@ -254,11 +251,9 @@ public class Stock implements Dto {
          complexItems.add(tempList);
       }
 
-      if (!complexItems.isEmpty()) {
-         if (complexItems.get(0).get(0).getLogDate()
-               .equals(items.get(0).getLogDate())) {
-            complexItems = complexItems.subList(1, complexItems.size());
-         }
+      if (!complexItems.isEmpty() && complexItems.get(0).get(0).getLogDate()
+            .equals(items.get(0).getLogDate())) {
+         complexItems = complexItems.subList(1, complexItems.size());
       }
 
       List<StockStatic> statics = new ArrayList<>();
@@ -272,8 +267,8 @@ public class Stock implements Dto {
          stockStatic.setIsOverZero(start.getMacdDiff() > 0);
          stockStatic.setConsistDays(list.size());
          stockStatic.setFirstDiff(start.getMacdDiff());
-         stockStatic
-               .setIncreaseRate((end.getEndPrice() / start.getEndPrice() - 1) * 100);
+         stockStatic.setIncreaseRate(
+               (end.getEndPrice() / start.getEndPrice() - 1) * 100);
          statics.add(stockStatic);
       }
 
@@ -308,9 +303,9 @@ public class Stock implements Dto {
 
    public void update(StockStatistics statistics) {
       stockDetail.setHistoryInfo(new HistoryInfo());
-      stockDetail.getHistoryInfo().setHighestPrice(statistics.getHighestPrice());
+      stockDetail.getHistoryInfo()
+            .setHighestPrice(statistics.getHighestPrice());
       increaseTotal = statistics.getIncreaseTotal();
-      averageGoldDays = statistics.getAverageGoldDays();
       lowestMacd = statistics.getLowestMacd();
       firstDiff = stockItems.get(stockItems.size() - 1).getMacdDiff();
    }
@@ -328,7 +323,7 @@ public class Stock implements Dto {
    }
 
    public double getIncreaseFromStart() {
-      if (stockItems == null || stockItems.size() == 0)
+      if (stockItems == null || stockItems.isEmpty())
          return 0d;
       double start = stockItems.get(0).getEndPrice();
       double end = stockItems.get(stockItems.size() - 1).getEndPrice();
@@ -439,10 +434,6 @@ public class Stock implements Dto {
 
    public void setStockDetail(StockDetail stockDetail) {
       this.stockDetail = stockDetail;
-   }
-
-   public void setAverageGoldDays(int averageGoldDays) {
-      this.averageGoldDays = averageGoldDays;
    }
 
    private static class StockStatic {

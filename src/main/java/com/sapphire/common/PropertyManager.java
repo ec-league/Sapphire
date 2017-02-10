@@ -19,30 +19,34 @@ import java.util.*;
  * APP_CONFIG_PATH's property will overwrite the property in war package. Which
  * means, if there are property keys conflict, the APP_CONFIG_PATH's property
  * will work. <br />
- * TODO: Use filter to avoid property overwriting.
  */
 public class PropertyManager {
-   private static final Logger LOGGER = LoggerFactory
-         .getLogger(PropertyManager.class);
-   private static Map<String, String> map = new HashMap<String, String>();
+   private static final Logger LOGGER =
+         LoggerFactory.getLogger(PropertyManager.class);
+   private static Map<String, String> map = new HashMap<>();
+   private static final Object lock = new Object();
+
+   private PropertyManager() {
+
+   }
 
    public static void load(Class c) {
       LOGGER.info("Init the Property");
-      synchronized (map) {
+      synchronized (lock) {
          initFromResource(c);
          initFromAppConfig();
       }
    }
 
    public static void destroy() {
-      synchronized (map) {
-         map = new HashMap<String, String>();
+      synchronized (lock) {
+         map = new HashMap<>();
       }
    }
 
    public static void reload(Class c) {
-      synchronized (map) {
-         map = new HashMap<String, String>();
+      synchronized (lock) {
+         map = new HashMap<>();
          initFromResource(c);
          initFromAppConfig();
       }
@@ -55,7 +59,7 @@ public class PropertyManager {
 
    private static Map<String, String> initFromProperty(String path) {
       List<File> files = getPropertyFiles(path);
-      Map<String, String> tempMap = new HashMap<String, String>();
+      Map<String, String> tempMap = new HashMap<>();
       for (File f : files) {
          Properties properties = new Properties();
          try {
@@ -80,8 +84,8 @@ public class PropertyManager {
       if (map.containsKey(key)) {
          return map.get(key).trim();
       } else {
-         throw new PropertyNotFoundException(String.format(
-               "Property \"%s\" does not exist.", key));
+         throw new PropertyNotFoundException(
+               String.format("Property \"%s\" does not exist.", key));
       }
    }
 
@@ -90,7 +94,7 @@ public class PropertyManager {
          return Collections.emptyList();
       }
       File dir = new File(path);
-      List<File> fileList = new ArrayList<File>();
+      List<File> fileList = new ArrayList<>();
       File[] files = dir.listFiles();
       if (files == null) {
          return Collections.emptyList();
@@ -106,9 +110,9 @@ public class PropertyManager {
    private static void updateMap(Map<String, String> tempMap) {
       for (Map.Entry<String, String> entry : tempMap.entrySet()) {
          if (map.containsKey(entry.getKey())) {
-            LOGGER.warn(String.format(
+            LOGGER.warn(
                   "Key \"%s\" is overwrote, origin is \"%s\", now is \"%s\"",
-                  entry.getKey(), map.get(entry.getKey()), entry.getValue()));
+                  entry.getKey(), map.get(entry.getKey()), entry.getValue());
          }
          map.put(entry.getKey(), entry.getValue());
       }

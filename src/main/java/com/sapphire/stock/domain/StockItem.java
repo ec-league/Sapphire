@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import javax.persistence.*;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -15,96 +17,9 @@ import org.apache.commons.lang3.StringUtils;
 @Entity
 @Table(name = StockItem.TABLE_NAME)
 public class StockItem {
+   private static final Logger logger = LoggerFactory.getLogger(StockItem.class);
    public static final String TABLE_NAME = "STOCK_ITEM";
    private static final String FORMAT = "MM/dd/yyyy";
-
-   public StockItem() {
-      setEma12(getEndPrice());
-      setEma26(getEndPrice());
-      setIndustry("");
-   }
-
-   public StockItem(String line) {
-      String[] lines = line.split("\t");
-
-      try {
-         setLogDate(new Timestamp(new SimpleDateFormat(FORMAT).parse(lines[0])
-               .getTime()));
-      } catch (ParseException e) {
-         e.printStackTrace();
-      }
-      setStartPrice(Double.parseDouble(lines[1]));
-      setHighestPrice(Double.parseDouble(lines[2]));
-      setLowestPrice(Double.parseDouble(lines[3]));
-      setEndPrice(Double.parseDouble(lines[4]));
-      setTrading(Double.parseDouble(lines[5]));
-      setTradingValue(Double.parseDouble(lines[6]));
-
-      setEma12(getEndPrice());
-      setEma26(getEndPrice());
-      setIndustry("");
-   }
-
-   public static StockItem makeStockItemFromAll(String line) {
-      return new StockItem(line);
-   }
-
-   /**
-    * 更新原来的StockItem，如果新的Item是停牌的，则只更新日期
-    * 
-    * @param item
-    */
-   public void updateItem(StockItem item, int small, int big) {
-      setLogDate(item.getLogDate());
-      if (item.isStop()) {
-         return;
-      }
-
-      setStartPrice(item.getStartPrice());
-      setEndPrice(item.getEndPrice());
-      setHighestPrice(item.getHighestPrice());
-      setLowestPrice(item.getLowestPrice());
-      setIncreaseRate(item.getIncreaseRate());
-
-      setTrading(item.getTrading());
-      setTradingValue(item.getTradingValue());
-
-      setStop(false);
-
-      setEma12(getEma12() * (small - 1) / (small + 1) + item.getEma12() * 2
-            / (small + 1));
-      setEma26(getEma26() * (big - 1) / (big + 1) + item.getEma26() * 2
-            / (big + 1));
-      setMacdDiff(getEma12() - getEma26());
-      setMacdDea(getMacdDea() * 0.8 + getMacdDiff() * 0.2);
-      setMacd(getMacdDiff() - getMacdDea());
-   }
-
-   public static StockItem makeStockItemFromDaily(String line) {
-      if (StringUtils.isEmpty(line)) {
-         return null;
-      }
-      String[] lines = line.replaceAll("\t\t", "\t").split("\t");
-      StockItem item = new StockItem();
-      item.setCode(lines[0].substring(2));
-      item.setName(lines[1]);
-      if (!lines[4].equals("--")) {
-         item.setEndPrice(Double.parseDouble(lines[4]));
-         item.setStartPrice(Double.parseDouble(lines[13]));
-         item.setHighestPrice(Double.parseDouble(lines[15]));
-         item.setLowestPrice(Double.parseDouble(lines[16]));
-         item.setIncreaseRate((item.getEndPrice() / item.getStartPrice() - 1) * 100);
-         item.setTradingValue(Double.parseDouble(lines[25]));
-         item.setEma12(item.getEndPrice());
-         item.setEma26(item.getEndPrice());
-         if (!lines[32].equals("--"))
-            item.setCirculationMarketValue(Double.parseDouble(lines[32]));
-      } else {
-         return null;
-      }
-      item.setIndustry(lines[11]);
-      return item;
-   }
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -192,6 +107,95 @@ public class StockItem {
 
    @Column(name = "IS_NEW")
    private boolean newStock;
+
+   public StockItem() {
+      setEma12(getEndPrice());
+      setEma26(getEndPrice());
+      setIndustry("");
+   }
+
+   public StockItem(String line) {
+      String[] lines = line.split("\t");
+
+      try {
+         setLogDate(new Timestamp(new SimpleDateFormat(FORMAT).parse(lines[0])
+               .getTime()));
+      } catch (ParseException e) {
+         logger.error("Parse Date Failed", e);
+         return;
+      }
+      setStartPrice(Double.parseDouble(lines[1]));
+      setHighestPrice(Double.parseDouble(lines[2]));
+      setLowestPrice(Double.parseDouble(lines[3]));
+      setEndPrice(Double.parseDouble(lines[4]));
+      setTrading(Double.parseDouble(lines[5]));
+      setTradingValue(Double.parseDouble(lines[6]));
+
+      setEma12(getEndPrice());
+      setEma26(getEndPrice());
+      setIndustry("");
+   }
+
+   public static StockItem makeStockItemFromAll(String line) {
+      return new StockItem(line);
+   }
+
+   /**
+    * 更新原来的StockItem，如果新的Item是停牌的，则只更新日期
+    * 
+    * @param item
+    */
+   public void updateItem(StockItem item, int small, int big) {
+      setLogDate(item.getLogDate());
+      if (item.isStop()) {
+         return;
+      }
+
+      setStartPrice(item.getStartPrice());
+      setEndPrice(item.getEndPrice());
+      setHighestPrice(item.getHighestPrice());
+      setLowestPrice(item.getLowestPrice());
+      setIncreaseRate(item.getIncreaseRate());
+
+      setTrading(item.getTrading());
+      setTradingValue(item.getTradingValue());
+
+      setStop(false);
+
+      setEma12(getEma12() * (small - 1) / (small + 1) + item.getEma12() * 2
+            / (small + 1));
+      setEma26(getEma26() * (big - 1) / (big + 1) + item.getEma26() * 2
+            / (big + 1));
+      setMacdDiff(getEma12() - getEma26());
+      setMacdDea(getMacdDea() * 0.8 + getMacdDiff() * 0.2);
+      setMacd(getMacdDiff() - getMacdDea());
+   }
+
+   public static StockItem makeStockItemFromDaily(String line) {
+      if (StringUtils.isEmpty(line)) {
+         return null;
+      }
+      String[] lines = line.replaceAll("\t\t", "\t").split("\t");
+      StockItem item = new StockItem();
+      item.setCode(lines[0].substring(2));
+      item.setName(lines[1]);
+      if (!"--".equals(lines[4])) {
+         item.setEndPrice(Double.parseDouble(lines[4]));
+         item.setStartPrice(Double.parseDouble(lines[13]));
+         item.setHighestPrice(Double.parseDouble(lines[15]));
+         item.setLowestPrice(Double.parseDouble(lines[16]));
+         item.setIncreaseRate((item.getEndPrice() / item.getStartPrice() - 1) * 100);
+         item.setTradingValue(Double.parseDouble(lines[25]));
+         item.setEma12(item.getEndPrice());
+         item.setEma26(item.getEndPrice());
+         if (!"--".equals(lines[32]))
+            item.setCirculationMarketValue(Double.parseDouble(lines[32]));
+      } else {
+         return null;
+      }
+      item.setIndustry(lines[11]);
+      return item;
+   }
 
    public boolean isNewStock() {
       return newStock;

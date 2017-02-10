@@ -7,6 +7,6 @@ package com.sapphire.common.cache;
  */
 public class CacheNotExistException extends RuntimeException {
    public CacheNotExistException(String msg) {
-      super(String.format("Cache : \"%s\" Does Not Exist!"));
+      super(String.format("Cache : \"%s\" Does Not Exist!", msg));
    }
 }
