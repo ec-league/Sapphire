@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Stock List Page</title>
-    <link rel="stylesheet" media="screen" href="../../css/common/bootstrap.min.css">
-    <link rel="stylesheet" media="screen" href="../../css/common/bootstrap-theme.min.css">
-    <link rel="stylesheet" media="screen" href="../../css/common/mycommon.css">
+    <link rel="stylesheet" media="screen" href="../../sapphire/css/common/bootstrap.min.css">
+    <link rel="stylesheet" media="screen" href="../../sapphire/css/common/bootstrap-theme.min.css">
+    <link rel="stylesheet" media="screen" href="../../sapphire/css/common/mycommon.css">
     <style>
         nav {
             font-size: 250%;
@@ -97,14 +97,14 @@
     </div>
 </div>
 </body>
-<script src="../../js/framework/jquery-1.11.3.js"></script>
-<script src="../../js/framework/bootstrap.min.js"></script>
+<script src="../../sapphire/js/framework/jquery-1.11.3.js"></script>
+<script src="../../sapphire/js/framework/bootstrap.min.js"></script>
 <script type="text/javascript">
     var stock = {
-        goldUrl: "/stock/statics/gold.ep",
-        deadUrl: "/stock/statics/dead.ep",
-        increaseUrl: "/stock/statics/increase.ep",
-        lowestUrl: "/stock/statics/lowest.ep",
+        goldUrl: "/sapphire/stock/statics/gold.ep",
+        deadUrl: "/sapphire/stock/statics/dead.ep",
+        increaseUrl: "/sapphire/stock/statics/increase.ep",
+        lowestUrl: "/sapphire/stock/statics/lowest.ep",
         renderTable: function (data) {
             var tableFrame = $("#stock-table");
             tableFrame.html("");
@@ -180,7 +180,7 @@
 
             $("#refreshItem").click(function () {
                 $.ajax({
-                    url: "/stock/data/update/item.ep",
+                    url: "/sapphire/stock/data/update/item.ep",
                     headers: {
                         "Accept": "application/json",
                         "Content-type": "application/json"
@@ -197,7 +197,7 @@
 
             $("#refreshStat").click(function () {
                 $.ajax({
-                    url: "/stock/data/update/stat.ep",
+                    url: "/sapphire/stock/data/update/stat.ep",
                     headers: {
                         "Accept": "application/json",
                         "Content-type": "application/json"

@@ -47,7 +47,7 @@ public class StockServiceImpl implements StockService {
       if (stat != null) {
          stock.setIncreaseTotal(stat.getIncreaseTotal());
          stock.setHighestPrice(stat.getHighestPrice());
-         stock.setAverageGoldDays(stat.getAverageGoldDays());
+//         stock.setAverageGoldDays(stat.getAverageGoldDays());
       }
 
       return stock;

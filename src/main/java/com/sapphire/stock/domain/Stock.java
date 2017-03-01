@@ -19,8 +19,8 @@ public class Stock implements Dto {
    private double highestPrice;
    private double endPrice;
    private String name;
-   private double targetPrice;
    private boolean goldPossible;
+   private double averageGoldDays;
 
    /**
     * Stock中的一些具体信息
@@ -181,7 +181,19 @@ public class Stock implements Dto {
    }
 
    public void process() {
+
+      if (stockItems.isEmpty())
+         return;
+
       List<StockStatic> statics = group(stockItems);
+      StockItem lastItem = stockItems.get(stockItems.size() - 1);
+
+      setCurrentMacd(lastItem.getMacd());
+      setGoldPossible(isGoldPossible(lastItem));
+      setStop(lastItem.isStop());
+      setCurrentDiff(lastItem.getMacdDiff());
+      setEndPrice(lastItem.getEndPrice());
+
 
       double origin = 1.0;
       int days = 0;
@@ -193,20 +205,40 @@ public class Stock implements Dto {
       setIncreaseTotal(origin);
 
       int average = 0;
-      if (!statics.isEmpty())
-         average = days / statics.size();
-      stockDetail.getHistoryInfo().setAverageGoldDays(average);
       if (statics.isEmpty())
          return;
-      setFirstDiff(statics.get(0).getFirstDiff());
+
+      average = days / statics.size();
+      setAverageGoldDays(average);
 
       double highPrice = 0;
+      double lowest = 0;
       for (StockItem item : stockItems) {
          if (item.getHighestPrice() > highPrice)
             highPrice = item.getHighestPrice();
+
+         if (item.getMacd() < lowest)
+            lowest = item.getMacd();
       }
 
       setHighestPrice(highPrice);
+      setLowestMacd(lowest);
+   }
+
+   public double getAverageGoldDays() {
+      return averageGoldDays;
+   }
+
+   public void setAverageGoldDays(double averageGoldDays) {
+      this.averageGoldDays = averageGoldDays;
+   }
+
+   public void setGoldPossible(boolean goldPossible) {
+      this.goldPossible = goldPossible;
+   }
+
+   public void setStop(boolean stop) {
+      this.stop = stop;
    }
 
    public int macdTotalCount(String dateFrom, String dateTo)
@@ -297,7 +329,6 @@ public class Stock implements Dto {
       currentMacd = last.getMacd();
       currentDiff = last.getMacdDiff();
       stop = last.isStop();
-      targetPrice = goldPrice(last);
       goldPossible = isGoldPossible(last);
    }
 
@@ -331,13 +362,6 @@ public class Stock implements Dto {
       return (end - start) / start * 100;
    }
 
-   public boolean isNewStock() {
-      return stockItems.get(stockItems.size() - 1).isNewStock();
-   }
-
-   public double getTargetPrice() {
-      return targetPrice;
-   }
 
    @Transient
    public List<StockItem> getStockItems() {

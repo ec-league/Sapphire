@@ -15,13 +15,11 @@ public class StockStatistics {
    public static final String TABLE_NAME = "STOCK_STATISTICS";
 
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   @Column(name = "UIDPK")
-   private long uidPk;
-
-   @Basic
    @Column(name = "CODE")
    private String code;
+
+   @Column(name = "NAME")
+   private String name;
 
    @Column(name = "AVERAGE_GOLD_DAYS")
    private int averageGoldDays;
@@ -39,27 +37,67 @@ public class StockStatistics {
    @Column(name = "LAST_MODIFY_DATE")
    private Timestamp lastModifyDate;
 
-   /**
-    * 股票最早出现的日期
-    */
-   @Temporal(TemporalType.DATE)
-   @Column(name = "EARLY_DATE")
-   private Timestamp earlyDate;
+   @Column(name = "IS_STOP")
+   private boolean stop;
 
-   public Timestamp getEarlyDate() {
-      return earlyDate;
+   @Column(name = "IS_GOLD_POSSIBLE")
+   private boolean goldPossible;
+
+   @Column(name = "CURRENT_MACD", precision = 11, scale = 6)
+   private double currentMacd;
+
+   @Column(name = "CURRENT_PRICE", precision = 7, scale = 2)
+   private double currentPrice;
+
+   @Column(name = "CURRENT_DIFF", precision = 11, scale = 6)
+   private double currentDiff;
+
+   public double getCurrentDiff() {
+      return currentDiff;
    }
 
-   public void setEarlyDate(Timestamp earlyDate) {
-      this.earlyDate = earlyDate;
+   public void setCurrentDiff(double currentDiff) {
+      this.currentDiff = currentDiff;
    }
 
-   public long getUidPk() {
-      return uidPk;
+   public String getName() {
+      return name;
    }
 
-   public void setUidPk(long uidPk) {
-      this.uidPk = uidPk;
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public boolean isStop() {
+      return stop;
+   }
+
+   public void setStop(boolean stop) {
+      this.stop = stop;
+   }
+
+   public boolean isGoldPossible() {
+      return goldPossible;
+   }
+
+   public void setGoldPossible(boolean goldPossible) {
+      this.goldPossible = goldPossible;
+   }
+
+   public double getCurrentMacd() {
+      return currentMacd;
+   }
+
+   public void setCurrentMacd(double currentMacd) {
+      this.currentMacd = currentMacd;
+   }
+
+   public double getCurrentPrice() {
+      return currentPrice;
+   }
+
+   public void setCurrentPrice(double currentPrice) {
+      this.currentPrice = currentPrice;
    }
 
    public String getCode() {

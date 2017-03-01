@@ -119,9 +119,24 @@ public class StockTest extends BaseTest {
          return;
 
       System.out.println(TimeUtil.now());
-      File dir = new File("/Users/ethan/Desktop/export");
+      String path = "";
 
-      for (File f : dir.listFiles()) {
+      String osname = System.getProperty("os.name");
+
+      if (osname.contains("windows")){
+         path = "C:\\Users\\Ethan\\Desktop\\script\\export";
+      } else {
+         path = "/Users/ethan/Desktop/export";
+      }
+
+      File dir = new File(path);
+
+      File[] files = dir.listFiles();
+
+      if (files == null)
+         return;
+
+      for (File f : files) {
          handleOneStock(f);
       }
    }

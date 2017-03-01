@@ -13,10 +13,7 @@ import com.sapphire.stock.domain.StockStatistics;
  * Email: byp5303628@hotmail.com
  */
 public interface StockStatisticsRepository extends
-      JpaRepository<StockStatistics, Long> {
-
-   @Query(value = "SELECT UIDPK from STOCK_STATISTICS WHERE CODE = ?1", nativeQuery = true)
-   Long findStatByCode(String code);
+      JpaRepository<StockStatistics, String> {
 
    @Query(value = "SELECT CODE FROM STOCK_STATISTICS ORDER BY INCREASE_TOTAL DESC LIMIT 200", nativeQuery = true)
    List<String> findByIncrease();

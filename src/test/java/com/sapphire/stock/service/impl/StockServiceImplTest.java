@@ -20,7 +20,7 @@ import com.sapphire.stock.service.StockService;
 
 /**
  * StockServiceImpl Tester.
- * 
+ *
  * @author EthanPark
  * @since <pre>
  * ���� 2, 2016
@@ -93,41 +93,6 @@ public class StockServiceImplTest extends BaseTest {
       System.out.printf("Total All     : %d%n", totalCount);
       System.out
             .printf("Frequency     : %s%n", successCount * 1.0 / totalCount);
-   }
-
-   //   @Test
-   public void output1() throws ParseException {
-      List<String> codes = stockService.getAllCodes();
-
-      String dateFrom = "07/20/2015";
-      String dateTo = "09/10/2015";
-      Timestamp from =
-            new Timestamp(new SimpleDateFormat("MM/dd/yyyy").parse(dateFrom)
-                  .getTime());
-      Timestamp to =
-            new Timestamp(new SimpleDateFormat("MM/dd/yyyy").parse(dateTo)
-                  .getTime());
-
-      List<Stock> stocks = new ArrayList<>(3000);
-      for (String code : codes) {
-         Stock stock = stockService.getStockByCodeAndTime(code, from, to);
-
-         if (stock == null) {
-            continue;
-         }
-
-         stock.process();
-         stocks.add(stock);
-      }
-
-      stocks.sort((o1, o2) -> (int) (o1.getIncreaseTotal() * 100 - o2
-            .getIncreaseTotal() * 100));
-
-      for (int i = 0; i < 50; i++) {
-         System.out.printf("Code : %s, Increase : %s, Diff: %s%n", stocks
-               .get(i).getCode(), stocks.get(i).getIncreaseTotal(),
-               stocks.get(i).getFirstDiff());
-      }
    }
 
    /**

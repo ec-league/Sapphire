@@ -21,26 +21,13 @@ public class StockStatisticsServiceImpl implements StockStatisticsService {
 
    @Override
    public void update(List<StockStatistics> stats) {
-      for (StockStatistics stat : stats) {
-         Long uidPk = stockStatisticsRepository.findStatByCode(stat.getCode());
-         if (uidPk == null) {
-            continue;
-         }
-         stat.setUidPk(uidPk);
-      }
-
       stockStatisticsRepository.save(stats);
    }
 
    @Override
    public void update(StockStatistics stat) {
-      if (stat == null)
+      if (stat == null || "".equals(stat.getCode()))
          return;
-
-      Long uidPk = stockStatisticsRepository.findStatByCode(stat.getCode());
-      if (uidPk != null) {
-         stat.setUidPk(uidPk);
-      }
 
       stockStatisticsRepository.save(stat);
    }

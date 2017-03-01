@@ -30,7 +30,7 @@ public class StockStatisticJobImpl extends SingleThreadJob implements
    @Autowired
    private StockService stockService;
 
-   @Autowired
+   @Ash utowired
    private StockStatisticsService statisticsService;
 
    @Override
@@ -65,15 +65,19 @@ public class StockStatisticJobImpl extends SingleThreadJob implements
       if (stock == null)
          return;
 
-      stock.process();
-
       StockStatistics stat = new StockStatistics();
-      stat.setIncreaseTotal(stock.getIncreaseTotal());
-      stat.setAverageGoldDays(stock.getStockDetail().getHistoryInfo().getAverageGoldDays());
       stat.setCode(code);
+      stat.setName(stock.getName());
+      stat.setAverageGoldDays((int) stock.getAverageGoldDays());
+      stat.setIncreaseTotal(stock.getIncreaseTotal());
       stat.setHighestPrice(stock.getHighestPrice());
       stat.setLastModifyDate(TimeUtil.now());
       stat.setLowestMacd(stock.getLowestMacd());
+      stat.setStop(stock.isStop());
+      stat.setGoldPossible(stock.isGoldPossible());
+      stat.setCurrentMacd(stock.getCurrentMacd());
+      stat.setCurrentPrice(stock.getEndPrice());
+      stat.setCurrentDiff(stock.getCurrentDiff());
 
       statisticsService.update(stat);
    }

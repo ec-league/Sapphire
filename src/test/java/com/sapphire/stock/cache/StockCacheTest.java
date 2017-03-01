@@ -35,28 +35,6 @@ public class StockCacheTest extends BaseTest {
    private StockStatisticsService stockStatisticsService;
 
    //   @Test
-   public void updateStatistics() {
-      List<String> codes = stockService.getAllCodes();
-      List<StockStatistics> stats = new ArrayList<>(codes.size());
-
-      for (String code : codes) {
-         Stock stock = stockService.getStockByCode(code);
-
-         stock.process();
-
-         StockStatistics stat = new StockStatistics();
-         stat.setIncreaseTotal(stock.getIncreaseTotal());
-         stat.setAverageGoldDays(stock.getStockDetail().getHistoryInfo().getAverageGoldDays());
-         stat.setCode(code);
-         stat.setHighestPrice(stock.getHighestPrice());
-         stat.setLastModifyDate(TimeUtil.now());
-         stat.setLowestMacd(stock.getLowestMacd());
-         stats.add(stat);
-      }
-      stockStatisticsService.update(stats);
-   }
-
-   //   @Test
    public void outputIncreaseTop100ThisMonth() throws EmailException {
       List<Stock> stocks = stockCache.getStockStatics().getIncreaseTop100();
 
