@@ -26,3 +26,10 @@ Developing environment：
 
 ## Home link
 Home link is [HemerdingerPark](http://www.heimerdingerpark.com:8100)
+
+## 待完成任务
+
+* macd数据订正
+* 虚拟交易数据
+* 云服务器部署
+* 钉钉机器人
