@@ -13,6 +13,6 @@ import com.sapphire.manage.domain.Project;
  * Email: byp5303628@hotmail.com
  */
 public interface ProjectRepository extends CrudRepository<Project, Long> {
-   @Query("select p from Project as p order by p.uidPk")
-   List<Project> getAllProjects();
+    @Query("select p from Project as p order by p.uidPk")
+    List<Project> getAllProjects();
 }

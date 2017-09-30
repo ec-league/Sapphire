@@ -14,9 +14,9 @@ import com.sapphire.blog.domain.BlogTag;
  */
 public interface BlogTagRepository extends CrudRepository<BlogTag, Long> {
 
-   @Query("select t from BlogTag as t where t.tagName = ?1")
-   List<BlogTag> getBlogTagsByTagName(String tagName);
+    @Query("select t from BlogTag as t where t.tagName = ?1")
+    List<BlogTag> getBlogTagsByTagName(String tagName);
 
-   @Query("select t from BlogTag as t where t.blogId = ?1")
-   List<BlogTag> getBlogTagsByBlogId(long blogId);
+    @Query("select t from BlogTag as t where t.blogId = ?1")
+    List<BlogTag> getBlogTagsByBlogId(long blogId);
 }

@@ -14,12 +14,12 @@ import com.sapphire.manage.domain.Ticket;
  * Email: byp5303628@hotmail.com
  */
 public interface TicketRepository extends CrudRepository<Ticket, Long> {
-   @Query("select t from Ticket as t where t.project.uidPk = :projectId")
-   List<Ticket> getTicketsByProjectId(@Param("projectId") long projectId);
+    @Query("select t from Ticket as t where t.project.uidPk = :projectId")
+    List<Ticket> getTicketsByProjectId(@Param("projectId") long projectId);
 
-   @Query("select t from Ticket as t where t.assignUser.uidPk = :userId")
-   List<Ticket> getTicketsByAssignUserId(@Param("userId") long userId);
+    @Query("select t from Ticket as t where t.assignUser.uidPk = :userId")
+    List<Ticket> getTicketsByAssignUserId(@Param("userId") long userId);
 
-   @Query("select t from Ticket as t where t.createUser.uidPk = :userId")
-   List<Ticket> getTicketsByReportUserId(@Param("userId") long userId);
+    @Query("select t from Ticket as t where t.createUser.uidPk = :userId")
+    List<Ticket> getTicketsByReportUserId(@Param("userId") long userId);
 }

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/user")
 public class UserPageControllerImpl {
-   @RequestMapping("/user-info.html")
-   public String userInfoPage() {
-      return "user-info";
-   }
+    @RequestMapping("/user-info.html")
+    public String userInfoPage() {
+        return "user-info";
+    }
 }

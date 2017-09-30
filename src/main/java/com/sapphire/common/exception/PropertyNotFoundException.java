@@ -6,7 +6,7 @@ package com.sapphire.common.exception;
  * Email: byp5303628@hotmail.com
  */
 public class PropertyNotFoundException extends RuntimeException {
-   public PropertyNotFoundException(String msg) {
-      super(msg);
-   }
+    public PropertyNotFoundException(String msg) {
+        super(msg);
+    }
 }

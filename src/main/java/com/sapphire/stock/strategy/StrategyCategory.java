@@ -6,5 +6,5 @@ package com.sapphire.stock.strategy;
  * Email: byp5303628@hotmail.com
  */
 public enum StrategyCategory {
-   MACD
+                              MACD
 }

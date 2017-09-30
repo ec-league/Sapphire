@@ -8,10 +8,10 @@ import com.sapphire.stock.domain.Stock;
  * Email: byp5303628@hotmail.com
  */
 public class StopFilterStrategy extends AbstractFilterStrategy {
-   @Override
-   protected boolean shouldFilter(Stock stock) {
-      if (stock.isStop())
-         return true;
-      return false;
-   }
+    @Override
+    protected boolean shouldFilter(Stock stock) {
+        if (stock.isStop())
+            return true;
+        return false;
+    }
 }

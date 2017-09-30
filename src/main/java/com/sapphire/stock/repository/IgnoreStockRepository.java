@@ -10,9 +10,8 @@ import com.sapphire.stock.domain.IgnoreStock;
 /**
  * Created by Ethan on 2016/4/5.
  */
-public interface IgnoreStockRepository extends
-      CrudRepository<IgnoreStock, Long> {
+public interface IgnoreStockRepository extends CrudRepository<IgnoreStock, Long> {
 
-   @Query("select i.code from IgnoreStock as i where i.flag = ?1")
-   List<String> getCodeByType(int flag);
+    @Query("select i.code from IgnoreStock as i where i.flag = ?1")
+    List<String> getCodeByType(int flag);
 }

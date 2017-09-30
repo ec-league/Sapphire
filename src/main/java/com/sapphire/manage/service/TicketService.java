@@ -10,13 +10,13 @@ import com.sapphire.manage.domain.Ticket;
  * Email: byp5303628@hotmail.com
  */
 public interface TicketService {
-   List<Ticket> getTicketsByReportUserId(long userId);
+    List<Ticket> getTicketsByReportUserId(long userId);
 
-   List<Ticket> getTicketsByAssignUserId(long userId);
+    List<Ticket> getTicketsByAssignUserId(long userId);
 
-   List<Ticket> getTicketsByProjectId(long projectId);
+    List<Ticket> getTicketsByProjectId(long projectId);
 
-   long saveTicket(Ticket ticket);
+    long saveTicket(Ticket ticket);
 
-   Ticket getTicketById(long uidPk);
+    Ticket getTicketById(long uidPk);
 }

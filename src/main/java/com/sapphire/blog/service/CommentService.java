@@ -10,9 +10,9 @@ import com.sapphire.blog.domain.Comment;
  * Email: byp5303628@hotmail.com
  */
 public interface CommentService {
-   long saveComment(Comment comment);
+    long saveComment(Comment comment);
 
-   void deleteComment(long id);
+    void deleteComment(long id);
 
-   List<Comment> getCommentsByUserId(long userId);
+    List<Comment> getCommentsByUserId(long userId);
 }

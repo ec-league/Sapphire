@@ -9,5 +9,5 @@ import com.sapphire.stock.constant.IgnoreStockFlag;
  */
 public interface IgnoreStockService {
 
-   Set<String> getCodeByFlag(IgnoreStockFlag flag);
+    Set<String> getCodeByFlag(IgnoreStockFlag flag);
 }

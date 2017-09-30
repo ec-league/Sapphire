@@ -16,18 +16,18 @@ import com.sapphire.blog.service.CommentService;
  */
 @Service("commentService")
 public class CommentServiceImpl implements CommentService {
-   @Autowired
-   private CommentRepository commentRepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
-   public long saveComment(Comment comment) {
-      return commentRepository.save(comment).getUidPk();
-   }
+    public long saveComment(Comment comment) {
+        return commentRepository.save(comment).getUidPk();
+    }
 
-   public void deleteComment(long id) {
-      commentRepository.delete(id);
-   }
+    public void deleteComment(long id) {
+        commentRepository.delete(id);
+    }
 
-   public List<Comment> getCommentsByUserId(long userId) {
-      return commentRepository.getAllCommentsByUserId(userId);
-   }
+    public List<Comment> getCommentsByUserId(long userId) {
+        return commentRepository.getAllCommentsByUserId(userId);
+    }
 }

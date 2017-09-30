@@ -12,30 +12,31 @@ import java.util.concurrent.TimeUnit;
  * Email: byp5303628@hotmail.com
  */
 public class CacheService {
-   public static final long ONE_MINUTE = 60 * 1000L;
+    public static final long                          ONE_MINUTE = 60 * 1000L;
 
-   public static final long ONE_HOUR = 60 * 60 * 1000L;
+    public static final long                          ONE_HOUR   = 60 * 60 * 1000L;
 
-   public static final long ONE_DAY = 24 * 60 * 60 * 1000L;
+    public static final long                          ONE_DAY    = 24 * 60 * 60 * 1000L;
 
-   private static Map<Class<? extends Cache>, Cache> cacheMap = new HashMap<>();
+    private static Map<Class<? extends Cache>, Cache> cacheMap   = new HashMap<>();
 
-   private static ScheduledExecutorService executor = Executors
-         .newScheduledThreadPool(1);
+    private static ScheduledExecutorService           executor   = Executors
+        .newScheduledThreadPool(1);
 
-   private CacheService(){}
+    private CacheService() {
+    }
 
-   public static void register(Cache cache) {
-      cacheMap.put(cache.getClass(), cache);
+    public static void register(Cache cache) {
+        cacheMap.put(cache.getClass(), cache);
 
-      executor.scheduleAtFixedRate(() -> cache.refresh(), 0, cache.interval(),
+        executor.scheduleAtFixedRate(() -> cache.refresh(), 0, cache.interval(),
             TimeUnit.MILLISECONDS);
-   }
+    }
 
-   @SuppressWarnings("unchecked")
-   public static <T extends Cache> T getCache(Class<? extends T> clazz) {
-      if (cacheMap.containsKey(clazz))
-         return (T) cacheMap.get(clazz);
-      throw new CacheNotExistException(clazz.toString());
-   }
+    @SuppressWarnings("unchecked")
+    public static <T extends Cache> T getCache(Class<? extends T> clazz) {
+        if (cacheMap.containsKey(clazz))
+            return (T) cacheMap.get(clazz);
+        throw new CacheNotExistException(clazz.toString());
+    }
 }

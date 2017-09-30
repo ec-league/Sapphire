@@ -17,13 +17,13 @@ import com.sapphire.stock.service.IgnoreStockService;
 @Service("ignoreStockService")
 public class IgnoreStockServiceImpl implements IgnoreStockService {
 
-   @Autowired
-   private IgnoreStockRepository ignoreStockRepository;
+    @Autowired
+    private IgnoreStockRepository ignoreStockRepository;
 
-   @Override
-   public Set<String> getCodeByFlag(IgnoreStockFlag flag) {
-      List<String> codes = ignoreStockRepository.getCodeByType(flag.getCode());
+    @Override
+    public Set<String> getCodeByFlag(IgnoreStockFlag flag) {
+        List<String> codes = ignoreStockRepository.getCodeByType(flag.getCode());
 
-      return new HashSet<>(codes);
-   }
+        return new HashSet<>(codes);
+    }
 }

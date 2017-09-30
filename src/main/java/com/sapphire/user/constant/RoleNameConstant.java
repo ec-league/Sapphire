@@ -6,7 +6,7 @@ package com.sapphire.user.constant;
  * Email: byp5303628@hotmail.com
  */
 public class RoleNameConstant {
-   public static final String ADMIN_ROLE_NAME = "ROLE_ADMIN";
-   public static final String USER_ROLE_NAME = "ROLE_USER";
-   public static final String GUEST_ROLE_NAME = "ROLE_GUEST";
+    public static final String ADMIN_ROLE_NAME = "ROLE_ADMIN";
+    public static final String USER_ROLE_NAME  = "ROLE_USER";
+    public static final String GUEST_ROLE_NAME = "ROLE_GUEST";
 }

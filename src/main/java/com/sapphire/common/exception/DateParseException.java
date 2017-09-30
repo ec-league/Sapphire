@@ -6,7 +6,7 @@ package com.sapphire.common.exception;
  * Email: byp5303628@hotmail.com
  */
 public class DateParseException extends RuntimeException {
-   public DateParseException() {
-      super("Date Format is Not Correct!");
-   }
+    public DateParseException() {
+        super("Date Format is Not Correct!");
+    }
 }

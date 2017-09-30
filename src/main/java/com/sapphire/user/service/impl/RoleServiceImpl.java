@@ -15,18 +15,18 @@ import com.sapphire.user.service.RoleService;
  */
 @Service("roleService")
 public class RoleServiceImpl implements RoleService {
-   @Autowired
-   private RoleRepository roleRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
-   public Role getUserRole() {
-      return roleRepository.getRoleByName(RoleNameConstant.USER_ROLE_NAME);
-   }
+    public Role getUserRole() {
+        return roleRepository.getRoleByName(RoleNameConstant.USER_ROLE_NAME);
+    }
 
-   public Role getAdminRole() {
-      return roleRepository.getRoleByName(RoleNameConstant.ADMIN_ROLE_NAME);
-   }
+    public Role getAdminRole() {
+        return roleRepository.getRoleByName(RoleNameConstant.ADMIN_ROLE_NAME);
+    }
 
-   public Role getGuestRole() {
-      return roleRepository.getRoleByName(RoleNameConstant.GUEST_ROLE_NAME);
-   }
+    public Role getGuestRole() {
+        return roleRepository.getRoleByName(RoleNameConstant.GUEST_ROLE_NAME);
+    }
 }

@@ -12,27 +12,27 @@ import com.sapphire.stock.strategy.FilterStrategy;
  */
 public abstract class AbstractFilterStrategy implements FilterStrategy {
 
-   /**
+    /**
     * 根据条件，如果该过滤掉，返回True，否则返回False
     * 
     * @param stock
     * @return
     */
-   protected abstract boolean shouldFilter(Stock stock);
+    protected abstract boolean shouldFilter(Stock stock);
 
-   /**
+    /**
     * According to the given Stocks, do filter job and filter all stocks we
     * don't want.
     *
     * @param stockList
     * @return
     */
-   @Override
-   public void executeStrategy(List<Stock> stockList) {
-      for (int index = stockList.size() - 1; index >= 0; index--) {
-         if (shouldFilter(stockList.get(index))) {
-            stockList.remove(index);
-         }
-      }
-   }
+    @Override
+    public void executeStrategy(List<Stock> stockList) {
+        for (int index = stockList.size() - 1; index >= 0; index--) {
+            if (shouldFilter(stockList.get(index))) {
+                stockList.remove(index);
+            }
+        }
+    }
 }

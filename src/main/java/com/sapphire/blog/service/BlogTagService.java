@@ -11,11 +11,11 @@ import com.sapphire.blog.domain.BlogTag;
  * Email: byp5303628@hotmail.com
  */
 public interface BlogTagService {
-   List<Blog> getBlogsByTagName(String tagName);
+    List<Blog> getBlogsByTagName(String tagName);
 
-   List<BlogTag> getBlogTagsByBlogId(long blogId);
+    List<BlogTag> getBlogTagsByBlogId(long blogId);
 
-   long addBlogTag(BlogTag tag);
+    long addBlogTag(BlogTag tag);
 
-   void deleteBlogTag(long blogTagId);
+    void deleteBlogTag(long blogTagId);
 }

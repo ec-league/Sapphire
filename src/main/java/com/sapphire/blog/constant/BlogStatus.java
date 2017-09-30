@@ -6,25 +6,25 @@ package com.sapphire.blog.constant;
  * Email: byp5303628@hotmail.com
  */
 public enum BlogStatus {
-   PUBLISHED(1), UN_PUBLISHED(0);
+                        PUBLISHED(1), UN_PUBLISHED(0);
 
-   private int code;
+    private int code;
 
-   BlogStatus(int code) {
-      this.code = code;
-   }
+    BlogStatus(int code) {
+        this.code = code;
+    }
 
-   public int getCode() {
-      return code;
-   }
+    public int getCode() {
+        return code;
+    }
 
-   public static BlogStatus toBlogStatus(int code) {
-      if (code == 0) {
-         return BlogStatus.UN_PUBLISHED;
-      } else if (code == 1) {
-         return BlogStatus.PUBLISHED;
-      } else {
-         throw new IllegalArgumentException("Wrong code of BlogStatus!");
-      }
-   }
+    public static BlogStatus toBlogStatus(int code) {
+        if (code == 0) {
+            return BlogStatus.UN_PUBLISHED;
+        } else if (code == 1) {
+            return BlogStatus.PUBLISHED;
+        } else {
+            throw new IllegalArgumentException("Wrong code of BlogStatus!");
+        }
+    }
 }

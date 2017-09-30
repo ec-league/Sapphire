@@ -8,9 +8,9 @@ import com.sapphire.user.domain.UserInfo;
  * Email: byp5303628@hotmail.com
  */
 public interface UserInfoService {
-   long save(UserInfo userInfo);
+    long save(UserInfo userInfo);
 
-   UserInfo getUserInfoByUserId(long userId);
+    UserInfo getUserInfoByUserId(long userId);
 
-   void delete(long uidPk);
+    void delete(long uidPk);
 }

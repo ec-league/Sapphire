@@ -15,27 +15,27 @@ import com.sapphire.blog.service.BlogService;
 @Controller
 @RequestMapping("/blog")
 public class BlogPageControllerImpl {
-   @Autowired
-   private BlogService blogService;
+    @Autowired
+    private BlogService blogService;
 
-   @RequestMapping("/page.html")
-   public String blogPage(@RequestParam("blogId") long blogId) {
-      blogService.loadBlog(blogId);
-      return "blog/blog";
-   }
+    @RequestMapping("/page.html")
+    public String blogPage(@RequestParam("blogId") long blogId) {
+        blogService.loadBlog(blogId);
+        return "blog/blog";
+    }
 
-   @RequestMapping("/my-blogs.html")
-   public String myBlogPage() {
-      return "blog/blog-list";
-   }
+    @RequestMapping("/my-blogs.html")
+    public String myBlogPage() {
+        return "blog/blog-list";
+    }
 
-   @RequestMapping("/blog-edit.html")
-   public String blogEdit() {
-      return "blog/blog-edit";
-   }
+    @RequestMapping("/blog-edit.html")
+    public String blogEdit() {
+        return "blog/blog-edit";
+    }
 
-   @RequestMapping("/my-comment.html")
-   public String myCommentPage() {
-      return null;
-   }
+    @RequestMapping("/my-comment.html")
+    public String myCommentPage() {
+        return null;
+    }
 }

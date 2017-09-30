@@ -9,10 +9,9 @@ import java.util.concurrent.Executors;
  * Email: byp5303628@hotmail.com
  */
 public abstract class SingleThreadJob {
-   private static final ExecutorService threadPool = Executors
-         .newSingleThreadExecutor();
+    private static final ExecutorService threadPool = Executors.newSingleThreadExecutor();
 
-   protected void submit(Runnable runnable) {
-      threadPool.execute(runnable);
-   }
+    protected void submit(Runnable runnable) {
+        threadPool.execute(runnable);
+    }
 }

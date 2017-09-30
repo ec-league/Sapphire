@@ -29,147 +29,140 @@ import com.sapphire.stock.service.StockStatisticsService;
 @RequestMapping("/stock")
 public class StockController {
 
-   private static final Logger logger = LoggerFactory
-         .getLogger(StockController.class);
+    private static final Logger    logger = LoggerFactory.getLogger(StockController.class);
 
-   @Autowired
-   private StockService stockService;
+    @Autowired
+    private StockService           stockService;
 
-   @Autowired
-   private StockCache stockCache;
+    @Autowired
+    private StockCache             stockCache;
 
-   @Autowired
-   private StockStatisticsService stockStatisticsService;
+    @Autowired
+    private StockStatisticsService stockStatisticsService;
 
-   @RequestMapping("/industries")
-   @ResponseBody
-   public JsonDto getIndustries() {
-      List<String> codes = stockService.getIndustries();
-      return new ListJsonDto<>(codes).formSuccessDto();
-   }
+    @RequestMapping("/industries")
+    @ResponseBody
+    public JsonDto getIndustries() {
+        List<String> codes = stockService.getIndustries();
+        return new ListJsonDto<>(codes).formSuccessDto();
+    }
 
-   @RequestMapping("/industry/statics/below")
-   @ResponseBody
-   public JsonDto getStaticsByIndustryBelow(
-         @RequestParam(value = "industry", required = true) String industry) {
-      StockStatics stockStatics =
-            stockService.getLastMonthStockStaticsByIndustry(industry);
+    @RequestMapping("/industry/statics/below")
+    @ResponseBody
+    public JsonDto getStaticsByIndustryBelow(@RequestParam(value = "industry", required = true) String industry) {
+        StockStatics stockStatics = stockService.getLastMonthStockStaticsByIndustry(industry);
 
-      List<Stock> stocks = stockStatics.getMacdBelowZero();
+        List<Stock> stocks = stockStatics.getMacdBelowZero();
 
-      update(stocks);
+        update(stocks);
 
-      return new ListJsonDto<>(stocks);
-   }
+        return new ListJsonDto<>(stocks);
+    }
 
-   @RequestMapping("/industry/statics/upon")
-   @ResponseBody
-   public JsonDto getStaticsByIndustryUpon(
-         @RequestParam(value = "industry", required = true) String industry) {
-      StockStatics stockStatics =
-            stockService.getLastMonthStockStaticsByIndustry(industry);
+    @RequestMapping("/industry/statics/upon")
+    @ResponseBody
+    public JsonDto getStaticsByIndustryUpon(@RequestParam(value = "industry", required = true) String industry) {
+        StockStatics stockStatics = stockService.getLastMonthStockStaticsByIndustry(industry);
 
-      return new ListJsonDto<>(stockStatics.getMacdUpZero()).formSuccessDto();
-   }
+        return new ListJsonDto<>(stockStatics.getMacdUpZero()).formSuccessDto();
+    }
 
-   @RequestMapping("/statics/below")
-   @ResponseBody
-   public JsonDto getStaticsBelow() {
-      StockStatics stockStatics = stockCache.getStockStatics();
+    @RequestMapping("/statics/below")
+    @ResponseBody
+    public JsonDto getStaticsBelow() {
+        StockStatics stockStatics = stockCache.getStockStatics();
 
-      return new ListJsonDto<>(stockStatics.pick()).formSuccessDto();
-   }
+        return new ListJsonDto<>(stockStatics.pick()).formSuccessDto();
+    }
 
-   @RequestMapping("/statics/upon")
-   @ResponseBody
-   public JsonDto getStaticsUpon() {
-      StockStatics stockStatics = stockCache.getStockStatics();
+    @RequestMapping("/statics/upon")
+    @ResponseBody
+    public JsonDto getStaticsUpon() {
+        StockStatics stockStatics = stockCache.getStockStatics();
 
-      return
-            new ListJsonDto<>(stockStatics.getMacdUpZero()).formSuccessDto();
-   }
+        return new ListJsonDto<>(stockStatics.getMacdUpZero()).formSuccessDto();
+    }
 
-   @RequestMapping("/statics/lowest.ep")
-   @ResponseBody
-   public JsonDto getStaticsLowest() {
-      StockStatics stockStatics = stockCache.getStockStatics();
+    @RequestMapping("/statics/lowest.ep")
+    @ResponseBody
+    public JsonDto getStaticsLowest() {
+        StockStatics stockStatics = stockCache.getStockStatics();
 
-      List<Stock> stocks = stockStatics.getLowestMacd();
+        List<Stock> stocks = stockStatics.getLowestMacd();
 
-      update(stocks);
+        update(stocks);
 
-      return new ListJsonDto<>(stocks).formSuccessDto();
-   }
+        return new ListJsonDto<>(stocks).formSuccessDto();
+    }
 
-   @RequestMapping("/statics/increase.ep")
-   @ResponseBody
-   public JsonDto getIncreaseStatics() {
-      StockStatics stockStatics = stockCache.getStockStatics();
-      List<Stock> stocks = stockStatics.getIncreaseTop100();
+    @RequestMapping("/statics/increase.ep")
+    @ResponseBody
+    public JsonDto getIncreaseStatics() {
+        StockStatics stockStatics = stockCache.getStockStatics();
+        List<Stock> stocks = stockStatics.getIncreaseTop100();
 
-      update(stocks);
+        update(stocks);
 
-      return new ListJsonDto<>(stocks).formSuccessDto();
-   }
+        return new ListJsonDto<>(stocks).formSuccessDto();
+    }
 
-   @RequestMapping("/statics/dead.ep")
-   @ResponseBody
-   public JsonDto getDeadStatics() {
-      StockStatics stockStatics = stockCache.getStockStatics();
-      List<Stock> stocks = stockStatics.getDeadMacd();
+    @RequestMapping("/statics/dead.ep")
+    @ResponseBody
+    public JsonDto getDeadStatics() {
+        StockStatics stockStatics = stockCache.getStockStatics();
+        List<Stock> stocks = stockStatics.getDeadMacd();
 
-      update(stocks);
+        update(stocks);
 
-      return new ListJsonDto<>(stocks).formSuccessDto();
-   }
+        return new ListJsonDto<>(stocks).formSuccessDto();
+    }
 
-   @RequestMapping("/statics/gold.ep")
-   @ResponseBody
-   public JsonDto getGoldPossible() {
-      StockStatics stockStatics = stockCache.getStockStatics();
-      List<Stock> stocks = stockStatics.getGoldPossible();
+    @RequestMapping("/statics/gold.ep")
+    @ResponseBody
+    public JsonDto getGoldPossible() {
+        StockStatics stockStatics = stockCache.getStockStatics();
+        List<Stock> stocks = stockStatics.getGoldPossible();
 
-      update(stocks);
+        update(stocks);
 
-      return new ListJsonDto<>(stocks).formSuccessDto();
-   }
+        return new ListJsonDto<>(stocks).formSuccessDto();
+    }
 
-   @RequestMapping("/{code}/info.ep")
-   @ResponseBody
-   public JsonDto getStockByCode(@PathVariable String code) {
-      try {
-         StockItem item = stockService.getLatestStockItemByCode(code);
-         StockStatistics statistics = stockStatisticsService.findByCode(code);
+    @RequestMapping("/{code}/info.ep")
+    @ResponseBody
+    public JsonDto getStockByCode(@PathVariable String code) {
+        try {
+            StockItem item = stockService.getLatestStockItemByCode(code);
+            StockStatistics statistics = stockStatisticsService.findByCode(code);
 
-         Stock stock = new Stock();
+            Stock stock = new Stock();
 
-         stock.setHighestPrice(statistics.getHighestPrice());
-         stock.setIncreaseTotal(statistics.getIncreaseTotal());
-         stock.setFirstDiff(item.getMacdDiff());
-         stock.setCode(item.getCode());
-         stock.setCurrentMacd(item.getMacd());
-         stock.setLowestMacd(statistics.getLowestMacd());
-         stock.setName(item.getName());
-         stock.setEndPrice(item.getEndPrice());
+            stock.setHighestPrice(statistics.getHighestPrice());
+            stock.setIncreaseTotal(statistics.getIncreaseTotal());
+            stock.setFirstDiff(item.getMacdDiff());
+            stock.setCode(item.getCode());
+            stock.setCurrentMacd(item.getMacd());
+            stock.setLowestMacd(statistics.getLowestMacd());
+            stock.setName(item.getName());
+            stock.setEndPrice(item.getEndPrice());
 
-         JsonDto dto = new DataJsonDto<>(stock);
+            JsonDto dto = new DataJsonDto<>(stock);
 
-         return dto.formSuccessDto();
-      } catch (Exception ex) {
-         logger.error("Get Stock By Code Failed!", ex);
-         return new JsonDto().formFailureDto(ex);
-      }
-   }
+            return dto.formSuccessDto();
+        } catch (Exception ex) {
+            logger.error("Get Stock By Code Failed!", ex);
+            return new JsonDto().formFailureDto(ex);
+        }
+    }
 
-   private void update(List<Stock> stocks) {
-      for (Stock stock : stocks) {
-         StockStatistics stat =
-               stockStatisticsService.findByCode(stock.getCode());
+    private void update(List<Stock> stocks) {
+        for (Stock stock : stocks) {
+            StockStatistics stat = stockStatisticsService.findByCode(stock.getCode());
 
-         if (stat == null)
-            continue;
+            if (stat == null)
+                continue;
 
-         stock.update(stat);
-      }
-   }
+            stock.update(stat);
+        }
+    }
 }

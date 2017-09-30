@@ -3,7 +3,6 @@ package com.sapphire.user.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 /**
  * Author: EthanPark <br/>
  * Date: ${Date}<br/>
@@ -11,18 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class LoginController {
-   @RequestMapping("index.html")
-   public String index() {
-      return "index";
-   }
+    @RequestMapping("index.html")
+    public String index() {
+        return "index";
+    }
 
-   @RequestMapping("login.html")
-   public String login() {
-      return "login";
-   }
+    @RequestMapping("login.html")
+    public String login() {
+        return "login";
+    }
 
-   @RequestMapping("sign-up.html")
-   public String signUp() {
-      return "sign-up";
-   }
+    @RequestMapping("sign-up.html")
+    public String signUp() {
+        return "sign-up";
+    }
 }

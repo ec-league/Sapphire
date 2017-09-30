@@ -6,5 +6,5 @@ package com.sapphire.common.constant;
  * Email: byp5303628@hotmail.com
  */
 public class PropertyFlag {
-   public static final String DATA_FOLDER = "DATA.FOLDER";
+    public static final String DATA_FOLDER = "DATA.FOLDER";
 }

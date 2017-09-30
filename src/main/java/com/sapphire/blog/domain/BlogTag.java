@@ -1,6 +1,12 @@
 package com.sapphire.blog.domain;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Author: EthanPark <br/>
@@ -10,42 +16,42 @@ import javax.persistence.*;
 @Entity
 @Table(name = BlogTag.TABLE_NAME)
 public class BlogTag {
-   public static final String TABLE_NAME = "BLOG_TAG";
+    public static final String TABLE_NAME = "BLOG_TAG";
 
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   @Column(name = "UIDPK")
-   private long uidPk;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "UIDPK")
+    private long               uidPk;
 
-   @Basic
-   @Column(name = "BLOG_UID")
-   private long blogId;
+    @Basic
+    @Column(name = "BLOG_UID")
+    private long               blogId;
 
-   @Basic
-   @Column(name = "TAG_NAME")
-   private String tagName;
+    @Basic
+    @Column(name = "TAG_NAME")
+    private String             tagName;
 
-   public long getUidPk() {
-      return uidPk;
-   }
+    public long getUidPk() {
+        return uidPk;
+    }
 
-   public void setUidPk(long uidPk) {
-      this.uidPk = uidPk;
-   }
+    public void setUidPk(long uidPk) {
+        this.uidPk = uidPk;
+    }
 
-   public String getTagName() {
-      return tagName;
-   }
+    public String getTagName() {
+        return tagName;
+    }
 
-   public long getBlogId() {
-      return blogId;
-   }
+    public long getBlogId() {
+        return blogId;
+    }
 
-   public void setBlogId(long blogId) {
-      this.blogId = blogId;
-   }
+    public void setBlogId(long blogId) {
+        this.blogId = blogId;
+    }
 
-   public void setTagName(String tagName) {
-      this.tagName = tagName;
-   }
+    public void setTagName(String tagName) {
+        this.tagName = tagName;
+    }
 }

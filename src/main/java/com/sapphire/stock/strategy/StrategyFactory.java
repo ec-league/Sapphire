@@ -10,35 +10,36 @@ import com.sapphire.stock.strategy.factory.MacdStrategyFactory;
  * Email: byp5303628@hotmail.com
  */
 public abstract class StrategyFactory {
-   protected List<Strategy> strategies;
+    protected List<Strategy> strategies;
 
-   public static StrategyFactory getFactory(StrategyCategory category) {
-      StrategyFactory sf;
+    public static StrategyFactory getFactory(StrategyCategory category) {
+        StrategyFactory sf;
 
-      switch (category) {
-      case MACD:
-         sf = new MacdStrategyFactory();
-         break;
-      default:
-         sf = new MacdStrategyFactory();
-      }
-      return sf;
-   }
+        switch (category) {
+            case MACD:
+                sf = new MacdStrategyFactory();
+                break;
+            default:
+                sf = new MacdStrategyFactory();
+                break;
+        }
+        return sf;
+    }
 
-   public List<Strategy> buildStrategy() {
-      addFillStrategies();
-      addFilterStrategies();
+    public List<Strategy> buildStrategy() {
+        addFillStrategies();
+        addFilterStrategies();
 
-      return strategies;
-   }
+        return strategies;
+    }
 
-   /**
+    /**
     * 添加Fill策略连
     */
-   protected abstract void addFillStrategies();
+    protected abstract void addFillStrategies();
 
-   /**
+    /**
     * 添加Filter策略连
     */
-   protected abstract void addFilterStrategies();
+    protected abstract void addFilterStrategies();
 }

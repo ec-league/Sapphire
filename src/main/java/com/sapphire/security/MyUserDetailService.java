@@ -15,15 +15,14 @@ import com.sapphire.user.service.UserService;
  * Email: byp5303628@hotmail.com
  */
 public class MyUserDetailService implements UserDetailsService {
-   @Autowired
-   private UserService userService;
+    @Autowired
+    private UserService userService;
 
-   public UserDetails loadUserByUsername(String username) {
-      try {
-         return userService.getUserByUserNameOrEmail(username);
-      } catch (EntityNotFoundException e) {
-         throw new UsernameNotFoundException(String.format("Username : \"%s\"",
-               username), e);
-      }
-   }
+    public UserDetails loadUserByUsername(String username) {
+        try {
+            return userService.getUserByUserNameOrEmail(username);
+        } catch (EntityNotFoundException e) {
+            throw new UsernameNotFoundException(String.format("Username : \"%s\"", username), e);
+        }
+    }
 }

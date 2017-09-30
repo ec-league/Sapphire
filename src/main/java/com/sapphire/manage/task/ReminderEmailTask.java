@@ -12,13 +12,11 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
  * Email: byp5303628@hotmail.com
  */
 public class ReminderEmailTask extends QuartzJobBean {
-   private static final Logger LOGGER = LoggerFactory
-         .getLogger(ReminderEmailTask.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReminderEmailTask.class);
 
-   @Override
-   protected void executeInternal(JobExecutionContext context)
-         throws JobExecutionException {
-      LOGGER.info("Execute reminder email task");
+    @Override
+    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+        LOGGER.info("Execute reminder email task");
 
-   }
+    }
 }

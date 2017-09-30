@@ -6,5 +6,5 @@ package com.sapphire.stock.constant;
  * Email: byp5303628@hotmail.com
  */
 public enum CacheCategory {
-   STOCK_STATISTICS
+                           STOCK_STATISTICS
 }

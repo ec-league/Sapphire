@@ -11,29 +11,29 @@ import com.sapphire.stock.domain.StockStatics;
  * Created by Ethan on 2016/3/30.
  */
 public interface StockService {
-   List<String> getAllCodes();
+    List<String> getAllCodes();
 
-   Stock getStockByCode(String code);
+    Stock getStockByCode(String code);
 
-   Stock getStockByCodeAndTime(String code, Timestamp dateFrom, Timestamp dateTo);
+    Stock getStockByCodeAndTime(String code, Timestamp dateFrom, Timestamp dateTo);
 
-   StockStatics getLastMonthStockStatics();
+    StockStatics getLastMonthStockStatics();
 
-   StockStatics getLastYearStockStatics();
+    StockStatics getLastYearStockStatics();
 
-   StockStatics getLastMonthStockStaticsByIndustry(String industry);
+    StockStatics getLastMonthStockStaticsByIndustry(String industry);
 
-   List<String> getIndustries();
+    List<String> getIndustries();
 
-   void saveAll(List<StockItem> items);
+    void saveAll(List<StockItem> items);
 
-   StockItem save(StockItem item);
+    StockItem save(StockItem item);
 
-   StockStatics getStocksByIncreaseTotal();
+    StockStatics getStocksByIncreaseTotal();
 
-   List<StockItem> getLatestStockItems();
+    List<StockItem> getLatestStockItems();
 
-   StockItem getLatestStockItemByCode(String code);
+    StockItem getLatestStockItemByCode(String code);
 
-   List<StockItem> getLast30Stock(String code);
+    List<StockItem> getLast30Stock(String code);
 }

@@ -18,25 +18,25 @@ import com.sapphire.stock.job.StockStatisticJob;
 @Controller
 public class StockCacheController {
 
-   @Autowired
-   private StockItemJob stockItemJob;
+    @Autowired
+    private StockItemJob      stockItemJob;
 
-   @Autowired
-   private StockStatisticJob stockStatisticJob;
+    @Autowired
+    private StockStatisticJob stockStatisticJob;
 
-   @RequestMapping("/update/stat.ep")
-   @ResponseBody
-   public JsonDto startStatTask() {
-      stockStatisticJob.updateStatistic();
+    @RequestMapping("/update/stat.ep")
+    @ResponseBody
+    public JsonDto startStatTask() {
+        stockStatisticJob.updateStatistic();
 
-      return new JsonDto().formSuccessDto();
-   }
+        return new JsonDto().formSuccessDto();
+    }
 
-   @RequestMapping("/update/item.ep")
-   @ResponseBody
-   public JsonDto startItemTask() {
-      stockItemJob.updateStock();
+    @RequestMapping("/update/item.ep")
+    @ResponseBody
+    public JsonDto startItemTask() {
+        stockItemJob.updateStock();
 
-      return new JsonDto().formSuccessDto();
-   }
+        return new JsonDto().formSuccessDto();
+    }
 }

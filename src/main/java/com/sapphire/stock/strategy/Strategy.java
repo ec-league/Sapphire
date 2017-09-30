@@ -11,11 +11,11 @@ import com.sapphire.stock.domain.Stock;
  */
 public interface Strategy {
 
-   /**
+    /**
     * According to the given Stocks, do strategy job.
     *
     * @param stock
     * @return
     */
-   void executeStrategy(List<Stock> stockList);
+    void executeStrategy(List<Stock> stockList);
 }

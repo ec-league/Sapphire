@@ -14,19 +14,19 @@ import com.sapphire.user.service.UserInfoService;
  */
 @Service("userInfoService")
 public class UserInfoServiceImpl implements UserInfoService {
-   @Autowired
-   private UserInfoRepository userInfoRepository;
+    @Autowired
+    private UserInfoRepository userInfoRepository;
 
-   public long save(UserInfo userInfo) {
-      return userInfoRepository.save(userInfo).getUidPk();
-   }
+    public long save(UserInfo userInfo) {
+        return userInfoRepository.save(userInfo).getUidPk();
+    }
 
-   public UserInfo getUserInfoByUserId(long userId) {
-      return userInfoRepository.getUserInfoByUserId(userId);
-   }
+    public UserInfo getUserInfoByUserId(long userId) {
+        return userInfoRepository.getUserInfoByUserId(userId);
+    }
 
-   @Override
-   public void delete(long uidPk) {
-      userInfoRepository.delete(uidPk);
-   }
+    @Override
+    public void delete(long uidPk) {
+        userInfoRepository.delete(uidPk);
+    }
 }

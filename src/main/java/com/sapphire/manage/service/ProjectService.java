@@ -10,9 +10,9 @@ import com.sapphire.manage.domain.Project;
  * Email: byp5303628@hotmail.com
  */
 public interface ProjectService {
-   long saveProject(Project project);
+    long saveProject(Project project);
 
-   List<Project> getAllProjects();
+    List<Project> getAllProjects();
 
-   Project getProjectById(long uidPk);
+    Project getProjectById(long uidPk);
 }

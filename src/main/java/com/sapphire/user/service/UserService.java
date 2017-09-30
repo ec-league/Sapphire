@@ -11,15 +11,15 @@ import com.sapphire.user.dto.UserDto;
  * Email: byp5303628@hotmail.com
  */
 public interface UserService {
-   long createUser(UserDto user);
+    long createUser(UserDto user);
 
-   long updateUserInfo(UserDto user);
+    long updateUserInfo(UserDto user);
 
-   User getUserByUserNameOrEmail(String val);
+    User getUserByUserNameOrEmail(String val);
 
-   User getUserById(long id);
+    User getUserById(long id);
 
-   boolean authenticateUser(String username, String password);
+    boolean authenticateUser(String username, String password);
 
-   List<User> getUsers();
+    List<User> getUsers();
 }

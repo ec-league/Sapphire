@@ -12,6 +12,6 @@ import com.sapphire.user.domain.Role;
  * Email: byp5303628@hotmail.com
  */
 public interface RoleRepository extends Repository<Role, Long> {
-   @Query("select r from Role as r where r.roleName = :name")
-   Role getRoleByName(@Param("name") String name);
+    @Query("select r from Role as r where r.roleName = :name")
+    Role getRoleByName(@Param("name") String name);
 }

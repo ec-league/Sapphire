@@ -8,9 +8,9 @@ import com.sapphire.user.domain.Role;
  * Email: byp5303628@hotmail.com
  */
 public interface RoleService {
-   Role getUserRole();
+    Role getUserRole();
 
-   Role getAdminRole();
+    Role getAdminRole();
 
-   Role getGuestRole();
+    Role getGuestRole();
 }

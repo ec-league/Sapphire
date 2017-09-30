@@ -10,11 +10,11 @@ import com.sapphire.stock.domain.StockStatistics;
  * Email: byp5303628@hotmail.com
  */
 public interface StockStatisticsService {
-   void update(List<StockStatistics> stats);
+    void update(List<StockStatistics> stats);
 
-   void update(StockStatistics stat);
+    void update(StockStatistics stat);
 
-   StockStatistics findByCode(String code);
+    StockStatistics findByCode(String code);
 
-   List<StockStatistics> getAll();
+    List<StockStatistics> getAll();
 }

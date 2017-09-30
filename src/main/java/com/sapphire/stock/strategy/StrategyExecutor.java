@@ -11,14 +11,13 @@ import com.sapphire.stock.domain.Stock;
  */
 public class StrategyExecutor {
 
-   public static void execute(List<Stock> stocks) {
-      StrategyFactory sf =
-            StrategyFactory.getFactory(StrategyCategory.MACD);
+    public static void execute(List<Stock> stocks) {
+        StrategyFactory sf = StrategyFactory.getFactory(StrategyCategory.MACD);
 
-      List<Strategy> strategies = sf.buildStrategy();
+        List<Strategy> strategies = sf.buildStrategy();
 
-      for (Strategy strategy : strategies) {
-         strategy.executeStrategy(stocks);
-      }
-   }
+        for (Strategy strategy : strategies) {
+            strategy.executeStrategy(stocks);
+        }
+    }
 }

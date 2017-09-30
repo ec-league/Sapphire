@@ -9,17 +9,17 @@ import java.util.List;
  * Email: byp5303628@hotmail.com
  */
 public class ListJsonDto<T extends Serializable> extends JsonDto {
-   private List<T> data;
+    private List<T> data;
 
-   public ListJsonDto(List<T> data) {
-      this.data = data;
-   }
+    public ListJsonDto(List<T> data) {
+        this.data = data;
+    }
 
-   public List<T> getData() {
-      return data;
-   }
+    public List<T> getData() {
+        return data;
+    }
 
-   public void setData(List<T> data) {
-      this.data = data;
-   }
+    public void setData(List<T> data) {
+        this.data = data;
+    }
 }

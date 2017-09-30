@@ -11,13 +11,13 @@ import com.sapphire.common.PropertyManager;
  * Email: byp5303628@hotmail.com
  */
 public class PreloadListener implements ServletContextListener {
-   @Override
-   public void contextInitialized(ServletContextEvent servletContextEvent) {
-      PropertyManager.load(this.getClass());
-   }
+    @Override
+    public void contextInitialized(ServletContextEvent servletContextEvent) {
+        PropertyManager.load(this.getClass());
+    }
 
-   @Override
-   public void contextDestroyed(ServletContextEvent servletContextEvent) {
-      PropertyManager.destroy();
-   }
+    @Override
+    public void contextDestroyed(ServletContextEvent servletContextEvent) {
+        PropertyManager.destroy();
+    }
 }

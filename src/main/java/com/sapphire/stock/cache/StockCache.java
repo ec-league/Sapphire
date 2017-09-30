@@ -23,57 +23,56 @@ import com.sapphire.stock.service.StockService;
 @Controller
 @RequestMapping("/stock/cache")
 public class StockCache implements Cache {
-   private static final Logger logger = LoggerFactory
-         .getLogger(StockCache.class);
+    private static final Logger logger = LoggerFactory.getLogger(StockCache.class);
 
-   @Autowired
-   private StockService stockService;
+    @Autowired
+    private StockService        stockService;
 
-   private StockStatics stockStatics;
+    private StockStatics        stockStatics;
 
-   private final Lock lock = new ReentrantLock();
+    private final Lock          lock   = new ReentrantLock();
 
-   @PostConstruct
-   public void registerCache() {
-      CacheService.register(this);
-   }
+    @PostConstruct
+    public void registerCache() {
+        CacheService.register(this);
+    }
 
-   @Override
-   @RequestMapping("/refresh")
-   @ResponseBody
-   public boolean refresh() {
-      try {
-         logger.info("Refresh the Stock Cache!");
-         init();
-         logger.info("Refresh Cache Succeed!");
-         return true;
-      } catch (Exception ex) {
-         logger.error("Init StockCache Error", ex);
-         return false;
-      }
-   }
+    @Override
+    @RequestMapping("/refresh")
+    @ResponseBody
+    public boolean refresh() {
+        try {
+            logger.info("Refresh the Stock Cache!");
+            init();
+            logger.info("Refresh Cache Succeed!");
+            return true;
+        } catch (Exception ex) {
+            logger.error("Init StockCache Error", ex);
+            return false;
+        }
+    }
 
-   @Override
-   public long interval() {
-      return CacheService.ONE_HOUR;
-   }
+    @Override
+    public long interval() {
+        return CacheService.ONE_HOUR;
+    }
 
-   private void init() {
-      lock.lock();
-      StockStatics stat = stockService.getLastMonthStockStatics();
-      try {
-         stockStatics = stat;
-      } catch (Exception ex) {
-         logger.error("Init Stock Cache failed!", ex.getMessage(), ex);
-      } finally {
-         lock.unlock();
-      }
-   }
+    private void init() {
+        lock.lock();
+        StockStatics stat = stockService.getLastMonthStockStatics();
+        try {
+            stockStatics = stat;
+        } catch (Exception ex) {
+            logger.error("Init Stock Cache failed!", ex.getMessage(), ex);
+        } finally {
+            lock.unlock();
+        }
+    }
 
-   public StockStatics getStockStatics() {
-      if (stockStatics == null && !refresh()) {
-         return null;
-      }
-      return stockStatics;
-   }
+    public StockStatics getStockStatics() {
+        if (stockStatics == null && !refresh()) {
+            return null;
+        }
+        return stockStatics;
+    }
 }

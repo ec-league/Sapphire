@@ -6,5 +6,5 @@ package com.sapphire.stock.job;
  * Email: byp5303628@hotmail.com
  */
 public interface StockStatisticJob {
-   void updateStatistic();
+    void updateStatistic();
 }

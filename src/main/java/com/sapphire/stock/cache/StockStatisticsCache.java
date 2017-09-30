@@ -25,68 +25,68 @@ import com.sapphire.stock.service.StockStatisticsService;
  */
 @Controller
 public class StockStatisticsCache implements Cache {
-   private static final Logger LOGGER = LoggerFactory
-         .getLogger(StockStatisticsCache.class);
+    private static final Logger          LOGGER      = LoggerFactory
+        .getLogger(StockStatisticsCache.class);
 
-   /**
+    /**
     * Stock is about 3000, map will resize after threshold of 4000 * 0.75 = 3000
     */
-   private static final int STOCK_COUNT = 4000;
-   private final Lock lock = new ReentrantLock();
+    private static final int             STOCK_COUNT = 4000;
+    private final Lock                   lock        = new ReentrantLock();
 
-   @Autowired
-   private StockStatisticsService stockStatisticsService;
+    @Autowired
+    private StockStatisticsService       stockStatisticsService;
 
-   private Map<String, StockStatistics> cache;
+    private Map<String, StockStatistics> cache;
 
-   @PostConstruct
-   public void registerCache() {
-      CacheService.register(this);
-   }
+    @PostConstruct
+    public void registerCache() {
+        CacheService.register(this);
+    }
 
-   /**
+    /**
     * Refresh the cache. If succeed, return true, else return false;
     *
     * @return
     */
-   @Override
-   public boolean refresh() {
+    @Override
+    public boolean refresh() {
 
-      List<StockStatistics> statisticses = stockStatisticsService.getAll();
+        List<StockStatistics> statisticses = stockStatisticsService.getAll();
 
-      Map<String, StockStatistics> map = new HashMap<>(STOCK_COUNT);
+        Map<String, StockStatistics> map = new HashMap<>(STOCK_COUNT);
 
-      for (StockStatistics stat : statisticses) {
-         map.put(stat.getCode(), stat);
-      }
+        for (StockStatistics stat : statisticses) {
+            map.put(stat.getCode(), stat);
+        }
 
-      lock.lock();
+        lock.lock();
 
-      try {
-         cache = map;
-         return true;
-      } catch (Exception ex) {
-         LOGGER.error("Update Statistics Cache Failed!", ex);
-         return false;
-      } finally {
-         lock.unlock();
-      }
-   }
+        try {
+            cache = map;
+            return true;
+        } catch (Exception ex) {
+            LOGGER.error("Update Statistics Cache Failed!", ex);
+            return false;
+        } finally {
+            lock.unlock();
+        }
+    }
 
-   /**
+    /**
     * How much time it will refresh the cache.
     *
     * @return
     */
-   @Override
-   public long interval() {
-      return CacheService.ONE_DAY;
-   }
+    @Override
+    public long interval() {
+        return CacheService.ONE_DAY;
+    }
 
-   public StockStatistics getStatisticsByCode(String code) {
-      if (cache.containsKey(code))
-         return cache.get(code);
+    public StockStatistics getStatisticsByCode(String code) {
+        if (cache.containsKey(code))
+            return cache.get(code);
 
-      return null;
-   }
+        return null;
+    }
 }

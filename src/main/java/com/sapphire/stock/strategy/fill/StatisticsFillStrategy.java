@@ -15,22 +15,21 @@ import com.sapphire.stock.strategy.FillStrategy;
  */
 public class StatisticsFillStrategy implements FillStrategy {
 
-   private static final StockStatisticsCache cache = CacheService
-         .getCache(StockStatisticsCache.class);
+    private static final StockStatisticsCache cache = CacheService
+        .getCache(StockStatisticsCache.class);
 
-   /**
+    /**
     * According to the given Stocks, do strategy job.
     *
     * @param stockList
     * @return
     */
-   @Override
-   public void executeStrategy(List<Stock> stockList) {
-      for (Stock stock : stockList) {
-         StockStatistics statistics =
-               cache.getStatisticsByCode(stock.getCode());
+    @Override
+    public void executeStrategy(List<Stock> stockList) {
+        for (Stock stock : stockList) {
+            StockStatistics statistics = cache.getStatisticsByCode(stock.getCode());
 
-         stock.update(statistics);
-      }
-   }
+            stock.update(statistics);
+        }
+    }
 }

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/stock")
 public class StockPageController {
 
-   @RequestMapping("/stock.html")
-   public String lowestPage() {
-      return "stock/stock";
-   }
+    @RequestMapping("/stock.html")
+    public String lowestPage() {
+        return "stock/stock";
+    }
 }

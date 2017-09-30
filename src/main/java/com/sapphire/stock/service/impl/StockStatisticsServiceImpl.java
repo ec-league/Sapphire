@@ -16,30 +16,30 @@ import com.sapphire.stock.service.StockStatisticsService;
  */
 @Service("stockStatisticsService")
 public class StockStatisticsServiceImpl implements StockStatisticsService {
-   @Autowired
-   private StockStatisticsRepository stockStatisticsRepository;
+    @Autowired
+    private StockStatisticsRepository stockStatisticsRepository;
 
-   @Override
-   public void update(List<StockStatistics> stats) {
-      stockStatisticsRepository.save(stats);
-   }
+    @Override
+    public void update(List<StockStatistics> stats) {
+        stockStatisticsRepository.save(stats);
+    }
 
-   @Override
-   public void update(StockStatistics stat) {
-      if (stat == null || "".equals(stat.getCode()))
-         return;
+    @Override
+    public void update(StockStatistics stat) {
+        if (stat == null || "".equals(stat.getCode()))
+            return;
 
-      stockStatisticsRepository.save(stat);
-   }
+        stockStatisticsRepository.save(stat);
+    }
 
-   @Override
-   public StockStatistics findByCode(String code) {
-      return stockStatisticsRepository.findByCode(code);
-   }
+    @Override
+    public StockStatistics findByCode(String code) {
+        return stockStatisticsRepository.findByCode(code);
+    }
 
-   @Override
-   public List<StockStatistics> getAll() {
+    @Override
+    public List<StockStatistics> getAll() {
 
-      return stockStatisticsRepository.findAll();
-   }
+        return stockStatisticsRepository.findAll();
+    }
 }

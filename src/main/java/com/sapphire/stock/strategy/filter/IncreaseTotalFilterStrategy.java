@@ -9,12 +9,12 @@ import com.sapphire.stock.domain.Stock;
  */
 public class IncreaseTotalFilterStrategy extends AbstractFilterStrategy {
 
-   private static final double STANDARD_INCREASE_TOTAL = 1.6 * 1.6 * 1.6 * 1.6;
+    private static final double STANDARD_INCREASE_TOTAL = 1.6 * 1.6 * 1.6 * 1.6;
 
-   @Override
-   protected boolean shouldFilter(Stock stock) {
-      if (stock.getIncreaseTotal() < STANDARD_INCREASE_TOTAL)
-         return true;
-      return false;
-   }
+    @Override
+    protected boolean shouldFilter(Stock stock) {
+        if (stock.getIncreaseTotal() < STANDARD_INCREASE_TOTAL)
+            return true;
+        return false;
+    }
 }

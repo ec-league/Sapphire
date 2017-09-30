@@ -7,5 +7,5 @@ package com.sapphire.stock.job;
  */
 public interface StockItemJob {
 
-   void updateStock();
+    void updateStock();
 }

@@ -11,15 +11,15 @@ import com.sapphire.blog.domain.Comment;
  * Email: byp5303628@hotmail.com
  */
 public interface BlogService {
-   List<Blog> getBlogListByUserId(long userId);
+    List<Blog> getBlogListByUserId(long userId);
 
-   Blog getBlogByUidPk(long uidPk);
+    Blog getBlogByUidPk(long uidPk);
 
-   long saveBlog(Blog blog);
+    long saveBlog(Blog blog);
 
-   void loadBlog(long blogId);
+    void loadBlog(long blogId);
 
-   List<Comment> getCommentsByBlogId(long blogId);
+    List<Comment> getCommentsByBlogId(long blogId);
 
-   int getUserHitById(long userId);
+    int getUserHitById(long userId);
 }

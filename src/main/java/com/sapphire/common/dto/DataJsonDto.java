@@ -8,17 +8,17 @@ import java.io.Serializable;
  * Email: byp5303628@hotmail.com
  */
 public class DataJsonDto<T extends Serializable> extends JsonDto {
-   private T data;
+    private T data;
 
-   public DataJsonDto(T data) {
-      this.data = data;
-   }
+    public DataJsonDto(T data) {
+        this.data = data;
+    }
 
-   public T getData() {
-      return data;
-   }
+    public T getData() {
+        return data;
+    }
 
-   public void setData(T data) {
-      this.data = data;
-   }
+    public void setData(T data) {
+        this.data = data;
+    }
 }

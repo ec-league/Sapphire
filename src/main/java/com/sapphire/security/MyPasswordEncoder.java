@@ -9,12 +9,12 @@ import org.springframework.util.DigestUtils;
  * Email: byp5303628@hotmail.com
  */
 public class MyPasswordEncoder extends MessageDigestPasswordEncoder {
-   public MyPasswordEncoder(String algorithm) {
-      super(algorithm);
-   }
+    public MyPasswordEncoder(String algorithm) {
+        super(algorithm);
+    }
 
-   @Override
-   public boolean isPasswordValid(String encPass, String rawPass, Object salt) {
-      return encPass.equals(DigestUtils.md5DigestAsHex(rawPass.getBytes()));
-   }
+    @Override
+    public boolean isPasswordValid(String encPass, String rawPass, Object salt) {
+        return encPass.equals(DigestUtils.md5DigestAsHex(rawPass.getBytes()));
+    }
 }

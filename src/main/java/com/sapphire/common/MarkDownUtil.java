@@ -9,8 +9,8 @@ import org.pegdown.PegDownProcessor;
  * Email: byp5303628@hotmail.com
  */
 public class MarkDownUtil {
-   public static String toHtml(String s) {
-      PegDownProcessor pegDownProcessor = new PegDownProcessor(Extensions.ALL);
-      return pegDownProcessor.markdownToHtml(s);
-   }
+    public static String toHtml(String s) {
+        PegDownProcessor pegDownProcessor = new PegDownProcessor(Extensions.ALL);
+        return pegDownProcessor.markdownToHtml(s);
+    }
 }
