@@ -1,6 +1,5 @@
 package com.sapphire.stock.cache;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.mail.EmailException;
@@ -10,7 +9,6 @@ import com.sapphire.BaseTest;
 import com.sapphire.common.EmailUtil;
 import com.sapphire.common.TimeUtil;
 import com.sapphire.stock.domain.Stock;
-import com.sapphire.stock.domain.StockStatistics;
 import com.sapphire.stock.service.StockService;
 import com.sapphire.stock.service.StockStatisticsService;
 

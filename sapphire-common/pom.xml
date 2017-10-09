@@ -12,13 +12,13 @@
     </parent>
 
     <groupId>com.sapphire</groupId>
-    <artifactId>sapphire-biz</artifactId>
+    <artifactId>sapphire-common</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>sapphire-biz-blog</module>
-        <module>sapphire-biz-stock</module>
-        <module>sapphire-biz-user</module>
+        <module>sapphire-common-util</module>
+        <module>sapphire-common-integration</module>
+        <module>sapphire-common-dal</module>
     </modules>
 </project>

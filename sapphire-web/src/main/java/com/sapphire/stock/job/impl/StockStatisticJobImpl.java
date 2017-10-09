@@ -59,8 +59,9 @@ public class StockStatisticJobImpl extends SingleThreadJob implements StockStati
         Stock stock = stockService.getStockByCodeAndTime(code, TimeUtil.oneYearAgo(),
             TimeUtil.now());
 
-        if (stock == null)
+        if (stock == null) {
             return;
+        }
 
         StockStatistics stat = new StockStatistics();
         stat.setCode(code);

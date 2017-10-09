@@ -6,7 +6,8 @@ package com.sapphire.blog.constant;
  * Email: byp5303628@hotmail.com
  */
 public enum BlogStatus {
-                        PUBLISHED(1), UN_PUBLISHED(0);
+    PUBLISHED(1),
+    UN_PUBLISHED(0);
 
     private int code;
 

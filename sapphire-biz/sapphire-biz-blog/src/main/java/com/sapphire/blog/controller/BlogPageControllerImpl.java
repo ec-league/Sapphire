@@ -21,17 +21,17 @@ public class BlogPageControllerImpl {
     @RequestMapping("/page.html")
     public String blogPage(@RequestParam("blogId") long blogId) {
         blogService.loadBlog(blogId);
-        return "blog/blog";
+        return "view/blog/blog.html";
     }
 
     @RequestMapping("/my-blogs.html")
     public String myBlogPage() {
-        return "blog/blog-list";
+        return "view/blog/blog-list.html";
     }
 
     @RequestMapping("/blog-edit.html")
     public String blogEdit() {
-        return "blog/blog-edit";
+        return "view/blog/blog-edit.html";
     }
 
     @RequestMapping("/my-comment.html")

@@ -13,7 +13,7 @@
 
     <modules>
         <module>sapphire-biz</module>
-        <module>sapphire-integration</module>
+        <module>sapphire-common</module>
         <module>sapphire-web</module>
     </modules>
 
@@ -188,6 +188,23 @@
                         <groupId>org.slf4j</groupId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <!--Project internal dependency-->
+            <dependency>
+                <groupId>com.sapphire</groupId>
+                <artifactId>sapphire-biz-blog</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sapphire</groupId>
+                <artifactId>sapphire-common-util</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sapphire</groupId>
+                <artifactId>sapphire-biz-user</artifactId>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
