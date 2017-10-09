@@ -11,14 +11,14 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;
-import com.sapphire.blog.constant.BlogStatus;
-import com.sapphire.blog.domain.Blog;
-import com.sapphire.blog.domain.Comment;
-import com.sapphire.blog.service.BlogService;
-import com.sapphire.blog.service.CommentService;
-import com.sapphire.user.domain.User;
-import com.sapphire.user.dto.UserDto;
-import com.sapphire.user.service.UserService;
+import com.sapphire.biz.blog.constant.BlogStatus;
+import com.sapphire.biz.blog.domain.Blog;
+import com.sapphire.biz.blog.domain.Comment;
+import com.sapphire.biz.blog.service.BlogService;
+import com.sapphire.biz.blog.service.CommentService;
+import com.sapphire.biz.user.domain.User;
+import com.sapphire.biz.user.dto.UserDto;
+import com.sapphire.biz.user.service.UserService;
 
 /**
  * Author: EthanPark <br/>

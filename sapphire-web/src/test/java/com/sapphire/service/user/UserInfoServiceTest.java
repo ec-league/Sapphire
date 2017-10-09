@@ -7,8 +7,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;
-import com.sapphire.user.domain.UserInfo;
-import com.sapphire.user.service.UserInfoService;
+import com.sapphire.biz.user.domain.UserInfo;
+import com.sapphire.biz.user.service.UserInfoService;
 
 /**
  * Author: EthanPark <br/>

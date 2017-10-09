@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 
 import com.sapphire.BaseTest;
-import com.sapphire.user.domain.User;
-import com.sapphire.user.dto.UserDto;
-import com.sapphire.user.service.UserService;
+import com.sapphire.biz.user.domain.User;
+import com.sapphire.biz.user.dto.UserDto;
+import com.sapphire.biz.user.service.UserService;
 
 /**
  * Author: EthanPark <br/>

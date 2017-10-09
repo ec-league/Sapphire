@@ -206,6 +206,11 @@
                 <artifactId>sapphire-biz-user</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>com.sapphire</groupId>
+                <artifactId>sapphire-biz-stock</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

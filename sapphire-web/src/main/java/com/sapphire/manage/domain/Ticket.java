@@ -16,7 +16,7 @@ import javax.persistence.TemporalType;
 
 import com.sapphire.manage.constant.TicketPriority;
 import com.sapphire.manage.constant.TicketType;
-import com.sapphire.user.domain.User;
+import com.sapphire.biz.user.domain.User;
 
 /**
  * Author: EthanPark <br/>

@@ -24,8 +24,8 @@ import com.sapphire.manage.domain.Project;
 import com.sapphire.manage.domain.Ticket;
 import com.sapphire.manage.service.ProjectService;
 import com.sapphire.manage.service.TicketService;
-import com.sapphire.user.domain.User;
-import com.sapphire.user.service.UserService;
+import com.sapphire.biz.user.domain.User;
+import com.sapphire.biz.user.service.UserService;
 
 /**
  * Author: EthanPark <br/>

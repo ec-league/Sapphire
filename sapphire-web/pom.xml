@@ -139,6 +139,10 @@
             <groupId>com.sapphire</groupId>
             <artifactId>sapphire-biz-blog</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.sapphire</groupId>
+            <artifactId>sapphire-biz-stock</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
