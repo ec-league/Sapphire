@@ -29,7 +29,7 @@ public class StockStatisticJobImpl extends SingleThreadJob implements StockStati
     @Autowired
     private StockService                         stockService;
 
-   @Ash utowired
+   @Autowired
    private StockStatisticsService statisticsService;
 
     @Override

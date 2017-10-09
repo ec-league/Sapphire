@@ -18,7 +18,7 @@
 
     <http>
         <http-basic/>
-        <intercept-url pattern="/**" access="ROLE_USER"/>
+        <intercept-url pattern="/com/sapphire/stock/strategy/fill" access="ROLE_USER"/>
 
         <!-- 登录界面 -->
         <form-login login-page="/login.html" authentication-failure-url="/login.html?error=true"
