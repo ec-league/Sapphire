@@ -2,12 +2,12 @@ package com.sapphire.stock.job.impl;
 
 import java.util.List;
 
+import com.sapphire.common.utils.TimeUtil;
+import com.sapphire.common.utils.annotation.Job;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sapphire.common.TimeUtil;
-import com.sapphire.common.annotation.Job;
 import com.sapphire.stock.domain.Stock;
 import com.sapphire.stock.domain.StockStatistics;
 import com.sapphire.stock.job.SingleThreadJob;

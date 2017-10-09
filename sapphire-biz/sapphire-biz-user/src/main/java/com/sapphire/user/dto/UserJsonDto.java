@@ -1,6 +1,6 @@
 package com.sapphire.user.dto;
 
-import com.sapphire.common.dto.JsonDto;
+import com.sapphire.common.utils.dto.JsonDto;
 import com.sapphire.user.domain.User;
 
 /**

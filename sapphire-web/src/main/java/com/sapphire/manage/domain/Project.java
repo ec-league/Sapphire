@@ -1,5 +1,7 @@
 package com.sapphire.manage.domain;
 
+import com.sapphire.common.utils.TimeUtil;
+
 import java.sql.Timestamp;
 
 import javax.persistence.Basic;
@@ -12,7 +14,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.sapphire.common.TimeUtil;
 
 /**
  * Author: EthanPark <br/>

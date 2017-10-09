@@ -1,6 +1,6 @@
 package com.sapphire.user.dto;
 
-import com.sapphire.common.dto.Dto;
+import com.sapphire.common.utils.dto.Dto;
 
 /**
  * Author: Ethan <br/>

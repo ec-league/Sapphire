@@ -2,12 +2,11 @@ package com.sapphire.stock.cache;
 
 import java.util.List;
 
+import com.sapphire.common.utils.EmailUtil;
 import org.apache.commons.mail.EmailException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;
-import com.sapphire.common.EmailUtil;
-import com.sapphire.common.TimeUtil;
 import com.sapphire.stock.domain.Stock;
 import com.sapphire.stock.service.StockService;
 import com.sapphire.stock.service.StockStatisticsService;

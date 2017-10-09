@@ -2,6 +2,9 @@ package com.sapphire.stock.controller;
 
 import java.util.List;
 
+import com.sapphire.common.utils.dto.DataJsonDto;
+import com.sapphire.common.utils.dto.JsonDto;
+import com.sapphire.common.utils.dto.ListJsonDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sapphire.common.dto.DataJsonDto;
-import com.sapphire.common.dto.JsonDto;
-import com.sapphire.common.dto.ListJsonDto;
 import com.sapphire.stock.cache.StockCache;
 import com.sapphire.stock.domain.Stock;
 import com.sapphire.stock.domain.StockItem;
@@ -56,7 +56,7 @@ public class StockController {
 
         update(stocks);
 
-        return new ListJsonDto<>(stocks);
+        return new ListJsonDto(stocks);
     }
 
     @RequestMapping("/industry/statics/upon")
@@ -64,7 +64,7 @@ public class StockController {
     public JsonDto getStaticsByIndustryUpon(@RequestParam(value = "industry", required = true) String industry) {
         StockStatics stockStatics = stockService.getLastMonthStockStaticsByIndustry(industry);
 
-        return new ListJsonDto<>(stockStatics.getMacdUpZero()).formSuccessDto();
+        return new ListJsonDto(stockStatics.getMacdUpZero()).formSuccessDto();
     }
 
     @RequestMapping("/statics/below")
@@ -72,7 +72,7 @@ public class StockController {
     public JsonDto getStaticsBelow() {
         StockStatics stockStatics = stockCache.getStockStatics();
 
-        return new ListJsonDto<>(stockStatics.pick()).formSuccessDto();
+        return new ListJsonDto(stockStatics.pick()).formSuccessDto();
     }
 
     @RequestMapping("/statics/upon")
@@ -80,7 +80,7 @@ public class StockController {
     public JsonDto getStaticsUpon() {
         StockStatics stockStatics = stockCache.getStockStatics();
 
-        return new ListJsonDto<>(stockStatics.getMacdUpZero()).formSuccessDto();
+        return new ListJsonDto(stockStatics.getMacdUpZero()).formSuccessDto();
     }
 
     @RequestMapping("/statics/lowest.ep")
@@ -92,7 +92,7 @@ public class StockController {
 
         update(stocks);
 
-        return new ListJsonDto<>(stocks).formSuccessDto();
+        return new ListJsonDto(stocks).formSuccessDto();
     }
 
     @RequestMapping("/statics/increase.ep")
@@ -103,7 +103,7 @@ public class StockController {
 
         update(stocks);
 
-        return new ListJsonDto<>(stocks).formSuccessDto();
+        return new ListJsonDto(stocks).formSuccessDto();
     }
 
     @RequestMapping("/statics/dead.ep")
@@ -114,7 +114,7 @@ public class StockController {
 
         update(stocks);
 
-        return new ListJsonDto<>(stocks).formSuccessDto();
+        return new ListJsonDto(stocks).formSuccessDto();
     }
 
     @RequestMapping("/statics/gold.ep")
@@ -125,7 +125,7 @@ public class StockController {
 
         update(stocks);
 
-        return new ListJsonDto<>(stocks).formSuccessDto();
+        return new ListJsonDto(stocks).formSuccessDto();
     }
 
     @RequestMapping("/{code}/info.ep")
@@ -146,7 +146,7 @@ public class StockController {
             stock.setName(item.getName());
             stock.setEndPrice(item.getEndPrice());
 
-            JsonDto dto = new DataJsonDto<>(stock);
+            JsonDto dto = new DataJsonDto(stock);
 
             return dto.formSuccessDto();
         } catch (Exception ex) {

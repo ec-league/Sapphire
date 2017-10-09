@@ -1,9 +1,10 @@
 package com.sapphire.listener;
 
+import com.sapphire.common.utils.PropertyManager;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import com.sapphire.common.PropertyManager;
 
 /**
  * Author: Ethan <br/>

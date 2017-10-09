@@ -6,12 +6,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sapphire.common.utils.TimeUtil;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;
-import com.sapphire.common.TimeUtil;
 import com.sapphire.stock.domain.Stock;
 import com.sapphire.stock.domain.StockItem;
 import com.sapphire.stock.repository.StockItemRepository;

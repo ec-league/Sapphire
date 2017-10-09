@@ -1,4 +1,4 @@
-package com.sapphire.common.constant;
+package com.sapphire.common.utils.constant;
 
 /**
  * Author: Ethan <br/>

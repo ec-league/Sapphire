@@ -1,4 +1,4 @@
-package com.sapphire.common.dto;
+package com.sapphire.common.utils.dto;
 
 import java.io.Serializable;
 import java.util.List;

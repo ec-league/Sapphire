@@ -1,11 +1,11 @@
 package com.sapphire.stock.controller;
 
+import com.sapphire.common.utils.dto.JsonDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sapphire.common.dto.JsonDto;
 import com.sapphire.stock.job.StockItemJob;
 import com.sapphire.stock.job.StockStatisticJob;
 

@@ -1,4 +1,4 @@
-package com.sapphire.common;
+package com.sapphire.common.utils;
 
 import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;

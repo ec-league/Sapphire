@@ -1,6 +1,6 @@
-package com.sapphire.common.dto;
+package com.sapphire.common.utils.dto;
 
-import com.sapphire.common.constant.JsonDtoFlag;
+import com.sapphire.common.utils.constant.JsonDtoFlag;
 
 /**
  * Author: Ethan <br/>

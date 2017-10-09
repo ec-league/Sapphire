@@ -8,12 +8,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.sapphire.common.utils.TimeUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;
-import com.sapphire.common.TimeUtil;
 import com.sapphire.stock.domain.Stock;
 import com.sapphire.stock.domain.StockStatics;
 import com.sapphire.stock.service.StockService;

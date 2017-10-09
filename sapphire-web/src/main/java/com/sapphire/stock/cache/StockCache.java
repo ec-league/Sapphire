@@ -5,6 +5,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.annotation.PostConstruct;
 
+import com.sapphire.common.utils.cache.Cache;
+import com.sapphire.common.utils.cache.CacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sapphire.common.cache.Cache;
-import com.sapphire.common.cache.CacheService;
 import com.sapphire.stock.domain.StockStatics;
 import com.sapphire.stock.service.StockService;
 

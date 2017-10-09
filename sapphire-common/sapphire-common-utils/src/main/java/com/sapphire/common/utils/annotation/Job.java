@@ -1,4 +1,4 @@
-package com.sapphire.common.annotation;
+package com.sapphire.common.utils.annotation;
 
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package com.sapphire.common.exception;
+package com.sapphire.common.utils.exception;
 
 /**
  * Author: EthanPark <br/>

@@ -1,6 +1,6 @@
 package com.sapphire.stock.domain;
 
-import com.sapphire.common.dto.Dto;
+import com.sapphire.common.utils.dto.Dto;
 
 /**
  * Author: EthanPark <br/>

@@ -3,6 +3,10 @@ package com.sapphire.manage.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sapphire.common.utils.TimeUtil;
+import com.sapphire.common.utils.dto.Dto;
+import com.sapphire.common.utils.dto.JsonDto;
+import com.sapphire.common.utils.dto.ListJsonDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sapphire.common.TimeUtil;
-import com.sapphire.common.dto.Dto;
-import com.sapphire.common.dto.JsonDto;
-import com.sapphire.common.dto.ListJsonDto;
 import com.sapphire.manage.constant.TicketPriority;
 import com.sapphire.manage.constant.TicketStatus;
 import com.sapphire.manage.constant.TicketType;
@@ -116,7 +116,7 @@ public class ManageJsonControllerImpl {
     @ResponseBody
     public JsonDto getTicketsByProjectId(@PathVariable("projectId") long projectId) {
         try {
-            List<TicketItemDto> dtos = new ArrayList<TicketItemDto>();
+            List<TicketItemDto> dtos = new ArrayList<>();
             for (Ticket ticket : ticketService.getTicketsByProjectId(projectId)) {
                 dtos.add(new TicketItemDto(ticket));
             }

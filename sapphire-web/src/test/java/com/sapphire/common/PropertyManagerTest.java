@@ -1,9 +1,10 @@
 package com.sapphire.common;
 
+import com.sapphire.common.utils.PropertyManager;
+import com.sapphire.common.utils.exception.PropertyNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sapphire.common.exception.PropertyNotFoundException;
 
 /**
  * Author: EthanPark <br/>

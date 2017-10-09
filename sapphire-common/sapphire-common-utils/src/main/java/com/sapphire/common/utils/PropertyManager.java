@@ -1,4 +1,4 @@
-package com.sapphire.common;
+package com.sapphire.common.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import com.sapphire.common.utils.exception.PropertyManagerInitException;
+import com.sapphire.common.utils.exception.PropertyNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sapphire.common.exception.PropertyManagerInitException;
-import com.sapphire.common.exception.PropertyNotFoundException;
 
 /**
  * Author: Ethan <br/>

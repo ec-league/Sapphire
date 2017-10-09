@@ -5,6 +5,12 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import com.sapphire.common.utils.MarkDownUtil;
+import com.sapphire.common.utils.TimeUtil;
+import com.sapphire.common.utils.dto.DataJsonDto;
+import com.sapphire.common.utils.dto.Dto;
+import com.sapphire.common.utils.dto.JsonDto;
+import com.sapphire.common.utils.dto.ListJsonDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +25,6 @@ import com.sapphire.blog.constant.BlogStatus;
 import com.sapphire.blog.domain.Blog;
 import com.sapphire.blog.domain.Comment;
 import com.sapphire.blog.service.BlogService;
-import com.sapphire.common.MarkDownUtil;
-import com.sapphire.common.TimeUtil;
-import com.sapphire.common.dto.DataJsonDto;
-import com.sapphire.common.dto.Dto;
-import com.sapphire.common.dto.JsonDto;
-import com.sapphire.common.dto.ListJsonDto;
 import com.sapphire.user.domain.User;
 
 /**
@@ -50,7 +50,7 @@ public class BlogControllerImpl {
         try {
             User u = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             List<Blog> blogs = blogService.getBlogListByUserId(u.getUidPk());
-            List<BlogItem> blogItems = new ArrayList<BlogItem>();
+            List<BlogItem> blogItems = new ArrayList<>();
             for (Blog blog : blogs) {
                 blogItems.add(new BlogItem(blog));
             }

@@ -1,4 +1,4 @@
-package com.sapphire.common;
+package com.sapphire.common.utils;
 
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;

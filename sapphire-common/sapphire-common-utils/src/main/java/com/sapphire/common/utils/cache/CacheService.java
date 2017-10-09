@@ -1,4 +1,4 @@
-package com.sapphire.common.cache;
+package com.sapphire.common.utils.cache;
 
 import java.util.HashMap;
 import java.util.Map;

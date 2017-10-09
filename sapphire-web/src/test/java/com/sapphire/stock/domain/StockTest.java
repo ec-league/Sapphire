@@ -1,7 +1,7 @@
 package com.sapphire.stock.domain;
 
 import com.sapphire.BaseTest;
-import com.sapphire.common.TimeUtil;
+import com.sapphire.common.utils.TimeUtil;
 import com.sapphire.stock.repository.StockItemRepository;
 import com.sapphire.stock.service.StockService;
 import org.junit.Assert;

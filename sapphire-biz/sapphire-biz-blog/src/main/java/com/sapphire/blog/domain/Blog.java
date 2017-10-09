@@ -17,7 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.sapphire.blog.constant.BlogStatus;
-import com.sapphire.common.TimeUtil;
+import com.sapphire.common.utils.TimeUtil;
 import com.sapphire.user.domain.User;
 
 /**

@@ -40,7 +40,7 @@
 
         <dependency>
             <groupId>com.sapphire</groupId>
-            <artifactId>sapphire-common-util</artifactId>
+            <artifactId>sapphire-common-utils</artifactId>
         </dependency>
     </dependencies>
 

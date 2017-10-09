@@ -2,7 +2,7 @@ package com.sapphire.stock.strategy.fill;
 
 import java.util.List;
 
-import com.sapphire.common.cache.CacheService;
+import com.sapphire.common.utils.cache.CacheService;
 import com.sapphire.stock.cache.StockStatisticsCache;
 import com.sapphire.stock.domain.Stock;
 import com.sapphire.stock.domain.StockStatistics;

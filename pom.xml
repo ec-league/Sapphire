@@ -198,7 +198,7 @@
             </dependency>
             <dependency>
                 <groupId>com.sapphire</groupId>
-                <artifactId>sapphire-common-util</artifactId>
+                <artifactId>sapphire-common-utils</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>

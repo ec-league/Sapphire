@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import com.sapphire.common.utils.TimeUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,7 +16,6 @@ import com.sapphire.blog.domain.Blog;
 import com.sapphire.blog.domain.Comment;
 import com.sapphire.blog.service.BlogService;
 import com.sapphire.blog.service.CommentService;
-import com.sapphire.common.TimeUtil;
 import com.sapphire.user.domain.User;
 import com.sapphire.user.dto.UserDto;
 import com.sapphire.user.service.UserService;

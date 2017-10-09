@@ -1,4 +1,6 @@
-package com.sapphire.common;
+package com.sapphire.common.utils;
+
+import com.sapphire.common.utils.exception.DateParseException;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -7,7 +9,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.sapphire.common.exception.DateParseException;
 
 /**
  * Author: EthanPark <br/>

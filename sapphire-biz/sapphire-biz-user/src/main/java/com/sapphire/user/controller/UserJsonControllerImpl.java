@@ -1,5 +1,8 @@
 package com.sapphire.user.controller;
 
+import com.sapphire.common.utils.dto.DataJsonDto;
+import com.sapphire.common.utils.dto.Dto;
+import com.sapphire.common.utils.dto.JsonDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sapphire.common.dto.DataJsonDto;
-import com.sapphire.common.dto.Dto;
-import com.sapphire.common.dto.JsonDto;
 import com.sapphire.user.domain.User;
 import com.sapphire.user.dto.UserDto;
 import com.sapphire.user.dto.UserJsonDto;
