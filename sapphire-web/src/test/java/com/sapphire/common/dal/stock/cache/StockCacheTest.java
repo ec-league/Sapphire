@@ -2,9 +2,10 @@ package com.sapphire.common.dal.stock.cache;
 
 import java.util.List;
 
+import com.sapphire.biz.stock.cache.StockCache;
 import com.sapphire.common.dal.stock.domain.Stock;
-import com.sapphire.common.dal.stock.service.StockService;
-import com.sapphire.common.dal.stock.service.StockStatisticsService;
+import com.sapphire.biz.stock.service.StockService;
+import com.sapphire.biz.stock.service.StockStatisticsService;
 import com.sapphire.common.utils.EmailUtil;
 import org.apache.commons.mail.EmailException;
 import org.springframework.beans.factory.annotation.Autowired;

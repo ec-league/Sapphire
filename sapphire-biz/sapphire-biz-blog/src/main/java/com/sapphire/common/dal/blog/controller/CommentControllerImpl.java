@@ -1,8 +1,8 @@
 package com.sapphire.common.dal.blog.controller;
 
 import com.sapphire.common.dal.blog.domain.Comment;
-import com.sapphire.common.dal.blog.service.BlogService;
-import com.sapphire.common.dal.blog.service.CommentService;
+import com.sapphire.biz.blog.service.BlogService;
+import com.sapphire.biz.blog.service.CommentService;
 import com.sapphire.common.utils.TimeUtil;
 import com.sapphire.common.utils.dto.Dto;
 import com.sapphire.common.utils.dto.JsonDto;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sapphire.common.dal.user.service.UserService;
+import com.sapphire.biz.user.service.UserService;
 
 /**
  * Author: EthanPark <br/>

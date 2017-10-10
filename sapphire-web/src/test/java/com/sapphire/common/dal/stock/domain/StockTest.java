@@ -2,7 +2,7 @@ package com.sapphire.common.dal.stock.domain;
 
 import com.sapphire.BaseTest;
 import com.sapphire.common.dal.stock.repository.StockItemRepository;
-import com.sapphire.common.dal.stock.service.StockService;
+import com.sapphire.biz.stock.service.StockService;
 import com.sapphire.common.utils.TimeUtil;
 import org.junit.Assert;
 import org.junit.Test;

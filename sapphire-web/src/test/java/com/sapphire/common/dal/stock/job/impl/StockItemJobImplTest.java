@@ -1,6 +1,6 @@
 package com.sapphire.common.dal.stock.job.impl;
 
-import com.sapphire.common.dal.stock.job.StockStatisticJob;
+import com.sapphire.biz.stock.job.StockStatisticJob;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;

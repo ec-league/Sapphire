@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.sapphire.common.dal.user.service.UserService;
+import com.sapphire.biz.user.service.UserService;
 
 /**
  * Author: EthanPark <br/>

@@ -2,11 +2,11 @@ package com.sapphire.common.dal.stock.controller;
 
 import java.util.List;
 
-import com.sapphire.common.dal.stock.cache.StockCache;
+import com.sapphire.biz.stock.cache.StockCache;
 import com.sapphire.common.dal.stock.domain.StockStatics;
 import com.sapphire.common.dal.stock.domain.StockStatistics;
-import com.sapphire.common.dal.stock.service.StockService;
-import com.sapphire.common.dal.stock.service.StockStatisticsService;
+import com.sapphire.biz.stock.service.StockService;
+import com.sapphire.biz.stock.service.StockStatisticsService;
 import com.sapphire.common.dal.stock.domain.StockItem;
 import com.sapphire.common.utils.dto.DataJsonDto;
 import com.sapphire.common.utils.dto.JsonDto;

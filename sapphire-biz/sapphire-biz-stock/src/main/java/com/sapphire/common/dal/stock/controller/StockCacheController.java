@@ -1,7 +1,7 @@
 package com.sapphire.common.dal.stock.controller;
 
-import com.sapphire.common.dal.stock.job.StockItemJob;
-import com.sapphire.common.dal.stock.job.StockStatisticJob;
+import com.sapphire.biz.stock.job.StockItemJob;
+import com.sapphire.biz.stock.job.StockStatisticJob;
 import com.sapphire.common.utils.dto.JsonDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

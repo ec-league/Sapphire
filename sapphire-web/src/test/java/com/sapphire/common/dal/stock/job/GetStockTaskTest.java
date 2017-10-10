@@ -9,7 +9,7 @@ import java.util.List;
 import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockItem;
 import com.sapphire.common.dal.stock.repository.StockItemRepository;
-import com.sapphire.common.dal.stock.service.StockService;
+import com.sapphire.biz.stock.service.StockService;
 import com.sapphire.common.utils.TimeUtil;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;

@@ -6,7 +6,7 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 
 import com.sapphire.common.dal.blog.domain.Comment;
-import com.sapphire.common.dal.blog.service.BlogService;
+import com.sapphire.biz.blog.service.BlogService;
 import com.sapphire.common.dal.user.domain.User;
 import com.sapphire.common.utils.MarkDownUtil;
 import com.sapphire.common.utils.TimeUtil;

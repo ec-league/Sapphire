@@ -10,7 +10,7 @@ import java.util.Set;
 
 import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockStatics;
-import com.sapphire.common.dal.stock.service.StockService;
+import com.sapphire.biz.stock.service.StockService;
 import com.sapphire.common.utils.TimeUtil;
 import org.junit.Assert;
 import org.junit.Test;

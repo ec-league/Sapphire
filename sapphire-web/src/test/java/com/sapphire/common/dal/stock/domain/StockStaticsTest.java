@@ -2,7 +2,7 @@ package com.sapphire.common.dal.stock.domain;
 
 import java.util.List;
 
-import com.sapphire.common.dal.stock.service.StockService;
+import com.sapphire.biz.stock.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;

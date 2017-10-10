@@ -6,8 +6,8 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
 import com.sapphire.common.dal.blog.domain.BlogTag;
-import com.sapphire.common.dal.blog.service.BlogService;
-import com.sapphire.common.dal.blog.service.BlogTagService;
+import com.sapphire.biz.blog.service.BlogService;
+import com.sapphire.biz.blog.service.BlogTagService;
 import com.sapphire.common.dal.user.domain.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.sapphire.BaseTest;
 import com.sapphire.common.dal.blog.domain.Blog;
 import com.sapphire.common.dal.user.dto.UserDto;
-import com.sapphire.common.dal.user.service.UserService;
+import com.sapphire.biz.user.service.UserService;
 
 /**
  * BlogTagServiceImpl Tester.
