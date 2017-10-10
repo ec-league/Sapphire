@@ -7,7 +7,7 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
 import com.sapphire.common.dal.user.domain.User;
-import com.sapphire.common.dal.user.dto.UserDto;
+import com.sapphire.biz.user.dto.UserDto;
 import com.sapphire.common.dal.user.repository.UserRepository;
 import com.sapphire.biz.user.service.RoleService;
 import com.sapphire.biz.user.service.UserService;

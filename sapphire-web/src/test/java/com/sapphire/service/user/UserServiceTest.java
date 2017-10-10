@@ -11,7 +11,7 @@ import org.springframework.util.DigestUtils;
 
 import com.sapphire.BaseTest;
 import com.sapphire.common.dal.user.domain.User;
-import com.sapphire.common.dal.user.dto.UserDto;
+import com.sapphire.biz.user.dto.UserDto;
 import com.sapphire.biz.user.service.UserService;
 
 /**

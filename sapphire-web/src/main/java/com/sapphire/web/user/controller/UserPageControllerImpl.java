@@ -1,4 +1,4 @@
-package com.sapphire.common.dal.user.controller;
+package com.sapphire.web.user.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

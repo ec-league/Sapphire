@@ -1,4 +1,4 @@
-package com.sapphire.common.dal.blog.controller;
+package com.sapphire.web.blog.contoller;
 
 import com.sapphire.common.dal.blog.domain.Comment;
 import com.sapphire.biz.blog.service.BlogService;

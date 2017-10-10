@@ -1,4 +1,4 @@
-package com.sapphire.common.dal.user.dto;
+package com.sapphire.biz.user.dto;
 
 import com.sapphire.common.utils.dto.Dto;
 

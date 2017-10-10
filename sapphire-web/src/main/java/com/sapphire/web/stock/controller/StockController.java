@@ -1,4 +1,4 @@
-package com.sapphire.common.dal.stock.controller;
+package com.sapphire.web.stock.controller;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
-package com.sapphire.common.dal.user.controller;
+package com.sapphire.web.user.controller;
 
 import com.sapphire.common.dal.user.domain.User;
-import com.sapphire.common.dal.user.dto.UserDto;
-import com.sapphire.common.dal.user.dto.UserJsonDto;
+import com.sapphire.biz.user.dto.UserDto;
+import com.sapphire.biz.user.dto.UserJsonDto;
 import com.sapphire.biz.user.service.UserService;
 import com.sapphire.common.utils.dto.DataJsonDto;
 import com.sapphire.common.utils.dto.Dto;

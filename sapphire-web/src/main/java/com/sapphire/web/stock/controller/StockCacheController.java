@@ -1,4 +1,4 @@
-package com.sapphire.common.dal.stock.controller;
+package com.sapphire.web.stock.controller;
 
 import com.sapphire.biz.stock.job.StockItemJob;
 import com.sapphire.biz.stock.job.StockStatisticJob;

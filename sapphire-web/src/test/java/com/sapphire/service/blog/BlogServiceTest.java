@@ -17,7 +17,7 @@ import com.sapphire.common.dal.blog.domain.Comment;
 import com.sapphire.biz.blog.service.BlogService;
 import com.sapphire.biz.blog.service.CommentService;
 import com.sapphire.common.dal.user.domain.User;
-import com.sapphire.common.dal.user.dto.UserDto;
+import com.sapphire.biz.user.dto.UserDto;
 import com.sapphire.biz.user.service.UserService;
 
 /**

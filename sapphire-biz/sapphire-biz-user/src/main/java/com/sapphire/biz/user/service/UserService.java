@@ -2,7 +2,7 @@ package com.sapphire.biz.user.service;
 
 import java.util.List;
 
-import com.sapphire.common.dal.user.dto.UserDto;
+import com.sapphire.biz.user.dto.UserDto;
 import com.sapphire.common.dal.user.domain.User;
 
 /**

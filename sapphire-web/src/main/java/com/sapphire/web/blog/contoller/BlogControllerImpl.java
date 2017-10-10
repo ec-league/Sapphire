@@ -1,4 +1,4 @@
-package com.sapphire.common.dal.blog.controller;
+package com.sapphire.web.blog.contoller;
 
 import java.util.ArrayList;
 import java.util.List;

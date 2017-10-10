@@ -1,4 +1,4 @@
-package com.sapphire.common.dal.stock.controller;
+package com.sapphire.web.stock.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;
 import com.sapphire.common.dal.blog.domain.Blog;
-import com.sapphire.common.dal.user.dto.UserDto;
+import com.sapphire.biz.user.dto.UserDto;
 import com.sapphire.biz.user.service.UserService;
 
 /**
