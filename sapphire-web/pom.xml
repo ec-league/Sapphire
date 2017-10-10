@@ -154,7 +154,7 @@
                 <version>6.1.26</version>
                 <configuration>
                     <scanIntervalSeconds>4</scanIntervalSeconds>
-                    <webDefaultXml>${project.basedir}/webdefault.xml</webDefaultXml>
+                    <webDefaultXml>${project.basedir}/../webdefault.xml</webDefaultXml>
                     <contextPath>/sapphire</contextPath>
                     <systemProperties>
                         <systemProperty>
