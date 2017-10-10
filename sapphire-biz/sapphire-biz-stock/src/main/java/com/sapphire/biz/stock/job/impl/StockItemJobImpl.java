@@ -76,8 +76,9 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
 
             StockItem last = stockService.getLatestStockItemByCode(code);
 
-            if (last.getLogDate().equals(item.getLogDate()))
+            if (last.getLogDate().equals(item.getLogDate())) {
                 return;
+            }
 
             if (last.isStop()) {
                 last.updateItem(item, MACD_START, MACD_END);
