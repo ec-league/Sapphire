@@ -5,8 +5,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;
-import com.sapphire.biz.user.constant.RoleNameConstant;
-import com.sapphire.biz.user.service.RoleService;
+import com.sapphire.common.dal.user.constant.RoleNameConstant;
+import com.sapphire.common.dal.user.service.RoleService;
 
 /**
  * Author: EthanPark <br/>

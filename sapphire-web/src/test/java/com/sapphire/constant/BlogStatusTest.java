@@ -4,7 +4,7 @@ package com.sapphire.constant;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.sapphire.biz.blog.constant.BlogStatus;
+import com.sapphire.common.dal.blog.constant.BlogStatus;
 
 /**
  * Author: EthanPark <br/>

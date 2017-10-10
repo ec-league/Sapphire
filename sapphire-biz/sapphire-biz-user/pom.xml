@@ -42,6 +42,10 @@
             <groupId>com.sapphire</groupId>
             <artifactId>sapphire-common-utils</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.sapphire</groupId>
+            <artifactId>sapphire-common-dal</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
