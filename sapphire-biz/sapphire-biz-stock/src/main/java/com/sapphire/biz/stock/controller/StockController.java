@@ -72,7 +72,8 @@ public class StockController {
     public JsonDto getStaticsBelow() {
         StockStatics stockStatics = stockCache.getStockStatics();
 
-        return new ListJsonDto(stockStatics.pick()).formSuccessDto();
+        //return new ListJsonDto(stockStatics.pick()).formSuccessDto();
+        return null;
     }
 
     @RequestMapping("/statics/upon")

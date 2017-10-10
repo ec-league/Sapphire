@@ -1,10 +1,10 @@
 package com.sapphire.biz.stock.repository;
 
-import java.util.List;
-
 import com.sapphire.biz.stock.domain.IgnoreStock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+
+import java.util.List;
 
 /**
  * Created by Ethan on 2016/4/5.

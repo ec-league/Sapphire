@@ -1,8 +1,8 @@
 package com.sapphire.biz.stock.strategy;
 
-import java.util.List;
-
 import com.sapphire.biz.stock.domain.Stock;
+
+import java.util.List;
 
 /**
  * Author: EthanPark <br/>

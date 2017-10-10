@@ -1,9 +1,9 @@
 package com.sapphire.biz.stock.strategy.filter;
 
-import java.util.List;
-
 import com.sapphire.biz.stock.domain.Stock;
 import com.sapphire.biz.stock.strategy.FilterStrategy;
+
+import java.util.List;
 
 /**
  * Author: EthanPark <br/>

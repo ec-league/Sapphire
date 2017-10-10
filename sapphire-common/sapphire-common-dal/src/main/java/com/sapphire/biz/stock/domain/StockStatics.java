@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.sapphire.biz.stock.strategy.StrategyExecutor;
-
 /**
  * Author: Ethan Date: 2016/4/6
  */
@@ -22,15 +20,15 @@ public class StockStatics {
             .collect(Collectors.toList());
     }
 
-    public List<Stock> pick() {
-        List<Stock> result = new ArrayList<>(stocks);
-
-        StrategyExecutor.execute(result);
-
-        result.sort((o1, o2) -> Double.compare(o1.getCurrentDiff(), o2.getCurrentDiff()));
-
-        return result;
-    }
+    //public List<Stock> pick() {
+    //    List<Stock> result = new ArrayList<>(stocks);
+    //
+    //    StrategyExecutor.execute(result);
+    //
+    //    result.sort((o1, o2) -> Double.compare(o1.getCurrentDiff(), o2.getCurrentDiff()));
+    //
+    //    return result;
+    //}
 
     public List<Stock> getStocks() {
         return stocks;

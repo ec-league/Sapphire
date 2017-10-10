@@ -1,10 +1,10 @@
 package com.sapphire.biz.stock.repository;
 
-import java.util.List;
-
 import com.sapphire.biz.stock.domain.StockStatistics;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * Author: EthanPark <br/>

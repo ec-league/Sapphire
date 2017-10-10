@@ -1,5 +1,6 @@
 package com.sapphire.common.utils;
 
+import com.sapphire.common.utils.annotation.Util;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 
@@ -8,6 +9,7 @@ import org.apache.commons.mail.HtmlEmail;
  * Date: 2015/12/10<br/>
  * Email: byp5303628@hotmail.com
  */
+@Util
 public class EmailUtil {
     public static void sendEmail(EmailBuilder builder) throws EmailException {
         HtmlEmail email = new HtmlEmail();

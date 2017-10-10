@@ -1,5 +1,6 @@
 package com.sapphire.common.utils;
 
+import com.sapphire.common.utils.annotation.Util;
 import com.sapphire.common.utils.exception.DateParseException;
 
 import static java.lang.System.currentTimeMillis;
@@ -15,6 +16,7 @@ import java.util.Date;
  * Date: 2015/11/20<br/>
  * Email: byp5303628@hotmail.com
  */
+@Util
 public class TimeUtil {
     private static final String DATE_FORMAT       = "yyyy-MM-dd HH:mm:ss";
     private static final String STOCK_DATE_FORMAT = "MM/dd/yyyy";

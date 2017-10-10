@@ -1,12 +1,12 @@
 package com.sapphire.biz.stock.strategy.fill;
 
-import java.util.List;
-
-import com.sapphire.biz.stock.domain.StockStatistics;
-import com.sapphire.common.utils.cache.CacheService;
 import com.sapphire.biz.stock.cache.StockStatisticsCache;
 import com.sapphire.biz.stock.domain.Stock;
+import com.sapphire.biz.stock.domain.StockStatistics;
 import com.sapphire.biz.stock.strategy.FillStrategy;
+import com.sapphire.common.utils.cache.CacheService;
+
+import java.util.List;
 
 /**
  * Author: EthanPark <br/>

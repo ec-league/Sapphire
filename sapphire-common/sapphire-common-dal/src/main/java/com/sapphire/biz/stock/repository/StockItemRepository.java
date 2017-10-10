@@ -1,13 +1,12 @@
 package com.sapphire.biz.stock.repository;
 
-import java.sql.Timestamp;
-import java.util.List;
-
+import com.sapphire.biz.stock.domain.StockItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.sapphire.biz.stock.domain.StockItem;
+import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by Ethan on 2016/3/30.
