@@ -22,6 +22,10 @@ public class SinaStockIntegrationService {
         try {
             HttpResponse<String> response = Unirest.get(url)
                     .asString();
+
+            if (response == null) {
+                throw new IntegrationException("Sina response is NULL");
+            }
             String output = response.getBody();
 
             StockItem item = toDomain(output);
