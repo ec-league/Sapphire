@@ -82,12 +82,6 @@
             </dependency>
             <!-- Json support end -->
 
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-jaxrs</artifactId>
-                <version>2.2.1.GA</version>
-            </dependency>
-
             <!-- Testing dependency -->
             <dependency>
                 <groupId>junit</groupId>
@@ -225,6 +219,11 @@
             <dependency>
                 <groupId>com.sapphire</groupId>
                 <artifactId>sapphire-common-dal</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sapphire</groupId>
+                <artifactId>sapphire-common-integration</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
         </dependencies>

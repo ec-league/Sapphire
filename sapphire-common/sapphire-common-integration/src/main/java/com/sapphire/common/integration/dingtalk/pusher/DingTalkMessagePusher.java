@@ -12,8 +12,6 @@ import com.sapphire.common.utils.annotation.Integration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
-
 /**
  *
  * @author yunpeng.byp
@@ -22,11 +20,9 @@ import java.util.Map;
 @Integration
 public class DingTalkMessagePusher {
     private static final Logger logger = LoggerFactory.getLogger(DingTalkMessagePusher.class);
-
-    /**
-     * webhooks:为不同主题对应的webhook的URL
-     */
-    private Map<String, String> webhooks;
+    private static final String WEB_HOOK_URL
+                                       = "https://oapi.dingtalk"
+            + ".com/robot/send?access_token=f2a46f97b29506f28c3de7974c284c32d38069d2baa500ca3b8191707c47bcc3";
 
     public void push(String topic, String msg, DingTalkMessageType messageType) {
         DingTalkMessage message = buildMessage(msg, messageType);
@@ -34,8 +30,7 @@ public class DingTalkMessagePusher {
         logger.info("Construct DingTalk Message: " + message.toJson());
         HttpResponse<String> response;
         try {
-            response = Unirest.post(
-                    "https://oapi.dingtalk.com/robot/send?access_token=f2a46f97b29506f28c3de7974c284c32d38069d2baa500ca3b8191707c47bcc3")
+            response = Unirest.post(WEB_HOOK_URL)
                     .header("content-type", "application/json")
                     .body(message.toJson())
                     .asString();

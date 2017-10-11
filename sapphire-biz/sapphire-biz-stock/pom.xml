@@ -29,10 +29,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jaxrs</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>com.sapphire</groupId>
@@ -41,6 +37,10 @@
         <dependency>
             <groupId>com.sapphire</groupId>
             <artifactId>sapphire-common-dal</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sapphire</groupId>
+            <artifactId>sapphire-common-integration</artifactId>
         </dependency>
     </dependencies>
 </project>

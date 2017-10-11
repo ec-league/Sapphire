@@ -55,11 +55,6 @@
         </dependency>
         <!-- Json support end -->
 
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jaxrs</artifactId>
-        </dependency>
-
         <!-- Testing dependency -->
         <dependency>
             <groupId>junit</groupId>
