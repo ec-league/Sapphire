@@ -7,6 +7,7 @@ import com.sapphire.common.integration.dingtalk.constant.DingTalkMessageType;
 import com.sapphire.common.integration.dingtalk.dto.DingTalkMessage;
 import com.sapphire.common.integration.dingtalk.dto.DingTalkResponse;
 import com.sapphire.common.integration.dingtalk.dto.DingTalkTxtMessage;
+import com.sapphire.common.integration.exception.IntegrationException;
 import com.sapphire.common.utils.annotation.Integration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,16 +28,24 @@ public class DingTalkMessagePusher {
      */
     private Map<String, String> webhooks;
 
-    public void push(String topic, String msg, DingTalkMessageType messageType) throws UnirestException {
+    public void push(String topic, String msg, DingTalkMessageType messageType) {
         DingTalkMessage message = buildMessage(msg, messageType);
 
         logger.info("Construct DingTalk Message: " + message.toJson());
+        HttpResponse<String> response;
+        try {
+            response = Unirest.post(
+                    "https://oapi.dingtalk.com/robot/send?access_token=f2a46f97b29506f28c3de7974c284c32d38069d2baa500ca3b8191707c47bcc3")
+                    .header("content-type", "application/json")
+                    .body(message.toJson())
+                    .asString();
+        } catch (UnirestException e) {
+            throw new IntegrationException(e);
+        }
 
-        HttpResponse<String> response = Unirest.post(
-                "https://oapi.dingtalk.com/robot/send?access_token=f2a46f97b29506f28c3de7974c284c32d38069d2baa500ca3b8191707c47bcc3")
-                .header("content-type", "application/json")
-                .body(message.toJson())
-                .asString();
+        if (response == null) {
+            throw new IntegrationException("DingTalk response is Null");
+        }
 
         String responseBody = response.getBody();
 
@@ -47,7 +56,7 @@ public class DingTalkMessagePusher {
         if (resp.getErrcode() == 0) {
             return;
         } else {
-            throw new RuntimeException("DingTalk Push Failed");
+            throw new IntegrationException("DingTalk Push Failed : " + resp.getErrmsg());
         }
     }
 
