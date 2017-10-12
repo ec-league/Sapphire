@@ -1,16 +1,16 @@
-package com.sapphire.manage.service.impl;
+package com.sapphire.biz.manage.service.impl;
 
 import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import com.sapphire.biz.manage.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sapphire.manage.domain.Project;
-import com.sapphire.manage.repository.ProjectRepository;
-import com.sapphire.manage.service.ProjectService;
+import com.sapphire.common.dal.manage.domain.Project;
+import com.sapphire.common.dal.manage.repository.ProjectRepository;
 
 /**
  * Author: EthanPark <br/>

@@ -136,7 +136,15 @@
         </dependency>
         <dependency>
             <groupId>com.sapphire</groupId>
+            <artifactId>sapphire-biz-user</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sapphire</groupId>
             <artifactId>sapphire-biz-stock</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sapphire</groupId>
+            <artifactId>sapphire-biz-manage</artifactId>
         </dependency>
     </dependencies>
 

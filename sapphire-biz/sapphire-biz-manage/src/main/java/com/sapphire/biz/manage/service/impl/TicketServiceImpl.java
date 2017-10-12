@@ -1,4 +1,4 @@
-package com.sapphire.manage.service.impl;
+package com.sapphire.biz.manage.service.impl;
 
 import java.util.Collections;
 import java.util.List;
@@ -8,9 +8,9 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sapphire.manage.domain.Ticket;
-import com.sapphire.manage.repository.TicketRepository;
-import com.sapphire.manage.service.TicketService;
+import com.sapphire.common.dal.manage.domain.Ticket;
+import com.sapphire.common.dal.manage.repository.TicketRepository;
+import com.sapphire.biz.manage.service.TicketService;
 
 /**
  * Author: EthanPark <br/>

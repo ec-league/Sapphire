@@ -1,4 +1,4 @@
-package com.sapphire.manage.domain;
+package com.sapphire.common.dal.manage.domain;
 
 import com.sapphire.common.utils.TimeUtil;
 

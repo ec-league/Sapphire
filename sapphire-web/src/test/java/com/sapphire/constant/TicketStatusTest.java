@@ -4,7 +4,7 @@ package com.sapphire.constant;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.sapphire.manage.constant.TicketStatus;
+import com.sapphire.common.dal.manage.constant.TicketStatus;
 
 /**
  * Author: EthanPark <br/>

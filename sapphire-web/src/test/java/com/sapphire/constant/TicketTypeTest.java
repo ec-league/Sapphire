@@ -3,7 +3,7 @@ package com.sapphire.constant;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.sapphire.manage.constant.TicketType;
+import com.sapphire.common.dal.manage.constant.TicketType;
 
 /**
  * Author: EthanPark <br/>

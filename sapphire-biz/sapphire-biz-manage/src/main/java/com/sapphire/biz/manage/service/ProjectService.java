@@ -1,8 +1,8 @@
-package com.sapphire.manage.service;
+package com.sapphire.biz.manage.service;
 
 import java.util.List;
 
-import com.sapphire.manage.domain.Project;
+import com.sapphire.common.dal.manage.domain.Project;
 
 /**
  * Author: Ethan <br/>

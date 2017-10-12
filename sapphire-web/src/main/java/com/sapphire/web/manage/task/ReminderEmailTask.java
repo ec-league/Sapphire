@@ -1,4 +1,4 @@
-package com.sapphire.manage.task;
+package com.sapphire.web.manage.task;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

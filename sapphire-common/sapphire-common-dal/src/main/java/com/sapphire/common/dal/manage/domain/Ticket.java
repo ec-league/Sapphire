@@ -1,4 +1,4 @@
-package com.sapphire.manage.domain;
+package com.sapphire.common.dal.manage.domain;
 
 import java.sql.Timestamp;
 
@@ -14,8 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.sapphire.manage.constant.TicketPriority;
-import com.sapphire.manage.constant.TicketType;
+import com.sapphire.common.dal.manage.constant.TicketPriority;
+import com.sapphire.common.dal.manage.constant.TicketType;
 import com.sapphire.common.dal.user.domain.User;
 
 /**
@@ -51,7 +51,7 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name = "PROJECT_UID")
-    private Project            project;
+    private Project project;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CREATE_TIME")

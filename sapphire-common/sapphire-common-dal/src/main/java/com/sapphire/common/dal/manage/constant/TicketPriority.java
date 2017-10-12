@@ -1,4 +1,4 @@
-package com.sapphire.manage.constant;
+package com.sapphire.common.dal.manage.constant;
 
 /**
  * Author: EthanPark <br/>

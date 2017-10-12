@@ -1,4 +1,4 @@
-package com.sapphire.manage.controller;
+package com.sapphire.web.manage.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

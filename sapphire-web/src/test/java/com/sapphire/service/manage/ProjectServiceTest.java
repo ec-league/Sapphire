@@ -2,6 +2,7 @@ package com.sapphire.service.manage;
 
 import javax.persistence.EntityNotFoundException;
 
+import com.sapphire.biz.manage.service.ProjectService;
 import com.sapphire.common.utils.TimeUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
@@ -9,8 +10,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;
-import com.sapphire.manage.domain.Project;
-import com.sapphire.manage.service.ProjectService;
+import com.sapphire.common.dal.manage.domain.Project;
 
 /**
  * Author: EthanPark <br/>

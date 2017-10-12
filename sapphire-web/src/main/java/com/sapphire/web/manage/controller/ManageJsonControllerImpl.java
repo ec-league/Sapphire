@@ -1,8 +1,14 @@
-package com.sapphire.manage.controller;
+package com.sapphire.web.manage.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.sapphire.biz.manage.service.ProjectService;
+import com.sapphire.biz.manage.service.TicketService;
+import com.sapphire.biz.user.service.UserService;
+import com.sapphire.common.dal.manage.constant.TicketPriority;
+import com.sapphire.common.dal.manage.constant.TicketStatus;
+import com.sapphire.common.dal.manage.constant.TicketType;
+import com.sapphire.common.dal.manage.domain.Project;
+import com.sapphire.common.dal.manage.domain.Ticket;
+import com.sapphire.common.dal.user.domain.User;
 import com.sapphire.common.utils.TimeUtil;
 import com.sapphire.common.utils.dto.Dto;
 import com.sapphire.common.utils.dto.JsonDto;
@@ -17,15 +23,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sapphire.manage.constant.TicketPriority;
-import com.sapphire.manage.constant.TicketStatus;
-import com.sapphire.manage.constant.TicketType;
-import com.sapphire.manage.domain.Project;
-import com.sapphire.manage.domain.Ticket;
-import com.sapphire.manage.service.ProjectService;
-import com.sapphire.manage.service.TicketService;
-import com.sapphire.common.dal.user.domain.User;
-import com.sapphire.biz.user.service.UserService;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: EthanPark <br/>
@@ -38,11 +37,11 @@ public class ManageJsonControllerImpl {
     private static final Logger LOGGER = LoggerFactory.getLogger(ManageJsonControllerImpl.class);
 
     @Autowired
-    private ProjectService      projectService;
+    private ProjectService projectService;
     @Autowired
-    private TicketService       ticketService;
+    private TicketService  ticketService;
     @Autowired
-    private UserService         userService;
+    private UserService    userService;
 
     @RequestMapping("/project/save.ep")
     @ResponseBody
@@ -132,7 +131,7 @@ public class ManageJsonControllerImpl {
     public JsonDto saveTicket(@RequestBody TicketDto ticketDto) {
         try {
             User user = (User) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
+                    .getPrincipal();
             ticketDto.setReporterUserId(user.getUidPk());
 
             Ticket ticket = convertTicketDto(ticketDto);

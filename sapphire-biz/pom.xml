@@ -20,5 +20,6 @@
         <module>sapphire-biz-blog</module>
         <module>sapphire-biz-stock</module>
         <module>sapphire-biz-user</module>
+        <module>sapphire-biz-manage</module>
     </modules>
 </project>

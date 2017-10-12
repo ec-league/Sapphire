@@ -1,12 +1,12 @@
-package com.sapphire.manage.repository;
+package com.sapphire.common.dal.manage.repository;
 
 import java.util.List;
 
+import com.sapphire.common.dal.manage.domain.Ticket;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import com.sapphire.manage.domain.Ticket;
 
 /**
  * Author: EthanPark <br/>

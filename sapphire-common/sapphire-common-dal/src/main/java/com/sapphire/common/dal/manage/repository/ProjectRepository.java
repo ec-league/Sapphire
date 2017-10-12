@@ -1,11 +1,11 @@
-package com.sapphire.manage.repository;
+package com.sapphire.common.dal.manage.repository;
 
-import java.util.List;
 
+import com.sapphire.common.dal.manage.domain.Project;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import com.sapphire.manage.domain.Project;
+import java.util.List;
 
 /**
  * Author: EthanPark <br/>
