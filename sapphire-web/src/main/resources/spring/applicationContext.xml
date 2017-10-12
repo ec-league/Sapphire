@@ -3,12 +3,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <!-- load db properties -->
     <import resource="classpath:spring/sapphire-common*.xml"/>
 
-    <!-- load service properties -->
     <import resource="classpath:spring/sapphire-biz*.xml"/>
 
-    <!-- load spring security properties -->
     <import resource="classpath:spring/spring-security.xml"/>
+
+    <import resource="classpath:spring/sapphire-web.xml"/>
 </beans>
