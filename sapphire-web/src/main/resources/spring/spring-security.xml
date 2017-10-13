@@ -13,8 +13,6 @@
     <http security="none" pattern="/js/**"></http>
     <http security="none" pattern="/img/**"></http>
     <http security="none" pattern="/stock/**"></http>
-    <!--<http security="none" pattern="/rest/**"></http>-->
-    <!--<http security="none" pattern="/manage/**"></http>-->
 
     <http>
         <http-basic/>
@@ -29,7 +27,7 @@
     </http>
 
     <!-- 自定义user-service -->
-    <beans:bean id="userDetailService" class="com.sapphire.security.MyUserDetailService"></beans:bean>
+    <beans:bean id="userDetailService" class="com.sapphire.web.security.MyUserDetailService"/>
 
     <!-- 自定义权限管理，使用自己的user-service -->
     <authentication-manager>
@@ -38,7 +36,7 @@
         </authentication-provider>
     </authentication-manager>
 
-    <beans:bean class="com.sapphire.security.MyPasswordEncoder" id="passwordEncoder">
+    <beans:bean class="com.sapphire.web.security.MyPasswordEncoder" id="passwordEncoder">
         <beans:constructor-arg value="md5"></beans:constructor-arg>
     </beans:bean>
 

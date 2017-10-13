@@ -1,4 +1,4 @@
-package com.sapphire.security;
+package com.sapphire.web.security;
 
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 import org.springframework.util.DigestUtils;

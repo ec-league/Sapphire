@@ -1,4 +1,4 @@
-package com.sapphire.security;
+package com.sapphire.web.security;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -15,7 +15,7 @@ import com.sapphire.biz.user.service.UserService;
  * Email: byp5303628@hotmail.com
  */
 public class MyUserDetailService implements UserDetailsService {
-    @Autowired
+
     private UserService userService;
 
     public UserDetails loadUserByUsername(String username) {
@@ -24,5 +24,15 @@ public class MyUserDetailService implements UserDetailsService {
         } catch (EntityNotFoundException e) {
             throw new UsernameNotFoundException(String.format("Username : \"%s\"", username), e);
         }
+    }
+
+    /**
+     * Setter method for property <tt>userService</tt>.
+     *
+     * @param userService  value to be assigned to property userService
+     */
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }

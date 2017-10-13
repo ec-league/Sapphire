@@ -33,7 +33,7 @@
     </servlet>
 
     <listener>
-        <listener-class>com.sapphire.listener.PreloadListener</listener-class>
+        <listener-class>com.sapphire.web.listener.PreloadListener</listener-class>
     </listener>
 
     <!--servlet mapping -->
