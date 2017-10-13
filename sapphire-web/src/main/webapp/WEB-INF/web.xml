@@ -32,10 +32,6 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-    <listener>
-        <listener-class>com.sapphire.web.listener.PreloadListener</listener-class>
-    </listener>
-
     <!--servlet mapping -->
     <servlet-mapping>
         <servlet-name>springMVC</servlet-name>
