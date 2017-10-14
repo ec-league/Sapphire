@@ -55,4 +55,9 @@ public class DingTalkResponse {
         Gson gson = new Gson();
         return gson.fromJson(response, DingTalkResponse.class);
     }
+
+    public String toString() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
 }

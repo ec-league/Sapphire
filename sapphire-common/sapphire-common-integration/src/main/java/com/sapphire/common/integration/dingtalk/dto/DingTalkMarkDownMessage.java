@@ -4,9 +4,10 @@
  */
 package com.sapphire.common.integration.dingtalk.dto;
 
-import com.sapphire.common.integration.dingtalk.constant.DingTalkMessageType;
-
+import java.util.HashMap;
 import java.util.Map;
+
+import com.sapphire.common.integration.dingtalk.constant.DingTalkMessageType;
 
 /**
  *
@@ -18,7 +19,14 @@ public class DingTalkMarkDownMessage extends DingTalkMessage {
     private Map<String, String> markdown;
 
     public DingTalkMarkDownMessage() {
-        setMsgtype(DingTalkMessageType.TEXT.getCode());
+        setMsgtype(DingTalkMessageType.MARKDOWN.getCode());
+        markdown = new HashMap<>();
+    }
+
+    public DingTalkMarkDownMessage(String topic, String msg) {
+        this();
+        markdown.put("title", topic);
+        markdown.put("text", msg);
     }
 
     /**

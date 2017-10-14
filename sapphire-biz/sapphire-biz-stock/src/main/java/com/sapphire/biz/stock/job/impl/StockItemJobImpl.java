@@ -1,18 +1,20 @@
 package com.sapphire.biz.stock.job.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.sapphire.biz.stock.job.SingleThreadJob;
 import com.sapphire.biz.stock.job.StockItemJob;
 import com.sapphire.biz.stock.service.StockService;
 import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockItem;
+import com.sapphire.common.integration.dingtalk.constant.DingTalkMessageType;
 import com.sapphire.common.integration.sina.SinaStockIntegrationService;
 import com.sapphire.common.utils.annotation.Job;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author yunpeng.byp
@@ -26,6 +28,8 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
     private static final int    MACD_START = 12;
     private static final int    MACD_END   = 26;
 
+    private static final String         JOB_NAME   = "个股详情信息刷新任务";
+
     @Autowired
     private StockService stockService;
 
@@ -34,14 +38,15 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
 
     private void updateStockInternal() {
         logger.info("Update Stock Items Task Begin");
-
+        finishMsg.append("## 个股详情信息: ").append("\n>");
+        StringBuilder sb = new StringBuilder();
         try {
             List<String> codes = stockService.getAllCodes();
 
             for (String code : codes) {
-                logger.info("Update Stock Code : %s", code);
+                logger.info(String.format("Update Stock Code : %s", code));
 
-                handleOneStock(code);
+                handleOneStock(code, sb);
             }
 
             for (String code : codes) {
@@ -54,10 +59,17 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
             logger.error("Init error", ex);
         }
 
+        if (sb.length() == 0) {
+            finishMsg.append("个股详情刷新成功");
+        } else {
+            finishMsg.append(sb.toString());
+        }
+
         logger.info("Update Stock Item Task Finished!");
+        pusher.push(jobName(), finishMsg.toString(), DingTalkMessageType.MARKDOWN);
     }
 
-    private void handleOneStock(String code) {
+    private void handleOneStock(String code, StringBuilder sb) {
         try {
             StockItem item = sinaStockIntegrationService.getStock(code);
 
@@ -92,12 +104,23 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
                 stockService.saveAll(items);
             }
         } catch (Exception ex) {
-            logger.error(String.format("Code :\"%s\" Not Updated%n", code), ex);
+            String errorMsg = String.format("Code :\"%s\" Not Updated%n", code);
+            logger.error(errorMsg, ex);
+            sb.append(errorMsg).append(";");
         }
     }
 
     @Override
     public void updateStock() {
         submit(this::updateStockInternal);
+    }
+
+    /**
+     * JOB的名字,完成后进行推送钉钉
+     * @return
+     */
+    @Override
+    protected String jobName() {
+        return JOB_NAME;
     }
 }

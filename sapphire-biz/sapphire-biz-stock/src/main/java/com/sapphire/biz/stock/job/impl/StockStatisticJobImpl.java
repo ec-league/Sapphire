@@ -2,18 +2,19 @@ package com.sapphire.biz.stock.job.impl;
 
 import java.util.List;
 
-import com.sapphire.common.dal.stock.domain.StockStatistics;
-import com.sapphire.biz.stock.service.StockService;
-import com.sapphire.biz.stock.job.StockStatisticJob;
-import com.sapphire.common.utils.TimeUtil;
-import com.sapphire.common.utils.annotation.Job;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.biz.stock.job.SingleThreadJob;
+import com.sapphire.biz.stock.job.StockStatisticJob;
+import com.sapphire.biz.stock.service.StockService;
 import com.sapphire.biz.stock.service.StockStatisticsService;
+import com.sapphire.common.dal.stock.domain.Stock;
+import com.sapphire.common.dal.stock.domain.StockStatistics;
+import com.sapphire.common.integration.dingtalk.constant.DingTalkMessageType;
+import com.sapphire.common.utils.TimeUtil;
+import com.sapphire.common.utils.annotation.Job;
 
 /**
  * Author: EthanPark <br/>
@@ -23,14 +24,15 @@ import com.sapphire.biz.stock.service.StockStatisticsService;
 @Job
 public class StockStatisticJobImpl extends SingleThreadJob implements StockStatisticJob {
 
-    private static final Logger                  logger = LoggerFactory
-        .getLogger(StockStatisticJobImpl.class);
+    private static final Logger    logger   = LoggerFactory.getLogger(StockStatisticJobImpl.class);
 
     @Autowired
     private StockService stockService;
 
-   @Autowired
-   private StockStatisticsService statisticsService;
+    @Autowired
+    private StockStatisticsService statisticsService;
+
+    private static final String    JOB_NAME = "个股统计信息刷新任务";
 
     @Override
     public void updateStatistic() {
@@ -52,6 +54,8 @@ public class StockStatisticJobImpl extends SingleThreadJob implements StockStati
         }
 
         logger.info("Update Stock Statistics Task Finished!");
+        finishMsg.append("## 个股统计信息: ").append("\n>").append("刷新成功");
+        pusher.push(jobName(), finishMsg.toString(), DingTalkMessageType.MARKDOWN);
     }
 
     private void handleStat(String code) {
@@ -78,5 +82,14 @@ public class StockStatisticJobImpl extends SingleThreadJob implements StockStati
         stat.setCurrentDiff(stock.getCurrentDiff());
 
         statisticsService.update(stat);
+    }
+
+    /**
+     * JOB的名字,完成后进行推送钉钉
+     * @return
+     */
+    @Override
+    protected String jobName() {
+        return JOB_NAME;
     }
 }
