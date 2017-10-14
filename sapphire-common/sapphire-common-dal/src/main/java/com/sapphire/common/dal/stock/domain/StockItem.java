@@ -1,8 +1,8 @@
 package com.sapphire.common.dal.stock.domain;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -13,9 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by Ethan on 2016/3/30.
@@ -25,7 +26,7 @@ import java.text.SimpleDateFormat;
 public class StockItem {
     private static final Logger logger     = LoggerFactory.getLogger(StockItem.class);
     public static final String  TABLE_NAME = "STOCK_ITEM";
-    private static final String FORMAT     = "MM/dd/yyyy";
+    private static final String FORMAT     = "yyyy/MM/dd";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -115,8 +116,8 @@ public class StockItem {
     private boolean             newStock;
 
     public StockItem() {
-        setEma12(getEndPrice());
-        setEma26(getEndPrice());
+        setEma12(endPrice);
+        setEma26(endPrice);
         setIndustry("");
     }
 
@@ -136,8 +137,8 @@ public class StockItem {
         setTrading(Double.parseDouble(lines[5]));
         setTradingValue(Double.parseDouble(lines[6]));
 
-        setEma12(getEndPrice());
-        setEma26(getEndPrice());
+        setEma12(endPrice);
+        setEma26(endPrice);
         setIndustry("");
     }
 
@@ -191,8 +192,9 @@ public class StockItem {
             item.setTradingValue(Double.parseDouble(lines[25]));
             item.setEma12(item.getEndPrice());
             item.setEma26(item.getEndPrice());
-            if (!"--".equals(lines[32]))
+            if (!"--".equals(lines[32])) {
                 item.setCirculationMarketValue(Double.parseDouble(lines[32]));
+            }
         } else {
             return null;
         }

@@ -1,8 +1,5 @@
 package com.sapphire.common.utils;
 
-import com.sapphire.common.utils.annotation.Util;
-import com.sapphire.common.utils.exception.DateParseException;
-
 import static java.lang.System.currentTimeMillis;
 
 import java.sql.Timestamp;
@@ -10,6 +7,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.sapphire.common.utils.annotation.Util;
+import com.sapphire.common.utils.exception.DateParseException;
 
 /**
  * Author: EthanPark <br/>
@@ -22,9 +21,9 @@ public class TimeUtil {
     private static final String STOCK_DATE_FORMAT = "MM/dd/yyyy";
     private static final String STOCK_WEB_FORMAT  = "yyyy-MM-dd";
 
-    private static final long   ONE_MONTH         = 30 * 24 * 60 * 60 * 1000l;
+    private static final long   ONE_MONTH         = 30 * 24 * 60 * 60 * 1000L;
 
-    private static final long   ONE_YEAR          = 365 * 24 * 60 * 60 * 1000l;
+    private static final long   ONE_YEAR          = 365 * 24 * 60 * 60 * 1000L;
 
     public static String formatTime(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -49,7 +48,7 @@ public class TimeUtil {
             try {
                 return new Timestamp(sdf.parse(time).getTime());
             } catch (ParseException e) {
-                throw new DateParseException();
+                throw (DateParseException) new DateParseException().initCause(e);
             }
         }
         throw new DateParseException();
@@ -61,7 +60,7 @@ public class TimeUtil {
             try {
                 return new Timestamp(sdf.parse(time).getTime());
             } catch (ParseException e) {
-                throw new DateParseException();
+                throw (DateParseException) new DateParseException().initCause(e);
             }
         }
         throw new DateParseException();
@@ -73,13 +72,18 @@ public class TimeUtil {
             try {
                 return new Timestamp(sdf.parse(time).getTime());
             } catch (ParseException e) {
-                throw new DateParseException();
+                throw (DateParseException) new DateParseException().initCause(e);
             }
         }
         throw new DateParseException();
     }
 
-    public static String formatStockWeb(Date date) {
+    /**
+     * 转换为股票日期
+     * @param date
+     * @return
+     */
+    public String formatStockDate(Date date) {
         return new SimpleDateFormat(STOCK_WEB_FORMAT).format(date);
     }
 }

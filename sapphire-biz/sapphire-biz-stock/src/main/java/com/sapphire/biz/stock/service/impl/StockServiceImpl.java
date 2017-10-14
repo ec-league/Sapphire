@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.sapphire.common.dal.stock.domain.StockStatics;
-import com.sapphire.common.dal.stock.domain.StockStatistics;
-import com.sapphire.common.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sapphire.biz.stock.service.StockService;
 import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockItem;
+import com.sapphire.common.dal.stock.domain.StockStatics;
+import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.dal.stock.repository.StockItemRepository;
 import com.sapphire.common.dal.stock.repository.StockStatisticsRepository;
-import com.sapphire.biz.stock.service.StockService;
+import com.sapphire.common.utils.TimeUtil;
 
 /**
  * Created by Ethan on 2016/3/30.
@@ -37,19 +37,11 @@ public class StockServiceImpl implements StockService {
     public Stock getStockByCode(String code) {
         List<StockItem> items = stockItemRepository.getStocksByCode(code);
 
-        if (items.isEmpty())
+        if (items.isEmpty()) {
             return null;
-
-        Stock stock = new Stock(items);
-        StockStatistics stat = stockStatisticsRepository.findByCode(code);
-
-        if (stat != null) {
-            stock.setIncreaseTotal(stat.getIncreaseTotal());
-            stock.setHighestPrice(stat.getHighestPrice());
-            //         stock.setAverageGoldDays(stat.getAverageGoldDays());
         }
 
-        return stock;
+        return new Stock(items);
     }
 
     @Override
@@ -83,8 +75,7 @@ public class StockServiceImpl implements StockService {
                 stocks.add(stock);
             }
         }
-        StockStatics result = new StockStatics(stocks);
-        return result;
+        return new StockStatics(stocks);
     }
 
     @Override
@@ -102,8 +93,7 @@ public class StockServiceImpl implements StockService {
                 stocks.add(stock);
             }
         }
-        StockStatics result = new StockStatics(stocks);
-        return result;
+        return new StockStatics(stocks);
     }
 
     /**
@@ -128,8 +118,7 @@ public class StockServiceImpl implements StockService {
                 stocks.add(stock);
             }
         }
-        StockStatics result = new StockStatics(stocks);
-        return result;
+        return new StockStatics(stocks);
     }
 
     @Override
@@ -160,8 +149,9 @@ public class StockServiceImpl implements StockService {
         Timestamp to = TimeUtil.now();
         for (String code : codes) {
             Stock stock = getStockByCodeAndTime(code, from, to);
-            if (stock == null)
+            if (stock == null) {
                 continue;
+            }
             stocks.add(stock);
         }
 

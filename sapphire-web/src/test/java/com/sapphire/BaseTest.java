@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Date: 2015/12/16<br/>
  * Email: byp5303628@hotmail.com
  */
-@ContextConfiguration(locations = { "classpath:spring/applicationContext.xml" })
+@ContextConfiguration(locations = { "classpath*:test/applicationContext.xml" })
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 public class BaseTest {

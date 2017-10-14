@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.sapphire.biz.stock.algorithm.StockAlgorithm;
 import com.sapphire.biz.stock.job.SingleThreadJob;
 import com.sapphire.biz.stock.job.StockStatisticJob;
 import com.sapphire.biz.stock.service.StockService;
@@ -26,11 +27,11 @@ public class StockStatisticJobImpl extends SingleThreadJob implements StockStati
 
     private static final Logger    logger   = LoggerFactory.getLogger(StockStatisticJobImpl.class);
 
-    @Autowired
-    private StockService stockService;
+    private StockService           stockService;
 
-    @Autowired
     private StockStatisticsService statisticsService;
+
+    private StockAlgorithm         stockAlgorithm;
 
     private static final String    JOB_NAME = "个股统计信息刷新任务";
 
@@ -67,19 +68,7 @@ public class StockStatisticJobImpl extends SingleThreadJob implements StockStati
             return;
         }
 
-        StockStatistics stat = new StockStatistics();
-        stat.setCode(code);
-        stat.setName(stock.getName());
-        stat.setAverageGoldDays((int) stock.getAverageGoldDays());
-        stat.setIncreaseTotal(stock.getIncreaseTotal());
-        stat.setHighestPrice(stock.getHighestPrice());
-        stat.setLastModifyDate(TimeUtil.now());
-        stat.setLowestMacd(stock.getLowestMacd());
-        stat.setStop(stock.isStop());
-        stat.setGoldPossible(stock.isGoldPossible());
-        stat.setCurrentMacd(stock.getCurrentMacd());
-        stat.setCurrentPrice(stock.getEndPrice());
-        stat.setCurrentDiff(stock.getCurrentDiff());
+        StockStatistics stat = stockAlgorithm.calculate(stock);
 
         statisticsService.update(stat);
     }
@@ -91,5 +80,35 @@ public class StockStatisticJobImpl extends SingleThreadJob implements StockStati
     @Override
     protected String jobName() {
         return JOB_NAME;
+    }
+
+    /**
+     * Setter method for property <tt>stockService</tt>.
+     *
+     * @param stockService  value to be assigned to property stockService
+     */
+    @Autowired
+    public void setStockService(StockService stockService) {
+        this.stockService = stockService;
+    }
+
+    /**
+     * Setter method for property <tt>statisticsService</tt>.
+     *
+     * @param statisticsService  value to be assigned to property statisticsService
+     */
+    @Autowired
+    public void setStatisticsService(StockStatisticsService statisticsService) {
+        this.statisticsService = statisticsService;
+    }
+
+    /**
+     * Setter method for property <tt>stockAlgorithm</tt>.
+     *
+     * @param stockAlgorithm  value to be assigned to property stockAlgorithm
+     */
+    @Autowired
+    public void setStockAlgorithm(StockAlgorithm stockAlgorithm) {
+        this.stockAlgorithm = stockAlgorithm;
     }
 }

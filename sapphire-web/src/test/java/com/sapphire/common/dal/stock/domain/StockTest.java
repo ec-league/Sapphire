@@ -1,22 +1,27 @@
 package com.sapphire.common.dal.stock.domain;
 
-import com.sapphire.BaseTest;
-import com.sapphire.common.dal.stock.repository.StockItemRepository;
-import com.sapphire.biz.stock.service.StockService;
-import com.sapphire.common.utils.TimeUtil;
-import org.junit.Assert;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sapphire.BaseTest;
+import com.sapphire.biz.stock.service.StockService;
+import com.sapphire.common.dal.stock.repository.StockItemRepository;
+import com.sapphire.common.utils.TimeUtil;
 
 /**
  * Stock Tester.
@@ -126,7 +131,7 @@ public class StockTest extends BaseTest {
       if (osname.contains("windows")){
          path = "C:\\Users\\Ethan\\Desktop\\script\\export";
       } else {
-         path = "/Users/ethan/Desktop/export";
+            path = "/Users/yunpeng.byp/Desktop/export";
       }
 
       File dir = new File(path);
