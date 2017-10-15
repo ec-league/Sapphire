@@ -12,9 +12,7 @@ import com.sapphire.biz.stock.service.StockService;
 import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockItem;
 import com.sapphire.common.dal.stock.domain.StockStatics;
-import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.dal.stock.repository.StockItemRepository;
-import com.sapphire.common.dal.stock.repository.StockStatisticsRepository;
 import com.sapphire.common.utils.TimeUtil;
 
 /**
@@ -23,10 +21,7 @@ import com.sapphire.common.utils.TimeUtil;
 @Service("stockService")
 public class StockServiceImpl implements StockService {
     @Autowired
-    private StockItemRepository       stockItemRepository;
-
-    @Autowired
-    private StockStatisticsRepository stockStatisticsRepository;
+    private StockItemRepository stockItemRepository;
 
     @Override
     public List<String> getAllCodes() {
@@ -51,49 +46,6 @@ public class StockServiceImpl implements StockService {
             return new Stock(items);
         }
         return null;
-    }
-
-    /**
-    * Get latest one month's all stock info.
-    * 
-    * @return
-    */
-    @Override
-    public StockStatics getLastMonthStockStatics() {
-        List<String> codes = stockItemRepository.getCodes();
-
-        List<Stock> stocks = new ArrayList<>(codes.size());
-
-        Timestamp from = TimeUtil.oneMonthAgo();
-        Timestamp to = TimeUtil.now();
-
-        for (String code : codes) {
-            Stock stock = getStockByCodeAndTime(code, from, to);
-            if (stock != null && !stock.isStop()) {
-                StockStatistics stockStatistics = stockStatisticsRepository.findByCode(code);
-                stock.update(stockStatistics);
-                stocks.add(stock);
-            }
-        }
-        return new StockStatics(stocks);
-    }
-
-    @Override
-    public StockStatics getLastYearStockStatics() {
-        List<String> codes = stockItemRepository.getCodes();
-
-        List<Stock> stocks = new ArrayList<>(codes.size());
-
-        Timestamp from = TimeUtil.oneYearAgo();
-        Timestamp to = TimeUtil.now();
-
-        for (String code : codes) {
-            Stock stock = getStockByCodeAndTime(code, from, to);
-            if (stock != null && !stock.isStop()) {
-                stocks.add(stock);
-            }
-        }
-        return new StockStatics(stocks);
     }
 
     /**
@@ -134,37 +86,6 @@ public class StockServiceImpl implements StockService {
     @Override
     public StockItem save(StockItem item) {
         return stockItemRepository.save(item);
-    }
-
-    /**
-    *
-    * @return
-    */
-    @Override
-    public StockStatics getStocksByIncreaseTotal() {
-        List<String> codes = stockStatisticsRepository.findByIncrease();
-
-        List<Stock> stocks = new ArrayList<>(codes.size());
-        Timestamp from = TimeUtil.oneMonthAgo();
-        Timestamp to = TimeUtil.now();
-        for (String code : codes) {
-            Stock stock = getStockByCodeAndTime(code, from, to);
-            if (stock == null) {
-                continue;
-            }
-            stocks.add(stock);
-        }
-
-        return new StockStatics(stocks);
-    }
-
-    /**
-    *
-    * @return
-    */
-    @Override
-    public List<StockItem> getLatestStockItems() {
-        return stockItemRepository.getLatestItems();
     }
 
     @Override

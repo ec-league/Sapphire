@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Author: EthanPark <br/>
@@ -12,11 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
  * Email: byp5303628@hotmail.com
  */
 @ContextConfiguration(locations = { "classpath*:test/applicationContext.xml" })
-@Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 public class BaseTest {
-   @Test
-   public void baseTest() {
+    @Test
+    public void baseTest() {
 
-   }
+    }
 }

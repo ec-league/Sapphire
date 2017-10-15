@@ -9,17 +9,17 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 
-import com.sapphire.BaseTest;
-import com.sapphire.common.dal.user.domain.User;
+import com.sapphire.TransactionalBaseTest;
 import com.sapphire.biz.user.dto.UserDto;
 import com.sapphire.biz.user.service.UserService;
+import com.sapphire.common.dal.user.domain.User;
 
 /**
  * Author: EthanPark <br/>
  * Date: 2015/12/15<br/>
  * Email: byp5303628@hotmail.com
  */
-public class UserServiceTest extends BaseTest {
+public class UserServiceTest extends TransactionalBaseTest {
    @Autowired
    private UserService userService;
 

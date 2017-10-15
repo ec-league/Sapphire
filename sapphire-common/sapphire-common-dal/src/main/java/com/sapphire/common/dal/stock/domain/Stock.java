@@ -1,13 +1,13 @@
 package com.sapphire.common.dal.stock.domain;
 
-import com.sapphire.common.utils.dto.Dto;
-
 import java.beans.Transient;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sapphire.common.utils.dto.Dto;
 
 /**
  * Created by Ethan on 2016/3/30.
@@ -94,59 +94,6 @@ public class Stock implements Dto {
 
     public String getCode() {
         return code;
-    }
-
-    public void calculateMacd(int small, int big, boolean needInit) {
-        if (needInit)
-            init();
-        for (int i = 1; i < stockItems.size(); i++) {
-            stockItems.get(i).setEma12(stockItems.get(i - 1).getEma12() * (small - 1) / (small + 1)
-                                       + stockItems.get(i).getEma12() * 2 / (small + 1));
-            stockItems.get(i).setEma26(stockItems.get(i - 1).getEma26() * (big - 1) / (big + 1)
-                                       + stockItems.get(i).getEma26() * 2 / (big + 1));
-            stockItems.get(i)
-                .setMacdDiff(stockItems.get(i).getEma12() - stockItems.get(i).getEma26());
-
-            stockItems.get(i).setMacdDea(
-                stockItems.get(i - 1).getMacdDea() * 0.8 + stockItems.get(i).getMacdDiff() * 0.2);
-            stockItems.get(i)
-                .setMacd(stockItems.get(i).getMacdDiff() - stockItems.get(i).getMacdDea());
-            stockItems.get(i).setIncreaseRate(
-                (stockItems.get(i).getEndPrice() / stockItems.get(i - 1).getEndPrice() - 1) * 100);
-        }
-    }
-
-    public void calcStatics() {
-        List<StockStatic> statics = group(stockItems);
-
-        if (statics.isEmpty()) {
-            shouldPass = true;
-            return;
-        }
-        int count = 0;
-        int plusCount = 0;
-        increaseTotal = 1;
-        for (StockStatic stat : statics) {
-            increaseTotal *= 1 + stat.getIncreaseRate() / 100;
-            count++;
-            if (stat.getIncreaseRate() > 0) {
-                plusCount++;
-            }
-        }
-
-        averageIncreaseRate = count == 0 ? 1 : plusCount * 1.0 / count;
-    }
-
-    public int macdPlusCount(String dateFrom, String dateTo) throws ParseException {
-        List<StockStatic> statics = calcStatics(dateFrom, dateTo);
-        int count = 0;
-        for (StockStatic stockStatic : statics) {
-            if (stockStatic.increaseRate > 0) {
-                count++;
-            }
-        }
-
-        return count;
     }
 
     /**
@@ -321,14 +268,6 @@ public class Stock implements Dto {
         currentDiff = last.getMacdDiff();
         stop = last.isStop();
         goldPossible = isGoldPossible(last);
-    }
-
-    public void update(StockStatistics statistics) {
-        stockDetail.setHistoryInfo(new HistoryInfo());
-        stockDetail.getHistoryInfo().setHighestPrice(statistics.getHighestPrice());
-        increaseTotal = statistics.getIncreaseTotal();
-        lowestMacd = statistics.getLowestMacd();
-        firstDiff = stockItems.get(stockItems.size() - 1).getMacdDiff();
     }
 
     public boolean isUpper() {

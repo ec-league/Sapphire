@@ -4,28 +4,28 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
-import com.sapphire.common.utils.TimeUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sapphire.BaseTest;
+import com.sapphire.TransactionalBaseTest;
+import com.sapphire.biz.blog.service.BlogService;
+import com.sapphire.biz.blog.service.CommentService;
+import com.sapphire.biz.user.dto.UserDto;
+import com.sapphire.biz.user.service.UserService;
 import com.sapphire.common.dal.blog.constant.BlogStatus;
 import com.sapphire.common.dal.blog.domain.Blog;
 import com.sapphire.common.dal.blog.domain.Comment;
-import com.sapphire.biz.blog.service.BlogService;
-import com.sapphire.biz.blog.service.CommentService;
 import com.sapphire.common.dal.user.domain.User;
-import com.sapphire.biz.user.dto.UserDto;
-import com.sapphire.biz.user.service.UserService;
+import com.sapphire.common.utils.TimeUtil;
 
 /**
  * Author: EthanPark <br/>
  * Date: 2015/12/11<br/>
  * Email: byp5303628@hotmail.com
  */
-public class BlogServiceTest extends BaseTest {
+public class BlogServiceTest extends TransactionalBaseTest {
    @Autowired
    private BlogService blogService;
    @Autowired

@@ -6,43 +6,43 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sapphire.BaseTest;
-import com.sapphire.common.dal.user.domain.UserInfo;
+import com.sapphire.TransactionalBaseTest;
 import com.sapphire.biz.user.service.UserInfoService;
+import com.sapphire.common.dal.user.domain.UserInfo;
 
 /**
  * Author: EthanPark <br/>
  * Date: 2015/12/22<br/>
  * Email: byp5303628@hotmail.com
  */
-public class UserInfoServiceTest extends BaseTest {
-   @Autowired
-   private UserInfoService userInfoService;
+public class UserInfoServiceTest extends TransactionalBaseTest {
+    @Autowired
+    private UserInfoService userInfoService;
 
-   //   @Test
-   public void testBasic() {
-      UserInfo userInfo = new UserInfo();
-      userInfo.setUserId(1);
-      userInfo.setImgSrc("");
-      userInfo.setName("EthanPark");
-      userInfoService.save(userInfo);
+    @Test
+    public void testBasic() {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(3);
+        userInfo.setImgSrc("");
+        userInfo.setName("EthanPark");
+        userInfoService.save(userInfo);
 
-      UserInfo testUserInfo = userInfoService.getUserInfoByUserId(1);
+        UserInfo testUserInfo = userInfoService.getUserInfoByUserId(userInfo.getUserId());
 
-      Assert.assertEquals(testUserInfo.getName(), userInfo.getName());
-   }
+        Assert.assertEquals(testUserInfo.getName(), userInfo.getName());
+    }
 
-   @Test(expected = EntityExistsException.class)
-   public void testAbnormal() {
-      UserInfo userInfo = new UserInfo();
-      userInfo.setUserId(1);
-      userInfo.setImgSrc("");
-      userInfo.setName("EthanPark");
-      userInfoService.save(userInfo);
-      UserInfo newUserInfo = new UserInfo();
-      newUserInfo.setName("");
-      newUserInfo.setImgSrc("");
-      newUserInfo.setUserId(1);
-      userInfoService.save(newUserInfo);
-   }
+    @Test(expected = EntityExistsException.class)
+    public void testAbnormal() {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(1);
+        userInfo.setImgSrc("");
+        userInfo.setName("EthanPark");
+        userInfoService.save(userInfo);
+        UserInfo newUserInfo = new UserInfo();
+        newUserInfo.setName("");
+        newUserInfo.setImgSrc("");
+        newUserInfo.setUserId(1);
+        userInfoService.save(newUserInfo);
+    }
 }

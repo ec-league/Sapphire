@@ -1,7 +1,6 @@
 package com.sapphire.biz.stock.strategy.factory;
 
 import com.sapphire.biz.stock.strategy.StrategyFactory;
-import com.sapphire.biz.stock.strategy.fill.StatisticsFillStrategy;
 import com.sapphire.biz.stock.strategy.filter.DeadFilterStrategy;
 import com.sapphire.biz.stock.strategy.filter.IncreaseTotalFilterStrategy;
 import com.sapphire.biz.stock.strategy.filter.StopFilterStrategy;
@@ -17,7 +16,6 @@ public class MacdStrategyFactory extends StrategyFactory {
     */
     @Override
     protected void addFillStrategies() {
-        strategies.add(new StatisticsFillStrategy());
     }
 
     @Override

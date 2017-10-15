@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.BaseTest;
+import com.sapphire.biz.stock.algorithm.StockAlgorithm;
 import com.sapphire.biz.stock.service.StockService;
 import com.sapphire.common.dal.stock.repository.StockItemRepository;
 import com.sapphire.common.utils.TimeUtil;
@@ -36,235 +37,171 @@ import com.sapphire.common.utils.TimeUtil;
  */
 public class StockTest extends BaseTest {
 
-   private static final Logger LOGGER =
-         LoggerFactory.getLogger(StockTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StockTest.class);
 
-   @Autowired
-   private StockItemRepository stockItemRepository;
+    @Autowired
+    private StockItemRepository stockItemRepository;
 
-   @Autowired
-   private StockService stockService;
+    @Autowired
+    private StockService        stockService;
 
-   //   @Test
-   public void testStat() {
-      List<String> codes = stockItemRepository.getCodes();
-      List<CodeIncrease> list = new ArrayList<>(codes.size());
+    @Autowired
+    private StockAlgorithm      stockAlgorithm;
 
-      for (String code : codes) {
-         Stock stock = stockService.getStockByCodeAndTime(code,
-               TimeUtil.fromStockString("05/26/2016"), TimeUtil.now());
+    //   @Test
+    public void testStat() {
+        List<String> codes = stockItemRepository.getCodes();
+        List<CodeIncrease> list = new ArrayList<>(codes.size());
 
-         if (stock == null)
-            continue;
+        for (String code : codes) {
+            Stock stock = stockService.getStockByCodeAndTime(code,
+                TimeUtil.fromStockString("05/26/2016"), TimeUtil.now());
 
-         list.add(new CodeIncrease(code, stock.getIncreaseFromStart()));
-      }
+            if (stock == null)
+                continue;
 
-      Collections.sort(list,
-            (o1, o2) -> Double.compare(o1.getIncrease(), o2.getIncrease()));
+            list.add(new CodeIncrease(code, stock.getIncreaseFromStart()));
+        }
 
-      for (int i = 0; i < 100; i++) {
-         System.out.println(String.format("Code: \"%s\", Increase: %.2f",
-               list.get(i).getCode(), list.get(i).getIncrease()));
-      }
+        Collections.sort(list, (o1, o2) -> Double.compare(o1.getIncrease(), o2.getIncrease()));
 
-      Collections.reverse(list);
-      System.out.println("#############################");
-      for (int i = 0; i < 100; i++) {
-         System.out.println(String.format("Code: \"%s\", Increase: %.2f",
-               list.get(i).getCode(), list.get(i).getIncrease()));
-      }
-   }
+        for (int i = 0; i < 100; i++) {
+            System.out.println(String.format("Code: \"%s\", Increase: %.2f", list.get(i).getCode(),
+                list.get(i).getIncrease()));
+        }
 
-   private static class CodeIncrease {
-      private String code;
-      private double increase;
+        Collections.reverse(list);
+        System.out.println("#############################");
+        for (int i = 0; i < 100; i++) {
+            System.out.println(String.format("Code: \"%s\", Increase: %.2f", list.get(i).getCode(),
+                list.get(i).getIncrease()));
+        }
+    }
 
-      public CodeIncrease(String code, double increase) {
-         this.code = code;
-         this.increase = increase;
-      }
+    private static class CodeIncrease {
+        private String code;
+        private double increase;
 
-      public String getCode() {
-         return code;
-      }
+        public CodeIncrease(String code, double increase) {
+            this.code = code;
+            this.increase = increase;
+        }
 
-      public void setCode(String code) {
-         this.code = code;
-      }
+        public String getCode() {
+            return code;
+        }
 
-      public double getIncrease() {
-         return increase;
-      }
+        public void setCode(String code) {
+            this.code = code;
+        }
 
-      public void setIncrease(double increase) {
-         this.increase = increase;
-      }
-   }
+        public double getIncrease() {
+            return increase;
+        }
 
-   @Test
-   public void construct() throws IOException, ParseException {
-      String code = "600000";
-      Timestamp from = new Timestamp(
+        public void setIncrease(double increase) {
+            this.increase = increase;
+        }
+    }
+
+    @Test
+    public void construct() throws IOException, ParseException {
+        String code = "600000";
+        Timestamp from = new Timestamp(
             new SimpleDateFormat("MM/dd/yyyy").parse("07/20/2015").getTime());
-      Timestamp to = new Timestamp(
+        Timestamp to = new Timestamp(
             new SimpleDateFormat("MM/dd/yyyy").parse("09/10/2015").getTime());
 
-      List<StockItem> stockItems =
-            stockItemRepository.getStockByCodeAndTime(code, from, to);
+        List<StockItem> stockItems = stockItemRepository.getStockByCodeAndTime(code, from, to);
 
-      Assert.assertNotNull(stockItems);
-   }
+        Assert.assertNotNull(stockItems);
+    }
 
-   @Test
-   public void construct1() throws Exception {
-      Assert.assertNotNull(stockItemRepository);
+    @Test
+    public void construct1() throws Exception {
+        Assert.assertNotNull(stockItemRepository);
 
-      if (stockItemRepository.getCodes().isEmpty())
-         return;
+        System.out.println(TimeUtil.now());
+        String path = "";
 
-      System.out.println(TimeUtil.now());
-      String path = "";
+        String osname = System.getProperty("os.name");
 
-      String osname = System.getProperty("os.name");
-
-      if (osname.contains("windows")){
-         path = "C:\\Users\\Ethan\\Desktop\\script\\export";
-      } else {
+        if (osname.contains("windows")) {
+            path = "C:\\Users\\Ethan\\Desktop\\script\\export";
+        } else if (osname.contains("Mac")) {
             path = "/Users/yunpeng.byp/Desktop/export";
-      }
+            if (!stockItemRepository.getCodes().isEmpty())
+                return;
+        } else {
+            return;
+        }
 
-      File dir = new File(path);
+        File dir = new File(path);
 
-      File[] files = dir.listFiles();
+        File[] files = dir.listFiles();
 
-      if (files == null)
-         return;
+        if (files == null)
+            return;
 
-      for (File f : files) {
-         handleOneStock(f);
-      }
-   }
+        for (File f : files) {
+            handleOneStock(f);
+        }
+    }
 
-   private void handleOneStock(File f) throws Exception {
-      BufferedReader br = new BufferedReader(
+    private void handleOneStock(File f) throws Exception {
+        BufferedReader br = new BufferedReader(
             new InputStreamReader(new FileInputStream(f), "GBK"));
 
-      List<StockItem> stockItems = new ArrayList<>(500);
-      String temp = br.readLine();
-      String code = temp.split(" ")[0];
-      String name = temp.split(" ")[1];
-      LOGGER.info(String.format("%s : %s processing.%n", code, name));
-      temp = br.readLine();
-      while (temp != null) {
-         temp = br.readLine();
-         if (!temp.matches("[0-9].*"))
-            break;
+        List<StockItem> stockItems = new ArrayList<>(500);
+        String temp = br.readLine();
+        String code = temp.split(" ")[0];
+        String name = temp.split(" ")[1];
+        LOGGER.info(String.format("%s : %s processing.%n", code, name));
+        temp = br.readLine();
+        while (temp != null) {
+            temp = br.readLine();
+            if (!temp.matches("[0-9].*"))
+                break;
 
-         StockItem item = new StockItem(temp);
-         item.setCode(code);
-         item.setName(name);
+            StockItem item = new StockItem(temp);
+            item.setCode(code);
+            item.setName(name);
 
-         stockItems.add(item);
-      }
+            stockItems.add(item);
+        }
 
-      if (stockItems.isEmpty())
-         return;
-      Stock stock = new Stock(stockItems);
-      stock.calculateMacd(12, 26, true);
-      stock.processAverage();
+        if (stockItems.isEmpty())
+            return;
+        Stock stock = new Stock(stockItems);
+        stockAlgorithm.calculateMacd(stock, true);
+        stock.processAverage();
 
-      StockItem last = stockItems.get(stockItems.size() - 1);
+        StockItem last = stockItems.get(stockItems.size() - 1);
 
-      last.setLast(true);
+        last.setLast(true);
 
-      stockItemRepository.save(stockItems);
-   }
+        stockItemRepository.save(stockItems);
+    }
 
-   /**
+    /**
     * Daily data insert.
     * 
     * @throws Exception
     */
-   //   @Test
-   public void construct2() throws Exception {
-      BufferedReader br =
-            new BufferedReader(new InputStreamReader(
-                  new FileInputStream(
-                        new File("C:\\Users\\Ethan\\Desktop\\Table.txt")),
-                  "GBK"));
 
-      br.readLine();
-      String temp = br.readLine();
+    @Test
+    public void testLast30() {
+        List<StockItem> items = stockService.getLast30Stock("000001");
 
-      List<StockItem> items = new ArrayList<>(3000);
-      while (temp != null) {
-         temp = br.readLine();
-         StockItem item = StockItem.makeStockItemFromDaily(temp);
+        if (items == null || items.isEmpty())
+            return;
 
-         if (item == null)
-            continue;
-         items.add(item);
-      }
+        Assert.assertEquals(items.size(), 30);
 
-      stockItemRepository.save(items);
-   }
+        Stock stock = new Stock(items);
 
-   //   @Test
-   public void testCode() {
-      List<String> codes = stockItemRepository.getCodeByIndustry("专用");
+        stock.processAverage();
 
-      Assert.assertNotNull(codes);
-   }
-
-   //   @Test
-   public void testGetLatestStockItem() {
-      StockItem item = stockItemRepository.getLatestStockItem("600000");
-      Assert.assertNotNull(item);
-   }
-
-   //   @Test
-   public void testIsUpper() {
-      Stock stock = stockService.getStockByCode("000001");
-
-      Assert.assertTrue(stock.isUpper());
-   }
-
-   //   @Test
-   public void testLatestStockItem() {
-      List<String> codes = stockItemRepository.getCodes();
-
-      for (String code : codes) {
-         StockItem item = stockItemRepository.getLatestStockItem(code);
-         item.setLast(true);
-         stockItemRepository.save(item);
-      }
-   }
-
-   //   @Test
-   public void testLatestItems() {
-      List<StockItem> items = stockItemRepository.getLatestItems();
-
-      for (StockItem item : items) {
-         item.setLogDate(TimeUtil.fromStockString("04/21/2016"));
-      }
-
-      stockItemRepository.save(items);
-   }
-
-   @Test
-   public void testLast30() {
-      List<StockItem> items = stockService.getLast30Stock("000001");
-
-      if (items == null || items.isEmpty())
-         return;
-
-      Assert.assertEquals(items.size(), 30);
-
-      Stock stock = new Stock(items);
-
-      stock.processAverage();
-
-      return;
-   }
+        return;
+    }
 }

@@ -24,9 +24,12 @@ import com.sapphire.common.utils.annotation.Algorithm;
 @Algorithm
 public class StockAlgorithm {
 
-    private JsonUtil jsonUtil;
+    private JsonUtil         jsonUtil;
 
-    private TimeUtil timeUtil;
+    private TimeUtil         timeUtil;
+
+    private static final int MACD_START = 12;
+    private static final int MACD_END   = 26;
 
     /**
      * 根据已有的Stock数据,计算对应的StockStatistics数据
@@ -42,6 +45,41 @@ public class StockAlgorithm {
         fillProcessData(stock, stat);
 
         return stat;
+    }
+
+    /**
+     * 根据当前的股票来计算所有K线的Macd值
+     * @param stock
+     * @param init 是否需要初始化第一个K线的ema12和ema26
+     */
+    public void calculateMacd(Stock stock, boolean init) {
+        int small = MACD_START;
+        int big = MACD_END;
+
+        List<StockItem> stockItems = stock.getStockItems();
+
+        if (init) {
+            StockItem item = stockItems.get(0);
+
+            item.setEma12(item.getEndPrice());
+            item.setEma26(item.getEndPrice());
+        }
+
+        for (int i = 1; i < stockItems.size(); i++) {
+            stockItems.get(i).setEma12(stockItems.get(i - 1).getEma12() * (small - 1) / (small + 1)
+                                       + stockItems.get(i).getEma12() * 2 / (small + 1));
+            stockItems.get(i).setEma26(stockItems.get(i - 1).getEma26() * (big - 1) / (big + 1)
+                                       + stockItems.get(i).getEma26() * 2 / (big + 1));
+            stockItems.get(i)
+                .setMacdDiff(stockItems.get(i).getEma12() - stockItems.get(i).getEma26());
+
+            stockItems.get(i).setMacdDea(
+                stockItems.get(i - 1).getMacdDea() * 0.8 + stockItems.get(i).getMacdDiff() * 0.2);
+            stockItems.get(i)
+                .setMacd(stockItems.get(i).getMacdDiff() - stockItems.get(i).getMacdDea());
+            stockItems.get(i).setIncreaseRate(
+                (stockItems.get(i).getEndPrice() / stockItems.get(i - 1).getEndPrice() - 1) * 100);
+        }
     }
 
     private void fillProcessData(Stock stock, StockStatistics stat) {
@@ -74,6 +112,7 @@ public class StockAlgorithm {
         stat.setCurrentMacd(lastItem.getMacd());
         stat.setStop(lastItem.isStop());
         stat.setCurrentDiff(lastItem.getMacdDiff());
+        stat.setGoldPossible(isGoldPossible(lastItem));
         //endregion
 
         //region 计算金叉的累计增幅和平均持续时间
@@ -100,6 +139,32 @@ public class StockAlgorithm {
 
         stat.setDesc(jsonUtil.toJson(cycles));
         //endregion
+    }
+
+    /**
+     * 第二天变成金叉，所需要的收盘价格
+     *
+     * @param lastItem
+     * @return
+     */
+    private double goldPrice(StockItem lastItem) {
+        return (76 * 17.0) / (19 * 11) * lastItem.getEma26() - 57.0 / 11 * lastItem.getEma12()
+               + 76.0 / 11 * lastItem.getMacdDea();
+    }
+
+    /**
+     * 第二天是否可能变成金叉
+     *
+     * @param lastItem
+     * @return
+     */
+    private boolean isGoldPossible(StockItem lastItem) {
+        double price = goldPrice(lastItem);
+
+        if ((price - lastItem.getEndPrice()) / lastItem.getEndPrice() > 0.1) {
+            return false;
+        }
+        return true;
     }
 
     private List<MacdCycle> group(List<StockItem> items) {

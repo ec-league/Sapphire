@@ -57,18 +57,6 @@ public class StockCache implements Cache {
         return CacheService.ONE_HOUR;
     }
 
-    private void init() {
-        lock.lock();
-        StockStatics stat = stockService.getLastMonthStockStatics();
-        try {
-            stockStatics = stat;
-        } catch (Exception ex) {
-            logger.error("Init Stock Cache failed!", ex.getMessage(), ex);
-        } finally {
-            lock.unlock();
-        }
-    }
-
     public StockStatics getStockStatics() {
         if (stockStatics == null && !refresh()) {
             return null;

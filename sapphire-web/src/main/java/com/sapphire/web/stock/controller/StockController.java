@@ -2,15 +2,6 @@ package com.sapphire.web.stock.controller;
 
 import java.util.List;
 
-import com.sapphire.biz.stock.cache.StockCache;
-import com.sapphire.common.dal.stock.domain.StockStatics;
-import com.sapphire.common.dal.stock.domain.StockStatistics;
-import com.sapphire.biz.stock.service.StockService;
-import com.sapphire.biz.stock.service.StockStatisticsService;
-import com.sapphire.common.dal.stock.domain.StockItem;
-import com.sapphire.common.utils.dto.DataJsonDto;
-import com.sapphire.common.utils.dto.JsonDto;
-import com.sapphire.common.utils.dto.ListJsonDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sapphire.biz.stock.cache.StockCache;
+import com.sapphire.biz.stock.service.StockService;
+import com.sapphire.biz.stock.service.StockStatisticsService;
 import com.sapphire.common.dal.stock.domain.Stock;
+import com.sapphire.common.dal.stock.domain.StockItem;
+import com.sapphire.common.dal.stock.domain.StockStatics;
+import com.sapphire.common.dal.stock.domain.StockStatistics;
+import com.sapphire.common.utils.dto.DataJsonDto;
+import com.sapphire.common.utils.dto.JsonDto;
+import com.sapphire.common.utils.dto.ListJsonDto;
 
 /**
  * Author: Ethan Date: 2016/4/17
@@ -162,8 +162,6 @@ public class StockController {
 
             if (stat == null)
                 continue;
-
-            stock.update(stat);
         }
     }
 }

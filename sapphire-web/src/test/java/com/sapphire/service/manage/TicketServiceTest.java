@@ -2,30 +2,30 @@ package com.sapphire.service.manage;
 
 import javax.persistence.EntityNotFoundException;
 
-import com.sapphire.biz.manage.service.ProjectService;
-import com.sapphire.biz.manage.service.TicketService;
-import com.sapphire.common.utils.TimeUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sapphire.BaseTest;
+import com.sapphire.TransactionalBaseTest;
+import com.sapphire.biz.manage.service.ProjectService;
+import com.sapphire.biz.manage.service.TicketService;
+import com.sapphire.biz.user.dto.UserDto;
+import com.sapphire.biz.user.service.UserService;
 import com.sapphire.common.dal.manage.constant.TicketPriority;
 import com.sapphire.common.dal.manage.constant.TicketType;
 import com.sapphire.common.dal.manage.domain.Project;
 import com.sapphire.common.dal.manage.domain.Ticket;
 import com.sapphire.common.dal.user.domain.User;
-import com.sapphire.biz.user.dto.UserDto;
-import com.sapphire.biz.user.service.UserService;
+import com.sapphire.common.utils.TimeUtil;
 
 /**
  * Author: EthanPark <br/>
  * Date: 2015/12/15<br/>
  * Email: byp5303628@hotmail.com
  */
-public class TicketServiceTest extends BaseTest {
+public class TicketServiceTest extends TransactionalBaseTest {
    @Autowired
    private TicketService ticketService;
 

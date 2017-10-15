@@ -5,19 +5,19 @@ import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
-import com.sapphire.common.dal.blog.domain.BlogTag;
-import com.sapphire.biz.blog.service.BlogService;
-import com.sapphire.biz.blog.service.BlogTagService;
-import com.sapphire.common.dal.user.domain.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sapphire.BaseTest;
-import com.sapphire.common.dal.blog.domain.Blog;
+import com.sapphire.TransactionalBaseTest;
+import com.sapphire.biz.blog.service.BlogService;
+import com.sapphire.biz.blog.service.BlogTagService;
 import com.sapphire.biz.user.dto.UserDto;
 import com.sapphire.biz.user.service.UserService;
+import com.sapphire.common.dal.blog.domain.Blog;
+import com.sapphire.common.dal.blog.domain.BlogTag;
+import com.sapphire.common.dal.user.domain.User;
 
 /**
  * BlogTagServiceImpl Tester.
@@ -27,7 +27,7 @@ import com.sapphire.biz.user.service.UserService;
  * </pre>
  * @version 1.0
  */
-public class BlogTagServiceImplTest extends BaseTest {
+public class BlogTagServiceImplTest extends TransactionalBaseTest {
    @Autowired
    private BlogTagService blogTagService;
    @Autowired

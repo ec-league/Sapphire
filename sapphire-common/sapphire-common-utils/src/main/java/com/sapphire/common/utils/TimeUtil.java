@@ -11,7 +11,7 @@ import com.sapphire.common.utils.annotation.Util;
 import com.sapphire.common.utils.exception.DateParseException;
 
 /**
- * Author: EthanPark <br/>
+ * @author: EthanPark <br/>
  * Date: 2015/11/20<br/>
  * Email: byp5303628@hotmail.com
  */

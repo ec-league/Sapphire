@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.sapphire.biz.stock.algorithm.StockAlgorithm;
 import com.sapphire.biz.stock.job.SingleThreadJob;
 import com.sapphire.biz.stock.job.StockItemJob;
 import com.sapphire.biz.stock.service.StockService;
@@ -24,16 +25,17 @@ import com.sapphire.common.utils.annotation.Job;
 @Job
 public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
 
-    private static final Logger logger     = LoggerFactory.getLogger(StockItemJobImpl.class);
-    private static final int    MACD_START = 12;
-    private static final int    MACD_END   = 26;
+    private static final Logger         logger     = LoggerFactory
+        .getLogger(StockItemJobImpl.class);
+    private static final int            MACD_START = 12;
+    private static final int            MACD_END   = 26;
 
     private static final String         JOB_NAME   = "个股详情信息刷新任务";
 
-    @Autowired
-    private StockService stockService;
+    private StockService                stockService;
 
-    @Autowired
+    private StockAlgorithm              stockAlgorithm;
+
     private SinaStockIntegrationService sinaStockIntegrationService;
 
     private void updateStockInternal() {
@@ -91,7 +93,7 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
 
                 Stock stock = new Stock(items);
 
-                stock.calculateMacd(MACD_START, MACD_END, false);
+                stockAlgorithm.calculateMacd(stock, false);
 
                 if (item.isStop()) {
                     item.setMacdDea(last.getMacdDea());
@@ -122,5 +124,35 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
     @Override
     protected String jobName() {
         return JOB_NAME;
+    }
+
+    /**
+     * Setter method for property <tt>stockService</tt>.
+     *
+     * @param stockService  value to be assigned to property stockService
+     */
+    @Autowired
+    public void setStockService(StockService stockService) {
+        this.stockService = stockService;
+    }
+
+    /**
+     * Setter method for property <tt>stockAlgorithm</tt>.
+     *
+     * @param stockAlgorithm  value to be assigned to property stockAlgorithm
+     */
+    @Autowired
+    public void setStockAlgorithm(StockAlgorithm stockAlgorithm) {
+        this.stockAlgorithm = stockAlgorithm;
+    }
+
+    /**
+     * Setter method for property <tt>sinaStockIntegrationService</tt>.
+     *
+     * @param sinaStockIntegrationService  value to be assigned to property sinaStockIntegrationService
+     */
+    @Autowired
+    public void setSinaStockIntegrationService(SinaStockIntegrationService sinaStockIntegrationService) {
+        this.sinaStockIntegrationService = sinaStockIntegrationService;
     }
 }
