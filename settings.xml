@@ -35,7 +35,7 @@
         </os>
       </activation>
       <properties>
-        <app.config.path>./travis</app.config.path>
+        <app.config.path>${project.basedir}/travis</app.config.path>
       </properties>
     </profile>
   </profiles>
