@@ -111,7 +111,7 @@ public class StockStatics {
     * @return
     */
     public List<Stock> getIncreaseTop100() {
-        stocks.forEach(Stock::process);
+        //stocks.forEach(Stock::process);
 
         Collections.sort(stocks,
             (o1, o2) -> Double.compare(o2.getIncreaseTotal(), o1.getIncreaseTotal()));

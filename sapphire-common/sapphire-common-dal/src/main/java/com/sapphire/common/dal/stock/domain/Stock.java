@@ -22,16 +22,10 @@ public class Stock implements Dto {
     private double                    averageGoldDays;
 
     /**
-    * Stock中的一些具体信息
-    */
-    private StockDetail               stockDetail;
-
-    /**
     * 股票代码
     */
     private String                    code;
     private double                    firstDiff;
-    private double                    averageIncreaseRate;
     private boolean                   shouldPass = false;
     private double                    lowestMacd;
 
@@ -122,50 +116,6 @@ public class Stock implements Dto {
         return true;
     }
 
-    public void process() {
-
-        if (stockItems.isEmpty())
-            return;
-
-        List<StockStatic> statics = group(stockItems);
-        StockItem lastItem = stockItems.get(stockItems.size() - 1);
-
-        setCurrentMacd(lastItem.getMacd());
-        setGoldPossible(isGoldPossible(lastItem));
-        setStop(lastItem.isStop());
-        setCurrentDiff(lastItem.getMacdDiff());
-        setEndPrice(lastItem.getEndPrice());
-
-        double origin = 1.0;
-        int days = 0;
-
-        for (StockStatic stockStatic : statics) {
-            origin *= (1 + stockStatic.increaseRate / 100);
-            days += stockStatic.consistDays;
-        }
-        setIncreaseTotal(origin);
-
-        int average = 0;
-        if (statics.isEmpty())
-            return;
-
-        average = days / statics.size();
-        setAverageGoldDays(average);
-
-        double highPrice = 0;
-        double lowest = 0;
-        for (StockItem item : stockItems) {
-            if (item.getHighestPrice() > highPrice)
-                highPrice = item.getHighestPrice();
-
-            if (item.getMacd() < lowest)
-                lowest = item.getMacd();
-        }
-
-        setHighestPrice(highPrice);
-        setLowestMacd(lowest);
-    }
-
     public double getAverageGoldDays() {
         return averageGoldDays;
     }
@@ -180,69 +130,6 @@ public class Stock implements Dto {
 
     public void setStop(boolean stop) {
         this.stop = stop;
-    }
-
-    public int macdTotalCount(String dateFrom, String dateTo) throws ParseException {
-        return calcStatics(dateFrom, dateTo).size();
-    }
-
-    private List<StockStatic> calcStatics(String dateFrom, String dateTo) throws ParseException {
-        List<StockItem> items = new ArrayList<>();
-
-        long from = new SimpleDateFormat("MM/dd/yyyy").parse(dateFrom).getTime();
-        long to = new SimpleDateFormat("MM/dd/yyyy").parse(dateTo).getTime();
-
-        for (StockItem item : stockItems) {
-            long time = item.getLogDate().getTime();
-            if (from <= time && time <= to) {
-                items.add(item);
-            }
-        }
-
-        return group(items);
-    }
-
-    private static List<StockStatic> group(List<StockItem> items) {
-        List<List<StockItem>> complexItems = new ArrayList<>();
-
-        List<StockItem> tempList = new ArrayList<>();
-        for (StockItem item : items) {
-            if (item.getMacd() > 0) {
-                tempList.add(item);
-            } else {
-                if (tempList.isEmpty()) {
-                    continue;
-                }
-                complexItems.add(tempList);
-                tempList = new ArrayList<>();
-            }
-        }
-
-        if (!tempList.isEmpty()) {
-            complexItems.add(tempList);
-        }
-
-        if (!complexItems.isEmpty()
-            && complexItems.get(0).get(0).getLogDate().equals(items.get(0).getLogDate())) {
-            complexItems = complexItems.subList(1, complexItems.size());
-        }
-
-        List<StockStatic> statics = new ArrayList<>();
-        for (List<StockItem> list : complexItems) {
-            StockStatic stockStatic = new StockStatic();
-            StockItem start = list.get(0);
-            StockItem end = list.get(list.size() - 1);
-
-            stockStatic.setStartDate(start.getLogDate());
-            stockStatic.setEndDate(end.getLogDate());
-            stockStatic.setIsOverZero(start.getMacdDiff() > 0);
-            stockStatic.setConsistDays(list.size());
-            stockStatic.setFirstDiff(start.getMacdDiff());
-            stockStatic.setIncreaseRate((end.getEndPrice() / start.getEndPrice() - 1) * 100);
-            statics.add(stockStatic);
-        }
-
-        return statics;
     }
 
     public boolean isTodayPlus() {
@@ -294,10 +181,6 @@ public class Stock implements Dto {
     @Transient
     public List<StockItem> getStockItems() {
         return stockItems;
-    }
-
-    public double getAverageIncreaseRate() {
-        return averageIncreaseRate;
     }
 
     public boolean isShouldPass() {
@@ -378,14 +261,6 @@ public class Stock implements Dto {
 
     public boolean isGoldPossible() {
         return goldPossible;
-    }
-
-    public StockDetail getStockDetail() {
-        return stockDetail;
-    }
-
-    public void setStockDetail(StockDetail stockDetail) {
-        this.stockDetail = stockDetail;
     }
 
     private static class StockStatic {
