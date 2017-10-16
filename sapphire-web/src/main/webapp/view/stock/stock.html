@@ -127,13 +127,13 @@
                 macdTd.html(data[i].currentMacd.toFixed(3));
 
                 var priceTd = $("<td></td>");
-                priceTd.html(data[i].endPrice.toFixed(2));
+                priceTd.html(data[i].currentPrice.toFixed(2));
 
                 var highTd = $("<td></td>");
                 highTd.html(data[i].highestPrice.toFixed(2));
 
                 var rateTd = $("<td></td>");
-                rateTd.html((data[i].endPrice / data[i].highestPrice * 100).toFixed(2).toString() + "%");
+                rateTd.html((data[i].currentPrice / data[i].highestPrice * 100).toFixed(2).toString() + "%");
 
                 var increaseTd = $("<td></td>");
                 increaseTd.html((data[i].increaseTotal * 100).toFixed(2).toString() + "%");

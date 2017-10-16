@@ -50,13 +50,6 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
 
                 handleOneStock(code, sb);
             }
-
-            for (String code : codes) {
-                List<StockItem> items = stockService.getLast30Stock(code);
-                Stock stock = new Stock(items);
-                stock.processAverage();
-                stockService.saveAll(items);
-            }
         } catch (Exception ex) {
             logger.error("Init error", ex);
         }

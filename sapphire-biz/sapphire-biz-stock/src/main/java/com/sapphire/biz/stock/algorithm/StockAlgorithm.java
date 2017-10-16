@@ -113,6 +113,7 @@ public class StockAlgorithm {
         stat.setStop(lastItem.isStop());
         stat.setCurrentDiff(lastItem.getMacdDiff());
         stat.setGoldPossible(isGoldPossible(lastItem));
+        stat.setCurrentPrice(lastItem.getEndPrice());
         //endregion
 
         //region 计算金叉的累计增幅和平均持续时间

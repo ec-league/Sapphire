@@ -102,4 +102,13 @@ public class StockServiceImpl implements StockService {
 
         return result;
     }
+
+    /**
+     * 获取所有最后一天的股票项目
+     * @return
+     */
+    @Override
+    public List<StockItem> getAllLastStockItem() {
+        return stockItemRepository.getLatestItems();
+    }
 }

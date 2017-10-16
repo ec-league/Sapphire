@@ -2,12 +2,12 @@ package com.sapphire.biz.stock.service.impl;
 
 import java.util.List;
 
-import com.sapphire.common.dal.stock.domain.StockStatistics;
-import com.sapphire.common.dal.stock.repository.StockStatisticsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sapphire.biz.stock.service.StockStatisticsService;
+import com.sapphire.common.dal.stock.domain.StockStatistics;
+import com.sapphire.common.dal.stock.repository.StockStatisticsRepository;
 
 /**
  * Author: EthanPark <br/>
@@ -39,7 +39,6 @@ public class StockStatisticsServiceImpl implements StockStatisticsService {
 
     @Override
     public List<StockStatistics> getAll() {
-
-        return stockStatisticsRepository.findAll();
+        return stockStatisticsRepository.getAllOrderByCode();
     }
 }

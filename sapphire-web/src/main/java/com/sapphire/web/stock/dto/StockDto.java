@@ -4,6 +4,7 @@
  */
 package com.sapphire.web.stock.dto;
 
+import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.utils.dto.Dto;
 
 /**
@@ -12,15 +13,32 @@ import com.sapphire.common.utils.dto.Dto;
  * @version $Id: StockDto.java, v 0.1 2017年10月15日 下午3:52 yunpeng.byp Exp $
  */
 public class StockDto implements Dto {
-    private String code;
-    private String name;
+
+    public StockDto() {
+
+    }
+
+    public StockDto(StockStatistics statistics) {
+        this.code = statistics.getCode();
+        this.name = statistics.getName();
+        this.goldPossible = statistics.isGoldPossible();
+        this.currentDiff = statistics.getCurrentDiff();
+        this.currentMacd = statistics.getCurrentMacd();
+        this.currentPrice = statistics.getCurrentPrice();
+        this.highestPrice = statistics.getHighestPrice();
+        this.increaseTotal = statistics.getIncreaseTotal();
+        this.averageGoldDays = statistics.getAverageGoldDays();
+    }
+
+    private String  code;
+    private String  name;
     private boolean goldPossible;
-    private double currentMacd;
-    private double endPrice;
-    private double highestPrice;
-    private double increaseTotal;
-    private double currentDiff;
-    private double averageGoldDays;
+    private double  currentMacd;
+    private double  currentPrice;
+    private double  highestPrice;
+    private double  increaseTotal;
+    private double  currentDiff;
+    private double  averageGoldDays;
 
     /**
      * Getter method for property <tt>code</tt>.
@@ -95,24 +113,6 @@ public class StockDto implements Dto {
     }
 
     /**
-     * Getter method for property <tt>endPrice</tt>.
-     *
-     * @return property value of endPrice
-     */
-    public double getEndPrice() {
-        return endPrice;
-    }
-
-    /**
-     * Setter method for property <tt>endPrice</tt>.
-     *
-     * @param endPrice  value to be assigned to property endPrice
-     */
-    public void setEndPrice(double endPrice) {
-        this.endPrice = endPrice;
-    }
-
-    /**
      * Getter method for property <tt>highestPrice</tt>.
      *
      * @return property value of highestPrice
@@ -182,5 +182,23 @@ public class StockDto implements Dto {
      */
     public void setAverageGoldDays(double averageGoldDays) {
         this.averageGoldDays = averageGoldDays;
+    }
+
+    /**
+     * Getter method for property <tt>currentPrice</tt>.
+     *
+     * @return property value of currentPrice
+     */
+    public double getCurrentPrice() {
+        return currentPrice;
+    }
+
+    /**
+     * Setter method for property <tt>currentPrice</tt>.
+     *
+     * @param currentPrice  value to be assigned to property currentPrice
+     */
+    public void setCurrentPrice(double currentPrice) {
+        this.currentPrice = currentPrice;
     }
 }

@@ -29,4 +29,10 @@ public interface StockService {
     StockItem getLatestStockItemByCode(String code);
 
     List<StockItem> getLast30Stock(String code);
+
+    /**
+     * 获取所有最后一天的股票项目
+     * @return
+     */
+    List<StockItem> getAllLastStockItem();
 }

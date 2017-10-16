@@ -1,6 +1,10 @@
 package com.sapphire.web.stock.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,19 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sapphire.biz.stock.cache.StockCache;
 import com.sapphire.biz.stock.service.StockService;
 import com.sapphire.biz.stock.service.StockStatisticsService;
 import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockItem;
-import com.sapphire.common.dal.stock.domain.StockStatics;
 import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.utils.dto.DataJsonDto;
 import com.sapphire.common.utils.dto.JsonDto;
 import com.sapphire.common.utils.dto.ListJsonDto;
+import com.sapphire.web.stock.cache.StockCache;
+import com.sapphire.web.stock.dto.StockDto;
 
 /**
  * Author: Ethan Date: 2016/4/17
@@ -32,10 +35,10 @@ public class StockController {
     private static final Logger    logger = LoggerFactory.getLogger(StockController.class);
 
     @Autowired
-    private StockService stockService;
+    private StockService           stockService;
 
     @Autowired
-    private StockCache stockCache;
+    private StockCache             stockCache;
 
     @Autowired
     private StockStatisticsService stockStatisticsService;
@@ -47,86 +50,101 @@ public class StockController {
         return new ListJsonDto<>(codes).formSuccessDto();
     }
 
-    @RequestMapping("/industry/statics/below")
-    @ResponseBody
-    public JsonDto getStaticsByIndustryBelow(@RequestParam(value = "industry", required = true) String industry) {
-        StockStatics stockStatics = stockService.getLastMonthStockStaticsByIndustry(industry);
-
-        List<Stock> stocks = stockStatics.getMacdBelowZero();
-
-        update(stocks);
-
-        return new ListJsonDto(stocks);
-    }
-
-    @RequestMapping("/industry/statics/upon")
-    @ResponseBody
-    public JsonDto getStaticsByIndustryUpon(@RequestParam(value = "industry", required = true) String industry) {
-        StockStatics stockStatics = stockService.getLastMonthStockStaticsByIndustry(industry);
-
-        return new ListJsonDto(stockStatics.getMacdUpZero()).formSuccessDto();
-    }
-
-    @RequestMapping("/statics/below")
-    @ResponseBody
-    public JsonDto getStaticsBelow() {
-        StockStatics stockStatics = stockCache.getStockStatics();
-
-        //return new ListJsonDto(stockStatics.pick()).formSuccessDto();
-        return null;
-    }
-
-    @RequestMapping("/statics/upon")
-    @ResponseBody
-    public JsonDto getStaticsUpon() {
-        StockStatics stockStatics = stockCache.getStockStatics();
-
-        return new ListJsonDto(stockStatics.getMacdUpZero()).formSuccessDto();
-    }
-
     @RequestMapping("/statics/lowest.ep")
     @ResponseBody
     public JsonDto getStaticsLowest() {
-        StockStatics stockStatics = stockCache.getStockStatics();
+        List<StockStatistics> stockStatics = stockCache.getStockStatistics();
 
-        List<Stock> stocks = stockStatics.getLowestMacd();
+        Collections.sort(stockStatics, new Comparator<StockStatistics>() {
+            @Override
+            public int compare(StockStatistics o1, StockStatistics o2) {
+                return Double.compare(o1.getCurrentMacd(), o2.getCurrentMacd());
+            }
+        });
 
-        update(stocks);
+        List<StockDto> dtos = new ArrayList<>(30);
 
-        return new ListJsonDto(stocks).formSuccessDto();
+        int max = stockStatics.size() > 30 ? 30 : stockStatics.size();
+
+        for (StockStatistics statistics : stockStatics.subList(0, max)) {
+            dtos.add(new StockDto(statistics));
+        }
+
+        return new ListJsonDto(dtos).formSuccessDto();
     }
 
     @RequestMapping("/statics/increase.ep")
     @ResponseBody
     public JsonDto getIncreaseStatics() {
-        StockStatics stockStatics = stockCache.getStockStatics();
-        List<Stock> stocks = stockStatics.getIncreaseTop100();
+        List<StockStatistics> stockStatics = stockCache.getStockStatistics();
+        Collections.sort(stockStatics, new Comparator<StockStatistics>() {
+            @Override
+            public int compare(StockStatistics o1, StockStatistics o2) {
+                return Double.compare(o2.getIncreaseTotal(), o1.getIncreaseTotal());
+            }
+        });
 
-        update(stocks);
+        List<StockDto> dtos = new ArrayList<>(30);
 
-        return new ListJsonDto(stocks).formSuccessDto();
+        int max = stockStatics.size() > 30 ? 30 : stockStatics.size();
+
+        for (StockStatistics statistics : stockStatics.subList(0, max)) {
+            dtos.add(new StockDto(statistics));
+        }
+
+        return new ListJsonDto(dtos).formSuccessDto();
     }
 
     @RequestMapping("/statics/dead.ep")
     @ResponseBody
     public JsonDto getDeadStatics() {
-        StockStatics stockStatics = stockCache.getStockStatics();
-        List<Stock> stocks = stockStatics.getDeadMacd();
+        List<StockStatistics> stockStatics = stockCache.getStockStatistics();
 
-        update(stocks);
+        stockStatics = stockStatics.stream().filter(s -> s.getCurrentMacd() < 0)
+            .collect(Collectors.toList());
 
-        return new ListJsonDto(stocks).formSuccessDto();
+        Collections.sort(stockStatics, new Comparator<StockStatistics>() {
+            @Override
+            public int compare(StockStatistics o1, StockStatistics o2) {
+                return Double.compare(o2.getIncreaseTotal(), o1.getIncreaseTotal());
+            }
+        });
+
+        List<StockDto> dtos = new ArrayList<>(30);
+
+        int max = stockStatics.size() > 30 ? 30 : stockStatics.size();
+
+        for (StockStatistics statistics : stockStatics.subList(0, max)) {
+            dtos.add(new StockDto(statistics));
+        }
+
+        return new ListJsonDto(dtos).formSuccessDto();
     }
 
     @RequestMapping("/statics/gold.ep")
     @ResponseBody
     public JsonDto getGoldPossible() {
-        StockStatics stockStatics = stockCache.getStockStatics();
-        List<Stock> stocks = stockStatics.getGoldPossible();
+        List<StockStatistics> stockStatics = stockCache.getStockStatistics();
 
-        update(stocks);
+        stockStatics = stockStatics.stream().filter(s -> s.isGoldPossible())
+            .collect(Collectors.toList());
 
-        return new ListJsonDto(stocks).formSuccessDto();
+        Collections.sort(stockStatics, new Comparator<StockStatistics>() {
+            @Override
+            public int compare(StockStatistics o1, StockStatistics o2) {
+                return Double.compare(o2.getIncreaseTotal(), o1.getIncreaseTotal());
+            }
+        });
+
+        List<StockDto> dtos = new ArrayList<>(30);
+
+        int max = stockStatics.size() > 30 ? 30 : stockStatics.size();
+
+        for (StockStatistics statistics : stockStatics.subList(0, max)) {
+            dtos.add(new StockDto(statistics));
+        }
+
+        return new ListJsonDto(dtos).formSuccessDto();
     }
 
     @RequestMapping("/{code}/info.ep")
