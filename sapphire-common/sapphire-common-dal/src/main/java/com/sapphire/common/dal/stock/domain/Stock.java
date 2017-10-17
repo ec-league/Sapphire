@@ -1,10 +1,7 @@
 package com.sapphire.common.dal.stock.domain;
 
 import java.beans.Transient;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.sapphire.common.utils.dto.Dto;
@@ -49,41 +46,6 @@ public class Stock implements Dto {
 
     public Stock(List<StockItem> stockItems) {
         update(stockItems);
-    }
-
-    private void init() {
-        StockItem item = this.stockItems.get(0);
-        item.setEma12(item.getEndPrice());
-        item.setEma26(item.getEndPrice());
-    }
-
-    /**
-    * 计算5日均线，10日均线，20日均线，以及30日均线
-    */
-    public void processAverage() {
-        if (stockItems == null || stockItems.isEmpty())
-            return;
-
-        for (int i = 0; i < stockItems.size(); i++) {
-            if (i >= 4)
-                stockItems.get(i).setAverage5(calculateAverage(i, 5));
-            if (i >= 9)
-                stockItems.get(i).setAverage10(calculateAverage(i, 10));
-            if (i >= 19)
-                stockItems.get(i).setAverage20(calculateAverage(i, 20));
-            if (i >= 29)
-                stockItems.get(i).setAverage30(calculateAverage(i, 30));
-        }
-    }
-
-    private double calculateAverage(int fromIndex, int t) {
-        double d = 0;
-
-        for (int i = fromIndex - t + 1; i <= fromIndex; i++) {
-            d += stockItems.get(i).getEndPrice();
-        }
-
-        return d / t;
     }
 
     public String getCode() {
@@ -146,6 +108,10 @@ public class Stock implements Dto {
     * @param items
     */
     private void update(List<StockItem> items) {
+        if (items == null || items.isEmpty()) {
+            stockItems = Collections.emptyList();
+            return;
+        }
         stockItems = items;
         code = stockItems.get(0).getCode();
         name = stockItems.get(0).getName();
@@ -261,62 +227,5 @@ public class Stock implements Dto {
 
     public boolean isGoldPossible() {
         return goldPossible;
-    }
-
-    private static class StockStatic {
-        private Timestamp startDate;
-        private Timestamp endDate;
-        private boolean   isOverZero;
-        private double    increaseRate;
-        private int       consistDays;
-        private double    firstDiff;
-
-        public double getFirstDiff() {
-            return firstDiff;
-        }
-
-        public void setFirstDiff(double firstDiff) {
-            this.firstDiff = firstDiff;
-        }
-
-        public Timestamp getStartDate() {
-            return startDate;
-        }
-
-        public void setStartDate(Timestamp startDate) {
-            this.startDate = startDate;
-        }
-
-        public Timestamp getEndDate() {
-            return endDate;
-        }
-
-        public void setEndDate(Timestamp endDate) {
-            this.endDate = endDate;
-        }
-
-        public boolean isOverZero() {
-            return isOverZero;
-        }
-
-        public void setIsOverZero(boolean isOverZero) {
-            this.isOverZero = isOverZero;
-        }
-
-        public double getIncreaseRate() {
-            return increaseRate;
-        }
-
-        public void setIncreaseRate(double increaseRate) {
-            this.increaseRate = increaseRate;
-        }
-
-        public int getConsistDays() {
-            return consistDays;
-        }
-
-        public void setConsistDays(int consistDays) {
-            this.consistDays = consistDays;
-        }
     }
 }

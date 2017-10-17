@@ -174,7 +174,6 @@ public class StockTest extends BaseTest {
             return;
         Stock stock = new Stock(stockItems);
         stockAlgorithm.calculateMacd(stock, true);
-        stock.processAverage();
 
         StockItem last = stockItems.get(stockItems.size() - 1);
 
@@ -197,10 +196,6 @@ public class StockTest extends BaseTest {
             return;
 
         Assert.assertEquals(items.size(), 30);
-
-        Stock stock = new Stock(items);
-
-        stock.processAverage();
 
         return;
     }

@@ -31,6 +31,13 @@ public interface StockService {
     List<StockItem> getLast30Stock(String code);
 
     /**
+     * 根据K线最后300条数据来计算对应的股票数据
+     * @param code
+     * @return
+     */
+    Stock getStockForStatistics(String code);
+
+    /**
      * 获取所有最后一天的股票项目
      * @return
      */

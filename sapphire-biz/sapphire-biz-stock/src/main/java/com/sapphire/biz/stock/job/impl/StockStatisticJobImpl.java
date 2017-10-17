@@ -14,7 +14,6 @@ import com.sapphire.biz.stock.service.StockStatisticsService;
 import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.integration.dingtalk.constant.DingTalkMessageType;
-import com.sapphire.common.utils.TimeUtil;
 import com.sapphire.common.utils.annotation.Job;
 
 /**
@@ -61,8 +60,7 @@ public class StockStatisticJobImpl extends SingleThreadJob implements StockStati
 
     private void handleStat(String code) {
         logger.info(String.format("Update Stock Statistics : %s", code));
-        Stock stock = stockService.getStockByCodeAndTime(code, TimeUtil.oneYearAgo(),
-            TimeUtil.now());
+        Stock stock = stockService.getStockForStatistics(code);
 
         if (stock == null) {
             return;

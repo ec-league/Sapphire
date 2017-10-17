@@ -2,7 +2,6 @@ package com.sapphire.biz.stock.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,10 +96,14 @@ public class StockServiceImpl implements StockService {
     public List<StockItem> getLast30Stock(String code) {
         List<StockItem> items = stockItemRepository.getLast30Items(code);
 
-        List<StockItem> result = new ArrayList<>(items);
-        Collections.sort(result, (o1, o2) -> Long.compare(o1.getUidPk(), o2.getUidPk()));
+        return new ArrayList<>(items);
+    }
 
-        return result;
+    @Override
+    public Stock getStockForStatistics(String code) {
+        List<StockItem> items = stockItemRepository.getLast300Items(code);
+
+        return new Stock(items);
     }
 
     /**

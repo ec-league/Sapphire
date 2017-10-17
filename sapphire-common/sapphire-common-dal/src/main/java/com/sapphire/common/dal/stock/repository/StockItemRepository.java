@@ -1,12 +1,13 @@
 package com.sapphire.common.dal.stock.repository;
 
-import com.sapphire.common.dal.stock.domain.StockItem;
+import java.sql.Timestamp;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.sql.Timestamp;
-import java.util.List;
+import com.sapphire.common.dal.stock.domain.StockItem;
 
 /**
  * Created by Ethan on 2016/3/30.
@@ -37,4 +38,7 @@ public interface StockItemRepository extends JpaRepository<StockItem, Long> {
 
     @Query(value = "SELECT * FROM STOCK_ITEM WHERE CODE = ?1 ORDER BY LOG_DATE DESC LIMIT 30", nativeQuery = true)
     List<StockItem> getLast30Items(String code);
+
+    @Query(value = "SELECT * FROM STOCK_ITEM WHERE CODE = ?1 ORDER BY LOG_DATE DESC LIMIT 300", nativeQuery = true)
+    List<StockItem> getLast300Items(String code);
 }

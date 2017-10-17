@@ -190,13 +190,10 @@ public class StockAlgorithm {
         }
         //endregion
 
-        if (!complexItems.isEmpty()
-            && complexItems.get(0).get(0).getLogDate().equals(items.get(0).getLogDate())) {
-            complexItems = complexItems.subList(1, complexItems.size());
-        }
-
         List<MacdCycle> statics = new ArrayList<>();
-        for (List<StockItem> list : complexItems) {
+        // 从第二个周期进行迭代,去除新股发行对数据统计的影响
+        for (int i = 1; i < complexItems.size(); i++) {
+            List<StockItem> list = complexItems.get(i);
             MacdCycle macdCycle = new MacdCycle();
             StockItem start = list.get(0);
             StockItem end = list.get(list.size() - 1);
