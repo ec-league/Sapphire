@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sapphire.biz.stock.task.StockItemTask;
 import com.sapphire.biz.stock.task.StockStatisticTask;
+import com.sapphire.common.task.stock.StockTask;
 import com.sapphire.common.utils.dto.JsonDto;
 
 /**
@@ -24,10 +25,13 @@ public class StockCacheController {
     @Autowired
     private StockStatisticTask stockStatisticJob;
 
+    @Autowired
+    private StockTask          stockTask;
+
     @RequestMapping("/update/stat.ep")
     @ResponseBody
     public JsonDto startStatTask() {
-        stockStatisticJob.execute();
+        stockTask.execute();
 
         return new JsonDto().formSuccessDto();
     }
@@ -35,7 +39,7 @@ public class StockCacheController {
     @RequestMapping("/update/item.ep")
     @ResponseBody
     public JsonDto startItemTask() {
-        stockItemJob.execute();
+        stockTask.execute();
 
         return new JsonDto().formSuccessDto();
     }

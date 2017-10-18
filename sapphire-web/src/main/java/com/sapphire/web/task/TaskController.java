@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sapphire.common.task.CoralineRobot;
+import com.sapphire.common.task.stock.StockTask;
 import com.sapphire.common.utils.dto.JsonDto;
 
 /**
@@ -21,11 +22,14 @@ import com.sapphire.common.utils.dto.JsonDto;
  * @version $Id: TaskController.java, v 0.1 2017年10月18日 上午11:34 yunpeng.byp Exp $
  */
 @Controller
+@RequestMapping("/stock")
 public class TaskController {
 
     private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
 
     private CoralineRobot       coralineRobot;
+
+    private StockTask           stockTask;
 
     @RequestMapping("/${jobName}/trigger.ep")
     @ResponseBody
@@ -33,6 +37,8 @@ public class TaskController {
         logger.info("Start to trigger the job: " + jobName);
 
         coralineRobot.sayGoodNight();
+
+        stockTask.execute();
 
         return new JsonDto().formSuccessDto();
     }
@@ -45,5 +51,15 @@ public class TaskController {
     @Autowired
     public void setCoralineRobot(CoralineRobot coralineRobot) {
         this.coralineRobot = coralineRobot;
+    }
+
+    /**
+     * Setter method for property <tt>stockTask</tt>.
+     *
+     * @param stockTask  value to be assigned to property stockTask
+     */
+    @Autowired
+    public void setStockTask(StockTask stockTask) {
+        this.stockTask = stockTask;
     }
 }
