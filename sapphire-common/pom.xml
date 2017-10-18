@@ -20,5 +20,6 @@
         <module>sapphire-common-utils</module>
         <module>sapphire-common-integration</module>
         <module>sapphire-common-dal</module>
+        <module>sapphire-common-task</module>
     </modules>
 </project>
