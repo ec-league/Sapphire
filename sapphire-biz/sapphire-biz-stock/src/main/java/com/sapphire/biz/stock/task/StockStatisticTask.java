@@ -1,19 +1,23 @@
-package com.sapphire.biz.stock.job.impl;
+package com.sapphire.biz.stock.task;
 
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.biz.stock.algorithm.StockAlgorithm;
-import com.sapphire.biz.stock.job.SingleThreadJob;
-import com.sapphire.biz.stock.job.StockStatisticJob;
 import com.sapphire.biz.stock.service.StockService;
 import com.sapphire.biz.stock.service.StockStatisticsService;
 import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.integration.dingtalk.constant.DingTalkMessageType;
+import com.sapphire.common.integration.dingtalk.pusher.DingTalkMessagePusher;
+import com.sapphire.common.task.SapphireTask;
+import com.sapphire.common.task.SapphireTaskManager;
+import com.sapphire.common.task.stock.constant.StockConstants;
 import com.sapphire.common.utils.annotation.Job;
 
 /**
@@ -22,9 +26,9 @@ import com.sapphire.common.utils.annotation.Job;
  * Email: byp5303628@hotmail.com
  */
 @Job
-public class StockStatisticJobImpl extends SingleThreadJob implements StockStatisticJob {
+public class StockStatisticTask implements SapphireTask {
 
-    private static final Logger    logger   = LoggerFactory.getLogger(StockStatisticJobImpl.class);
+    private static final Logger    logger   = LoggerFactory.getLogger(StockStatisticTask.class);
 
     private StockService           stockService;
 
@@ -34,18 +38,20 @@ public class StockStatisticJobImpl extends SingleThreadJob implements StockStati
 
     private static final String    JOB_NAME = "个股统计信息刷新任务";
 
-    @Override
-    public void updateStatistic() {
-        submit(new Runnable() {
-            @Override
-            public void run() {
-                updateStatisticInternal();
-            }
-        });
+    private DingTalkMessagePusher  pusher;
+
+    private SapphireTaskManager    taskManager;
+
+    @PostConstruct
+    public void init() {
+        taskManager.register(StockConstants.STOCK_STATISTIC_TASK_NAME, this);
     }
 
-    private void updateStatisticInternal() {
+    @Override
+    public void execute() {
         logger.info("Update Stock Statistics Task Begin");
+
+        StringBuilder finishMsg = new StringBuilder();
 
         List<String> codes = stockService.getAllCodes();
 
@@ -55,7 +61,7 @@ public class StockStatisticJobImpl extends SingleThreadJob implements StockStati
 
         logger.info("Update Stock Statistics Task Finished!");
         finishMsg.append("## 个股统计信息: ").append("\n>").append("刷新成功");
-        pusher.push(jobName(), finishMsg.toString(), DingTalkMessageType.MARKDOWN);
+        pusher.push(JOB_NAME, finishMsg.toString(), DingTalkMessageType.MARKDOWN);
     }
 
     private void handleStat(String code) {
@@ -69,15 +75,6 @@ public class StockStatisticJobImpl extends SingleThreadJob implements StockStati
         StockStatistics stat = stockAlgorithm.calculate(stock);
 
         statisticsService.update(stat);
-    }
-
-    /**
-     * JOB的名字,完成后进行推送钉钉
-     * @return
-     */
-    @Override
-    protected String jobName() {
-        return JOB_NAME;
     }
 
     /**
@@ -108,5 +105,24 @@ public class StockStatisticJobImpl extends SingleThreadJob implements StockStati
     @Autowired
     public void setStockAlgorithm(StockAlgorithm stockAlgorithm) {
         this.stockAlgorithm = stockAlgorithm;
+    }
+
+    /**
+     * Setter method for property <tt>pusher</tt>.
+     *
+     * @param pusher  value to be assigned to property pusher
+     */
+    @Autowired
+    public void setPusher(DingTalkMessagePusher pusher) {
+        this.pusher = pusher;
+    }
+
+    /**
+     * Setter method for property <tt>taskManager</tt>.
+     *
+     * @param taskManager  value to be assigned to property taskManager
+     */
+    public void setTaskManager(SapphireTaskManager taskManager) {
+        this.taskManager = taskManager;
     }
 }

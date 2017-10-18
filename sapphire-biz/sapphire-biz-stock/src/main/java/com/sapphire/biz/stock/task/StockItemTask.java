@@ -1,20 +1,24 @@
-package com.sapphire.biz.stock.job.impl;
+package com.sapphire.biz.stock.task;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.biz.stock.algorithm.StockAlgorithm;
-import com.sapphire.biz.stock.job.SingleThreadJob;
-import com.sapphire.biz.stock.job.StockItemJob;
 import com.sapphire.biz.stock.service.StockService;
 import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockItem;
 import com.sapphire.common.integration.dingtalk.constant.DingTalkMessageType;
+import com.sapphire.common.integration.dingtalk.pusher.DingTalkMessagePusher;
 import com.sapphire.common.integration.sina.SinaStockIntegrationService;
+import com.sapphire.common.task.SapphireTask;
+import com.sapphire.common.task.SapphireTaskManager;
+import com.sapphire.common.task.stock.constant.StockConstants;
 import com.sapphire.common.utils.annotation.Job;
 
 /**
@@ -23,10 +27,9 @@ import com.sapphire.common.utils.annotation.Job;
  * Email: byp5303628@hotmail.com
  */
 @Job
-public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
+public class StockItemTask implements SapphireTask {
 
-    private static final Logger         logger     = LoggerFactory
-        .getLogger(StockItemJobImpl.class);
+    private static final Logger         logger     = LoggerFactory.getLogger(StockItemTask.class);
     private static final int            MACD_START = 12;
     private static final int            MACD_END   = 26;
 
@@ -37,9 +40,21 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
     private StockAlgorithm              stockAlgorithm;
 
     private SinaStockIntegrationService sinaStockIntegrationService;
+    private DingTalkMessagePusher       pusher;
+    private SapphireTaskManager         taskManager;
 
-    private void updateStockInternal() {
+    @PostConstruct
+    public void init() {
+        taskManager.register(StockConstants.STOCK_ITEM_TASK_NAME, this);
+    }
+
+    /**
+     * 调度任务的具体执行.
+     */
+    @Override
+    public void execute() {
         logger.info("Update Stock Items Task Begin");
+        StringBuilder finishMsg = new StringBuilder();
         finishMsg.append("## 个股详情信息: ").append("\n>");
         StringBuilder sb = new StringBuilder();
         try {
@@ -61,7 +76,15 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
         }
 
         logger.info("Update Stock Item Task Finished!");
-        pusher.push(jobName(), finishMsg.toString(), DingTalkMessageType.MARKDOWN);
+        pusher.push(JOB_NAME, finishMsg.toString(), DingTalkMessageType.MARKDOWN);
+    }
+
+    /**
+     * Task的名字
+     * @return
+     */
+    public static String name() {
+        return "StockItem";
     }
 
     private void handleOneStock(String code, StringBuilder sb) {
@@ -105,20 +128,6 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
         }
     }
 
-    @Override
-    public void updateStock() {
-        submit(this::updateStockInternal);
-    }
-
-    /**
-     * JOB的名字,完成后进行推送钉钉
-     * @return
-     */
-    @Override
-    protected String jobName() {
-        return JOB_NAME;
-    }
-
     /**
      * Setter method for property <tt>stockService</tt>.
      *
@@ -147,5 +156,24 @@ public class StockItemJobImpl extends SingleThreadJob implements StockItemJob {
     @Autowired
     public void setSinaStockIntegrationService(SinaStockIntegrationService sinaStockIntegrationService) {
         this.sinaStockIntegrationService = sinaStockIntegrationService;
+    }
+
+    /**
+     * Setter method for property <tt>pusher</tt>.
+     *
+     * @param pusher  value to be assigned to property pusher
+     */
+    @Autowired
+    public void setPusher(DingTalkMessagePusher pusher) {
+        this.pusher = pusher;
+    }
+
+    /**
+     * Setter method for property <tt>taskManager</tt>.
+     *
+     * @param taskManager  value to be assigned to property taskManager
+     */
+    public void setTaskManager(SapphireTaskManager taskManager) {
+        this.taskManager = taskManager;
     }
 }

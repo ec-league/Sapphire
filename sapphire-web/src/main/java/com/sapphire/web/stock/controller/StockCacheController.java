@@ -1,12 +1,13 @@
 package com.sapphire.web.stock.controller;
 
-import com.sapphire.biz.stock.job.StockItemJob;
-import com.sapphire.biz.stock.job.StockStatisticJob;
-import com.sapphire.common.utils.dto.JsonDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.sapphire.biz.stock.task.StockItemTask;
+import com.sapphire.biz.stock.task.StockStatisticTask;
+import com.sapphire.common.utils.dto.JsonDto;
 
 /**
  * Author: EthanPark <br/>
@@ -18,15 +19,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class StockCacheController {
 
     @Autowired
-    private StockItemJob stockItemJob;
+    private StockItemTask      stockItemJob;
 
     @Autowired
-    private StockStatisticJob stockStatisticJob;
+    private StockStatisticTask stockStatisticJob;
 
     @RequestMapping("/update/stat.ep")
     @ResponseBody
     public JsonDto startStatTask() {
-        stockStatisticJob.updateStatistic();
+        stockStatisticJob.execute();
 
         return new JsonDto().formSuccessDto();
     }
@@ -34,7 +35,7 @@ public class StockCacheController {
     @RequestMapping("/update/item.ep")
     @ResponseBody
     public JsonDto startItemTask() {
-        stockItemJob.updateStock();
+        stockItemJob.execute();
 
         return new JsonDto().formSuccessDto();
     }
