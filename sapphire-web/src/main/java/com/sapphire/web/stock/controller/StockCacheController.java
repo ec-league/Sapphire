@@ -5,8 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sapphire.biz.stock.task.StockItemTask;
-import com.sapphire.biz.stock.task.StockStatisticTask;
 import com.sapphire.common.task.stock.StockTask;
 import com.sapphire.common.utils.dto.JsonDto;
 
@@ -18,15 +16,7 @@ import com.sapphire.common.utils.dto.JsonDto;
 @RequestMapping("/stock/data")
 @Controller
 public class StockCacheController {
-
-    @Autowired
-    private StockItemTask      stockItemJob;
-
-    @Autowired
-    private StockStatisticTask stockStatisticJob;
-
-    @Autowired
-    private StockTask          stockTask;
+    private StockTask stockTask;
 
     @RequestMapping("/update/stat.ep")
     @ResponseBody
@@ -42,5 +32,15 @@ public class StockCacheController {
         stockTask.execute();
 
         return new JsonDto().formSuccessDto();
+    }
+
+    /**
+     * Setter method for property <tt>stockTask</tt>.
+     *
+     * @param stockTask  value to be assigned to property stockTask
+     */
+    @Autowired
+    public void setStockTask(StockTask stockTask) {
+        this.stockTask = stockTask;
     }
 }
