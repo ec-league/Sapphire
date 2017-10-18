@@ -13,6 +13,8 @@ import com.sapphire.common.integration.dingtalk.constant.DingTalkMessageType;
 import com.sapphire.common.integration.dingtalk.pusher.DingTalkMessagePusher;
 import com.sapphire.common.utils.annotation.Job;
 
+import javax.annotation.PostConstruct;
+
 /**
  *
  * @author yunpeng.byp
@@ -24,6 +26,11 @@ public class CoralineRobot {
         .getLogger(CoralineRobot.class);
 
     private static final String   CORALINE_SAY_GOOD_NIGHT = "Coraline's Good Night!";
+
+    @PostConstruct
+    public void init() {
+        logger.info("Coraline Robot Job Started!");
+    }
 
     private DingTalkMessagePusher pusher;
 
