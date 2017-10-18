@@ -1,5 +1,7 @@
 package com.sapphire.web.stock.controller;
 
+import com.sapphire.biz.stock.task.StockItemTask;
+import com.sapphire.biz.stock.task.StockStatisticTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +20,16 @@ import com.sapphire.common.utils.dto.JsonDto;
 public class StockCacheController {
     private StockTask stockTask;
 
+    private StockStatisticTask stockStatisticTask;
+
+    private StockItemTask stockItemTask;
+
     @RequestMapping("/update/stat.ep")
     @ResponseBody
     public JsonDto startStatTask() {
-        stockTask.execute();
+        stockItemTask.execute();
+
+        stockStatisticTask.execute();
 
         return new JsonDto().formSuccessDto();
     }
@@ -29,9 +37,7 @@ public class StockCacheController {
     @RequestMapping("/update/item.ep")
     @ResponseBody
     public JsonDto startItemTask() {
-        stockTask.execute();
-
-        return new JsonDto().formSuccessDto();
+        return startStatTask();
     }
 
     /**
@@ -42,5 +48,25 @@ public class StockCacheController {
     @Autowired
     public void setStockTask(StockTask stockTask) {
         this.stockTask = stockTask;
+    }
+
+    /**
+     * Setter method for property <tt>stockStatisticTask</tt>.
+     *
+     * @param stockStatisticTask  value to be assigned to property stockStatisticTask
+     */
+    @Autowired
+    public void setStockStatisticTask(StockStatisticTask stockStatisticTask) {
+        this.stockStatisticTask = stockStatisticTask;
+    }
+
+    /**
+     * Setter method for property <tt>stockItemTask</tt>.
+     *
+     * @param stockItemTask  value to be assigned to property stockItemTask
+     */
+    @Autowired
+    public void setStockItemTask(StockItemTask stockItemTask) {
+        this.stockItemTask = stockItemTask;
     }
 }
