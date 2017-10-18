@@ -122,6 +122,7 @@ public class StockStatisticTask implements SapphireTask {
      *
      * @param taskManager  value to be assigned to property taskManager
      */
+    @Autowired
     public void setTaskManager(SapphireTaskManager taskManager) {
         this.taskManager = taskManager;
     }
