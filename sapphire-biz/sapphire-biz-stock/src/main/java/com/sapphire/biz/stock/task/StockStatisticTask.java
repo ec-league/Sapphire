@@ -40,11 +40,9 @@ public class StockStatisticTask implements SapphireTask {
 
     private DingTalkMessagePusher  pusher;
 
-    private SapphireTaskManager    taskManager;
-
     @PostConstruct
     public void init() {
-        taskManager.register(StockConstants.STOCK_STATISTIC_TASK_NAME, this);
+        SapphireTaskManager.register(StockConstants.STOCK_STATISTIC_TASK_NAME, this);
     }
 
     @Override
@@ -115,15 +113,5 @@ public class StockStatisticTask implements SapphireTask {
     @Autowired
     public void setPusher(DingTalkMessagePusher pusher) {
         this.pusher = pusher;
-    }
-
-    /**
-     * Setter method for property <tt>taskManager</tt>.
-     *
-     * @param taskManager  value to be assigned to property taskManager
-     */
-    @Autowired
-    public void setTaskManager(SapphireTaskManager taskManager) {
-        this.taskManager = taskManager;
     }
 }

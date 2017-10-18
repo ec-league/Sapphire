@@ -18,14 +18,15 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SapphireTaskManager {
-    private static final Logger       logger  = LoggerFactory.getLogger(SapphireTaskManager.class);
-    private Map<String, SapphireTask> taskMap = new HashMap<>();
+    private static final Logger              logger  = LoggerFactory
+        .getLogger(SapphireTaskManager.class);
+    private static Map<String, SapphireTask> taskMap = new HashMap<>();
 
     public SapphireTask getTask(String name) {
         return taskMap.get(name);
     }
 
-    public void register(String name, SapphireTask sapphireTask) {
+    public static void register(String name, SapphireTask sapphireTask) {
         logger.info("Register Task: " + name + ", Task: " + sapphireTask.getClass());
         taskMap.put(name, sapphireTask);
     }
