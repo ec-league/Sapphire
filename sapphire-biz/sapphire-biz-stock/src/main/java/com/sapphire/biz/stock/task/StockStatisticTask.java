@@ -21,7 +21,7 @@ import com.sapphire.common.task.stock.constant.StockConstants;
 import com.sapphire.common.utils.annotation.Job;
 
 /**
- * Author: EthanPark <br/>
+ * @author: EthanPark <br/>
  * Date: 2016/10/16<br/>
  * Email: byp5303628@hotmail.com
  */
@@ -49,7 +49,9 @@ public class StockStatisticTask implements SapphireTask {
     public void execute() {
         logger.info("Update Stock Statistics Task Begin");
 
-        StringBuilder finishMsg = new StringBuilder();
+        long start = System.currentTimeMillis();
+
+        StringBuilder finishMsg = new StringBuilder(50);
 
         List<String> codes = stockService.getAllCodes();
 
@@ -59,6 +61,10 @@ public class StockStatisticTask implements SapphireTask {
 
         logger.info("Update Stock Statistics Task Finished!");
         finishMsg.append("## 个股统计信息: ").append("\n>").append("刷新成功");
+
+        long end = System.currentTimeMillis();
+
+        finishMsg.append("\n").append("> ").append("任务执行时间 : ").append(end - start).append(" ms.");
         pusher.push(JOB_NAME, finishMsg.toString(), DingTalkMessageType.MARKDOWN);
     }
 

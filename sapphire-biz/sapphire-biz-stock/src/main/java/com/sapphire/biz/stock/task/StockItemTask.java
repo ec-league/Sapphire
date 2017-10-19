@@ -53,8 +53,11 @@ public class StockItemTask implements SapphireTask {
     @Override
     public void execute() {
         logger.info("Update Stock Items Task Begin");
-        StringBuilder finishMsg = new StringBuilder();
-        finishMsg.append("## 个股详情信息: ").append("\n>");
+        StringBuilder finishMsg = new StringBuilder(50);
+
+        long start = System.currentTimeMillis();
+
+        finishMsg.append("## 个股详情信息: \n>");
         StringBuilder sb = new StringBuilder();
         try {
             List<String> codes = stockService.getAllCodes();
@@ -73,6 +76,10 @@ public class StockItemTask implements SapphireTask {
         } else {
             finishMsg.append(sb.toString());
         }
+
+        long end = System.currentTimeMillis();
+
+        finishMsg.append("\n").append("> ").append("任务执行时间 : ").append(end - start).append(" ms.");
 
         logger.info("Update Stock Item Task Finished!");
         pusher.push(JOB_NAME, finishMsg.toString(), DingTalkMessageType.MARKDOWN);
