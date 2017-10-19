@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.sapphire.common.dal.stock.domain.MacdCycle;
+import com.sapphire.common.dal.stock.domain.MacdRiskModel;
 import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockItem;
 import com.sapphire.common.dal.stock.domain.StockStatistics;
@@ -124,9 +126,11 @@ public class StockAlgorithm {
             return;
         }
 
+        stat.setMacdCycles(cycles);
+
         for (MacdCycle cycle : cycles) {
-            origin *= (1 + cycle.increaseRate / 100);
-            days += cycle.consistDays;
+            origin *= (1 + cycle.getIncreaseRate() / 100);
+            days += cycle.getConsistDays();
         }
 
         int average = 0;
@@ -139,6 +143,14 @@ public class StockAlgorithm {
         stat.setIncreaseTotal(origin);
 
         stat.setDesc(jsonUtil.toJson(cycles));
+        //endregion
+
+        //region 计算Macd风控模型
+        MacdRiskModel model = new MacdRiskModel();
+        model.setAverageRate(origin / cycles.size());
+        model.setPricePercentage(lastItem.getEndPrice() / highPrice);
+
+        stat.setMacdRiskModel(model);
         //endregion
     }
 
@@ -233,161 +245,4 @@ public class StockAlgorithm {
         this.timeUtil = timeUtil;
     }
 
-    /**
-     * Macd一个周期的统计数据(金叉)
-     */
-    private static class MacdCycle {
-        private String            startDate;
-        private String            endDate;
-        private transient boolean overZero;
-        private transient double  increaseRate;
-        private String            increase;
-        private int               consistDays;
-        private transient double  firstDiff;
-        private String            diff;
-
-        /**
-         * Getter method for property <tt>startDate</tt>.
-         *
-         * @return property value of startDate
-         */
-        public String getStartDate() {
-            return startDate;
-        }
-
-        /**
-         * Setter method for property <tt>startDate</tt>.
-         *
-         * @param startDate  value to be assigned to property startDate
-         */
-        public void setStartDate(String startDate) {
-            this.startDate = startDate;
-        }
-
-        /**
-         * Getter method for property <tt>endDate</tt>.
-         *
-         * @return property value of endDate
-         */
-        public String getEndDate() {
-            return endDate;
-        }
-
-        /**
-         * Setter method for property <tt>endDate</tt>.
-         *
-         * @param endDate  value to be assigned to property endDate
-         */
-        public void setEndDate(String endDate) {
-            this.endDate = endDate;
-        }
-
-        /**
-         * Getter method for property <tt>isOverZero</tt>.
-         *
-         * @return property value of isOverZero
-         */
-        public boolean isOverZero() {
-            return overZero;
-        }
-
-        /**
-         * Setter method for property <tt>isOverZero</tt>.
-         *
-         * @param overZero  value to be assigned to property isOverZero
-         */
-        public void setOverZero(boolean overZero) {
-            this.overZero = overZero;
-        }
-
-        /**
-         * Getter method for property <tt>increaseRate</tt>.
-         *
-         * @return property value of increaseRate
-         */
-        public double getIncreaseRate() {
-            return increaseRate;
-        }
-
-        /**
-         * Setter method for property <tt>increaseRate</tt>.
-         *
-         * @param increaseRate  value to be assigned to property increaseRate
-         */
-        public void setIncreaseRate(double increaseRate) {
-            this.increaseRate = increaseRate;
-        }
-
-        /**
-         * Getter method for property <tt>consistDays</tt>.
-         *
-         * @return property value of consistDays
-         */
-        public int getConsistDays() {
-            return consistDays;
-        }
-
-        /**
-         * Setter method for property <tt>consistDays</tt>.
-         *
-         * @param consistDays  value to be assigned to property consistDays
-         */
-        public void setConsistDays(int consistDays) {
-            this.consistDays = consistDays;
-        }
-
-        /**
-         * Getter method for property <tt>firstDiff</tt>.
-         *
-         * @return property value of firstDiff
-         */
-        public double getFirstDiff() {
-            return firstDiff;
-        }
-
-        /**
-         * Setter method for property <tt>firstDiff</tt>.
-         *
-         * @param firstDiff  value to be assigned to property firstDiff
-         */
-        public void setFirstDiff(double firstDiff) {
-            this.firstDiff = firstDiff;
-        }
-
-        /**
-         * Getter method for property <tt>increase</tt>.
-         *
-         * @return property value of increase
-         */
-        public String getIncrease() {
-            return increase;
-        }
-
-        /**
-         * Setter method for property <tt>increase</tt>.
-         *
-         * @param increase  value to be assigned to property increase
-         */
-        public void setIncrease(String increase) {
-            this.increase = increase;
-        }
-
-        /**
-         * Getter method for property <tt>diff</tt>.
-         *
-         * @return property value of diff
-         */
-        public String getDiff() {
-            return diff;
-        }
-
-        /**
-         * Setter method for property <tt>diff</tt>.
-         *
-         * @param diff  value to be assigned to property diff
-         */
-        public void setDiff(String diff) {
-            this.diff = diff;
-        }
-    }
 }

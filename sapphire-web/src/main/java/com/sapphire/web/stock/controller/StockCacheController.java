@@ -1,14 +1,14 @@
 package com.sapphire.web.stock.controller;
 
-import com.sapphire.biz.stock.task.StockItemTask;
-import com.sapphire.biz.stock.task.StockStatisticTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sapphire.common.task.stock.StockTask;
+import com.sapphire.biz.stock.task.StockItemTask;
+import com.sapphire.biz.stock.task.StockStatisticTask;
 import com.sapphire.common.utils.dto.JsonDto;
+import com.sapphire.web.stock.cache.StockCache;
 
 /**
  * Author: EthanPark <br/>
@@ -18,20 +18,26 @@ import com.sapphire.common.utils.dto.JsonDto;
 @RequestMapping("/stock/data")
 @Controller
 public class StockCacheController {
-    private StockTask stockTask;
-
     private StockStatisticTask stockStatisticTask;
 
-    private StockItemTask stockItemTask;
+    private StockItemTask      stockItemTask;
+
+    private StockCache         stockCache;
 
     @RequestMapping("/update/stat.ep")
     @ResponseBody
     public JsonDto startStatTask() {
-        stockItemTask.execute();
+        try {
+            stockItemTask.execute();
 
-        stockStatisticTask.execute();
+            stockStatisticTask.execute();
 
-        return new JsonDto().formSuccessDto();
+            stockCache.refresh();
+
+            return new JsonDto().formSuccessDto();
+        } catch (Exception e) {
+            return new JsonDto().formFailureDto(e);
+        }
     }
 
     @RequestMapping("/update/item.ep")
@@ -41,13 +47,13 @@ public class StockCacheController {
     }
 
     /**
-     * Setter method for property <tt>stockTask</tt>.
+     * Setter method for property <tt>stockCache</tt>.
      *
-     * @param stockTask  value to be assigned to property stockTask
+     * @param stockCache  value to be assigned to property stockCache
      */
     @Autowired
-    public void setStockTask(StockTask stockTask) {
-        this.stockTask = stockTask;
+    public void setStockCache(StockCache stockCache) {
+        this.stockCache = stockCache;
     }
 
     /**

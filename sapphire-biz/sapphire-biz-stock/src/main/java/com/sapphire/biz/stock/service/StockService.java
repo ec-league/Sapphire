@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockItem;
-import com.sapphire.common.dal.stock.domain.StockStatics;
 
 /**
  * @author Ethan
@@ -17,8 +16,6 @@ public interface StockService {
     Stock getStockByCode(String code);
 
     Stock getStockByCodeAndTime(String code, Timestamp dateFrom, Timestamp dateTo);
-
-    StockStatics getLastMonthStockStaticsByIndustry(String industry);
 
     List<String> getIndustries();
 

@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 import com.sapphire.biz.stock.service.StockService;
 import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockItem;
-import com.sapphire.common.dal.stock.domain.StockStatics;
 import com.sapphire.common.dal.stock.repository.StockItemRepository;
-import com.sapphire.common.utils.TimeUtil;
 
 /**
  * Created by Ethan on 2016/3/30.
@@ -45,31 +43,6 @@ public class StockServiceImpl implements StockService {
             return new Stock(items);
         }
         return null;
-    }
-
-    /**
-    * Get latest one month's stock statics of specified industry.
-    * 
-    * @param industry
-    *           , specified industry
-    * @return
-    */
-    @Override
-    public StockStatics getLastMonthStockStaticsByIndustry(String industry) {
-        List<String> codes = stockItemRepository.getCodeByIndustry(industry);
-
-        List<Stock> stocks = new ArrayList<>(codes.size());
-
-        Timestamp from = TimeUtil.oneMonthAgo();
-        Timestamp to = TimeUtil.now();
-
-        for (String code : codes) {
-            Stock stock = getStockByCodeAndTime(code, from, to);
-            if (stock != null && !stock.isStop()) {
-                stocks.add(stock);
-            }
-        }
-        return new StockStatics(stocks);
     }
 
     @Override
