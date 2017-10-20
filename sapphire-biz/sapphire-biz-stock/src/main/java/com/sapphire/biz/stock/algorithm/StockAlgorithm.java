@@ -5,6 +5,8 @@
 package com.sapphire.biz.stock.algorithm;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,15 +87,22 @@ public class StockAlgorithm {
     }
 
     private void fillProcessData(Stock stock, StockStatistics stat) {
-        List<StockItem> stockItems = stock.getStockItems();
+        List<StockItem> stockItems = new ArrayList<>(stock.getStockItems());
 
         if (stockItems.isEmpty()) {
             return;
         }
 
+        Collections.sort(stockItems, new Comparator<StockItem>() {
+            @Override
+            public int compare(StockItem o1, StockItem o2) {
+                return Long.compare(o1.getUidPk(), o2.getUidPk());
+            }
+        });
+
         //region 计算最高价和最低Macd值
         double highPrice = 0;
-        double lowest = 0;
+        double lowest = -50;
         for (StockItem item : stockItems) {
             if (item.getHighestPrice() > highPrice) {
                 highPrice = item.getHighestPrice();

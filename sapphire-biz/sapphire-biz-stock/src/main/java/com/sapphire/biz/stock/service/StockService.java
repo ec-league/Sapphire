@@ -11,10 +11,26 @@ import com.sapphire.common.dal.stock.domain.StockItem;
  * @date 2016/3/30.
  */
 public interface StockService {
+    /**
+     * 获取全部的股票代码
+     * @return
+     */
     List<String> getAllCodes();
 
+    /**
+     * 根据股票代码获取对应的股票
+     * @param code
+     * @return
+     */
     Stock getStockByCode(String code);
 
+    /**
+     * 根据股票和时间参数获取对应的股票
+     * @param code
+     * @param dateFrom
+     * @param dateTo
+     * @return
+     */
     Stock getStockByCodeAndTime(String code, Timestamp dateFrom, Timestamp dateTo);
 
     List<String> getIndustries();
@@ -33,10 +49,4 @@ public interface StockService {
      * @return
      */
     Stock getStockForStatistics(String code);
-
-    /**
-     * 获取所有最后一天的股票项目
-     * @return
-     */
-    List<StockItem> getAllLastStockItem();
 }

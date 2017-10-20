@@ -26,7 +26,7 @@ import com.sapphire.web.stock.cache.StockCache;
 import com.sapphire.web.stock.dto.StockDto;
 
 /**
- * Author: Ethan Date: 2016/4/17
+ * @author: Ethan @date: 2016/4/17
  */
 @Controller
 @RequestMapping("/stock")
@@ -171,15 +171,6 @@ public class StockController {
         } catch (Exception ex) {
             logger.error("Get Stock By Code Failed!", ex);
             return new JsonDto().formFailureDto(ex);
-        }
-    }
-
-    private void update(List<Stock> stocks) {
-        for (Stock stock : stocks) {
-            StockStatistics stat = stockStatisticsService.findByCode(stock.getCode());
-
-            if (stat == null)
-                continue;
         }
     }
 }

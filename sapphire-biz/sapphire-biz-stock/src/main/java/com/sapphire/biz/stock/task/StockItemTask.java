@@ -100,7 +100,7 @@ public class StockItemTask implements SapphireTask {
             StockItem last = stockService.getLatestStockItemByCode(code);
 
             if (last.getLogDate().equals(item.getLogDate())) {
-                return;
+                last.setUidPk(item.getUidPk());
             }
 
             if (last.isStop()) {

@@ -27,15 +27,15 @@ public class StockAlgorithmTest extends BaseTest {
 
     @Test
     public void test_calculate_1() {
-        Stock stock = stockService.getStockByCode("000001");
+        Stock stock = stockService.getStockByCode("002113");
 
         if (stock == null)
             return;
 
         StockStatistics statistics = algorithm.calculate(stock);
 
-        Assert.assertEquals(statistics.getCode(), "000001");
-        Assert.assertEquals(statistics.getName(), "平安银行");
+        Assert.assertEquals(statistics.getCode(), "002113");
+        Assert.assertEquals(statistics.getName(), "天润数娱");
 
         Assert.assertNotNull(statistics.getDesc());
     }

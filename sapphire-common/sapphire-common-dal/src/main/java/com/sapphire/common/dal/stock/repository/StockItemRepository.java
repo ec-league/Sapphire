@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import com.sapphire.common.dal.stock.domain.StockItem;
 
 /**
- * Created by Ethan on 2016/3/30.
+ * @author : Ethan
  */
 public interface StockItemRepository extends JpaRepository<StockItem, Long> {
     @Query("select s from StockItem as s where s.code=?1 order by s.uidPk")
@@ -24,17 +24,11 @@ public interface StockItemRepository extends JpaRepository<StockItem, Long> {
                                           @Param("dateFrom") Timestamp from,
                                           @Param("dateTo") Timestamp to);
 
-    @Query(value = "SELECT DISTINCT CODE FROM STOCK_ITEM WHERE INDUSTRY = ?1", nativeQuery = true)
-    List<String> getCodeByIndustry(String industry);
-
     @Query(value = "SELECT DISTINCT INDUSTRY FROM STOCK_ITEM WHERE INDUSTRY != ''", nativeQuery = true)
     List<String> getIndustries();
 
     @Query(value = "SELECT s FROM StockItem as s WHERE s.code = ?1 and s.last = true")
     StockItem getLatestStockItem(String code);
-
-    @Query(value = "SELECT * FROM STOCK_ITEM WHERE IS_LAST = 1", nativeQuery = true)
-    List<StockItem> getLatestItems();
 
     @Query(value = "SELECT * FROM STOCK_ITEM WHERE CODE = ?1 ORDER BY UIDPK DESC LIMIT 30", nativeQuery = true)
     List<StockItem> getLast30Items(String code);

@@ -13,7 +13,8 @@ import com.sapphire.common.dal.stock.domain.StockItem;
 import com.sapphire.common.dal.stock.repository.StockItemRepository;
 
 /**
- * Created by Ethan on 2016/3/30.
+ * @author Ethan
+ * @date 2016/3/30.
  */
 @Service("stockService")
 public class StockServiceImpl implements StockService {
@@ -77,14 +78,5 @@ public class StockServiceImpl implements StockService {
         List<StockItem> items = stockItemRepository.getLast300Items(code);
 
         return new Stock(items);
-    }
-
-    /**
-     * 获取所有最后一天的股票项目
-     * @return
-     */
-    @Override
-    public List<StockItem> getAllLastStockItem() {
-        return stockItemRepository.getLatestItems();
     }
 }
