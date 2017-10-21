@@ -1,7 +1,9 @@
 package com.sapphire.web.stock.cache;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -28,15 +30,16 @@ import com.sapphire.common.utils.cache.CacheService;
 @Controller
 @RequestMapping("/stock/cache")
 public class StockCache implements Cache {
-    private static final Logger    logger = LoggerFactory.getLogger(StockCache.class);
+    private static final Logger          logger = LoggerFactory.getLogger(StockCache.class);
 
-    private StockStatisticsService stockStatisticsService;
+    private StockStatisticsService       stockStatisticsService;
 
-    private MacdAction             macdAction;
+    private MacdAction                   macdAction;
 
-    private List<StockStatistics>  stocks;
+    private List<StockStatistics>        stocks;
+    private Map<String, StockStatistics> statisticsMap;
 
-    private final Lock             lock   = new ReentrantLock();
+    private final Lock                   lock   = new ReentrantLock();
 
     @PostConstruct
     public void registerCache() {
@@ -47,6 +50,12 @@ public class StockCache implements Cache {
     private void init() {
         List<StockStatistics> statistics = stockStatisticsService.getAll();
 
+        Map<String, StockStatistics> tempMap = new HashMap<>(statistics.size() * 2);
+
+        for (StockStatistics s : statistics) {
+            tempMap.put(s.getCode(), s);
+        }
+
         StockContext context = new StockContext();
         context.setStatistics(statistics);
 
@@ -55,6 +64,7 @@ public class StockCache implements Cache {
         lock.lock();
         try {
             stocks = context.getStatistics();
+            statisticsMap = tempMap;
         } finally {
             lock.unlock();
         }
@@ -86,6 +96,15 @@ public class StockCache implements Cache {
      */
     public List<StockStatistics> getStockStatistics() {
         return new ArrayList<>(stocks);
+    }
+
+    /**
+     * 根据股票代码获取股票的详细统计数据
+     * @param code
+     * @return
+     */
+    public StockStatistics getStatisticsByCode(String code) {
+        return statisticsMap.get(code);
     }
 
     /**

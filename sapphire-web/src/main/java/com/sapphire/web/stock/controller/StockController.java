@@ -1,10 +1,7 @@
 package com.sapphire.web.stock.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,14 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sapphire.biz.stock.service.StockService;
-import com.sapphire.biz.stock.service.StockStatisticsService;
-import com.sapphire.common.dal.stock.domain.Stock;
-import com.sapphire.common.dal.stock.domain.StockItem;
 import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.utils.dto.DataJsonDto;
 import com.sapphire.common.utils.dto.JsonDto;
 import com.sapphire.common.utils.dto.ListJsonDto;
 import com.sapphire.web.stock.cache.StockCache;
+import com.sapphire.web.stock.dto.StockDetailDto;
 import com.sapphire.web.stock.dto.StockDto;
 
 /**
@@ -32,16 +27,13 @@ import com.sapphire.web.stock.dto.StockDto;
 @RequestMapping("/stock")
 public class StockController {
 
-    private static final Logger    logger = LoggerFactory.getLogger(StockController.class);
+    private static final Logger logger = LoggerFactory.getLogger(StockController.class);
 
     @Autowired
-    private StockService           stockService;
+    private StockService        stockService;
 
     @Autowired
-    private StockCache             stockCache;
-
-    @Autowired
-    private StockStatisticsService stockStatisticsService;
+    private StockCache          stockCache;
 
     @RequestMapping("/industries")
     @ResponseBody
@@ -70,23 +62,9 @@ public class StockController {
     @ResponseBody
     public JsonDto getStockByCode(@PathVariable String code) {
         try {
-            StockItem item = stockService.getLatestStockItemByCode(code);
-            StockStatistics statistics = stockStatisticsService.findByCode(code);
+            StockStatistics statistics = stockCache.getStatisticsByCode(code);
 
-            Stock stock = new Stock();
-
-            stock.setHighestPrice(statistics.getHighestPrice());
-            stock.setIncreaseTotal(statistics.getIncreaseTotal());
-            stock.setFirstDiff(item.getMacdDiff());
-            stock.setCode(item.getCode());
-            stock.setCurrentMacd(item.getMacd());
-            stock.setLowestMacd(statistics.getLowestMacd());
-            stock.setName(item.getName());
-            stock.setEndPrice(item.getEndPrice());
-
-            JsonDto dto = new DataJsonDto(stock);
-
-            return dto.formSuccessDto();
+            return new DataJsonDto(new StockDetailDto(statistics)).formSuccessDto();
         } catch (Exception ex) {
             logger.error("Get Stock By Code Failed!", ex);
             return new JsonDto().formFailureDto(ex);

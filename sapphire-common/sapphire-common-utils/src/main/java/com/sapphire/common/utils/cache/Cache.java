@@ -1,7 +1,8 @@
 package com.sapphire.common.utils.cache;
 
 /**
- * Author: Ethan Date: 2016/4/10
+ * @author : Ethan
+ * @date: 2016/4/10
  */
 public interface Cache {
     /**

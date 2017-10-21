@@ -19,12 +19,12 @@ import com.sapphire.common.utils.TimeUtil;
 /**
  *
  * @author yunpeng.byp
- * @version $Id: StockAlgorithmTests.java, v 0.1 2017年10月17日 下午11:02 yunpeng.byp Exp $
+ * @version $Id: StockAlgorithmTest.java, v 0.1 2017年10月17日 下午11:02 yunpeng.byp Exp $
  */
-public class StockAlgorithmTests {
+public class StockAlgorithmTest {
     private StockAlgorithm algorithm;
 
-    public StockAlgorithmTests() {
+    public StockAlgorithmTest() {
         algorithm = new StockAlgorithm();
         algorithm.setJsonUtil(new JsonUtil());
         algorithm.setTimeUtil(new TimeUtil());
@@ -70,5 +70,10 @@ public class StockAlgorithmTests {
         Assert.assertEquals(statistics.getIncreaseTotal(), 0d, 0.0001);
 
         Assert.assertNull(statistics.getDesc());
+    }
+
+    @Test
+    public void test_fillRiskModel_1() {
+
     }
 }

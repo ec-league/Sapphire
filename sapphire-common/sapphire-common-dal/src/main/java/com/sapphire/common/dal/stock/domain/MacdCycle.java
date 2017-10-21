@@ -16,8 +16,18 @@ public class MacdCycle {
     private transient boolean overZero;
     private transient double  increaseRate;
     private String            increase;
+    private transient double  highIncreaseRate;
+    private String            highIncrease;
     private int               consistDays;
+
+    /**
+     * Macd周期的第一次Diff的值.(用于计算)
+     */
     private transient double  firstDiff;
+
+    /**
+     * Macd周期的第一次Diff的值.(用于持久化)
+     */
     private String            diff;
 
     /**
@@ -170,5 +180,41 @@ public class MacdCycle {
      */
     public void setDiff(String diff) {
         this.diff = diff;
+    }
+
+    /**
+     * Getter method for property <tt>highIncreaseRate</tt>.
+     *
+     * @return property value of highIncreaseRate
+     */
+    public double getHighIncreaseRate() {
+        return highIncreaseRate;
+    }
+
+    /**
+     * Setter method for property <tt>highIncreaseRate</tt>.
+     *
+     * @param highIncreaseRate  value to be assigned to property highIncreaseRate
+     */
+    public void setHighIncreaseRate(double highIncreaseRate) {
+        this.highIncreaseRate = highIncreaseRate;
+    }
+
+    /**
+     * Getter method for property <tt>highIncrease</tt>.
+     *
+     * @return property value of highIncrease
+     */
+    public String getHighIncrease() {
+        return highIncrease;
+    }
+
+    /**
+     * Setter method for property <tt>highIncrease</tt>.
+     *
+     * @param highIncrease  value to be assigned to property highIncrease
+     */
+    public void setHighIncrease(String highIncrease) {
+        this.highIncrease = highIncrease;
     }
 }

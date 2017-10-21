@@ -28,12 +28,12 @@ import com.sapphire.common.utils.annotation.Algorithm;
 @Algorithm
 public class StockAlgorithm {
 
-    private JsonUtil         jsonUtil;
+    private JsonUtil            jsonUtil;
 
-    private TimeUtil         timeUtil;
+    private TimeUtil            timeUtil;
 
-    private static final int MACD_START = 12;
-    private static final int MACD_END   = 26;
+    private static final int    MACD_START = 12;
+    private static final int    MACD_END   = 26;
 
     private static final double UPPER_RATE = 0.1D;
 
@@ -105,12 +105,9 @@ public class StockAlgorithm {
         } else {
             cycles = stat.getMacdCycles();
         }
+        stat.setMacdCycles(cycles);
 
-        if (cycles == null || cycles.isEmpty()) {
-            return;
-        }
-
-        model.setAverageRate(stat.getIncreaseTotal() / cycles.size());
+        model.setAverageRate(calculateAverageRate(cycles));
     }
 
     private void fillProcessData(Stock stock, StockStatistics stat) {
@@ -183,11 +180,30 @@ public class StockAlgorithm {
 
         //region 计算Macd风控模型
         MacdRiskModel model = new MacdRiskModel();
-        model.setAverageRate(origin / cycles.size());
+        model.setAverageRate(calculateAverageRate(cycles));
         model.setPricePercentage(lastItem.getEndPrice() / highPrice);
 
         stat.setMacdRiskModel(model);
         //endregion
+    }
+
+    /**
+     * 计算平均金叉增幅.
+     * @param cycles
+     * @return
+     */
+    private double calculateAverageRate(List<MacdCycle> cycles) {
+        double total = 0d;
+
+        if (cycles == null || cycles.isEmpty()) {
+            return total;
+        }
+
+        for (MacdCycle cycle : cycles) {
+            total += cycle.getIncreaseRate();
+        }
+
+        return total / cycles.size();
     }
 
     /**
@@ -250,12 +266,22 @@ public class StockAlgorithm {
             StockItem start = list.get(0);
             StockItem end = list.get(list.size() - 1);
 
+            double highestPrice = 0d;
+
+            for (StockItem item : list) {
+                if (item.getHighestPrice() > highestPrice) {
+                    highestPrice = item.getHighestPrice();
+                }
+            }
+
             macdCycle.setStartDate(timeUtil.formatStockDate(start.getLogDate()));
             macdCycle.setEndDate(timeUtil.formatStockDate(end.getLogDate()));
             macdCycle.setOverZero(start.getMacdDiff() > 0);
             macdCycle.setConsistDays(list.size());
             macdCycle.setFirstDiff(start.getMacdDiff());
             macdCycle.setIncreaseRate((end.getEndPrice() / start.getEndPrice() - 1) * 100);
+            macdCycle.setHighIncreaseRate((highestPrice / start.getEndPrice() - 1) * 100);
+            macdCycle.setHighIncrease(String.format(".3f", macdCycle.getHighIncreaseRate()));
             macdCycle.setDiff(String.format("%.3f", macdCycle.getFirstDiff()));
             macdCycle.setIncrease(String.format("%.3f", macdCycle.getIncreaseRate()));
 
