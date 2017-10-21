@@ -77,16 +77,10 @@ public class StockController {
     @ResponseBody
     public JsonDto getIncreaseStatics() {
         List<StockStatistics> stockStatics = stockCache.getStockStatistics();
-        Collections.sort(stockStatics, new Comparator<StockStatistics>() {
-            @Override
-            public int compare(StockStatistics o1, StockStatistics o2) {
-                return Double.compare(o2.getIncreaseTotal(), o1.getIncreaseTotal());
-            }
-        });
-
-        List<StockDto> dtos = new ArrayList<>(30);
 
         int max = stockStatics.size() > 30 ? 30 : stockStatics.size();
+
+        List<StockDto> dtos = new ArrayList<>(max);
 
         for (StockStatistics statistics : stockStatics.subList(0, max)) {
             dtos.add(new StockDto(statistics));

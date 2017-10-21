@@ -1,9 +1,7 @@
 package com.sapphire.web.stock.cache;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -16,26 +14,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sapphire.biz.stock.algorithm.action.MacdAction;
+import com.sapphire.biz.stock.algorithm.context.StockContext;
 import com.sapphire.biz.stock.service.StockStatisticsService;
 import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.utils.cache.Cache;
 import com.sapphire.common.utils.cache.CacheService;
 
 /**
- * Author: Ethan Date: 2016/4/10
+ * @author: Ethan
+ * @date: 2016/4/10
  */
 @Controller
 @RequestMapping("/stock/cache")
 public class StockCache implements Cache {
-    private static final Logger          logger = LoggerFactory.getLogger(StockCache.class);
+    private static final Logger    logger = LoggerFactory.getLogger(StockCache.class);
 
-    @Autowired
-    private StockStatisticsService       stockStatisticsService;
+    private StockStatisticsService stockStatisticsService;
 
-    private List<StockStatistics>        stocks;
-    private Map<String, StockStatistics> stockMap;
+    private MacdAction             macdAction;
 
-    private final Lock                   lock   = new ReentrantLock();
+    private List<StockStatistics>  stocks;
+
+    private final Lock             lock   = new ReentrantLock();
 
     @PostConstruct
     public void registerCache() {
@@ -46,20 +47,14 @@ public class StockCache implements Cache {
     private void init() {
         List<StockStatistics> statistics = stockStatisticsService.getAll();
 
-        List<StockStatistics> stockStatistics = new ArrayList<>(statistics.size());
-        Map<String, StockStatistics> map = new HashMap<>(statistics.size() * 2);
+        StockContext context = new StockContext();
+        context.setStatistics(statistics);
 
-        for (StockStatistics statistic : statistics) {
-            if (!statistic.isStop()) {
-                stockStatistics.add(statistic);
-            }
-            map.put(statistic.getCode(), statistic);
-        }
+        macdAction.doAction(context);
 
         lock.lock();
         try {
-            stocks = stockStatistics;
-            stockMap = map;
+            stocks = context.getStatistics();
         } finally {
             lock.unlock();
         }
@@ -91,5 +86,25 @@ public class StockCache implements Cache {
      */
     public List<StockStatistics> getStockStatistics() {
         return new ArrayList<>(stocks);
+    }
+
+    /**
+     * Setter method for property <tt>stockStatisticsService</tt>.
+     *
+     * @param stockStatisticsService  value to be assigned to property stockStatisticsService
+     */
+    @Autowired
+    public void setStockStatisticsService(StockStatisticsService stockStatisticsService) {
+        this.stockStatisticsService = stockStatisticsService;
+    }
+
+    /**
+     * Setter method for property <tt>macdAction</tt>.
+     *
+     * @param macdAction  value to be assigned to property macdAction
+     */
+    @Autowired
+    public void setMacdAction(MacdAction macdAction) {
+        this.macdAction = macdAction;
     }
 }

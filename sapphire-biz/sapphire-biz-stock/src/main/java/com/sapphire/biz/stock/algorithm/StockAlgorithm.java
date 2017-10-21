@@ -35,6 +35,8 @@ public class StockAlgorithm {
     private static final int MACD_START = 12;
     private static final int MACD_END   = 26;
 
+    private static final double UPPER_RATE = 0.1D;
+
     /**
      * 根据已有的Stock数据,计算对应的StockStatistics数据
      * @param stock, 包含全部的StockItem的集合
@@ -45,6 +47,7 @@ public class StockAlgorithm {
 
         stat.setCode(stock.getCode());
         stat.setName(stock.getName());
+        stat.setLastModifyDate(TimeUtil.now());
 
         fillProcessData(stock, stat);
 
@@ -84,6 +87,30 @@ public class StockAlgorithm {
             stockItems.get(i).setIncreaseRate(
                 (stockItems.get(i).getEndPrice() / stockItems.get(i - 1).getEndPrice() - 1) * 100);
         }
+    }
+
+    /**
+     * 填充风控模型
+     * @param stat
+     */
+    public void fillRiskModel(StockStatistics stat) {
+        MacdRiskModel model = new MacdRiskModel();
+        model.setPricePercentage(stat.getCurrentPrice() / stat.getHighestPrice());
+        stat.setMacdRiskModel(model);
+
+        List<MacdCycle> cycles;
+
+        if (stat.getMacdCycles() == null || stat.getMacdCycles().isEmpty()) {
+            cycles = jsonUtil.toObject(stat.getDesc(), new ArrayList<MacdCycle>().getClass());
+        } else {
+            cycles = stat.getMacdCycles();
+        }
+
+        if (cycles == null || cycles.isEmpty()) {
+            return;
+        }
+
+        model.setAverageRate(stat.getIncreaseTotal() / cycles.size());
     }
 
     private void fillProcessData(Stock stock, StockStatistics stat) {
@@ -183,7 +210,11 @@ public class StockAlgorithm {
     private boolean isGoldPossible(StockItem lastItem) {
         double price = goldPrice(lastItem);
 
-        if ((price - lastItem.getEndPrice()) / lastItem.getEndPrice() > 0.1) {
+        if (lastItem.getMacd() > 0) {
+            return false;
+        }
+
+        if ((price - lastItem.getEndPrice()) / lastItem.getEndPrice() > UPPER_RATE) {
             return false;
         }
         return true;
