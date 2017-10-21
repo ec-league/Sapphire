@@ -35,13 +35,25 @@ public interface StockService {
 
     List<String> getIndustries();
 
+    /**
+     * 持久化所有K线数据
+     * @param items
+     */
     void saveAll(List<StockItem> items);
 
+    /**
+     * 持久化一个K线数据
+     * @param item
+     * @return
+     */
     StockItem save(StockItem item);
 
-    StockItem getLatestStockItemByCode(String code);
-
-    List<StockItem> getLast30Stock(String code);
+    /**
+     * 根据股票代码获取指定股票最后30个交易日的股票信息
+     * @param code
+     * @return
+     */
+    Stock getLast30Stock(String code);
 
     /**
      * 根据K线最后300条数据来计算对应的股票数据

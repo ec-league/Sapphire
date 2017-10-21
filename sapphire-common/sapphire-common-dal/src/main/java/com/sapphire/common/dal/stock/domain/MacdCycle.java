@@ -14,9 +14,22 @@ public class MacdCycle {
     private String            startDate;
     private String            endDate;
     private transient boolean overZero;
+
+    /**
+     * Macd单个周期增幅(收盘价/第一天收盘价)
+     */
     private transient double  increaseRate;
+    /**
+     * Macd单个周期增幅(收盘价/第一天收盘价)
+     */
     private String            increase;
+    /**
+     * Macd单个周期最大增幅(最高价/第一天收盘价)
+     */
     private transient double  highIncreaseRate;
+    /**
+     * Macd单个周期最大增幅(最高价/第一天收盘价)
+     */
     private String            highIncrease;
     private int               consistDays;
 
@@ -36,6 +49,7 @@ public class MacdCycle {
     public void init() {
         setIncreaseRate(Double.parseDouble(getIncrease()));
         setFirstDiff(Double.parseDouble(getDiff()));
+        setHighIncreaseRate(Double.parseDouble(getHighIncrease()));
     }
 
     /**

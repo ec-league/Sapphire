@@ -39,7 +39,7 @@ public class StockDetailDto implements Dto {
         MacdRiskDto macdRiskDto = new MacdRiskDto();
         macdRiskDto.setAverageRate(statistics.getMacdRiskModel().getAverageRate());
         macdRiskDto.setPricePercentage(statistics.getMacdRiskModel().getPricePercentage());
-        macdRiskDto.setCycles(statistics.getMacdCycles());
+        macdRiskDto.setCycles(statistics.getMacdRiskModel().getCycles());
 
         this.macdRiskDto = macdRiskDto;
     }

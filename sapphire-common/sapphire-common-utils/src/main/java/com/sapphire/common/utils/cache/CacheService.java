@@ -4,10 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
- * Author: EthanPark <br/>
+ * @author: EthanPark <br/>
  * Date: 2016/4/27<br/>
  * Email: byp5303628@hotmail.com
  */
@@ -27,10 +26,10 @@ public class CacheService {
     }
 
     public static void register(Cache cache) {
-        cacheMap.put(cache.getClass(), cache);
-
-        executor.scheduleAtFixedRate(() -> cache.refresh(), 0, cache.interval(),
-            TimeUnit.MILLISECONDS);
+        //cacheMap.put(cache.getClass(), cache);
+        //
+        //executor.scheduleAtFixedRate(() -> cache.refresh(), 0, cache.interval(),
+        //    TimeUnit.MILLISECONDS);
     }
 
     @SuppressWarnings("unchecked")

@@ -6,7 +6,6 @@ package com.sapphire.biz.stock.algorithm;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,10 @@ import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockItem;
 import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.utils.JsonUtil;
+import com.sapphire.common.utils.StatisticsUtil;
 import com.sapphire.common.utils.TimeUtil;
 import com.sapphire.common.utils.annotation.Algorithm;
+import com.sapphire.common.utils.aware.NumberAware;
 
 /**
  *
@@ -31,6 +32,8 @@ public class StockAlgorithm {
     private JsonUtil            jsonUtil;
 
     private TimeUtil            timeUtil;
+
+    private StatisticsUtil      statisticsUtil;
 
     private static final int    MACD_START = 12;
     private static final int    MACD_END   = 26;
@@ -94,20 +97,11 @@ public class StockAlgorithm {
      * @param stat
      */
     public void fillRiskModel(StockStatistics stat) {
-        MacdRiskModel model = new MacdRiskModel();
-        model.setPricePercentage(stat.getCurrentPrice() / stat.getHighestPrice());
+        MacdRiskModel model = jsonUtil.toObject(stat.getDesc(), MacdRiskModel.class);
+
+        model.init();
+
         stat.setMacdRiskModel(model);
-
-        List<MacdCycle> cycles;
-
-        if (stat.getMacdCycles() == null || stat.getMacdCycles().isEmpty()) {
-            cycles = jsonUtil.toObject(stat.getDesc(), new ArrayList<MacdCycle>().getClass());
-        } else {
-            cycles = stat.getMacdCycles();
-        }
-        stat.setMacdCycles(cycles);
-
-        model.setAverageRate(calculateAverageRate(cycles));
     }
 
     private void fillProcessData(Stock stock, StockStatistics stat) {
@@ -117,28 +111,19 @@ public class StockAlgorithm {
             return;
         }
 
-        Collections.sort(stockItems, new Comparator<StockItem>() {
-            @Override
-            public int compare(StockItem o1, StockItem o2) {
-                return Long.compare(o1.getUidPk(), o2.getUidPk());
-            }
-        });
-
         //region 计算最高价和最低Macd值
-        double highPrice = 0;
-        double lowest = -50;
-        for (StockItem item : stockItems) {
-            if (item.getHighestPrice() > highPrice) {
-                highPrice = item.getHighestPrice();
+        stat.setHighestPrice(statisticsUtil.getMax(stockItems, new NumberAware<StockItem>() {
+            @Override
+            public double getNumber(StockItem stockItem) {
+                return stockItem.getHighestPrice();
             }
-
-            if (item.getMacd() < lowest) {
-                lowest = item.getMacd();
+        }));
+        stat.setLowestMacd(statisticsUtil.getMin(stockItems, new NumberAware<StockItem>() {
+            @Override
+            public double getNumber(StockItem stockItem) {
+                return stockItem.getMacdDiff();
             }
-        }
-
-        stat.setHighestPrice(highPrice);
-        stat.setLowestMacd(lowest);
+        }));
         //endregion
 
         //region 计算当前股票的信息
@@ -155,35 +140,42 @@ public class StockAlgorithm {
         double origin = 1.0;
         int days = 0;
         List<MacdCycle> cycles = group(stockItems);
-        if (cycles.isEmpty()) {
-            return;
+        if (!cycles.isEmpty()) {
+            for (MacdCycle cycle : cycles) {
+                origin *= (1 + cycle.getIncreaseRate() / 100);
+                days += cycle.getConsistDays();
+            }
+
+            int average = 0;
+
+            average = days / cycles.size();
+            stat.setAverageGoldDays(average);
+            stat.setIncreaseTotal(origin);
         }
-
-        stat.setMacdCycles(cycles);
-
-        for (MacdCycle cycle : cycles) {
-            origin *= (1 + cycle.getIncreaseRate() / 100);
-            days += cycle.getConsistDays();
-        }
-
-        int average = 0;
-        if (cycles.isEmpty()) {
-            return;
-        }
-
-        average = days / cycles.size();
-        stat.setAverageGoldDays(average);
-        stat.setIncreaseTotal(origin);
-
-        stat.setDesc(jsonUtil.toJson(cycles));
         //endregion
 
         //region 计算Macd风控模型
         MacdRiskModel model = new MacdRiskModel();
-        model.setAverageRate(calculateAverageRate(cycles));
-        model.setPricePercentage(lastItem.getEndPrice() / highPrice);
+
+        if (cycles.isEmpty()) {
+            model.setCycles(Collections.emptyList());
+            model.setAverageRate(-1000);
+            model.setStandardDeviationRate(0);
+        } else {
+            model.setAverageRate(calculateAverageRate(cycles));
+            model.setStandardDeviationRate(
+                statisticsUtil.getStandardDiviation(cycles, new NumberAware<MacdCycle>() {
+                    @Override
+                    public double getNumber(MacdCycle macdCycle) {
+                        return macdCycle.getIncreaseRate();
+                    }
+                }));
+            model.setCycles(cycles);
+            model.setPricePercentage(lastItem.getEndPrice() / stat.getHighestPrice());
+        }
 
         stat.setMacdRiskModel(model);
+        stat.setDesc(jsonUtil.toJson(model));
         //endregion
     }
 
@@ -193,17 +185,12 @@ public class StockAlgorithm {
      * @return
      */
     private double calculateAverageRate(List<MacdCycle> cycles) {
-        double total = 0d;
-
-        if (cycles == null || cycles.isEmpty()) {
-            return total;
-        }
-
-        for (MacdCycle cycle : cycles) {
-            total += cycle.getIncreaseRate();
-        }
-
-        return total / cycles.size();
+        return statisticsUtil.getAverage(cycles, new NumberAware<MacdCycle>() {
+            @Override
+            public double getNumber(MacdCycle macdCycle) {
+                return macdCycle.getIncreaseRate();
+            }
+        });
     }
 
     /**
@@ -266,13 +253,12 @@ public class StockAlgorithm {
             StockItem start = list.get(0);
             StockItem end = list.get(list.size() - 1);
 
-            double highestPrice = 0d;
-
-            for (StockItem item : list) {
-                if (item.getHighestPrice() > highestPrice) {
-                    highestPrice = item.getHighestPrice();
+            double highestPrice = statisticsUtil.getMax(list, new NumberAware<StockItem>() {
+                @Override
+                public double getNumber(StockItem stockItem) {
+                    return stockItem.getHighestPrice();
                 }
-            }
+            });
 
             macdCycle.setStartDate(timeUtil.formatStockDate(start.getLogDate()));
             macdCycle.setEndDate(timeUtil.formatStockDate(end.getLogDate()));
@@ -311,4 +297,13 @@ public class StockAlgorithm {
         this.timeUtil = timeUtil;
     }
 
+    /**
+     * Setter method for property <tt>statisticsUtil</tt>.
+     *
+     * @param statisticsUtil  value to be assigned to property statisticsUtil
+     */
+    @Autowired
+    public void setStatisticsUtil(StatisticsUtil statisticsUtil) {
+        this.statisticsUtil = statisticsUtil;
+    }
 }

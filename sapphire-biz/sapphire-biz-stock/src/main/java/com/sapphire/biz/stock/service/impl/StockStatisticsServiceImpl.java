@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sapphire.biz.stock.algorithm.StockAlgorithm;
+import com.sapphire.biz.stock.service.StockService;
 import com.sapphire.biz.stock.service.StockStatisticsService;
+import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.dal.stock.repository.StockStatisticsRepository;
 
@@ -19,6 +21,8 @@ import com.sapphire.common.dal.stock.repository.StockStatisticsRepository;
 @Service("stockStatisticsService")
 public class StockStatisticsServiceImpl implements StockStatisticsService {
     private StockStatisticsRepository stockStatisticsRepository;
+
+    private StockService              stockService;
 
     private StockAlgorithm            algorithm;
 
@@ -42,7 +46,13 @@ public class StockStatisticsServiceImpl implements StockStatisticsService {
             stockStatisticsRepository.getAllOrderByCode());
 
         for (StockStatistics s : statistics) {
-            algorithm.fillRiskModel(s);
+            try {
+                algorithm.fillRiskModel(s);
+            } catch (Exception e) {
+                Stock stock = stockService.getStockByCode(s.getCode());
+                StockStatistics ss = algorithm.calculate(stock);
+                s.setMacdRiskModel(ss.getMacdRiskModel());
+            }
         }
         return statistics;
     }
@@ -65,5 +75,15 @@ public class StockStatisticsServiceImpl implements StockStatisticsService {
     @Autowired
     public void setAlgorithm(StockAlgorithm algorithm) {
         this.algorithm = algorithm;
+    }
+
+    /**
+     * Setter method for property <tt>stockService</tt>.
+     *
+     * @param stockService  value to be assigned to property stockService
+     */
+    @Autowired
+    public void setStockService(StockService stockService) {
+        this.stockService = stockService;
     }
 }

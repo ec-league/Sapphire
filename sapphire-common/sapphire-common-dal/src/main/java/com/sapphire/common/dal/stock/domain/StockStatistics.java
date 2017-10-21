@@ -1,7 +1,6 @@
 package com.sapphire.common.dal.stock.domain;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,59 +10,57 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * Author: EthanPark <br/>
+ * @author: EthanPark <br/>
  * Date: 2016/4/22<br/>
  * Email: byp5303628@hotmail.com
  */
 @Entity
 @Table(name = StockStatistics.TABLE_NAME)
 public class StockStatistics {
-    public static final String        TABLE_NAME = "STOCK_STATISTICS";
+    public static final String      TABLE_NAME = "STOCK_STATISTICS";
 
     @Id
     @Column(name = "CODE")
-    private String                    code;
+    private String                  code;
 
     @Column(name = "NAME")
-    private String                    name;
+    private String                  name;
 
     @Column(name = "AVERAGE_GOLD_DAYS")
-    private int                       averageGoldDays;
+    private int                     averageGoldDays;
 
     @Column(name = "INCREASE_TOTAL", precision = 7, scale = 2)
-    private double                    increaseTotal;
+    private double                  increaseTotal;
 
     @Column(name = "HIGHEST_PRICE", precision = 7, scale = 2)
-    private double                    highestPrice;
+    private double                  highestPrice;
 
     @Column(name = "LOWEST_MACD", precision = 11, scale = 5)
-    private double                    lowestMacd;
+    private double                  lowestMacd;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "LAST_MODIFY_DATE")
-    private Timestamp                 lastModifyDate;
+    private Timestamp               lastModifyDate;
 
     @Column(name = "IS_STOP")
-    private boolean                   stop;
+    private boolean                 stop;
 
     @Column(name = "IS_GOLD_POSSIBLE")
-    private boolean                   goldPossible;
+    private boolean                 goldPossible;
 
     @Column(name = "CURRENT_MACD", precision = 11, scale = 6)
-    private double                    currentMacd;
+    private double                  currentMacd;
 
     @Column(name = "CURRENT_PRICE", precision = 7, scale = 2)
-    private double                    currentPrice;
+    private double                  currentPrice;
 
     @Column(name = "CURRENT_DIFF", precision = 11, scale = 6)
-    private double                    currentDiff;
+    private double                  currentDiff;
 
     @Column(name = "MACD_DESC")
-    private String                    desc;
+    private String                  desc;
 
-    private transient List<MacdCycle> macdCycles;
-
-    private transient MacdRiskModel   macdRiskModel;
+    private transient MacdRiskModel macdRiskModel;
 
     /**
      * Getter method for property <tt>code</tt>.
@@ -297,24 +294,6 @@ public class StockStatistics {
      */
     public void setDesc(String desc) {
         this.desc = desc;
-    }
-
-    /**
-     * Getter method for property <tt>macdCycles</tt>.
-     *
-     * @return property value of macdCycles
-     */
-    public List<MacdCycle> getMacdCycles() {
-        return macdCycles;
-    }
-
-    /**
-     * Setter method for property <tt>macdCycles</tt>.
-     *
-     * @param macdCycles  value to be assigned to property macdCycles
-     */
-    public void setMacdCycles(List<MacdCycle> macdCycles) {
-        this.macdCycles = macdCycles;
     }
 
     /**

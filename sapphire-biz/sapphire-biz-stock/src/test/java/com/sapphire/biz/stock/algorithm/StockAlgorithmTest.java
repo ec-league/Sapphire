@@ -14,6 +14,7 @@ import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockItem;
 import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.utils.JsonUtil;
+import com.sapphire.common.utils.StatisticsUtil;
 import com.sapphire.common.utils.TimeUtil;
 
 /**
@@ -28,6 +29,7 @@ public class StockAlgorithmTest {
         algorithm = new StockAlgorithm();
         algorithm.setJsonUtil(new JsonUtil());
         algorithm.setTimeUtil(new TimeUtil());
+        algorithm.setStatisticsUtil(new StatisticsUtil());
     }
 
     @Test
@@ -65,11 +67,11 @@ public class StockAlgorithmTest {
         Assert.assertEquals(statistics.getCurrentDiff(), 2.0d, 0.0001);
         Assert.assertEquals(statistics.getAverageGoldDays(), 0);
         Assert.assertEquals(statistics.getCurrentMacd(), 1.0d, 0.0001);
-        Assert.assertEquals(statistics.isGoldPossible(), true);
+        Assert.assertEquals(statistics.isGoldPossible(), false);
         Assert.assertEquals(statistics.getCurrentPrice(), 15d, 0.0001);
         Assert.assertEquals(statistics.getIncreaseTotal(), 0d, 0.0001);
 
-        Assert.assertNull(statistics.getDesc());
+        Assert.assertNotNull(statistics.getDesc());
     }
 
     @Test

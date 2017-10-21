@@ -44,7 +44,7 @@ public class StockCache implements Cache {
     @PostConstruct
     public void registerCache() {
         CacheService.register(this);
-        init();
+        refresh();
     }
 
     private void init() {

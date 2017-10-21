@@ -181,22 +181,4 @@ public class StockTest extends BaseTest {
 
         stockItemRepository.save(stockItems);
     }
-
-    /**
-    * Daily data insert.
-    * 
-    * @throws Exception
-    */
-
-    @Test
-    public void testLast30() {
-        List<StockItem> items = stockService.getLast30Stock("000001");
-
-        if (items == null || items.isEmpty())
-            return;
-
-        Assert.assertEquals(items.size(), 30);
-
-        return;
-    }
 }

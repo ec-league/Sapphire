@@ -6,6 +6,7 @@ package com.sapphire.common.utils;
 
 import com.google.gson.Gson;
 import com.sapphire.common.utils.annotation.Util;
+import com.sapphire.common.utils.exception.JsonParseException;
 
 /**
  *
@@ -33,7 +34,12 @@ public class JsonUtil {
      * @return
      */
     public <T> T toObject(String jsonStr, Class<T> tClass) {
-        Gson gson = new Gson();
-        return gson.fromJson(jsonStr, tClass);
+        try {
+            Gson gson = new Gson();
+            return gson.fromJson(jsonStr, tClass);
+        } catch (Exception e) {
+            throw new JsonParseException(
+                String.format("JsonString is : %s, Class is : %s", jsonStr, tClass), e);
+        }
     }
 }

@@ -2,6 +2,8 @@ package com.sapphire.biz.stock.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +30,7 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public Stock getStockByCode(String code) {
-        List<StockItem> items = stockItemRepository.getStocksByCode(code);
-
-        if (items.isEmpty()) {
-            return null;
-        }
+        List<StockItem> items = new ArrayList<>(stockItemRepository.getStocksByCode(code));
 
         return new Stock(items);
     }
@@ -62,20 +60,28 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public StockItem getLatestStockItemByCode(String code) {
-        return stockItemRepository.getLatestStockItem(code);
-    }
+    public Stock getLast30Stock(String code) {
+        List<StockItem> items = new ArrayList<>(stockItemRepository.getLast30Items(code));
+        Collections.sort(items, new Comparator<StockItem>() {
+            @Override
+            public int compare(StockItem o1, StockItem o2) {
+                return Long.compare(o1.getUidPk(), o2.getUidPk());
+            }
+        });
 
-    @Override
-    public List<StockItem> getLast30Stock(String code) {
-        List<StockItem> items = stockItemRepository.getLast30Items(code);
-
-        return new ArrayList<>(items);
+        return new Stock(items);
     }
 
     @Override
     public Stock getStockForStatistics(String code) {
-        List<StockItem> items = stockItemRepository.getLast300Items(code);
+        List<StockItem> items = new ArrayList<>(stockItemRepository.getLast300Items(code));
+
+        Collections.sort(items, new Comparator<StockItem>() {
+            @Override
+            public int compare(StockItem o1, StockItem o2) {
+                return Long.compare(o1.getUidPk(), o2.getUidPk());
+            }
+        });
 
         return new Stock(items);
     }

@@ -30,8 +30,6 @@ import com.sapphire.common.utils.annotation.Job;
 public class StockItemTask implements SapphireTask {
 
     private static final Logger         logger     = LoggerFactory.getLogger(StockItemTask.class);
-    private static final int            MACD_START = 12;
-    private static final int            MACD_END   = 26;
 
     private static final String         JOB_NAME   = "个股详情信息刷新任务";
 
@@ -97,16 +95,24 @@ public class StockItemTask implements SapphireTask {
         try {
             StockItem item = sinaStockIntegrationService.getStock(code);
 
-            StockItem last = stockService.getLatestStockItemByCode(code);
+            Stock stockTemp = stockService.getLast30Stock(code);
 
-            if (last.getLogDate().equals(item.getLogDate())) {
-                last.setUidPk(item.getUidPk());
-            }
+            List<StockItem> stockItems = stockTemp.getStockItems();
 
-            if (last.isStop()) {
-                last.updateItem(item, MACD_START, MACD_END);
+            StockItem last = stockItems.get(stockItems.size() - 1);
+
+            // 1. 股票当天停盘,直接更新最后一条的LogDate
+            if (item.isStop()) {
+                last.setLogDate(item.getLogDate());
                 stockService.save(last);
             } else {
+                // 当天重复的K线数据,重新计算
+                if (last.getLogDate().getTime() == item.getLogDate().getTime()) {
+                    saveTodayData(item, stockItems);
+                    return;
+                }
+
+                //region 非当天数据K线计算
                 last.setLast(false);
 
                 List<StockItem> items = new ArrayList<>();
@@ -126,12 +132,29 @@ public class StockItemTask implements SapphireTask {
                 }
 
                 stockService.saveAll(items);
+                //endregion
             }
         } catch (Exception ex) {
             String errorMsg = String.format("Code :\"%s\" Not Updated%n", code);
             logger.error(errorMsg, ex);
             sb.append(errorMsg).append(";");
         }
+    }
+
+    /**
+     * 重复计算当天数据的处理.
+     * @param current
+     * @param stockItems
+     */
+    private void saveTodayData(StockItem current, List<StockItem> stockItems) {
+        StockItem last = stockItems.get(stockItems.size() - 1);
+        current.setUidPk(last.getUidPk());
+        List<StockItem> items = new ArrayList<>();
+        items.add(stockItems.get(stockItems.size() - 2));
+        items.add(current);
+
+        stockAlgorithm.calculateMacd(new Stock(items), false);
+        stockService.save(current);
     }
 
     /**

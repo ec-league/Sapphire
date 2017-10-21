@@ -18,7 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Created by Ethan on 2016/3/30.
+ * @author Ethan
+ * @since 2016/3/30.
  */
 @Entity
 @Table(name = StockItem.TABLE_NAME)
@@ -138,35 +139,6 @@ public class StockItem {
         setEma12(endPrice);
         setEma26(endPrice);
         setIndustry("");
-    }
-
-    /**
-    * 更新原来的StockItem，如果新的Item是停牌的，则只更新日期
-    * 
-    * @param item
-    */
-    public void updateItem(StockItem item, int small, int big) {
-        setLogDate(item.getLogDate());
-        if (item.isStop()) {
-            return;
-        }
-
-        setStartPrice(item.getStartPrice());
-        setEndPrice(item.getEndPrice());
-        setHighestPrice(item.getHighestPrice());
-        setLowestPrice(item.getLowestPrice());
-        setIncreaseRate(item.getIncreaseRate());
-
-        setTrading(item.getTrading());
-        setTradingValue(item.getTradingValue());
-
-        setStop(false);
-
-        setEma12(getEma12() * (small - 1) / (small + 1) + item.getEma12() * 2 / (small + 1));
-        setEma26(getEma26() * (big - 1) / (big + 1) + item.getEma26() * 2 / (big + 1));
-        setMacdDiff(getEma12() - getEma26());
-        setMacdDea(getMacdDea() * 0.8 + getMacdDiff() * 0.2);
-        setMacd(getMacdDiff() - getMacdDea());
     }
 
     public boolean isNewStock() {
