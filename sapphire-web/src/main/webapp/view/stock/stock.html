@@ -50,21 +50,13 @@
     <div class="row">
         <div class="col-md-2">
             <ul id="left-panel" class="nav" data-spy="affix" data-offset-top="125">
-                <li id="lowest">
-                    <a href="#">MACD最低筛选</a>
+                <li id="today">
+                    <a href="#">今日推荐</a>
                 </li>
-                <li id="increase">
-                    <a href="#l">MACD增幅筛选</a>
+                <li id="股票详情">
+                    <a href="#">股票详情</a>
                 </li>
-                <li id="dead">
-                    <a href="#">MACD死叉筛选</a>
-                </li>
-                <li id="gold">
-                    <a href="#">MACD金叉筛选</a>
-                </li>
-                <li><a href="#">缓存刷新</a></li>
                 <li><a href="#" id="refreshItem">数据更新</a></li>
-                <li><a href="#" id="refreshStat">统计更新</a></li>
             </ul>
         </div>
 
@@ -84,7 +76,7 @@
                             <td>当前历史比例（%）</td>
                             <td>MACD成长率(%)</td>
                             <td>FIRST DIFF</td>
-                            <td>金叉时长(天)</td>
+                            <td>金叉平均时长(天)</td>
                         </tr>
                         </thead>
                         <tbody id="stock-table">
@@ -101,10 +93,7 @@
 <script src="../../sapphire/js/framework/bootstrap.min.js"></script>
 <script type="text/javascript">
     var stock = {
-        goldUrl: "/sapphire/stock/statics/gold.ep",
-        deadUrl: "/sapphire/stock/statics/dead.ep",
-        increaseUrl: "/sapphire/stock/statics/increase.ep",
-        lowestUrl: "/sapphire/stock/statics/lowest.ep",
+        lowestUrl: "/sapphire/stock/statics/today.ep",
         renderTable: function (data) {
             var tableFrame = $("#stock-table");
             tableFrame.html("");
@@ -177,27 +166,9 @@
         },
         init: function () {
             //region Bind update service
-
             $("#refreshItem").click(function () {
                 $.ajax({
                     url: "/sapphire/stock/data/update/item.ep",
-                    headers: {
-                        "Accept": "application/json",
-                        "Content-type": "application/json"
-                    },
-                    success: function (data) {
-                        if (data.returnCode == "200" && data.returnMessage == "SUCCESS") {
-                            alert("Updating...");
-                        } else {
-                            alert("Show Stock Failed! \n" + data.returnMessage);
-                        }
-                    }
-                })
-            });
-
-            $("#refreshStat").click(function () {
-                $.ajax({
-                    url: "/sapphire/stock/data/update/stat.ep",
                     headers: {
                         "Accept": "application/json",
                         "Content-type": "application/json"
@@ -217,20 +188,8 @@
             //region Bind select service
 
             var instance = this;
-            $("#lowest").click(function () {
+            $("#today").click(function () {
                 instance.loadStock(instance.lowestUrl);
-            });
-
-            $("#increase").click(function () {
-                instance.loadStock(instance.increaseUrl);
-            });
-
-            $("#dead").click(function () {
-                instance.loadStock(instance.deadUrl);
-            });
-
-            $("#gold").click(function () {
-                instance.loadStock(instance.goldUrl);
             });
 
             //endregion

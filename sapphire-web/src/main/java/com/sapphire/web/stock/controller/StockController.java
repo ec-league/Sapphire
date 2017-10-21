@@ -50,30 +50,7 @@ public class StockController {
         return new ListJsonDto<>(codes).formSuccessDto();
     }
 
-    @RequestMapping("/statics/lowest.ep")
-    @ResponseBody
-    public JsonDto getStaticsLowest() {
-        List<StockStatistics> stockStatics = stockCache.getStockStatistics();
-
-        Collections.sort(stockStatics, new Comparator<StockStatistics>() {
-            @Override
-            public int compare(StockStatistics o1, StockStatistics o2) {
-                return Double.compare(o1.getCurrentMacd(), o2.getCurrentMacd());
-            }
-        });
-
-        List<StockDto> dtos = new ArrayList<>(30);
-
-        int max = stockStatics.size() > 30 ? 30 : stockStatics.size();
-
-        for (StockStatistics statistics : stockStatics.subList(0, max)) {
-            dtos.add(new StockDto(statistics));
-        }
-
-        return new ListJsonDto(dtos).formSuccessDto();
-    }
-
-    @RequestMapping("/statics/increase.ep")
+    @RequestMapping("/statics/today.ep")
     @ResponseBody
     public JsonDto getIncreaseStatics() {
         List<StockStatistics> stockStatics = stockCache.getStockStatistics();
@@ -81,58 +58,6 @@ public class StockController {
         int max = stockStatics.size() > 30 ? 30 : stockStatics.size();
 
         List<StockDto> dtos = new ArrayList<>(max);
-
-        for (StockStatistics statistics : stockStatics.subList(0, max)) {
-            dtos.add(new StockDto(statistics));
-        }
-
-        return new ListJsonDto(dtos).formSuccessDto();
-    }
-
-    @RequestMapping("/statics/dead.ep")
-    @ResponseBody
-    public JsonDto getDeadStatics() {
-        List<StockStatistics> stockStatics = stockCache.getStockStatistics();
-
-        stockStatics = stockStatics.stream().filter(s -> s.getCurrentMacd() < 0)
-            .collect(Collectors.toList());
-
-        Collections.sort(stockStatics, new Comparator<StockStatistics>() {
-            @Override
-            public int compare(StockStatistics o1, StockStatistics o2) {
-                return Double.compare(o2.getIncreaseTotal(), o1.getIncreaseTotal());
-            }
-        });
-
-        List<StockDto> dtos = new ArrayList<>(30);
-
-        int max = stockStatics.size() > 30 ? 30 : stockStatics.size();
-
-        for (StockStatistics statistics : stockStatics.subList(0, max)) {
-            dtos.add(new StockDto(statistics));
-        }
-
-        return new ListJsonDto(dtos).formSuccessDto();
-    }
-
-    @RequestMapping("/statics/gold.ep")
-    @ResponseBody
-    public JsonDto getGoldPossible() {
-        List<StockStatistics> stockStatics = stockCache.getStockStatistics();
-
-        stockStatics = stockStatics.stream().filter(s -> s.isGoldPossible())
-            .collect(Collectors.toList());
-
-        Collections.sort(stockStatics, new Comparator<StockStatistics>() {
-            @Override
-            public int compare(StockStatistics o1, StockStatistics o2) {
-                return Double.compare(o2.getIncreaseTotal(), o1.getIncreaseTotal());
-            }
-        });
-
-        List<StockDto> dtos = new ArrayList<>(30);
-
-        int max = stockStatics.size() > 30 ? 30 : stockStatics.size();
 
         for (StockStatistics statistics : stockStatics.subList(0, max)) {
             dtos.add(new StockDto(statistics));
