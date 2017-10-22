@@ -51,12 +51,11 @@
         <div class="col-md-2">
             <ul id="left-panel" class="nav" data-spy="affix" data-offset-top="125">
                 <li id="today">
-                    <a href="#">今日推荐</a>
+                    <a href="/sapphire/stock/stock.html">今日推荐</a>
                 </li>
                 <li id="股票详情">
-                    <a href="#">股票详情</a>
+                    <a href="/sapphire/stock/stock-detail.html">股票详情</a>
                 </li>
-                <li><a href="#" id="refreshItem">数据更新</a></li>
             </ul>
         </div>
 
@@ -93,7 +92,7 @@
 <script src="../../sapphire/js/framework/bootstrap.min.js"></script>
 <script type="text/javascript">
     var stock = {
-        lowestUrl: "/sapphire/stock/statics/today.ep",
+        todayUrl: "/sapphire/stock/statics/today.ep",
         renderTable: function (data) {
             var tableFrame = $("#stock-table");
             tableFrame.html("");
@@ -188,10 +187,7 @@
             //region Bind select service
 
             var instance = this;
-            $("#today").click(function () {
-                instance.loadStock(instance.lowestUrl);
-            });
-
+            instance.loadStock(instance.todayUrl);
             //endregion
         }
     }
