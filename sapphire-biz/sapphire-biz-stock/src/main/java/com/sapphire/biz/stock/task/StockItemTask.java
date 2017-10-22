@@ -29,9 +29,9 @@ import com.sapphire.common.utils.annotation.Job;
 @Job
 public class StockItemTask implements SapphireTask {
 
-    private static final Logger         logger     = LoggerFactory.getLogger(StockItemTask.class);
+    private static final Logger         logger   = LoggerFactory.getLogger(StockItemTask.class);
 
-    private static final String         JOB_NAME   = "个股详情信息刷新任务";
+    private static final String         JOB_NAME = "个股详情信息刷新任务";
 
     private StockService                stockService;
 
@@ -135,7 +135,7 @@ public class StockItemTask implements SapphireTask {
                 //endregion
             }
         } catch (Exception ex) {
-            String errorMsg = String.format("Code :\"%s\" Not Updated%n", code);
+            String errorMsg = String.format("Code :\"%s\" Not Updated%n, Exception : %s", code, ex);
             logger.error(errorMsg, ex);
             sb.append(errorMsg).append(";");
         }
@@ -150,10 +150,15 @@ public class StockItemTask implements SapphireTask {
         StockItem last = stockItems.get(stockItems.size() - 1);
         current.setUidPk(last.getUidPk());
         List<StockItem> items = new ArrayList<>();
-        items.add(stockItems.get(stockItems.size() - 2));
-        items.add(current);
 
-        stockAlgorithm.calculateMacd(new Stock(items), false);
+        if (stockItems.size() > 1) {
+            items.add(stockItems.get(stockItems.size() - 2));
+            items.add(current);
+            stockAlgorithm.calculateMacd(new Stock(items), false);
+        } else {
+            items.add(current);
+            stockAlgorithm.calculateMacd(new Stock(items), true);
+        }
         stockService.save(current);
     }
 

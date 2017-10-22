@@ -19,26 +19,31 @@ public class SinaStockIntegrationService {
 
     public StockItem getStock(String code) {
         String url = getUrl(code);
+        String output = null;
         try {
-            HttpResponse<String> response = Unirest.get(url)
-                    .asString();
+            HttpResponse<String> response = Unirest.get(url).asString();
 
             if (response == null) {
-                throw new IntegrationException("Sina response is NULL");
+                throw new IntegrationException(
+                    String.format("Sina response is NULL, code: %s", code));
             }
-            String output = response.getBody();
+            output = response.getBody();
 
             StockItem item = toDomain(output);
             item.setCode(code);
 
             return item;
         } catch (UnirestException e) {
-            throw new IntegrationException(e);
+            String errorMsg = String.format("Stock Code: %s, url: %s, output: %s", code, url,
+                output);
+            throw new IntegrationException(errorMsg, e);
         }
     }
 
     private String getUrl(String code) {
-        if (code.indexOf("60") == 0) { return String.format(URL_FORMAT, "sh", code); } else {
+        if (code.indexOf("60") == 0) {
+            return String.format(URL_FORMAT, "sh", code);
+        } else {
             return String.format(URL_FORMAT, "sz", code);
         }
     }
@@ -65,7 +70,9 @@ public class SinaStockIntegrationService {
 
         item.setEma12(item.getEndPrice());
         item.setEma26(item.getEndPrice());
-        if (!item.isStop()) { item.setIncreaseRate((item.getEndPrice() / Double.parseDouble(datas[2]) - 1) * 100); } else {
+        if (!item.isStop()) {
+            item.setIncreaseRate((item.getEndPrice() / Double.parseDouble(datas[2]) - 1) * 100);
+        } else {
             item.setStartPrice(item.getEndPrice());
             item.setHighestPrice(item.getEndPrice());
             item.setLowestPrice(item.getEndPrice());

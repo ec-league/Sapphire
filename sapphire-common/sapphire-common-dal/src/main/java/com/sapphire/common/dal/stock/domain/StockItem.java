@@ -121,7 +121,7 @@ public class StockItem {
 
     public StockItem(String line) {
         this();
-        String[] lines = line.split("\t");
+        String[] lines = line.split(",");
 
         try {
             setLogDate(new Timestamp(new SimpleDateFormat(FORMAT).parse(lines[0]).getTime()));
