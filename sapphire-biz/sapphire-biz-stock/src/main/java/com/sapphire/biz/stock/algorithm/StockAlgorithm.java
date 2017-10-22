@@ -267,7 +267,7 @@ public class StockAlgorithm {
             macdCycle.setFirstDiff(start.getMacdDiff());
             macdCycle.setIncreaseRate((end.getEndPrice() / start.getEndPrice() - 1) * 100);
             macdCycle.setHighIncreaseRate((highestPrice / start.getEndPrice() - 1) * 100);
-            macdCycle.setHighIncrease(String.format(".3f", macdCycle.getHighIncreaseRate()));
+            macdCycle.setHighIncrease(String.format("%.3f", macdCycle.getHighIncreaseRate()));
             macdCycle.setDiff(String.format("%.3f", macdCycle.getFirstDiff()));
             macdCycle.setIncrease(String.format("%.3f", macdCycle.getIncreaseRate()));
 
