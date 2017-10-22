@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sapphire.biz.stock.service.StockService;
@@ -58,15 +59,15 @@ public class StockController {
         return new ListJsonDto(dtos).formSuccessDto();
     }
 
-    @RequestMapping("/{code}/info.ep")
+    @RequestMapping("/info.ep")
     @ResponseBody
-    public JsonDto getStockByCode(@PathVariable String code) {
+    public JsonDto getStockByCode(@RequestParam("code") String code) {
         try {
             StockStatistics statistics = stockCache.getStatisticsByCode(code);
 
             return new DataJsonDto(new StockDetailDto(statistics)).formSuccessDto();
         } catch (Exception ex) {
-            logger.error("Get Stock By Code Failed!", ex);
+            logger.error("Get Stock By Code Failed! Code: " + code, ex);
             return new JsonDto().formFailureDto(ex);
         }
     }

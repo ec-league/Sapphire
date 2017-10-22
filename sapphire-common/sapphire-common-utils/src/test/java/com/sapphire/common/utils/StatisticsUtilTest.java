@@ -88,7 +88,7 @@ public class StatisticsUtilTest {
 
         StatisticsUtil util = new StatisticsUtil();
 
-        double d = util.getStandardDiviation(objects, new NumberAware<TestObject>() {
+        double d = util.getStandardDeviation(objects, new NumberAware<TestObject>() {
             @Override
             public double getNumber(TestObject testObject) {
                 return (double) testObject.getVal();

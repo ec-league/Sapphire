@@ -62,20 +62,69 @@
         <div class="col-md-10" style="background: lightyellow">
             <div class="row">
                 <div class="col-md-12">
+                    <div class="col-md-12">
+                        关于该股票,该页面显示的为股票的风控信息,主要包括一些基本信息以及历史该股票的盈利表现
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-6">代码:</div>
+                        <div id="code" class="col-md-6"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-6">名称:</div>
+                        <div id="name" class="col-md-6"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-6">能否金叉:</div>
+                        <div id="goldPossible" class="col-md-6"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-6">当前MACD:</div>
+                        <div id="currentMacd" class="col-md-6"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-6">当前DIFF:</div>
+                        <div id="currentDiff" class="col-md-6"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-6">金叉平均时长:</div>
+                        <div id="averageGoldDays" class="col-md-6"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-6">成长率:</div>
+                        <div id="increaseTotal" class="col-md-6"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-6">历史最高价:</div>
+                        <div id="highestPrice" class="col-md-6"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-6">当前股价:</div>
+                        <div id="currentPrice" class="col-md-6"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-6">金叉平均增幅:</div>
+                        <div id="averageRate" class="col-md-6"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-6">标准差:</div>
+                        <div id="standardDeviation" class="col-md-6"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-6">股价比:</div>
+                        <div id="pricePercentage" class="col-md-6"></div>
+                    </div>
+                </div>
+                <div class="col-md-12">
                     <table class="table table-hover">
                         <thead>
                         <tr>
                             <td>#</td>
-                            <td>股票代码</td>
-                            <td>股票名字</td>
-                            <td>能否金叉</td>
-                            <td>当前MACD</td>
-                            <td>当前收盘(元)</td>
-                            <td>历史最高(元)</td>
-                            <td>当前历史比例（%）</td>
-                            <td>MACD成长率(%)</td>
-                            <td>FIRST DIFF</td>
-                            <td>金叉平均时长(天)</td>
+                            <td>开始日期</td>
+                            <td>结束日期</td>
+                            <td>增幅</td>
+                            <td>最高增幅</td>
+                            <td>持续日期</td>
+                            <td>入坑diff值</td>
                         </tr>
                         </thead>
                         <tbody id="stock-detail-table">
@@ -90,46 +139,49 @@
 <script src="../../sapphire/js/framework/jquery-1.11.3.js"></script>
 <script src="../../sapphire/js/framework/bootstrap.min.js"></script>
 <script type="text/javascript">
-    var stock = {
-        lowestUrl: "/sapphire/stock/statics/today.ep",
+    var stockDetail = {
+        infoUrl: "/sapphire/stock/info.ep",
         renderTable: function (data) {
-            var tableFrame = $("#stock-table");
+
+            $("#code").html(data.code);
+            $("#name").html(data.name);
+            $("#goldPossible").html(data.goldPossible);
+            $("#currentMacd").html(data.currentMacd);
+            $("#currentPrice").html(data.currentPrice);
+            $("#currentDiff").html(data.currentDiff);
+            $("#highestPrice").html(data.highestPrice);
+            $("#increaseTotal").html(data.increaseTotal);
+            $("#averageGoldDays").html(data.averageGoldDays);
+            $("#averageRate").html(data.macdRiskDto.averageRate);
+            $("#pricePercentage").html(data.macdRiskDto.pricePercentage);
+            $("#standardDeviation").html(data.macdRiskDto.standardDeviation);
+
+            var tableFrame = $("#stock-detail-table");
             tableFrame.html("");
-            for (var i = 0; i < data.length; i++) {
+            var cycles = data.macdRiskDto.cycles;
+            for (var i = 0; i < cycles.length; i++) {
                 var tr = $("<tr></tr>");
 
                 var seqTd = $("<td></td>");
                 seqTd.html(i + 1);
 
                 var codeTd = $("<td></td>");
-                codeTd.html(data[i].code);
+                codeTd.html(cycles[i].startDate);
 
                 var nameTd = $("<td></td>");
-                nameTd.html(data[i].name);
+                nameTd.html(cycles[i].endDate);
 
                 var isGold = $("<td></td>");
-                isGold.html(data[i].goldPossible)
+                isGold.html(cycles[i].increase)
 
                 var macdTd = $("<td></td>");
-                macdTd.html(data[i].currentMacd.toFixed(3));
+                macdTd.html(cycles[i].highIncrease);
 
                 var priceTd = $("<td></td>");
-                priceTd.html(data[i].currentPrice.toFixed(2));
+                priceTd.html(cycles[i].consistDays);
 
                 var highTd = $("<td></td>");
-                highTd.html(data[i].highestPrice.toFixed(2));
-
-                var rateTd = $("<td></td>");
-                rateTd.html((data[i].currentPrice / data[i].highestPrice * 100).toFixed(2).toString() + "%");
-
-                var increaseTd = $("<td></td>");
-                increaseTd.html((data[i].increaseTotal * 100).toFixed(2).toString() + "%");
-
-                var diffTd = $("<td></td>");
-                diffTd.html(data[i].currentDiff.toFixed(3));
-
-                var consistDaysTd = $("<td></td>");
-                consistDaysTd.html(data[i].averageGoldDays);
+                highTd.html(cycles[i].diff);
 
                 seqTd.appendTo(tr);
                 codeTd.appendTo(tr);
@@ -138,17 +190,13 @@
                 macdTd.appendTo(tr);
                 priceTd.appendTo(tr);
                 highTd.appendTo(tr);
-                rateTd.appendTo(tr);
-                increaseTd.appendTo(tr);
-                diffTd.appendTo(tr);
-                consistDaysTd.appendTo(tr);
                 tr.appendTo(tableFrame);
             }
         },
-        loadStock: function (dataUrl) {
+        loadStockDetail: function (search) {
             var instance = this;
             $.ajax({
-                url: dataUrl,
+                url: instance.infoUrl + search,
                 headers: {
                     "Accept": "application/json",
                     "Content-type": "application/json"
@@ -163,36 +211,10 @@
             });
         },
         init: function () {
-            //region Bind update service
-            $("#refreshItem").click(function () {
-                $.ajax({
-                    url: "/sapphire/stock/data/update/item.ep",
-                    headers: {
-                        "Accept": "application/json",
-                        "Content-type": "application/json"
-                    },
-                    success: function (data) {
-                        if (data.returnCode == "200" && data.returnMessage == "SUCCESS") {
-                            alert("Updating...");
-                        } else {
-                            alert("Show Stock Failed! \n" + data.returnMessage);
-                        }
-                    }
-                })
-            });
-
-            //endregion
-
-            //region Bind select service
-
             var instance = this;
-            $("#today").click(function () {
-                instance.loadStock(instance.lowestUrl);
-            });
-
-            //endregion
+            instance.loadStockDetail(window.location.search);
         }
     }
-    stock.init();
+    stockDetail.init();
 </script>
 </html>

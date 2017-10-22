@@ -76,7 +76,7 @@ public class StatisticsUtil {
      * @param <T>
      * @return
      */
-    public <T> double getStandardDiviation(Collection<T> list, NumberAware<? super T> numberAware) {
+    public <T> double getStandardDeviation(Collection<T> list, NumberAware<? super T> numberAware) {
         double average = getAverage(list, numberAware);
 
         double sum = 0;

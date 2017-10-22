@@ -164,7 +164,7 @@ public class StockAlgorithm {
         } else {
             model.setAverageRate(calculateAverageRate(cycles));
             model.setStandardDeviationRate(
-                statisticsUtil.getStandardDiviation(cycles, new NumberAware<MacdCycle>() {
+                statisticsUtil.getStandardDeviation(cycles, new NumberAware<MacdCycle>() {
                     @Override
                     public double getNumber(MacdCycle macdCycle) {
                         return macdCycle.getIncreaseRate();

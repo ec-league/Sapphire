@@ -98,12 +98,16 @@
             tableFrame.html("");
             for (var i = 0; i < data.length; i++) {
                 var tr = $("<tr></tr>");
-
                 var seqTd = $("<td></td>");
                 seqTd.html(i + 1);
 
+                var code = data[i].code;
+
                 var codeTd = $("<td></td>");
-                codeTd.html(data[i].code);
+                codeTd.html(code);
+                codeTd.click(function () {
+                    self.location = "/sapphire/stock/stock-detail.html?code=" + $(this).html();
+                });
 
                 var nameTd = $("<td></td>");
                 nameTd.html(data[i].name);
