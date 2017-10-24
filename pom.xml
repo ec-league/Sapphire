@@ -328,16 +328,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <dependencies>
-        <dependency>
-            <groupId>net.sourceforge.cobertura</groupId>
-            <artifactId>cobertura-runtime</artifactId>
-            <version>2.1.1</version>
-            <scope>provided</scope>
-            <type>pom</type>
-        </dependency>
-    </dependencies>
-
     <build>
         <finalName>sapphire</finalName>
         <plugins>
@@ -366,18 +356,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <inherited>true</inherited>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
                 <version>2.7</version>
@@ -391,18 +369,6 @@
                     <aggregate>true</aggregate>
                     <check/>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>instrument-code</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>instrument</goal>
-                        </goals>
-                        <configuration>
-                            <attach>true</attach>
-                        </configuration>
-                    </execution>
-                </executions>
                 <dependencies>
                     <dependency>
                         <groupId>org.ow2.asm</groupId>
