@@ -59,12 +59,13 @@ public class StockItemTask implements SapphireTask {
         StringBuilder sb = new StringBuilder();
         try {
             List<String> codes = stockService.getAllCodes();
+            List<StockItem> items = new ArrayList<>(codes.size() * 2);
 
             for (String code : codes) {
-                logger.info(String.format("Update Stock Code : %s", code));
-
-                handleOneStock(code, sb);
+                handleOneStock(code, sb, items);
             }
+
+            stockService.saveAll(items);
         } catch (Exception ex) {
             logger.error("Init error", ex);
         }
@@ -91,7 +92,7 @@ public class StockItemTask implements SapphireTask {
         return "StockItem";
     }
 
-    private void handleOneStock(String code, StringBuilder sb) {
+    private void handleOneStock(String code, StringBuilder sb, List<StockItem> items) {
         try {
             StockItem item = sinaStockIntegrationService.getStock(code);
 
@@ -104,7 +105,7 @@ public class StockItemTask implements SapphireTask {
             // 1. 股票当天停盘,直接更新最后一条的LogDate
             if (item.isStop()) {
                 last.setLogDate(item.getLogDate());
-                stockService.save(last);
+                items.add(item);
             } else {
                 // 当天重复的K线数据,重新计算
                 if (last.getLogDate().getTime() == item.getLogDate().getTime()) {
@@ -115,7 +116,6 @@ public class StockItemTask implements SapphireTask {
                 //region 非当天数据K线计算
                 last.setLast(false);
 
-                List<StockItem> items = new ArrayList<>();
                 items.add(last);
                 items.add(item);
 
@@ -131,7 +131,6 @@ public class StockItemTask implements SapphireTask {
                     item.setEma26(last.getEma26());
                 }
 
-                stockService.saveAll(items);
                 //endregion
             }
         } catch (Exception ex) {

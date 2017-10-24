@@ -28,4 +28,10 @@ public interface StockStatisticsService {
      * @return
      */
     List<StockStatistics> getAll();
+
+    /**
+     * 保存全部统计数据(定时任务使用)
+     * @param statistics
+     */
+    void updateAll(List<StockStatistics> statistics);
 }

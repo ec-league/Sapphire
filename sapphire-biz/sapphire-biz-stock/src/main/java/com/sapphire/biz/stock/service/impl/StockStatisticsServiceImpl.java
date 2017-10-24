@@ -58,6 +58,16 @@ public class StockStatisticsServiceImpl implements StockStatisticsService {
     }
 
     /**
+     * 保存全部统计数据(定时任务使用)
+    
+     * @param statistics
+     */
+    @Override
+    public void updateAll(List<StockStatistics> statistics) {
+        stockStatisticsRepository.save(statistics);
+    }
+
+    /**
      * Setter method for property <tt>stockStatisticsRepository</tt>.
      *
      * @param stockStatisticsRepository  value to be assigned to property stockStatisticsRepository

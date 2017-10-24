@@ -1,5 +1,6 @@
 package com.sapphire.biz.stock.task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -54,10 +55,13 @@ public class StockStatisticTask implements SapphireTask {
         StringBuilder finishMsg = new StringBuilder(50);
 
         List<String> codes = stockService.getAllCodes();
+        List<StockStatistics> statistics = new ArrayList<>(codes.size());
 
         for (String code : codes) {
-            handleStat(code);
+            handleStat(code, statistics);
         }
+
+        statisticsService.updateAll(statistics);
 
         logger.info("Update Stock Statistics Task Finished!");
         finishMsg.append("## 个股统计信息: ").append("\n>").append("刷新成功");
@@ -68,8 +72,7 @@ public class StockStatisticTask implements SapphireTask {
         pusher.push(JOB_NAME, finishMsg.toString(), DingTalkMessageType.MARKDOWN);
     }
 
-    private void handleStat(String code) {
-        logger.info(String.format("Update Stock Statistics : %s", code));
+    private void handleStat(String code, List<StockStatistics> statistics) {
         Stock stock = stockService.getStockForStatistics(code);
 
         if (stock == null) {
@@ -78,7 +81,7 @@ public class StockStatisticTask implements SapphireTask {
 
         StockStatistics stat = stockAlgorithm.calculate(stock);
 
-        statisticsService.update(stat);
+        statistics.add(stat);
     }
 
     /**
