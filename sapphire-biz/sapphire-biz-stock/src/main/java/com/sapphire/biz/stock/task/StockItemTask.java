@@ -84,16 +84,9 @@ public class StockItemTask implements SapphireTask {
         pusher.push(JOB_NAME, finishMsg.toString(), DingTalkMessageType.MARKDOWN);
     }
 
-    /**
-     * Task的名字
-     * @return
-     */
-    public static String name() {
-        return "StockItem";
-    }
-
     private void handleOneStock(String code, StringBuilder sb, List<StockItem> items) {
         try {
+            logger.info("Start to Handle stock : " + code);
             StockItem item = sinaStockIntegrationService.getStock(code);
 
             Stock stockTemp = stockService.getLast30Stock(code);
