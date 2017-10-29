@@ -28,15 +28,6 @@ public class CronSapphireTask implements SapphireTask {
     }
 
     /**
-     * 获取Task的名字
-     * @return
-     */
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    /**
      * Setter method for property <tt>name</tt>.
      *
      * @param name  value to be assigned to property name
