@@ -26,7 +26,7 @@
 
     <appender name="sapphire-biz-stock-appender"
               class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="fileName"
+        <param name="file"
                value="/root/logs/sapphire/sapphire-biz-stock.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
