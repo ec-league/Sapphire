@@ -73,7 +73,7 @@
     <appender name="COMMON-DAL-APPENDER"
               class="org.apache.log4j.DailyRollingFileAppender">
         <param name="file"
-               value="/root/logs/sapphire/sapphire-common-dal.log"/>
+               value="/root/logs/sapphire/common-dal-pref.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
                    value="%d{ISO8601} %-5p [%t] - %m%n"/>
