@@ -4,7 +4,7 @@
     <!-- [公共Appender] 默认 -->
     <appender name="DEFAULT-APPENDER"
               class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="fileName" value="/root/logs/sapphire/common-default.log"/>
+        <param name="file" value="/root/logs/sapphire/common-default.log"/>
         <param name="append" value="true"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
@@ -15,7 +15,7 @@
     <!-- [应用Appender] finsign扩展集成 -->
     <appender name="sapphire-common-integration-appender"
               class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="fileName"
+        <param name="file"
                value="/root/logs/sapphire/sapphire-integration.log"/>
         <param name="append" value="true"/>
         <layout class="org.apache.log4j.PatternLayout">
