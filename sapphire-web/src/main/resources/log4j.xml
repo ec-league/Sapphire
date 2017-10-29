@@ -64,4 +64,21 @@
         <appender-ref ref="sapphire-common-dal-appender"/>
     </logger>
 
+    <!-- COMMON DAL -->
+    <logger name="COMMON-DAL" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="COMMON-DAL-APPENDER"/>
+    </logger>
+
+    <appender name="COMMON-DAL-APPENDER"
+              class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file"
+               value="/root/logs/sapphire/sapphire-common-dal.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d{ISO8601} %-5p [%t] - %m%n"/>
+        </layout>
+    </appender>
+    <!-- COMMON DAL -->
+
 </log4j:configuration>

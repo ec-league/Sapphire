@@ -58,4 +58,14 @@
         <property name="username" value="${db.username}"/>
         <property name="password" value="${db.password}"/>
     </bean>
+
+    <bean id="dal.monitor.logger" class="com.sapphire.common.utils.MonitorLogger">
+        <property name="logName" value="COMMON-DAL"/>
+        <property name="interceptPackages">
+            <set>
+                <value>com.sapphire.common.dal.stock.repository</value>
+                <value>com.sapphire.common.dal.mng.task.repository</value>
+            </set>
+        </property>
+    </bean>
 </beans>
