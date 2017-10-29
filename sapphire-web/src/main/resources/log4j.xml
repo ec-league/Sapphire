@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration>
+    <!-- [公共Appender] 默认 -->
+    <appender name="DEFAULT-APPENDER"
+              class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="fileName" value="/root/logs/sapphire/common-default.log"/>
+        <param name="append" value="true"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%-5p %t %d{ISO8601} %l - %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- [应用Appender] finsign扩展集成 -->
+    <appender name="sapphire-common-integration-appender"
+              class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="fileName"
+               value="/root/logs/sapphire/sapphire-integration.log"/>
+        <param name="append" value="true"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%-5p %t %d{ISO8601} %l - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="sapphire-biz-stock-appender"
+              class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="fileName"
+               value="/root/logs/sapphire/sapphire-biz-stock.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%-5p %t %d{ISO8601} %l - %m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="com.alipay.finsign.common.service.integration" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="sapphire-common-integration-appender"/>
+    </logger>
+
+    <logger name="com.sapphire.biz.stock.task" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="sapphire-biz-stock-appender"/>
+    </logger>
+
+</log4j:configuration>

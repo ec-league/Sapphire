@@ -28,11 +28,17 @@ public class StockCacheController {
     @ResponseBody
     public JsonDto startStatTask() {
         try {
-            stockItemTask.execute();
 
-            stockStatisticTask.execute();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    stockItemTask.execute();
 
-            stockCache.refresh();
+                    stockStatisticTask.execute();
+
+                    stockCache.refresh();
+                }
+            }).start();
 
             return new JsonDto().formSuccessDto();
         } catch (Exception e) {
