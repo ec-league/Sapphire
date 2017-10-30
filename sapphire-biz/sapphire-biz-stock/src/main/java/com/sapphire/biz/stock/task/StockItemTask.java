@@ -59,7 +59,7 @@ public class StockItemTask implements SapphireTask {
         StringBuilder sb = new StringBuilder();
         try {
             List<String> codes = stockService.getAllCodes();
-            List<StockItem> items = new ArrayList<>(codes.size() * 2);
+            List<StockItem> items = new ArrayList<>(codes.size());
 
             for (String code : codes) {
                 handleOneStock(code, sb, items);
@@ -98,7 +98,7 @@ public class StockItemTask implements SapphireTask {
             // 1. 股票当天停盘,直接更新最后一条的LogDate
             if (item.isStop()) {
                 last.setLogDate(item.getLogDate());
-                items.add(item);
+                stockService.save(last);
             } else {
                 // 当天重复的K线数据,重新计算
                 if (last.getLogDate().getTime() == item.getLogDate().getTime()) {
@@ -126,9 +126,8 @@ public class StockItemTask implements SapphireTask {
                     item.setEma26(last.getEma26());
                 }
 
-                items.add(last);
+                stockService.save(last);
                 items.add(item);
-
                 //endregion
             }
         } catch (Exception ex) {
