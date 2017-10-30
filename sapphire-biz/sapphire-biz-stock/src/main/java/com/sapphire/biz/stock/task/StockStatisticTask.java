@@ -69,7 +69,6 @@ public class StockStatisticTask implements SapphireTask {
     }
 
     private void handleStat(String code) {
-        logger.info("Start to handle stock : " + code);
         Stock stock = stockService.getStockForStatistics(code);
 
         if (stock == null) {
@@ -79,6 +78,8 @@ public class StockStatisticTask implements SapphireTask {
         StockStatistics stat = stockAlgorithm.calculate(stock);
 
         statisticsService.update(stat);
+
+        logger.info("Finish handling stock statistics : " + code);
     }
 
     /**
