@@ -42,9 +42,9 @@ public class MonitorLogger implements MethodInterceptor {
                 long elapseTime = System.currentTimeMillis() - start;
 
                 if (hasError) {
-                    logger.info(String.format("([%s]:N,%d)", method, elapseTime));
+                    logger.info(String.format("([%s]:N,%dms)", method, elapseTime));
                 } else {
-                    logger.info(String.format("([%s]:Y,%d)", method, elapseTime));
+                    logger.info(String.format("([%s]:Y,%dms)", method, elapseTime));
                 }
             }
         }
