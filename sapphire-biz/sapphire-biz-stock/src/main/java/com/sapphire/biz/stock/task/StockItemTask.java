@@ -109,8 +109,10 @@ public class StockItemTask implements SapphireTask {
                 //region 非当天数据K线计算
                 last.setLast(false);
 
-                items.add(last);
-                items.add(item);
+                List<StockItem> stockItems1 = new ArrayList<>(2);
+
+                stockItems1.add(last);
+                stockItems1.add(item);
 
                 Stock stock = new Stock(items);
 
@@ -123,6 +125,9 @@ public class StockItemTask implements SapphireTask {
                     item.setEma12(last.getEma12());
                     item.setEma26(last.getEma26());
                 }
+
+                items.add(last);
+                items.add(item);
 
                 //endregion
             }
