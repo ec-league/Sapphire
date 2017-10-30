@@ -59,13 +59,10 @@ public class StockItemTask implements SapphireTask {
         StringBuilder sb = new StringBuilder();
         try {
             List<String> codes = stockService.getAllCodes();
-            List<StockItem> items = new ArrayList<>(codes.size());
 
             for (String code : codes) {
-                handleOneStock(code, sb, items);
+                handleOneStock(code, sb);
             }
-
-            stockService.saveAll(items);
         } catch (Exception ex) {
             logger.error("Init error", ex);
         }
@@ -84,7 +81,7 @@ public class StockItemTask implements SapphireTask {
         pusher.push(JOB_NAME, finishMsg.toString(), DingTalkMessageType.MARKDOWN);
     }
 
-    private void handleOneStock(String code, StringBuilder sb, List<StockItem> items) {
+    private void handleOneStock(String code, StringBuilder sb) {
         try {
             logger.info("Start to Handle stock : " + code);
             StockItem item = sinaStockIntegrationService.getStock(code);
@@ -114,7 +111,7 @@ public class StockItemTask implements SapphireTask {
                 stockItems1.add(last);
                 stockItems1.add(item);
 
-                Stock stock = new Stock(items);
+                Stock stock = new Stock(stockItems1);
 
                 stockAlgorithm.calculateMacd(stock, false);
 
@@ -126,8 +123,7 @@ public class StockItemTask implements SapphireTask {
                     item.setEma26(last.getEma26());
                 }
 
-                stockService.save(last);
-                items.add(item);
+                stockService.saveAll(stockItems1);
                 //endregion
             }
         } catch (Exception ex) {
