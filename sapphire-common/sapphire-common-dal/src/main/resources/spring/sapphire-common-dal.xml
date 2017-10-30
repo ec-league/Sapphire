@@ -59,7 +59,7 @@
         <property name="password" value="${db.password}"/>
     </bean>
 
-    <bean id="dal.monitor.logger" class="com.sapphire.common.utils.MonitorLogger">
+    <bean id="dal.monitor.logger" class="com.sapphire.common.utils.MonitorLogger" init-method="init">
         <property name="logName" value="COMMON-DAL"/>
     </bean>
 
