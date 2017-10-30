@@ -4,8 +4,6 @@ package com.sapphire.common.utils;
  * Copyright (c) 2004-2017 All Rights Reserved.
  */
 
-import java.util.Set;
-
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
@@ -17,10 +15,9 @@ import org.slf4j.LoggerFactory;
  * @version $Id: com.sapphire.common.utils.MonitorLogger.java, v 0.1 2017年10月29日 下午6:08 yunpeng.byp Exp $
  */
 public class MonitorLogger implements MethodInterceptor {
-    private String      logName;
-    private Set<String> interceptPackages;
+    private String logName;
 
-    private Logger      logger;
+    private Logger logger;
 
     public void init() {
         logger = LoggerFactory.getLogger(logName);
@@ -28,14 +25,8 @@ public class MonitorLogger implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-
-        String packageName = invocation.getMethod().getDeclaringClass().getPackage().getName();
-
         String method = invocation.getMethod().getDeclaringClass().getSimpleName() + "."
                         + invocation.getMethod().getName();
-
-        if (!interceptPackages.contains(packageName))
-            return invocation.proceed();
 
         long start = System.currentTimeMillis();
 
@@ -66,14 +57,5 @@ public class MonitorLogger implements MethodInterceptor {
      */
     public void setLogName(String logName) {
         this.logName = logName;
-    }
-
-    /**
-     * Setter method for property <tt>interceptPackages</tt>.
-     *
-     * @param interceptPackages  value to be assigned to property interceptPackages
-     */
-    public void setInterceptPackages(Set<String> interceptPackages) {
-        this.interceptPackages = interceptPackages;
     }
 }

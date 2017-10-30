@@ -61,11 +61,21 @@
 
     <bean id="dal.monitor.logger" class="com.sapphire.common.utils.MonitorLogger">
         <property name="logName" value="COMMON-DAL"/>
-        <property name="interceptPackages">
-            <set>
-                <value>com.sapphire.common.dal.stock.repository</value>
-                <value>com.sapphire.common.dal.mng.task.repository</value>
-            </set>
+    </bean>
+
+    <!-- 对所有引用服务适配置方法调用进行拦截 -->
+    <bean id="integrationClientAutoProxyCreator"
+          class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="beanNames">
+            <list>
+                <value>stockItemRepository</value>
+                <value>stockStatisticsRepository</value>
+            </list>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>dal.monitor.logger</value>
+            </list>
         </property>
     </bean>
 </beans>
