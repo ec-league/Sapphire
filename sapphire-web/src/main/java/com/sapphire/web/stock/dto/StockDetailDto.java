@@ -4,6 +4,11 @@
  */
 package com.sapphire.web.stock.dto;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import com.sapphire.common.dal.stock.domain.MacdCycle;
 import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.utils.dto.Dto;
 
@@ -39,7 +44,9 @@ public class StockDetailDto implements Dto {
         MacdRiskDto macdRiskDto = new MacdRiskDto();
         macdRiskDto.setAverageRate(statistics.getMacdRiskModel().getAverageRate());
         macdRiskDto.setPricePercentage(statistics.getMacdRiskModel().getPricePercentage());
-        macdRiskDto.setCycles(statistics.getMacdRiskModel().getCycles());
+        List<MacdCycle> cycles = new ArrayList<>(statistics.getMacdRiskModel().getCycles());
+        Collections.reverse(cycles);
+        macdRiskDto.setCycles(cycles);
 
         this.macdRiskDto = macdRiskDto;
     }
