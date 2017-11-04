@@ -4,9 +4,11 @@
  */
 package com.sapphire.web.stock.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sapphire.common.dal.stock.domain.MacdCycle;
+import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.utils.dto.Dto;
 
 /**
@@ -18,24 +20,38 @@ public class MacdRiskDto implements Dto {
     /**
      * 每个MACD周期的平均增幅
      */
-    private double          averageRate;
+    private String             averageRate;
 
     /**
      * 当前价格和上个统计周期内的最高价的百分比
      */
-    private double          pricePercentage;
+    private String             pricePercentage;
 
     /**
      * Macd周期
      */
-    private List<MacdCycle> cycles;
+    private List<MacdCycleDto> goldCycles;
+
+    public MacdRiskDto(StockStatistics statistics) {
+        this.averageRate = String.format("%.2f%%", statistics.getMacdRiskModel().getAverageRate());
+        this.pricePercentage = String.format(".2f%%",
+            statistics.getMacdRiskModel().getPricePercentage() * 100);
+        List<MacdCycle> cycles = statistics.getMacdRiskModel().getCycles();
+
+        List<MacdCycleDto> cycleDtos = new ArrayList<>(cycles.size());
+        for (int index = cycles.size() - 1; index >= 0; index--) {
+            cycleDtos.add(new MacdCycleDto(cycles.get(index)));
+        }
+
+        this.goldCycles = cycleDtos;
+    }
 
     /**
      * Getter method for property <tt>averageRate</tt>.
      *
      * @return property value of averageRate
      */
-    public double getAverageRate() {
+    public String getAverageRate() {
         return averageRate;
     }
 
@@ -44,7 +60,7 @@ public class MacdRiskDto implements Dto {
      *
      * @param averageRate  value to be assigned to property averageRate
      */
-    public void setAverageRate(double averageRate) {
+    public void setAverageRate(String averageRate) {
         this.averageRate = averageRate;
     }
 
@@ -53,7 +69,7 @@ public class MacdRiskDto implements Dto {
      *
      * @return property value of pricePercentage
      */
-    public double getPricePercentage() {
+    public String getPricePercentage() {
         return pricePercentage;
     }
 
@@ -62,25 +78,25 @@ public class MacdRiskDto implements Dto {
      *
      * @param pricePercentage  value to be assigned to property pricePercentage
      */
-    public void setPricePercentage(double pricePercentage) {
+    public void setPricePercentage(String pricePercentage) {
         this.pricePercentage = pricePercentage;
     }
 
     /**
-     * Getter method for property <tt>cycles</tt>.
+     * Getter method for property <tt>goldCycles</tt>.
      *
-     * @return property value of cycles
+     * @return property value of goldCycles
      */
-    public List<MacdCycle> getCycles() {
-        return cycles;
+    public List<MacdCycleDto> getGoldCycles() {
+        return goldCycles;
     }
 
     /**
-     * Setter method for property <tt>cycles</tt>.
+     * Setter method for property <tt>goldCycles</tt>.
      *
-     * @param cycles  value to be assigned to property cycles
+     * @param goldCycles  value to be assigned to property goldCycles
      */
-    public void setCycles(List<MacdCycle> cycles) {
-        this.cycles = cycles;
+    public void setGoldCycles(List<MacdCycleDto> goldCycles) {
+        this.goldCycles = goldCycles;
     }
 }

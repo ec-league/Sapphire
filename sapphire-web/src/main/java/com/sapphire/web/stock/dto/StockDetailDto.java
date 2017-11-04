@@ -4,11 +4,6 @@
  */
 package com.sapphire.web.stock.dto;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import com.sapphire.common.dal.stock.domain.MacdCycle;
 import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.utils.dto.Dto;
 
@@ -24,7 +19,7 @@ public class StockDetailDto implements Dto {
     private double      currentMacd;
     private double      currentPrice;
     private double      highestPrice;
-    private double      increaseTotal;
+    private String      increaseTotal;
     private double      currentDiff;
     private double      averageGoldDays;
 
@@ -38,17 +33,9 @@ public class StockDetailDto implements Dto {
         this.currentMacd = statistics.getCurrentMacd();
         this.currentPrice = statistics.getCurrentPrice();
         this.highestPrice = statistics.getHighestPrice();
-        this.increaseTotal = statistics.getIncreaseTotal();
+        this.increaseTotal = String.format("%.2f%%", statistics.getIncreaseTotal() * 100);
         this.averageGoldDays = statistics.getAverageGoldDays();
-
-        MacdRiskDto macdRiskDto = new MacdRiskDto();
-        macdRiskDto.setAverageRate(statistics.getMacdRiskModel().getAverageRate());
-        macdRiskDto.setPricePercentage(statistics.getMacdRiskModel().getPricePercentage());
-        List<MacdCycle> cycles = new ArrayList<>(statistics.getMacdRiskModel().getCycles());
-        Collections.reverse(cycles);
-        macdRiskDto.setCycles(cycles);
-
-        this.macdRiskDto = macdRiskDto;
+        this.macdRiskDto = new MacdRiskDto(statistics);
     }
 
     /**
@@ -164,7 +151,7 @@ public class StockDetailDto implements Dto {
      *
      * @return property value of increaseTotal
      */
-    public double getIncreaseTotal() {
+    public String getIncreaseTotal() {
         return increaseTotal;
     }
 
@@ -173,7 +160,7 @@ public class StockDetailDto implements Dto {
      *
      * @param increaseTotal  value to be assigned to property increaseTotal
      */
-    public void setIncreaseTotal(double increaseTotal) {
+    public void setIncreaseTotal(String increaseTotal) {
         this.increaseTotal = increaseTotal;
     }
 
