@@ -25,6 +25,11 @@ public class MonitorLogger implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
+
+        if (!invocation.getMethod().isAccessible()) {
+            return invocation.proceed();
+        }
+
         String method = invocation.getMethod().getDeclaringClass().getSimpleName() + "."
                         + invocation.getMethod().getName();
 

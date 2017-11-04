@@ -4,8 +4,6 @@
  */
 package com.sapphire.common.task;
 
-import org.springframework.scheduling.config.ScheduledTaskRegistrar;
-
 /**
  *
  * @author yunpeng.byp

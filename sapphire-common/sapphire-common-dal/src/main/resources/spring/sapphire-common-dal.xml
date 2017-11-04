@@ -59,17 +59,16 @@
         <property name="password" value="${db.password}"/>
     </bean>
 
+    <!--用于输出dal性能日志-->
     <bean id="dal.monitor.logger" class="com.sapphire.common.utils.MonitorLogger" init-method="init">
         <property name="logName" value="COMMON-DAL"/>
     </bean>
 
-    <!-- 对所有引用服务适配置方法调用进行拦截 -->
-    <bean id="integrationClientAutoProxyCreator"
+    <bean id="repositoryAutoProxyCreator"
           class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
         <property name="beanNames">
             <list>
-                <value>stockItemRepository</value>
-                <value>stockStatisticsRepository</value>
+                <value>*Repository</value>
             </list>
         </property>
         <property name="interceptorNames">
