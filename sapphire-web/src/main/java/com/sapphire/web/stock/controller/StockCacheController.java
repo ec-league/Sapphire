@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sapphire.biz.stock.task.StockItemTask;
-import com.sapphire.biz.stock.task.StockStatisticTask;
+import com.sapphire.biz.task.stock.StockItemTask;
+import com.sapphire.biz.task.stock.StockStatisticTask;
 import com.sapphire.common.utils.dto.JsonDto;
 import com.sapphire.web.stock.cache.StockCache;
 

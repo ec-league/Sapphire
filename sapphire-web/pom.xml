@@ -150,6 +150,10 @@
             <groupId>com.sapphire</groupId>
             <artifactId>sapphire-common-task</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.sapphire</groupId>
+            <artifactId>sapphire-biz-task</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

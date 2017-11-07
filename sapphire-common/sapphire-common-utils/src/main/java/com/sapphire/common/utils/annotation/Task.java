@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
  * Email: byp5303628@hotmail.com
  */
 @Component
-public @interface Job {
+public @interface Task {
 
 }

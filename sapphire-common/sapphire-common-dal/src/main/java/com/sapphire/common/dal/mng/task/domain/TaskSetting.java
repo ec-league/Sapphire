@@ -4,6 +4,8 @@
  */
 package com.sapphire.common.dal.mng.task.domain;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.sql.Timestamp;
 
 /**
  *
@@ -36,6 +37,9 @@ public class TaskSetting {
     @Temporal(TemporalType.DATE)
     @Column(name = "LAST_MODIFY_DATE")
     private Timestamp lastModifyDate;
+
+    @Column(name = "TASK_CONFIG")
+    private String    taskConfig;
 
     /**
      * Getter method for property <tt>uidPk</tt>.
@@ -107,5 +111,23 @@ public class TaskSetting {
      */
     public void setLastModifyDate(Timestamp lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
+    }
+
+    /**
+     * Getter method for property <tt>taskConfig</tt>.
+     *
+     * @return property value of taskConfig
+     */
+    public String getTaskConfig() {
+        return taskConfig;
+    }
+
+    /**
+     * Setter method for property <tt>taskConfig</tt>.
+     *
+     * @param taskConfig  value to be assigned to property taskConfig
+     */
+    public void setTaskConfig(String taskConfig) {
+        this.taskConfig = taskConfig;
     }
 }

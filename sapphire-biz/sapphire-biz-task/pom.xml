@@ -7,20 +7,23 @@
     <parent>
         <groupId>com.sapphire</groupId>
         <artifactId>sapphire-parent</artifactId>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.sapphire</groupId>
-    <artifactId>sapphire-biz</artifactId>
+    <artifactId>sapphire-biz-task</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
-    <modules>
-        <module>sapphire-biz-blog</module>
-        <module>sapphire-biz-stock</module>
-        <module>sapphire-biz-user</module>
-        <module>sapphire-biz-manage</module>
-        <module>sapphire-biz-task</module>
-    </modules>
+    <dependencies>
+
+        <dependency>
+            <groupId>com.sapphire</groupId>
+            <artifactId>sapphire-common-task</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sapphire</groupId>
+            <artifactId>sapphire-biz-stock</artifactId>
+        </dependency>
+    </dependencies>
 </project>

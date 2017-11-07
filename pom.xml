@@ -302,6 +302,11 @@
             </dependency>
             <dependency>
                 <groupId>com.sapphire</groupId>
+                <artifactId>sapphire-biz-task</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sapphire</groupId>
                 <artifactId>sapphire-biz-user</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>

@@ -2,7 +2,7 @@
  * Alipay.com Inc.
  * Copyright (c) 2004-2017 All Rights Reserved.
  */
-package com.sapphire.common.task;
+package com.sapphire.common.task.domain;
 
 /**
  *

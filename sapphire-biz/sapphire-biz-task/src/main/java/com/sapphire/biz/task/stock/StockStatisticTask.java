@@ -1,8 +1,6 @@
-package com.sapphire.biz.stock.task;
+package com.sapphire.biz.task.stock;
 
 import java.util.List;
-
-import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,17 +13,15 @@ import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.integration.dingtalk.constant.DingTalkMessageType;
 import com.sapphire.common.integration.dingtalk.pusher.DingTalkMessagePusher;
-import com.sapphire.common.task.SapphireTask;
-import com.sapphire.common.task.SapphireTaskManager;
-import com.sapphire.common.task.stock.constant.StockConstants;
-import com.sapphire.common.utils.annotation.Job;
+import com.sapphire.common.task.domain.SapphireTask;
+import com.sapphire.common.utils.annotation.Task;
 
 /**
  * @author: EthanPark <br/>
  * Date: 2016/10/16<br/>
  * Email: byp5303628@hotmail.com
  */
-@Job
+@Task
 public class StockStatisticTask implements SapphireTask {
 
     private static final Logger    logger   = LoggerFactory.getLogger(StockStatisticTask.class);
@@ -40,14 +36,11 @@ public class StockStatisticTask implements SapphireTask {
 
     private DingTalkMessagePusher  pusher;
 
-    @PostConstruct
-    public void init() {
-        SapphireTaskManager.register(StockConstants.STOCK_STATISTIC_TASK_NAME, this);
-    }
-
     @Override
     public void execute() {
-        logger.info("Update Stock Statistics Task Begin");
+        if (logger.isInfoEnabled()) {
+            logger.info("Update Stock Statistics Task Begin");
+        }
 
         long start = System.currentTimeMillis();
 
@@ -59,7 +52,9 @@ public class StockStatisticTask implements SapphireTask {
             handleStat(code);
         }
 
-        logger.info("Update Stock Statistics Task Finished!");
+        if (logger.isInfoEnabled()) {
+            logger.info("Update Stock Statistics Task Finished!");
+        }
         finishMsg.append("## 个股统计信息: ").append("\n>").append("刷新成功");
 
         long end = System.currentTimeMillis();
@@ -79,7 +74,9 @@ public class StockStatisticTask implements SapphireTask {
 
         statisticsService.update(stat);
 
-        logger.info("Finish handling stock statistics : " + code);
+        if (logger.isInfoEnabled()) {
+            logger.info("Finish handling stock statistics : " + code);
+        }
     }
 
     /**

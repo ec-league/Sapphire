@@ -1,9 +1,7 @@
-package com.sapphire.biz.stock.task;
+package com.sapphire.biz.task.stock;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,17 +14,15 @@ import com.sapphire.common.dal.stock.domain.StockItem;
 import com.sapphire.common.integration.dingtalk.constant.DingTalkMessageType;
 import com.sapphire.common.integration.dingtalk.pusher.DingTalkMessagePusher;
 import com.sapphire.common.integration.sina.SinaStockIntegrationService;
-import com.sapphire.common.task.SapphireTask;
-import com.sapphire.common.task.SapphireTaskManager;
-import com.sapphire.common.task.stock.constant.StockConstants;
-import com.sapphire.common.utils.annotation.Job;
+import com.sapphire.common.task.domain.SapphireTask;
+import com.sapphire.common.utils.annotation.Task;
 
 /**
  * @author yunpeng.byp
  * Date: 2016/10/16<br/>
  * Email: byp5303628@hotmail.com
  */
-@Job
+@Task
 public class StockItemTask implements SapphireTask {
 
     private static final Logger         logger   = LoggerFactory.getLogger(StockItemTask.class);
@@ -40,17 +36,14 @@ public class StockItemTask implements SapphireTask {
     private SinaStockIntegrationService sinaStockIntegrationService;
     private DingTalkMessagePusher       pusher;
 
-    @PostConstruct
-    public void init() {
-        SapphireTaskManager.register(StockConstants.STOCK_ITEM_TASK_NAME, this);
-    }
-
     /**
      * 调度任务的具体执行.
      */
     @Override
     public void execute() {
-        logger.info("Update Stock Items Task Begin");
+        if (logger.isInfoEnabled()) {
+            logger.info("Update Stock Items Task Begin");
+        }
         StringBuilder finishMsg = new StringBuilder(50);
 
         long start = System.currentTimeMillis();
@@ -77,13 +70,17 @@ public class StockItemTask implements SapphireTask {
 
         finishMsg.append("\n").append("> ").append("任务执行时间 : ").append(end - start).append(" ms.");
 
-        logger.info("Update Stock Item Task Finished!");
+        if (logger.isInfoEnabled()) {
+            logger.info("Update Stock Item Task Finished!");
+        }
         pusher.push(JOB_NAME, finishMsg.toString(), DingTalkMessageType.MARKDOWN);
     }
 
     private void handleOneStock(String code, StringBuilder sb) {
         try {
-            logger.info("Start to Handle stock : " + code);
+            if (logger.isInfoEnabled()) {
+                logger.info("Start to Handle stock : " + code);
+            }
             StockItem item = sinaStockIntegrationService.getStock(code);
 
             Stock stockTemp = stockService.getLast30Stock(code);

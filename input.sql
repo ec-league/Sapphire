@@ -139,10 +139,22 @@ CREATE TABLE STOCK_STATISTICS(
   MACD_DESC         VARCHAR(8000)
 ) ENGINE=innodb DEFAULT CHARSET=UTF8;
 
+DROP TABLE IF EXISTS TASK_SETTING;
+
 CREATE TABLE TASK_SETTING(
-  UIDPK BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  TASK_NAME VARCHAR(20),
-  CRON_EXPRESSION VARCHAR(20),
-  LAST_MODIFY_DATE DATE
+  UIDPK            BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  TASK_NAME        VARCHAR(20),
+  CRON_EXPRESSION  VARCHAR(20),
+  LAST_MODIFY_DATE DATETIME,
+  TASK_CONFIG      VARCHAR(1000)
 ) ENGINE=innodb DEFAULT CHARSET=UTF8;
+
+INSERT TASK_SETTING VALUE (0, "CoralineRobot", "0 0 23 * * ?", now(), "{
+   \"name\" : \"CoralineRobot\",
+    \"taskNames\" : [\"coralineTask\"]
+}");
+INSERT TASK_SETTING VALUE (0, "StockDaily", "0 0 20 * * ?", now(), "{
+   \"name\" : \"StockDaily\",
+    \"taskNames\" : [\"stockItemTask\", \"stockStatisticTask\"]
+}");
 
