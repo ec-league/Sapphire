@@ -45,6 +45,26 @@
         </layout>
     </appender>
 
+    <appender name="sapphire-common-task-appender"
+              class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file"
+               value="/root/logs/sapphire/sapphire-common-task.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d{ISO8601} %-5p [%t] %c{2} - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="sapphire-biz-task-appender"
+              class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file"
+               value="/root/logs/sapphire/sapphire-biz-task.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d{ISO8601} %-5p [%t] %c{2} - %m%n"/>
+        </layout>
+    </appender>
+
     <logger name="com.sapphire" additivity="false">
         <level value="info" />
         <appender-ref ref="DEFAULT-APPENDER" />
@@ -63,6 +83,16 @@
     <logger name="com.sapphire.common.dal" additivity="false">
         <level value="info"/>
         <appender-ref ref="sapphire-common-dal-appender"/>
+    </logger>
+
+    <logger name="com.sapphire.common.task" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="sapphire-common-task-appender"/>
+    </logger>
+
+    <logger name="com.sapphire.biz.task" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="sapphire-biz-task-appender"/>
     </logger>
 
     <!-- COMMON DAL -->
