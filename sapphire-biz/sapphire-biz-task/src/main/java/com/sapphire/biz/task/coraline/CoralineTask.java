@@ -4,6 +4,7 @@
  */
 package com.sapphire.biz.task.coraline;
 
+import com.sapphire.common.utils.annotation.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sapphire.common.integration.dingtalk.constant.DingTalkMessageType;
@@ -15,6 +16,7 @@ import com.sapphire.common.task.domain.SapphireTask;
  * @author yunpeng.byp
  * @version $Id: CoralineTask.java, v 0.1 2017年11月08日 上午12:25 yunpeng.byp Exp $
  */
+@Task
 public class CoralineTask implements SapphireTask {
     private static final String   CORALINE_SAY_GOOD_NIGHT = "Coraline's Good Night!";
 
@@ -38,5 +40,4 @@ public class CoralineTask implements SapphireTask {
     public void setPusher(DingTalkMessagePusher pusher) {
         this.pusher = pusher;
     }
-
 }

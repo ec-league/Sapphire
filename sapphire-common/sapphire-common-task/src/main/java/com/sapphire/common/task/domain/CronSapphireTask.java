@@ -20,7 +20,7 @@ public class CronSapphireTask implements SapphireTask {
 
     private String                    cronExpression;
 
-    private SapphireTask              task;
+    private transient SapphireTask    task;
 
     private TaskConfig                taskConfig;
 

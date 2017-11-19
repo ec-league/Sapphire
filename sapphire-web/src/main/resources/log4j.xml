@@ -70,6 +70,11 @@
         <appender-ref ref="DEFAULT-APPENDER" />
     </logger>
 
+    <logger name="COMMON-ERROR" additivity="false">
+        <level value="info" />
+        <appender-ref ref="ERROR-APPENDER" />
+    </logger>
+
     <logger name="com.sapphire.common.integration" additivity="false">
         <level value="info"/>
         <appender-ref ref="sapphire-common-integration-appender"/>

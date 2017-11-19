@@ -1,13 +1,11 @@
 package com.sapphire.common.utils.dto;
 
-import java.io.Serializable;
-
 /**
  * Author: EthanPark <br/>
  * Date: 2015/11/20<br/>
  * Email: byp5303628@hotmail.com
  */
-public class DataJsonDto<T extends Serializable> extends JsonDto {
+public class DataJsonDto<T> extends JsonDto {
     private T data;
 
     public DataJsonDto(T data) {

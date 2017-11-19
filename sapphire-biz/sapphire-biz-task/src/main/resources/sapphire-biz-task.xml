@@ -10,12 +10,4 @@
        http://www.springframework.org/schema/context/spring-context.xsd">
     <context:annotation-config/>
     <context:component-scan base-package="com.sapphire.biz.task"/>
-
-    <task:executor id="executor" pool-size="5"/>
-    <task:scheduler id="scheduler" pool-size="10"/>
-    <task:annotation-driven executor="executor" scheduler="scheduler"/>
-
-    <bean id="sapphireTaskFactory" class="com.sapphire.common.task.SapphireCronTaskFactory" init-method="init"/>
-
-    <bean id="sapphireTaskManager" class="com.sapphire.common.task.SapphireTaskManager"/>
 </beans>

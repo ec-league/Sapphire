@@ -4,10 +4,12 @@
  */
 package com.sapphire.common.task;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
+import com.sapphire.common.task.exception.TaskNotExistException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
@@ -67,8 +69,25 @@ public class SapphireTaskManager {
         }, new CronTrigger(task.getCronExpression())));
     }
 
+    /**
+     * 启动指定任务名字的任务.
+     * @param taskName
+     */
     public void startNow(String taskName) {
-        cronTaskMap.get(taskName).execute();
+        if (cronTaskMap.containsKey(taskName)) {
+            cronTaskMap.get(taskName).execute();
+        }
+        else {
+            throw new TaskNotExistException(taskName);
+        }
+    }
+
+    /**
+     * 获取所有注册的任务
+     * @return
+     */
+    public Map<String, CronSapphireTask> getRigesterTasks() {
+        return Collections.unmodifiableMap(cronTaskMap);
     }
 
     /**
