@@ -31,16 +31,20 @@ public class MacdAction implements AlgorithmAction {
         statistics = statistics.stream().filter(s -> !s.isStop()).collect(Collectors.toList());
 
         // 过滤掉所有金叉数据
-        statistics = statistics.stream().filter(s -> Double.compare(s.getCurrentMacd(), 0) < 0)
+        statistics = statistics.stream().filter(s -> Double.compare(s.getCurrentMacd(), 0d) < 0)
             .collect(Collectors.toList());
 
         // 过滤掉所有成长率过低的数据
-        statistics = statistics.stream().filter(s -> Double.compare(s.getIncreaseTotal(), 1.6) > 0)
+        statistics = statistics.stream().filter(s -> Double.compare(s.getIncreaseTotal(), 1.6d) > 0)
             .collect(Collectors.toList());
 
         // 过滤掉历史比例过高的数据
         statistics = statistics.stream()
             .filter(s -> Double.compare(s.getMacdRiskModel().getPricePercentage(), 0.7) < 0)
+            .collect(Collectors.toList());
+
+        // 过滤掉diff > 0 的数据
+        statistics = statistics.stream().filter(s -> Double.compare(s.getCurrentDiff(), 0d) < 0)
             .collect(Collectors.toList());
 
         Collections.sort(statistics, new Comparator<StockStatistics>() {

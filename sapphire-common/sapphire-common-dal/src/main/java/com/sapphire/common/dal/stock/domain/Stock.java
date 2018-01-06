@@ -69,7 +69,7 @@ public class Stock implements Dto {
     * @param lastItem
     * @return
     */
-    public static boolean isGoldPossible(StockItem lastItem) {
+    private static boolean isGoldPossible(StockItem lastItem) {
         double price = goldPrice(lastItem);
 
         if ((price - lastItem.getEndPrice()) / lastItem.getEndPrice() > 0.1) {
