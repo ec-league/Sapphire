@@ -47,6 +47,12 @@ public class MacdAction implements AlgorithmAction {
         statistics = statistics.stream().filter(s -> Double.compare(s.getCurrentDiff(), 0d) < 0)
             .collect(Collectors.toList());
 
+        // 过滤掉上一个macd周期大涨的数据(可能处于周线死叉)
+        statistics = statistics.stream()
+            .filter(
+                s -> Double.compare(s.getMacdRiskModel().lastCycle().getIncreaseRate(), 0.11d) < 0)
+            .collect(Collectors.toList());
+
         Collections.sort(statistics, new Comparator<StockStatistics>() {
             @Override
             public int compare(StockStatistics o1, StockStatistics o2) {

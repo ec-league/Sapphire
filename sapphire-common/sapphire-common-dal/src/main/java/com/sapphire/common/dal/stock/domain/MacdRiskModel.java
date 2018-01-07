@@ -44,6 +44,18 @@ public class MacdRiskModel {
     }
 
     /**
+     * 上一次的Macd周期
+     * @return
+     */
+    public MacdCycle lastCycle() {
+        if (cycles == null || cycles.isEmpty()) {
+            throw new IllegalArgumentException("Macd Cycles is Empty.");
+        }
+
+        return cycles.get(0);
+    }
+
+    /**
      * Getter method for property <tt>averageRate</tt>.
      *
      * @return property value of averageRate
