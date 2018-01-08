@@ -18,7 +18,7 @@ import com.sapphire.common.dal.stock.domain.Trade;
  */
 public interface TradeRepository extends JpaRepository<Trade, Long> {
 
-    @Query("select t.code from Trade as t where t.status = 1")
+    @Query("select t.stockCode from Trade as t where t.status = 1")
     List<String> getAllHoldStockCodes();
 
     @Query("select t from Trade as t where t.status = 2")
