@@ -57,6 +57,10 @@ public class MacdAction implements AlgorithmAction {
                 s.getMacdRiskModel().getAverageRate()) < 0)
             .collect(Collectors.toList());
 
+        // 过滤掉创业板
+        statistics = statistics.stream().filter(s -> !s.getCode().startsWith("3"))
+            .collect(Collectors.toList());
+
         Collections.sort(statistics, new Comparator<StockStatistics>() {
             @Override
             public int compare(StockStatistics o1, StockStatistics o2) {
