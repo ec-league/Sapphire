@@ -40,7 +40,7 @@ public class Trade {
     @Column(name = "OUT_PRICE", precision = 7, scale = 2)
     private double             outPrice;
 
-    @Column(name = "COUNT")
+    @Column(name = "TOTAL")
     private int                count;
 
     @Column(name = "STATUS")
