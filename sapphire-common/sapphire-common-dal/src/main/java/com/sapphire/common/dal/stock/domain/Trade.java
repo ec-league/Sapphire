@@ -40,12 +40,19 @@ public class Trade {
     @Column(name = "OUT_PRICE", precision = 7, scale = 2)
     private double             outPrice;
 
+    @Column(name = "COUNT")
+    private int                count;
+
     @Column(name = "STATUS")
     private int                status;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "LOG_DATE")
-    private Timestamp          logDate;
+    @Column(name = "LOG_IN_DATE")
+    private Timestamp          logInDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "LOG_OUT_DATE")
+    private Timestamp          logOutDate;
 
     /**
      * Getter method for property <tt>id</tt>.
@@ -142,16 +149,52 @@ public class Trade {
      *
      * @return property value of logDate
      */
-    public Timestamp getLogDate() {
-        return logDate;
+    public Timestamp getLogInDate() {
+        return logInDate;
     }
 
     /**
      * Setter method for property <tt>logDate</tt>.
      *
-     * @param logDate  value to be assigned to property logDate
+     * @param logInDate  value to be assigned to property logDate
      */
-    public void setLogDate(Timestamp logDate) {
-        this.logDate = logDate;
+    public void setLogInDate(Timestamp logInDate) {
+        this.logInDate = logInDate;
+    }
+
+    /**
+     * Getter method for property <tt>count</tt>.
+     *
+     * @return property value of count
+     */
+    public int getCount() {
+        return count;
+    }
+
+    /**
+     * Setter method for property <tt>count</tt>.
+     *
+     * @param count  value to be assigned to property count
+     */
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    /**
+     * Getter method for property <tt>logOutDate</tt>.
+     *
+     * @return property value of logOutDate
+     */
+    public Timestamp getLogOutDate() {
+        return logOutDate;
+    }
+
+    /**
+     * Setter method for property <tt>logOutDate</tt>.
+     *
+     * @param logOutDate  value to be assigned to property logOutDate
+     */
+    public void setLogOutDate(Timestamp logOutDate) {
+        this.logOutDate = logOutDate;
     }
 }

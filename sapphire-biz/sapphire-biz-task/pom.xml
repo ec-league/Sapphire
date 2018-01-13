@@ -29,5 +29,9 @@
             <groupId>com.sapphire</groupId>
             <artifactId>sapphire-common-integration</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
     </dependencies>
 </project>
