@@ -17,6 +17,7 @@ import com.sapphire.common.integration.dingtalk.constant.DingTalkMessageType;
 import com.sapphire.common.integration.dingtalk.pusher.DingTalkMessagePusher;
 import com.sapphire.common.task.domain.SapphireTask;
 import com.sapphire.common.utils.annotation.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 收益统计计算,该收益忽略印花税以及手续费的计算
@@ -94,6 +95,7 @@ public class ProfitStatisticsTask implements SapphireTask {
      *
      * @param tradeRepository  value to be assigned to property tradeRepository
      */
+    @Autowired
     public void setTradeRepository(TradeRepository tradeRepository) {
         this.tradeRepository = tradeRepository;
     }
@@ -103,6 +105,7 @@ public class ProfitStatisticsTask implements SapphireTask {
      *
      * @param stockService  value to be assigned to property stockService
      */
+    @Autowired
     public void setStockService(StockService stockService) {
         this.stockService = stockService;
     }
@@ -112,6 +115,7 @@ public class ProfitStatisticsTask implements SapphireTask {
      *
      * @param pusher  value to be assigned to property pusher
      */
+    @Autowired
     public void setPusher(DingTalkMessagePusher pusher) {
         this.pusher = pusher;
     }

@@ -3,21 +3,23 @@ package com.sapphire.web.stock.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sapphire.biz.stock.algorithm.context.StockContext;
+import com.sapphire.biz.stock.algorithm.exec.ActionCategory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sapphire.biz.stock.algorithm.exec.ActionExecutor;
+import com.sapphire.biz.stock.cache.StockCache;
 import com.sapphire.biz.stock.service.StockService;
 import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.utils.dto.DataJsonDto;
 import com.sapphire.common.utils.dto.JsonDto;
 import com.sapphire.common.utils.dto.ListJsonDto;
-import com.sapphire.web.stock.cache.StockCache;
 import com.sapphire.web.stock.dto.StockDetailDto;
 import com.sapphire.web.stock.dto.StockDto;
 
@@ -36,6 +38,9 @@ public class StockController {
     @Autowired
     private StockCache          stockCache;
 
+    @Autowired
+    private ActionExecutor      actionExecutor;
+
     @RequestMapping("/industries")
     @ResponseBody
     public JsonDto getIndustries() {
@@ -43,16 +48,21 @@ public class StockController {
         return new ListJsonDto<>(codes).formSuccessDto();
     }
 
-    @RequestMapping("/statics/today.ep")
+    @RequestMapping("/today.ep")
     @ResponseBody
     public JsonDto getIncreaseStatics() {
-        List<StockStatistics> stockStatics = stockCache.getStockStatistics();
+        StockContext context = new StockContext();
+        context.setStatistics(stockCache.getStockStatistics());
 
-        int max = stockStatics.size() > 30 ? 30 : stockStatics.size();
+        actionExecutor.execute(context, ActionCategory.MACD_BUY);
+
+        List<StockStatistics> stockStatistics = context.getStatistics();
+
+        int max = stockStatistics.size() > 30 ? 30 : stockStatistics.size();
 
         List<StockDto> dtos = new ArrayList<>(max);
 
-        for (StockStatistics statistics : stockStatics.subList(0, max)) {
+        for (StockStatistics statistics : stockStatistics.subList(0, max)) {
             dtos.add(new StockDto(statistics));
         }
 

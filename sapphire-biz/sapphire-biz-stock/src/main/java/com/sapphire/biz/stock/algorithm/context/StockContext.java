@@ -33,4 +33,14 @@ public class StockContext {
     public void setStatistics(List<StockStatistics> statistics) {
         this.statistics = statistics;
     }
+
+    /**
+     * 经过所有的Actions,是否没有统计数据.
+     * 如果无,返回true
+     * 如果有,返回false
+     * @return
+     */
+    public boolean isFisish() {
+        return statistics == null || statistics.isEmpty();
+    }
 }

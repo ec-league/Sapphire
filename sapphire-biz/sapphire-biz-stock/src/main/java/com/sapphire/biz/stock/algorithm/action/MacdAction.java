@@ -11,12 +11,14 @@ import java.util.stream.Collectors;
 
 import com.sapphire.biz.stock.algorithm.context.StockContext;
 import com.sapphire.common.dal.stock.domain.StockStatistics;
+import com.sapphire.common.utils.annotation.Action;
 
 /**
  *
  * @author yunpeng.byp
  * @version $Id: MacdAction.java, v 0.1 2017年10月21日 下午5:05 yunpeng.byp Exp $
  */
+@Action("macdAction")
 public class MacdAction implements AlgorithmAction {
 
     /**
@@ -27,15 +29,9 @@ public class MacdAction implements AlgorithmAction {
     @Override
     public void doAction(StockContext context) {
         List<StockStatistics> statistics = context.getStatistics();
-        // 过滤掉所有停牌数据
-        statistics = statistics.stream().filter(s -> !s.isStop()).collect(Collectors.toList());
 
         // 过滤掉所有金叉数据
         statistics = statistics.stream().filter(s -> Double.compare(s.getCurrentMacd(), 0d) < 0)
-            .collect(Collectors.toList());
-
-        // 过滤掉所有成长率过低的数据
-        statistics = statistics.stream().filter(s -> Double.compare(s.getIncreaseTotal(), 1.6d) > 0)
             .collect(Collectors.toList());
 
         // 过滤掉历史比例过高的数据
@@ -55,14 +51,6 @@ public class MacdAction implements AlgorithmAction {
         statistics = statistics.stream()
             .filter(s -> Double.compare(s.getMacdRiskModel().lastCycle().getIncreaseRate(),
                 s.getMacdRiskModel().getAverageRate()) < 0)
-            .collect(Collectors.toList());
-
-        // 过滤掉创业板
-        statistics = statistics.stream().filter(s -> !s.getCode().startsWith("3"))
-            .collect(Collectors.toList());
-
-        // 过滤过少的macd周期情况
-        statistics = statistics.stream().filter(s -> s.getMacdRiskModel().getCycles().size() > 5)
             .collect(Collectors.toList());
 
         Collections.sort(statistics, new Comparator<StockStatistics>() {

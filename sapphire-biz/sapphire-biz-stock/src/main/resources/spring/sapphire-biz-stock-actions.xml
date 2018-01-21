@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xmlns:beans="http://www.springframework.org/schema/beans"
-             xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" default-autowire="byName">
-
-    <beans:bean id="macdAction" class="com.sapphire.biz.stock.algorithm.action.MacdAction"/>
-
-</beans:beans>
+    <bean id="actionBuilder" class="com.sapphire.biz.stock.algorithm.exec.ActionBuilder">
+        <property name="shouldBuyList">
+            <list>
+                <value>basicAction</value>
+                <value>macdAction</value>
+            </list>
+        </property>
+        <property name="shouldSellList">
+            <list>
+                <value>basicAction</value>
+                <value>sellJudgeAction</value>
+            </list>
+        </property>
+    </bean>
+</beans>

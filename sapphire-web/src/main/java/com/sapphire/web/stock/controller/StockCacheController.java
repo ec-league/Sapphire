@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sapphire.biz.task.stock.StockItemTask;
 import com.sapphire.biz.task.stock.StockStatisticTask;
 import com.sapphire.common.utils.dto.JsonDto;
-import com.sapphire.web.stock.cache.StockCache;
+import com.sapphire.web.stock.cache.StockCacheFacade;
 
 /**
  * @author: EthanPark <br/>
@@ -22,7 +22,7 @@ public class StockCacheController {
 
     private StockItemTask      stockItemTask;
 
-    private StockCache         stockCache;
+    private StockCacheFacade stockCacheFacade;
 
     @RequestMapping("/update/stat.ep")
     @ResponseBody
@@ -36,7 +36,7 @@ public class StockCacheController {
 
                     stockStatisticTask.execute();
 
-                    stockCache.refresh();
+                    stockCacheFacade.refresh();
                 }
             }).start();
 
@@ -55,11 +55,11 @@ public class StockCacheController {
     /**
      * Setter method for property <tt>stockCache</tt>.
      *
-     * @param stockCache  value to be assigned to property stockCache
+     * @param stockCacheFacade  value to be assigned to property stockCache
      */
     @Autowired
-    public void setStockCache(StockCache stockCache) {
-        this.stockCache = stockCache;
+    public void setStockCacheFacade(StockCacheFacade stockCacheFacade) {
+        this.stockCacheFacade = stockCacheFacade;
     }
 
     /**
