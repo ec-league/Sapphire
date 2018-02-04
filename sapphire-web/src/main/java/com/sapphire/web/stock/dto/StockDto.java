@@ -21,24 +21,26 @@ public class StockDto implements Dto {
     public StockDto(StockStatistics statistics) {
         this.code = statistics.getCode();
         this.name = statistics.getName();
-        this.goldPossible = statistics.isGoldPossible();
+        this.goldPossible = statistics.isGoldPossible() ? "T" : "F";
         this.currentDiff = statistics.getCurrentDiff();
         this.currentMacd = statistics.getCurrentMacd();
         this.currentPrice = statistics.getCurrentPrice();
         this.highestPrice = statistics.getHighestPrice();
         this.increaseTotal = statistics.getIncreaseTotal();
         this.averageGoldDays = statistics.getAverageGoldDays();
+        this.rate = String.format("%.2f", statistics.getCurrentPrice() /  statistics.getHighestPrice() * 100) + "%";
     }
 
-    private String  code;
-    private String  name;
-    private boolean goldPossible;
-    private double  currentMacd;
-    private double  currentPrice;
-    private double  highestPrice;
-    private double  increaseTotal;
-    private double  currentDiff;
-    private double  averageGoldDays;
+    private String code;
+    private String name;
+    private String goldPossible;
+    private double currentMacd;
+    private double currentPrice;
+    private double highestPrice;
+    private double increaseTotal;
+    private double currentDiff;
+    private double averageGoldDays;
+    private String rate;
 
     /**
      * Getter method for property <tt>code</tt>.
@@ -77,11 +79,20 @@ public class StockDto implements Dto {
     }
 
     /**
+     * Getter method for property <tt>currentMacd</tt>.
+     *
+     * @return property value of currentMacd
+     */
+    public double getCurrentMacd() {
+        return currentMacd;
+    }
+
+    /**
      * Getter method for property <tt>goldPossible</tt>.
      *
      * @return property value of goldPossible
      */
-    public boolean isGoldPossible() {
+    public String getGoldPossible() {
         return goldPossible;
     }
 
@@ -90,17 +101,8 @@ public class StockDto implements Dto {
      *
      * @param goldPossible  value to be assigned to property goldPossible
      */
-    public void setGoldPossible(boolean goldPossible) {
+    public void setGoldPossible(String goldPossible) {
         this.goldPossible = goldPossible;
-    }
-
-    /**
-     * Getter method for property <tt>currentMacd</tt>.
-     *
-     * @return property value of currentMacd
-     */
-    public double getCurrentMacd() {
-        return currentMacd;
     }
 
     /**
@@ -200,5 +202,23 @@ public class StockDto implements Dto {
      */
     public void setCurrentPrice(double currentPrice) {
         this.currentPrice = currentPrice;
+    }
+
+    /**
+     * Getter method for property <tt>rate</tt>.
+     *
+     * @return property value of rate
+     */
+    public String getRate() {
+        return rate;
+    }
+
+    /**
+     * Setter method for property <tt>rate</tt>.
+     *
+     * @param rate  value to be assigned to property rate
+     */
+    public void setRate(String rate) {
+        this.rate = rate;
     }
 }
