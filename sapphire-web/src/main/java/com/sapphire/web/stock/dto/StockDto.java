@@ -204,4 +204,22 @@ public class StockDto implements Dto {
     public void setRate(String rate) {
         this.rate = rate;
     }
+
+    /**
+     * Getter method for property <tt>increaseTotal</tt>.
+     *
+     * @return property value of increaseTotal
+     */
+    public String getIncreaseTotal() {
+        return increaseTotal;
+    }
+
+    /**
+     * Setter method for property <tt>increaseTotal</tt>.
+     *
+     * @param increaseTotal  value to be assigned to property increaseTotal
+     */
+    public void setIncreaseTotal(String increaseTotal) {
+        this.increaseTotal = increaseTotal;
+    }
 }
