@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Stock List Page</title>
-    <link rel="stylesheet" media="screen" href="../../sapphire/css/common/bootstrap.min.css">
-    <link rel="stylesheet" media="screen" href="../../sapphire/css/common/bootstrap-theme.min.css">
-    <link rel="stylesheet" media="screen" href="../../sapphire/css/common/mycommon.css">
+    <link rel="stylesheet" media="screen" href="../../api/css/common/bootstrap.min.css">
+    <link rel="stylesheet" media="screen" href="../../api/css/common/bootstrap-theme.min.css">
+    <link rel="stylesheet" media="screen" href="../../api/css/common/mycommon.css">
     <style>
         nav {
             font-size: 250%;
@@ -51,10 +51,10 @@
         <div class="col-md-2">
             <ul id="left-panel" class="nav" data-spy="affix" data-offset-top="125">
                 <li id="today">
-                    <a href="/sapphire/stock/stock.html">今日推荐</a>
+                    <a href="/api/stock/stock.html">今日推荐</a>
                 </li>
                 <li id="股票详情">
-                    <a href="/sapphire/stock/stock-detail.html">股票详情</a>
+                    <a href="/api/stock/stock-detail.html">股票详情</a>
                 </li>
             </ul>
         </div>
@@ -136,11 +136,11 @@
     </div>
 </div>
 </body>
-<script src="../../sapphire/js/framework/jquery-1.11.3.js"></script>
-<script src="../../sapphire/js/framework/bootstrap.min.js"></script>
+<script src="../../api/js/framework/jquery-1.11.3.js"></script>
+<script src="../../api/js/framework/bootstrap.min.js"></script>
 <script type="text/javascript">
     var stockDetail = {
-        infoUrl: "/sapphire/stock/info.ep",
+        infoUrl: "/api/stock/info.ep",
         renderTable: function (data) {
 
             $("#code").html(data.code);

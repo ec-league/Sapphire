@@ -29,21 +29,21 @@ public class UserServiceImpl implements UserService {
 
     public long createUser(UserDto user) {
         User repo = convertDtoToDomain(user);
-        if (userRepository.findUserByUsernameOrEmail(user.getUsername(), user.getEmail()) != null) {
+        if (userRepository.findUserByUsernameOrEmail(user.getUserName(), user.getEmail()) != null) {
             throw new EntityExistsException(
                 String.format("Username : \"%s\", Email : \"%s\" already exists.",
-                    user.getUsername(), user.getEmail()));
+                    user.getUserName(), user.getEmail()));
         }
         repo.setRole(roleService.getUserRole());
         return userRepository.save(repo).getUidPk();
     }
 
     public long updateUserInfo(UserDto user) {
-        User repo = userRepository.findUserByUsernameOrEmail(user.getUsername(), user.getEmail());
+        User repo = userRepository.findUserByUsernameOrEmail(user.getUserName(), user.getEmail());
         if (repo == null) {
             throw new EntityNotFoundException(
                 String.format("Username : \"%s\", Email : \"%s\" does not exists.",
-                    user.getUsername(), user.getEmail()));
+                    user.getUserName(), user.getEmail()));
         }
         repo.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         repo.setEmail(user.getEmail());
@@ -53,19 +53,14 @@ public class UserServiceImpl implements UserService {
     private static User convertDtoToDomain(UserDto user) {
         User u = new User();
         u.setUidPk(user.getUserId());
-        u.setUsername(user.getUsername());
+        u.setUsername(user.getUserName());
         u.setEmail(user.getEmail());
         u.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         return u;
     }
 
     public User getUserByUserNameOrEmail(String val) {
-        User u = userRepository.findUserByUsernameOrEmail(val, val);
-        if (u == null) {
-            throw new EntityNotFoundException(
-                "Cannot find entity with username or email :\"" + val + "\"");
-        }
-        return u;
+        return userRepository.findUserByUsernameOrEmail(val, val);
     }
 
     public User getUserById(long id) {

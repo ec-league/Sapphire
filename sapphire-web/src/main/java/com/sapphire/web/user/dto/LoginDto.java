@@ -13,6 +13,7 @@ import com.sapphire.common.utils.dto.Dto;
  */
 public class LoginDto implements Dto {
     private String status;
+    private String type;
     private String currentAuthorith;
 
     /**
@@ -49,5 +50,23 @@ public class LoginDto implements Dto {
      */
     public void setCurrentAuthorith(String currentAuthorith) {
         this.currentAuthorith = currentAuthorith;
+    }
+
+    /**
+     * Getter method for property <tt>type</tt>.
+     *
+     * @return property value of type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * Setter method for property <tt>type</tt>.
+     *
+     * @param type  value to be assigned to property type
+     */
+    public void setType(String type) {
+        this.type = type;
     }
 }

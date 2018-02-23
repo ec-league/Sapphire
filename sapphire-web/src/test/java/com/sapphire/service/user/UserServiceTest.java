@@ -31,7 +31,7 @@ public class UserServiceTest extends TransactionalBaseTest {
       String email =
             String.format("%s@%s", RandomStringUtils.randomAlphanumeric(5),
                   RandomStringUtils.randomAlphanumeric(5));
-      dto.setUsername(username);
+      dto.setUserName(username);
       dto.setPassword(password);
       dto.setEmail(email);
       long userId = userService.createUser(dto);
@@ -68,11 +68,11 @@ public class UserServiceTest extends TransactionalBaseTest {
       String email =
             String.format("%s@%s", RandomStringUtils.randomAlphanumeric(5),
                   RandomStringUtils.randomAlphanumeric(5));
-      dto.setUsername(username);
+      dto.setUserName(username);
       dto.setPassword(password);
       dto.setEmail(email);
       userService.createUser(dto);
-      dto.setUsername(RandomStringUtils.randomAlphabetic(11));
+      dto.setUserName(RandomStringUtils.randomAlphabetic(11));
       userService.createUser(dto);
    }
 
@@ -84,7 +84,7 @@ public class UserServiceTest extends TransactionalBaseTest {
       String email =
             String.format("%s@%s", RandomStringUtils.randomAlphanumeric(5),
                   RandomStringUtils.randomAlphanumeric(5));
-      dto.setUsername(username);
+      dto.setUserName(username);
       dto.setPassword(password);
       dto.setEmail(email);
       userService.updateUserInfo(dto);

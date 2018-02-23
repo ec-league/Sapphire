@@ -46,7 +46,7 @@ public class BlogTagServiceImplTest extends TransactionalBaseTest {
       blog.setBlogTitle(RandomStringUtils.randomAlphanumeric(10));
       blog.setBlogContent(RandomStringUtils.randomAlphanumeric(150));
       UserDto dto = new UserDto();
-      dto.setUsername(RandomStringUtils.randomAlphabetic(8));
+      dto.setUserName(RandomStringUtils.randomAlphabetic(8));
       dto.setPassword(RandomStringUtils.randomAlphabetic(8));
       dto.setEmail(RandomStringUtils.randomAlphanumeric(8));
       long id = userService.createUser(dto);
@@ -95,7 +95,7 @@ public class BlogTagServiceImplTest extends TransactionalBaseTest {
       blog.setBlogTitle(RandomStringUtils.randomAlphanumeric(10));
       blog.setBlogContent(RandomStringUtils.randomAlphanumeric(150));
       UserDto dto = new UserDto();
-      dto.setUsername(RandomStringUtils.randomAlphabetic(8));
+      dto.setUserName(RandomStringUtils.randomAlphabetic(8));
       dto.setPassword(RandomStringUtils.randomAlphabetic(8));
       dto.setEmail(RandomStringUtils.randomAlphanumeric(8));
       long id = userService.createUser(dto);

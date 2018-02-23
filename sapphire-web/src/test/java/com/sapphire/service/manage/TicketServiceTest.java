@@ -47,12 +47,12 @@ public class TicketServiceTest extends TransactionalBaseTest {
       String email =
             String.format("%s@%s", RandomStringUtils.randomAlphanumeric(5),
                   RandomStringUtils.randomAlphanumeric(5));
-      dto.setUsername(username);
+      dto.setUserName(username);
       dto.setPassword(password);
       dto.setEmail(email);
       long userId = userService.createUser(dto);
       createUser = userService.getUserById(userId);
-      dto.setUsername(RandomStringUtils.randomAlphabetic(12));
+      dto.setUserName(RandomStringUtils.randomAlphabetic(12));
       dto.setEmail(RandomStringUtils.randomAlphanumeric(12));
       userId = userService.createUser(dto);
       assignUser = userService.getUserById(userId);

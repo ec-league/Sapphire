@@ -9,8 +9,9 @@ import com.sapphire.common.utils.dto.Dto;
  */
 public class UserDto implements Dto {
     private long   userId;
-    private String username;
+    private String userName;
     private String password;
+    private String type;
     private String email;
 
     public long getUserId() {
@@ -21,12 +22,12 @@ public class UserDto implements Dto {
         this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -43,5 +44,23 @@ public class UserDto implements Dto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    /**
+     * Getter method for property <tt>type</tt>.
+     *
+     * @return property value of type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * Setter method for property <tt>type</tt>.
+     *
+     * @param type  value to be assigned to property type
+     */
+    public void setType(String type) {
+        this.type = type;
     }
 }

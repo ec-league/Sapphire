@@ -166,7 +166,7 @@
                 <configuration>
                     <scanIntervalSeconds>4</scanIntervalSeconds>
                     <webDefaultXml>${project.basedir}/../webdefault.xml</webDefaultXml>
-                    <contextPath>/sapphire</contextPath>
+                    <contextPath>/api</contextPath>
                     <systemProperties>
                         <systemProperty>
                             <name>APP_CONFIG_PATH</name>

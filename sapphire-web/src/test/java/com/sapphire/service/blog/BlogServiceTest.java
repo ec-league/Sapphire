@@ -36,7 +36,7 @@ public class BlogServiceTest extends TransactionalBaseTest {
    @Test
    public void test() {
       UserDto dto = new UserDto();
-      dto.setUsername(RandomStringUtils.randomAlphabetic(8));
+      dto.setUserName(RandomStringUtils.randomAlphabetic(8));
       dto.setPassword(RandomStringUtils.randomAlphabetic(12));
       dto.setEmail(String.format("%s@%s",
             RandomStringUtils.randomAlphabetic(5),
@@ -104,7 +104,7 @@ public class BlogServiceTest extends TransactionalBaseTest {
    @Test
    public void testIncrease() {
       UserDto dto = new UserDto();
-      dto.setUsername(RandomStringUtils.randomAlphabetic(8));
+      dto.setUserName(RandomStringUtils.randomAlphabetic(8));
       dto.setPassword(RandomStringUtils.randomAlphabetic(12));
       dto.setEmail(String.format("%s@%s",
             RandomStringUtils.randomAlphabetic(5),
