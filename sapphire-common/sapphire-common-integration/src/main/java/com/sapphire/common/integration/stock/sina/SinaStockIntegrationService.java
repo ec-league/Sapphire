@@ -1,10 +1,11 @@
-package com.sapphire.common.integration.sina;
+package com.sapphire.common.integration.stock.sina;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.sapphire.common.dal.stock.domain.StockItem;
 import com.sapphire.common.integration.exception.IntegrationException;
+import com.sapphire.common.integration.stock.StockIntegrationService;
 import com.sapphire.common.utils.TimeUtil;
 import com.sapphire.common.utils.annotation.Integration;
 
@@ -13,10 +14,11 @@ import com.sapphire.common.utils.annotation.Integration;
  * @author yunpeng.byp
  * @version $Id: SinaStockIntegrationService.java, v 0.1 2017年10月11日 下午5:19 yunpeng.byp Exp $
  */
-@Integration
-public class SinaStockIntegrationService {
+@Integration("sinaStockIntegrationService")
+public class SinaStockIntegrationService implements StockIntegrationService {
     private static final String URL_FORMAT = "http://hq.sinajs.cn/list=%s%s";
 
+    @Override
     public StockItem getStock(String code) {
         String url = getUrl(code);
         String output = null;

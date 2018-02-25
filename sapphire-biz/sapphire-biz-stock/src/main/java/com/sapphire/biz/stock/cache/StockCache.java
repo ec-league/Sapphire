@@ -104,7 +104,7 @@ public class StockCache implements CacheRefreshable {
 
         for (StockStatistics s : statistics) {
             tempMap.put(s.getCode(), s);
-            tempStockMap.put(s.getCode(), stockService.getLast30Stock(s.getCode()));
+            tempStockMap.put(s.getCode(), stockService.getLast250Stock(s.getCode()));
         }
 
         StockContext context = new StockContext();

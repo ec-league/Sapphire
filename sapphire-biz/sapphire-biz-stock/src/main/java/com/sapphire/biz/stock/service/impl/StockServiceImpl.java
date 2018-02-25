@@ -60,15 +60,8 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public Stock getLast30Stock(String code) {
-        List<StockItem> items = new ArrayList<>(stockItemRepository.getLast30Items(code));
-        Collections.sort(items, new Comparator<StockItem>() {
-            @Override
-            public int compare(StockItem o1, StockItem o2) {
-                return Long.compare(o1.getUidPk(), o2.getUidPk());
-            }
-        });
-
+    public Stock getLast250Stock(String code) {
+        List<StockItem> items = new ArrayList<>(stockItemRepository.getLast250Items(code));
         return new Stock(items);
     }
 

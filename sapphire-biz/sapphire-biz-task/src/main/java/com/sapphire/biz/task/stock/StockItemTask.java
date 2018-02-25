@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.sapphire.biz.stock.algorithm.StockAlgorithm;
 import com.sapphire.biz.stock.service.StockService;
@@ -13,7 +14,7 @@ import com.sapphire.common.dal.stock.domain.Stock;
 import com.sapphire.common.dal.stock.domain.StockItem;
 import com.sapphire.common.integration.dingtalk.constant.DingTalkMessageType;
 import com.sapphire.common.integration.dingtalk.pusher.DingTalkMessagePusher;
-import com.sapphire.common.integration.sina.SinaStockIntegrationService;
+import com.sapphire.common.integration.stock.StockIntegrationService;
 import com.sapphire.common.task.domain.SapphireTask;
 import com.sapphire.common.utils.annotation.Task;
 
@@ -25,16 +26,17 @@ import com.sapphire.common.utils.annotation.Task;
 @Task
 public class StockItemTask implements SapphireTask {
 
-    private static final Logger         logger   = LoggerFactory.getLogger(StockItemTask.class);
+    private static final Logger     logger   = LoggerFactory.getLogger(StockItemTask.class);
 
-    private static final String         JOB_NAME = "个股详情信息刷新任务";
+    private static final String     JOB_NAME = "个股详情信息刷新任务";
 
-    private StockService                stockService;
+    private StockService            stockService;
 
-    private StockAlgorithm              stockAlgorithm;
+    private StockAlgorithm          stockAlgorithm;
 
-    private SinaStockIntegrationService sinaStockIntegrationService;
-    private DingTalkMessagePusher       pusher;
+    private StockIntegrationService tencentStockIntegrationService;
+
+    private DingTalkMessagePusher   pusher;
 
     /**
      * 调度任务的具体执行.
@@ -81,11 +83,20 @@ public class StockItemTask implements SapphireTask {
             if (logger.isInfoEnabled()) {
                 logger.info("Start to Handle stock : " + code);
             }
-            StockItem item = sinaStockIntegrationService.getStock(code);
+            StockItem item = tencentStockIntegrationService.getStock(code);
 
-            Stock stockTemp = stockService.getLast30Stock(code);
+            Stock stockTemp = stockService.getLast250Stock(code);
 
             List<StockItem> stockItems = stockTemp.getStockItems();
+
+            double priceAll = 0d;
+
+            if (stockItems.size() == 250) {
+                for (int index = 1; index < 250; index++) {
+                    StockItem i = stockItems.get(index);
+                    priceAll += i.getEndPrice();
+                }
+            }
 
             StockItem last = stockItems.get(stockItems.size() - 1);
 
@@ -107,6 +118,11 @@ public class StockItemTask implements SapphireTask {
 
                 stockItems1.add(last);
                 stockItems1.add(item);
+
+                if (priceAll > 0d) {
+                    priceAll += item.getEndPrice();
+                    item.setAverage250(priceAll / 250);
+                }
 
                 Stock stock = new Stock(stockItems1);
 
@@ -172,13 +188,14 @@ public class StockItemTask implements SapphireTask {
     }
 
     /**
-     * Setter method for property <tt>sinaStockIntegrationService</tt>.
+     * Setter method for property <tt>tencentStockIntegrationService</tt>.
      *
-     * @param sinaStockIntegrationService  value to be assigned to property sinaStockIntegrationService
+     * @param tencentStockIntegrationService  value to be assigned to property tencentStockIntegrationService
      */
+    @Qualifier("tencentStockIntegrationService")
     @Autowired
-    public void setSinaStockIntegrationService(SinaStockIntegrationService sinaStockIntegrationService) {
-        this.sinaStockIntegrationService = sinaStockIntegrationService;
+    public void setTencentStockIntegrationService(StockIntegrationService tencentStockIntegrationService) {
+        this.tencentStockIntegrationService = tencentStockIntegrationService;
     }
 
     /**

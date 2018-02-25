@@ -46,12 +46,6 @@ public class StockCacheController {
         }
     }
 
-    @RequestMapping("/update/item.ep")
-    @ResponseBody
-    public JsonDto startItemTask() {
-        return startStatTask();
-    }
-
     /**
      * Setter method for property <tt>stockCache</tt>.
      *

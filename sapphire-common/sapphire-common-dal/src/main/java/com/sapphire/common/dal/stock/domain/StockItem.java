@@ -115,6 +115,24 @@ public class StockItem {
     @Column(name = "IS_NEW")
     private boolean             newStock;
 
+    /**
+     * 市盈率
+     */
+    @Column(name = "PE", precision = 17, scale = 6)
+    private double              pe;
+
+    /**
+     * 市净率
+     */
+    @Column(name = "PB", precision = 17, scale = 6)
+    private double              pb;
+
+    /**
+     * 250日均线
+     */
+    @Column(name = "AVERAGE_250", precision = 7, scale = 2)
+    private double              average250;
+
     public StockItem() {
         this.industry = "Need Update!";
     }
@@ -339,5 +357,59 @@ public class StockItem {
 
     public void setLast(boolean last) {
         this.last = last;
+    }
+
+    /**
+     * Getter method for property <tt>pe</tt>.
+     *
+     * @return property value of pe
+     */
+    public double getPe() {
+        return pe;
+    }
+
+    /**
+     * Setter method for property <tt>pe</tt>.
+     *
+     * @param pe  value to be assigned to property pe
+     */
+    public void setPe(double pe) {
+        this.pe = pe;
+    }
+
+    /**
+     * Setter method for property <tt>pb</tt>.
+     *
+     * @param pb  value to be assigned to property pb
+     */
+    public void setPb(double pb) {
+        this.pb = pb;
+    }
+
+    /**
+     * Getter method for property <tt>pb</tt>.
+     *
+     * @return property value of pb
+     */
+    public double getPb() {
+        return pb;
+    }
+
+    /**
+     * Getter method for property <tt>average250</tt>.
+     *
+     * @return property value of average250
+     */
+    public double getAverage250() {
+        return average250;
+    }
+
+    /**
+     * Setter method for property <tt>average250</tt>.
+     *
+     * @param average250  value to be assigned to property average250
+     */
+    public void setAverage250(double average250) {
+        this.average250 = average250;
     }
 }

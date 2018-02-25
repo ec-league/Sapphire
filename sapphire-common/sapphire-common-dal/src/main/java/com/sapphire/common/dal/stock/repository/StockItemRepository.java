@@ -27,11 +27,8 @@ public interface StockItemRepository extends JpaRepository<StockItem, Long> {
     @Query(value = "SELECT DISTINCT INDUSTRY FROM STOCK_ITEM WHERE INDUSTRY != ''", nativeQuery = true)
     List<String> getIndustries();
 
-    @Query(value = "SELECT s FROM StockItem as s WHERE s.code = ?1 and s.last = true")
-    StockItem getLatestStockItem(String code);
-
-    @Query(value = "SELECT * FROM STOCK_ITEM WHERE CODE = ?1 ORDER BY UIDPK DESC LIMIT 30", nativeQuery = true)
-    List<StockItem> getLast30Items(String code);
+    @Query(value = "SELECT * FROM STOCK_ITEM WHERE CODE = ?1 ORDER BY UIDPK DESC LIMIT 250", nativeQuery = true)
+    List<StockItem> getLast250Items(String code);
 
     @Query(value = "SELECT * FROM STOCK_ITEM WHERE CODE = ?1 ORDER BY UIDPK DESC LIMIT 300", nativeQuery = true)
     List<StockItem> getLast300Items(String code);

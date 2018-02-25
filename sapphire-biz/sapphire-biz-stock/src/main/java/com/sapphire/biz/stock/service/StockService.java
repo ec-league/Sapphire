@@ -53,7 +53,7 @@ public interface StockService {
      * @param code
      * @return
      */
-    Stock getLast30Stock(String code);
+    Stock getLast250Stock(String code);
 
     /**
      * 根据K线最后300条数据来计算对应的股票数据
