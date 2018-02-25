@@ -30,6 +30,9 @@ public interface StockItemRepository extends JpaRepository<StockItem, Long> {
     @Query(value = "SELECT * FROM STOCK_ITEM WHERE CODE = ?1 ORDER BY UIDPK DESC LIMIT 250", nativeQuery = true)
     List<StockItem> getLast250Items(String code);
 
+    @Query(value = "SELECT * FROM STOCK_ITEM WHERE CODE = ?1 ORDER BY UIDPK DESC LIMIT 30", nativeQuery = true)
+    List<StockItem> getLast30Items(String code);
+
     @Query(value = "SELECT * FROM STOCK_ITEM WHERE CODE = ?1 ORDER BY UIDPK DESC LIMIT 300", nativeQuery = true)
     List<StockItem> getLast300Items(String code);
 }

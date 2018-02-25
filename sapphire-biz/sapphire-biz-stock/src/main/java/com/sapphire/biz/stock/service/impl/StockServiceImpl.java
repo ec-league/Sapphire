@@ -65,6 +65,17 @@ public class StockServiceImpl implements StockService {
         return new Stock(items);
     }
 
+    /**
+     * 根据股票代码获取指定股票最后30个交易日的股票信息
+     * @param code
+     * @return
+     */
+    @Override
+    public Stock getLast30Stock(String code) {
+        List<StockItem> items = new ArrayList<>(stockItemRepository.getLast30Items(code));
+        return new Stock(items);
+    }
+
     @Override
     public Stock getStockForStatistics(String code) {
         List<StockItem> items = new ArrayList<>(stockItemRepository.getLast300Items(code));
