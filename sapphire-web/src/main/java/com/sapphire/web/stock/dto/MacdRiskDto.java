@@ -21,14 +21,14 @@ public class MacdRiskDto implements Dto {
     /**
      * 每个MACD周期的平均增幅
      */
-    private String             averageRate;
+    private double             averageRate;
 
     /**
      * 当前价格和上个统计周期内的最高价的百分比
      */
-    private String             pricePercentage;
+    private double             pricePercentage;
 
-    private String             standardDeviationRate;
+    private double             standardDeviationRate;
 
     /**
      * Macd周期
@@ -37,9 +37,9 @@ public class MacdRiskDto implements Dto {
 
     public MacdRiskDto(StockStatistics statistics) {
         MacdRiskModel riskModel = statistics.getMacdRiskModel();
-        this.averageRate = String.format("%.2f%%", riskModel.getAverageRate());
-        this.pricePercentage = String.format("%.2f%%", riskModel.getPricePercentage() * 100);
-        this.standardDeviationRate = String.format("%.2f%%", riskModel.getStandardDeviationRate());
+        this.averageRate = riskModel.getAverageRate();
+        this.pricePercentage = riskModel.getPricePercentage() * 100;
+        this.standardDeviationRate = riskModel.getStandardDeviationRate();
 
         List<MacdCycle> cycles = riskModel.getCycles();
 
@@ -56,7 +56,7 @@ public class MacdRiskDto implements Dto {
      *
      * @return property value of averageRate
      */
-    public String getAverageRate() {
+    public double getAverageRate() {
         return averageRate;
     }
 
@@ -65,7 +65,7 @@ public class MacdRiskDto implements Dto {
      *
      * @param averageRate  value to be assigned to property averageRate
      */
-    public void setAverageRate(String averageRate) {
+    public void setAverageRate(double averageRate) {
         this.averageRate = averageRate;
     }
 
@@ -74,7 +74,7 @@ public class MacdRiskDto implements Dto {
      *
      * @return property value of pricePercentage
      */
-    public String getPricePercentage() {
+    public double getPricePercentage() {
         return pricePercentage;
     }
 
@@ -83,8 +83,17 @@ public class MacdRiskDto implements Dto {
      *
      * @param pricePercentage  value to be assigned to property pricePercentage
      */
-    public void setPricePercentage(String pricePercentage) {
+    public void setPricePercentage(double pricePercentage) {
         this.pricePercentage = pricePercentage;
+    }
+
+    /**
+     * Setter method for property <tt>standardDeviationRate</tt>.
+     *
+     * @param standardDeviationRate  value to be assigned to property standardDeviationRate
+     */
+    public void setStandardDeviationRate(double standardDeviationRate) {
+        this.standardDeviationRate = standardDeviationRate;
     }
 
     /**
@@ -110,16 +119,7 @@ public class MacdRiskDto implements Dto {
      *
      * @return property value of standardDeviationRate
      */
-    public String getStandardDeviationRate() {
+    public double getStandardDeviationRate() {
         return standardDeviationRate;
-    }
-
-    /**
-     * Setter method for property <tt>standardDeviationRate</tt>.
-     *
-     * @param standardDeviationRate  value to be assigned to property standardDeviationRate
-     */
-    public void setStandardDeviationRate(String standardDeviationRate) {
-        this.standardDeviationRate = standardDeviationRate;
     }
 }

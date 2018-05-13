@@ -19,7 +19,7 @@ public class StockDetailDto implements Dto {
     private double      currentMacd;
     private double      currentPrice;
     private double      highestPrice;
-    private String      increaseTotal;
+    private double      increaseTotal;
     private double      currentDiff;
     private double      averageGoldDays;
 
@@ -33,7 +33,7 @@ public class StockDetailDto implements Dto {
         this.currentMacd = statistics.getCurrentMacd();
         this.currentPrice = statistics.getCurrentPrice();
         this.highestPrice = statistics.getHighestPrice();
-        this.increaseTotal = String.format("%.2f%%", statistics.getIncreaseTotal() * 100);
+        this.increaseTotal = statistics.getIncreaseTotal() * 100;
         this.averageGoldDays = statistics.getAverageGoldDays();
         this.macdRiskDto = new MacdRiskDto(statistics);
     }
@@ -151,7 +151,7 @@ public class StockDetailDto implements Dto {
      *
      * @return property value of increaseTotal
      */
-    public String getIncreaseTotal() {
+    public double getIncreaseTotal() {
         return increaseTotal;
     }
 
@@ -160,7 +160,7 @@ public class StockDetailDto implements Dto {
      *
      * @param increaseTotal  value to be assigned to property increaseTotal
      */
-    public void setIncreaseTotal(String increaseTotal) {
+    public void setIncreaseTotal(double increaseTotal) {
         this.increaseTotal = increaseTotal;
     }
 

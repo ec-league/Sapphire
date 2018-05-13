@@ -21,27 +21,26 @@ public class StockDto implements Dto {
     public StockDto(StockStatistics statistics) {
         this.code = statistics.getCode();
         this.name = statistics.getName();
-        this.goldPossible = statistics.isGoldPossible() ? "T" : "F";
+        this.goldPossible = statistics.isGoldPossible();
         this.currentDiff = statistics.getCurrentDiff();
         this.currentMacd = statistics.getCurrentMacd();
         this.currentPrice = statistics.getCurrentPrice();
         this.highestPrice = statistics.getHighestPrice();
-        this.increaseTotal = String.format("%.2f", (statistics.getIncreaseTotal() - 1) * 100) + "%";
+        this.increaseTotal = (statistics.getIncreaseTotal() - 1) * 100;
         this.averageGoldDays = statistics.getAverageGoldDays();
-        this.rate = String.format("%.2f",
-            statistics.getCurrentPrice() / statistics.getHighestPrice() * 100) + "%";
+        this.rate = statistics.getCurrentPrice() / statistics.getHighestPrice() * 100;
     }
 
-    private String code;
-    private String name;
-    private String goldPossible;
-    private double currentMacd;
-    private double currentPrice;
-    private double highestPrice;
-    private String increaseTotal;
-    private double currentDiff;
-    private double averageGoldDays;
-    private String rate;
+    private String  code;
+    private String  name;
+    private boolean goldPossible;
+    private double  currentMacd;
+    private double  currentPrice;
+    private double  highestPrice;
+    private double  increaseTotal;
+    private double  currentDiff;
+    private double  averageGoldDays;
+    private double  rate;
 
     /**
      * Getter method for property <tt>code</tt>.
@@ -86,24 +85,6 @@ public class StockDto implements Dto {
      */
     public double getCurrentMacd() {
         return currentMacd;
-    }
-
-    /**
-     * Getter method for property <tt>goldPossible</tt>.
-     *
-     * @return property value of goldPossible
-     */
-    public String getGoldPossible() {
-        return goldPossible;
-    }
-
-    /**
-     * Setter method for property <tt>goldPossible</tt>.
-     *
-     * @param goldPossible  value to be assigned to property goldPossible
-     */
-    public void setGoldPossible(String goldPossible) {
-        this.goldPossible = goldPossible;
     }
 
     /**
@@ -188,21 +169,21 @@ public class StockDto implements Dto {
     }
 
     /**
-     * Getter method for property <tt>rate</tt>.
+     * Getter method for property <tt>goldPossible</tt>.
      *
-     * @return property value of rate
+     * @return property value of goldPossible
      */
-    public String getRate() {
-        return rate;
+    public boolean isGoldPossible() {
+        return goldPossible;
     }
 
     /**
-     * Setter method for property <tt>rate</tt>.
+     * Setter method for property <tt>goldPossible</tt>.
      *
-     * @param rate  value to be assigned to property rate
+     * @param goldPossible  value to be assigned to property goldPossible
      */
-    public void setRate(String rate) {
-        this.rate = rate;
+    public void setGoldPossible(boolean goldPossible) {
+        this.goldPossible = goldPossible;
     }
 
     /**
@@ -210,7 +191,7 @@ public class StockDto implements Dto {
      *
      * @return property value of increaseTotal
      */
-    public String getIncreaseTotal() {
+    public double getIncreaseTotal() {
         return increaseTotal;
     }
 
@@ -219,7 +200,25 @@ public class StockDto implements Dto {
      *
      * @param increaseTotal  value to be assigned to property increaseTotal
      */
-    public void setIncreaseTotal(String increaseTotal) {
+    public void setIncreaseTotal(double increaseTotal) {
         this.increaseTotal = increaseTotal;
+    }
+
+    /**
+     * Getter method for property <tt>rate</tt>.
+     *
+     * @return property value of rate
+     */
+    public double getRate() {
+        return rate;
+    }
+
+    /**
+     * Setter method for property <tt>rate</tt>.
+     *
+     * @param rate  value to be assigned to property rate
+     */
+    public void setRate(double rate) {
+        this.rate = rate;
     }
 }
