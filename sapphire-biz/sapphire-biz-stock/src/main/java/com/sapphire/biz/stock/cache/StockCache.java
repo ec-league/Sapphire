@@ -110,11 +110,9 @@ public class StockCache implements CacheRefreshable {
         StockContext context = new StockContext();
         context.setStatistics(statistics);
 
-        synchronized (this) {
-            stockStatistics = new ArrayList<>(tempMap.values());
-            statisticsMap = tempMap;
-            stockMap = tempStockMap;
-        }
+        stockStatistics = new ArrayList<>(tempMap.values());
+        statisticsMap = tempMap;
+        stockMap = tempStockMap;
     }
 
     /**
