@@ -11,46 +11,25 @@ package com.sapphire.common.dal.stock.domain;
  * @version $Id: MacdCycle.java, v 0.1 2017年10月19日 下午11:28 yunpeng.byp Exp $
  */
 public class MacdCycle {
-    private String            startDate;
-    private String            endDate;
-    private transient boolean overZero;
+    private String  startDate;
+    private String  endDate;
+    private boolean overZero;
 
     /**
      * Macd单个周期增幅(收盘价/第一天收盘价)
      */
-    private transient double  increaseRate;
-    /**
-     * Macd单个周期增幅(收盘价/第一天收盘价)
-     */
-    private String            increase;
+    private double  increaseRate;
     /**
      * Macd单个周期最大增幅(最高价/第一天收盘价)
      */
-    private transient double  highIncreaseRate;
-    /**
-     * Macd单个周期最大增幅(最高价/第一天收盘价)
-     */
-    private String            highIncrease;
-    private int               consistDays;
+    private double  highIncreaseRate;
+
+    private int     consistDays;
 
     /**
      * Macd周期的第一次Diff的值.(用于计算)
      */
-    private transient double  firstDiff;
-
-    /**
-     * Macd周期的第一次Diff的值.(用于持久化)
-     */
-    private String            diff;
-
-    /**
-     * 根据序列化模型来初始化字段值
-     */
-    public void init() {
-        setIncreaseRate(Double.parseDouble(getIncrease()));
-        setFirstDiff(Double.parseDouble(getDiff()));
-        setHighIncreaseRate(Double.parseDouble(getHighIncrease()));
-    }
+    private double  firstDiff;
 
     /**
      * Getter method for property <tt>startDate</tt>.
@@ -161,42 +140,6 @@ public class MacdCycle {
     }
 
     /**
-     * Getter method for property <tt>increase</tt>.
-     *
-     * @return property value of increase
-     */
-    public String getIncrease() {
-        return increase;
-    }
-
-    /**
-     * Setter method for property <tt>increase</tt>.
-     *
-     * @param increase  value to be assigned to property increase
-     */
-    public void setIncrease(String increase) {
-        this.increase = increase;
-    }
-
-    /**
-     * Getter method for property <tt>diff</tt>.
-     *
-     * @return property value of diff
-     */
-    public String getDiff() {
-        return diff;
-    }
-
-    /**
-     * Setter method for property <tt>diff</tt>.
-     *
-     * @param diff  value to be assigned to property diff
-     */
-    public void setDiff(String diff) {
-        this.diff = diff;
-    }
-
-    /**
      * Getter method for property <tt>highIncreaseRate</tt>.
      *
      * @return property value of highIncreaseRate
@@ -212,23 +155,5 @@ public class MacdCycle {
      */
     public void setHighIncreaseRate(double highIncreaseRate) {
         this.highIncreaseRate = highIncreaseRate;
-    }
-
-    /**
-     * Getter method for property <tt>highIncrease</tt>.
-     *
-     * @return property value of highIncrease
-     */
-    public String getHighIncrease() {
-        return highIncrease;
-    }
-
-    /**
-     * Setter method for property <tt>highIncrease</tt>.
-     *
-     * @param highIncrease  value to be assigned to property highIncrease
-     */
-    public void setHighIncrease(String highIncrease) {
-        this.highIncrease = highIncrease;
     }
 }

@@ -31,19 +31,6 @@ public class MacdRiskModel {
     private List<MacdCycle> cycles;
 
     /**
-     * 根据序列化模型来初始化字段值
-     */
-    public void init() {
-        if (cycles == null || cycles.isEmpty()) {
-            return;
-        }
-
-        for (MacdCycle cycle : cycles) {
-            cycle.init();
-        }
-    }
-
-    /**
      * 上一次的Macd周期
      * @return
      */

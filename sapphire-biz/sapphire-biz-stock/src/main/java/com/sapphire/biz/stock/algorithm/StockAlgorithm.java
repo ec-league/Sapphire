@@ -99,8 +99,6 @@ public class StockAlgorithm {
     public void fillRiskModel(StockStatistics stat) {
         MacdRiskModel model = jsonUtil.toObject(stat.getDesc(), MacdRiskModel.class);
 
-        model.init();
-
         stat.setMacdRiskModel(model);
     }
 
@@ -267,9 +265,6 @@ public class StockAlgorithm {
             macdCycle.setFirstDiff(start.getMacdDiff());
             macdCycle.setIncreaseRate((end.getEndPrice() / start.getEndPrice() - 1) * 100);
             macdCycle.setHighIncreaseRate((highestPrice / start.getEndPrice() - 1) * 100);
-            macdCycle.setHighIncrease(String.format("%.3f", macdCycle.getHighIncreaseRate()));
-            macdCycle.setDiff(String.format("%.3f", macdCycle.getFirstDiff()));
-            macdCycle.setIncrease(String.format("%.3f", macdCycle.getIncreaseRate()));
 
             statics.add(macdCycle);
         }

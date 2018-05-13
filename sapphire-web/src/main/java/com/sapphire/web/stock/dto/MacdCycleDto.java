@@ -18,26 +18,26 @@ public class MacdCycleDto implements Dto {
     /**
      * Macd单个周期增幅(收盘价/第一天收盘价)
      */
-    private String increase;
+    private double increase;
     /**
      * Macd单个周期最大增幅(最高价/第一天收盘价)
      */
-    private String highIncrease;
+    private double highIncrease;
 
     /**
      * Macd周期的第一次Diff的值.(用于持久化)
      */
-    private String diff;
+    private double diff;
 
     private int    consistDays;
 
     public MacdCycleDto(MacdCycle cycle) {
         this.startDate = cycle.getStartDate();
         this.endDate = cycle.getEndDate();
-        this.increase = String.format("%s%%", cycle.getIncrease());
-        this.highIncrease = String.format("%s%%", cycle.getHighIncrease());
+        this.increase = cycle.getIncreaseRate();
+        this.highIncrease = cycle.getHighIncreaseRate();
         this.consistDays = cycle.getConsistDays();
-        this.diff = cycle.getDiff();
+        this.diff = cycle.getFirstDiff();
     }
 
     /**
@@ -77,60 +77,6 @@ public class MacdCycleDto implements Dto {
     }
 
     /**
-     * Getter method for property <tt>increase</tt>.
-     *
-     * @return property value of increase
-     */
-    public String getIncrease() {
-        return increase;
-    }
-
-    /**
-     * Setter method for property <tt>increase</tt>.
-     *
-     * @param increase  value to be assigned to property increase
-     */
-    public void setIncrease(String increase) {
-        this.increase = increase;
-    }
-
-    /**
-     * Getter method for property <tt>highIncrease</tt>.
-     *
-     * @return property value of highIncrease
-     */
-    public String getHighIncrease() {
-        return highIncrease;
-    }
-
-    /**
-     * Setter method for property <tt>highIncrease</tt>.
-     *
-     * @param highIncrease  value to be assigned to property highIncrease
-     */
-    public void setHighIncrease(String highIncrease) {
-        this.highIncrease = highIncrease;
-    }
-
-    /**
-     * Getter method for property <tt>diff</tt>.
-     *
-     * @return property value of diff
-     */
-    public String getDiff() {
-        return diff;
-    }
-
-    /**
-     * Setter method for property <tt>diff</tt>.
-     *
-     * @param diff  value to be assigned to property diff
-     */
-    public void setDiff(String diff) {
-        this.diff = diff;
-    }
-
-    /**
      * Getter method for property <tt>consistDays</tt>.
      *
      * @return property value of consistDays
@@ -146,5 +92,59 @@ public class MacdCycleDto implements Dto {
      */
     public void setConsistDays(int consistDays) {
         this.consistDays = consistDays;
+    }
+
+    /**
+     * Getter method for property <tt>increase</tt>.
+     *
+     * @return property value of increase
+     */
+    public double getIncrease() {
+        return increase;
+    }
+
+    /**
+     * Setter method for property <tt>increase</tt>.
+     *
+     * @param increase  value to be assigned to property increase
+     */
+    public void setIncrease(double increase) {
+        this.increase = increase;
+    }
+
+    /**
+     * Getter method for property <tt>highIncrease</tt>.
+     *
+     * @return property value of highIncrease
+     */
+    public double getHighIncrease() {
+        return highIncrease;
+    }
+
+    /**
+     * Setter method for property <tt>highIncrease</tt>.
+     *
+     * @param highIncrease  value to be assigned to property highIncrease
+     */
+    public void setHighIncrease(double highIncrease) {
+        this.highIncrease = highIncrease;
+    }
+
+    /**
+     * Getter method for property <tt>diff</tt>.
+     *
+     * @return property value of diff
+     */
+    public double getDiff() {
+        return diff;
+    }
+
+    /**
+     * Setter method for property <tt>diff</tt>.
+     *
+     * @param diff  value to be assigned to property diff
+     */
+    public void setDiff(double diff) {
+        this.diff = diff;
     }
 }

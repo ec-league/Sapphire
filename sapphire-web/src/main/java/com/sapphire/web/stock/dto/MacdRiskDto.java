@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sapphire.common.dal.stock.domain.MacdCycle;
+import com.sapphire.common.dal.stock.domain.MacdRiskModel;
 import com.sapphire.common.dal.stock.domain.StockStatistics;
 import com.sapphire.common.utils.dto.Dto;
 
@@ -27,16 +28,20 @@ public class MacdRiskDto implements Dto {
      */
     private String             pricePercentage;
 
+    private String             standardDeviationRate;
+
     /**
      * Macd周期
      */
     private List<MacdCycleDto> goldCycles;
 
     public MacdRiskDto(StockStatistics statistics) {
-        this.averageRate = String.format("%.2f%%", statistics.getMacdRiskModel().getAverageRate());
-        this.pricePercentage = String.format(".2f%%",
-            statistics.getMacdRiskModel().getPricePercentage() * 100);
-        List<MacdCycle> cycles = statistics.getMacdRiskModel().getCycles();
+        MacdRiskModel riskModel = statistics.getMacdRiskModel();
+        this.averageRate = String.format("%.2f%%", riskModel.getAverageRate());
+        this.pricePercentage = String.format("%.2f%%", riskModel.getPricePercentage() * 100);
+        this.standardDeviationRate = String.format("%.2f%%", riskModel.getStandardDeviationRate());
+
+        List<MacdCycle> cycles = riskModel.getCycles();
 
         List<MacdCycleDto> cycleDtos = new ArrayList<>(cycles.size());
         for (int index = cycles.size() - 1; index >= 0; index--) {
@@ -98,5 +103,23 @@ public class MacdRiskDto implements Dto {
      */
     public void setGoldCycles(List<MacdCycleDto> goldCycles) {
         this.goldCycles = goldCycles;
+    }
+
+    /**
+     * Getter method for property <tt>standardDeviationRate</tt>.
+     *
+     * @return property value of standardDeviationRate
+     */
+    public String getStandardDeviationRate() {
+        return standardDeviationRate;
+    }
+
+    /**
+     * Setter method for property <tt>standardDeviationRate</tt>.
+     *
+     * @param standardDeviationRate  value to be assigned to property standardDeviationRate
+     */
+    public void setStandardDeviationRate(String standardDeviationRate) {
+        this.standardDeviationRate = standardDeviationRate;
     }
 }
