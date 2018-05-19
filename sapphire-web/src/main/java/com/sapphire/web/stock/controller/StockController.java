@@ -3,8 +3,6 @@ package com.sapphire.web.stock.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sapphire.biz.stock.algorithm.context.StockContext;
-import com.sapphire.biz.stock.algorithm.exec.ActionCategory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sapphire.biz.stock.algorithm.context.StockContext;
+import com.sapphire.biz.stock.algorithm.exec.ActionCategory;
 import com.sapphire.biz.stock.algorithm.exec.ActionExecutor;
 import com.sapphire.biz.stock.cache.StockCache;
 import com.sapphire.biz.stock.service.StockService;
@@ -67,6 +67,19 @@ public class StockController {
         }
 
         return new ListJsonDto(dtos).formSuccessDto();
+    }
+
+    @RequestMapping("/list.ep")
+    @ResponseBody
+    public JsonDto getListStatistics() {
+        List<StockStatistics> domains = stockCache.getStockStatistics();
+        List<StockDto> dtos = new ArrayList<>(domains.size());
+
+        for (StockStatistics statistics : domains) {
+            dtos.add(new StockDto(statistics));
+        }
+
+        return new ListJsonDto<>(dtos).formSuccessDto();
     }
 
     @RequestMapping("/info.ep")
