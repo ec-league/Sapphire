@@ -33,7 +33,7 @@ public class LoginController {
 
         LoginDto loginDto = new LoginDto();
         loginDto.setStatus("ok");
-        loginDto.setCurrentAuthorith("admin");
+        loginDto.setCurrentAuthority("admin");
         loginDto.setType(userDto.getType());
         return loginDto;
     }
@@ -41,7 +41,7 @@ public class LoginController {
     private LoginDto errorDto() {
         LoginDto loginDto = new LoginDto();
         loginDto.setStatus("error");
-        loginDto.setCurrentAuthorith("guest");
+        loginDto.setCurrentAuthority("guest");
         loginDto.setType("account");
 
         return loginDto;
