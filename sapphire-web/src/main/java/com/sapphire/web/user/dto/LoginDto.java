@@ -14,7 +14,7 @@ import com.sapphire.common.utils.dto.Dto;
 public class LoginDto implements Dto {
     private String status;
     private String type;
-    private String currentAuthorith;
+    private String currentAuthority;
 
     /**
      * Getter method for property <tt>status</tt>.
@@ -35,21 +35,21 @@ public class LoginDto implements Dto {
     }
 
     /**
-     * Getter method for property <tt>currentAuthorith</tt>.
+     * Getter method for property <tt>currentAuthority</tt>.
      *
-     * @return property value of currentAuthorith
+     * @return property value of currentAuthority
      */
-    public String getCurrentAuthorith() {
-        return currentAuthorith;
+    public String getCurrentAuthority() {
+        return currentAuthority;
     }
 
     /**
-     * Setter method for property <tt>currentAuthorith</tt>.
+     * Setter method for property <tt>currentAuthority</tt>.
      *
-     * @param currentAuthorith  value to be assigned to property currentAuthorith
+     * @param currentAuthority  value to be assigned to property currentAuthority
      */
-    public void setCurrentAuthorith(String currentAuthorith) {
-        this.currentAuthorith = currentAuthorith;
+    public void setCurrentAuthority(String currentAuthority) {
+        this.currentAuthority = currentAuthority;
     }
 
     /**
